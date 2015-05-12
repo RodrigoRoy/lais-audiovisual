@@ -21,11 +21,8 @@ include 'Audiovisual.php'; // Clase para representar un audiovisual
 
 <body>
 
-<!-- Funcionalidad a partir de aqui 
-	Todos los campos input son por default texto: type="text"
--->
-
 <!-- CONEXION CON LA BASE DE DATOS -->
+<!-- TODO: Encapsular la lógica de la conexión a la base -->
 <?php
 $servername = "localhost";
 $username = "root";
@@ -49,13 +46,13 @@ catch(PDOException $e) {
 			<h1>Editar audiovisual</h1>
 		</div>
 
+		<!-- Realizar consulta en la base de acuerdo al id (código de identificación) -->
 		<?php
 		$select = "SELECT * FROM area_de_identificacion WHERE codigo_de_referencia = '" . $_GET['id'] . "'";
-	    //echo $select . '<br>';
 	    $stmt = $conn->prepare($select);
 	    $stmt->execute();
 	    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
-
+	    // Check if id is in database (for develop purpose only)
 	    if ($stmt->rowCount() == 0){
 	    	echo '<pre>It not works!</pre>';
 	    } else {
@@ -65,8 +62,10 @@ catch(PDOException $e) {
 	    }
 		?>
 
+		<!-- El código de identificación es el único campo no-editable -->
 		<p>Código de identificación: <input class="form-control" name="codigo_de_referencia" id="codigo_de_referencia" value="<?php echo $_GET['id'];?>" readonly></p>
 
+		<!-- Todos los campos input son por default texto: type="text" -->
 		<div class="panel panel-default">
 			<div class="panel-heading">Área de identificación</div>
 			<div class="panel-body collapse">
@@ -177,7 +176,7 @@ catch(PDOException $e) {
 		<button type="button" class="btn btn-danger">Eliminar audiovisual</button>
 	</div>
 
-<!-- Datalists -->
+<!-- Datalists utilizados en los campos -->
 <datalist id="formaDeIngreso">
 	<option value="Compra">
 	<option value="Donación">
@@ -262,7 +261,7 @@ $(document).ready(function(){
 	// Show the first panel heading (at least the fist must be showed)
 	$("div.collapse").first().collapse('show');
 
-	// Toggle collapse of each panel heading
+	// Toggle collapse of each panel heading on click
     $(".panel-heading").click(function(){
         $(this).parent(".panel-default").children(".collapse").collapse('toggle');
     });
