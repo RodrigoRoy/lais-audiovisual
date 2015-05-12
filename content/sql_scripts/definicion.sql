@@ -2,7 +2,7 @@
 # Rodrigo Rivera (15.02.19)
 
 # Crear base de datos
-#CREATE DATABASE IF NOT EXISTS Coleccion_Archivistica CHARACTER SET UTF8;
+CREATE DATABASE IF NOT EXISTS Coleccion_Archivistica CHARACTER SET UTF8;
 
 # Mostrar todas las bases de datos existentes
 #SHOW DATABASES;
@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS area_de_identificacion(
 # Agregar la llave primaria de la tabla codigo_de_referencia
 #ALTER TABLE area_de_identificacion ADD PRIMARY KEY (codigo_de_referencia);
 # Agregar restriccion (para su posible manipulacion) que agrega la llave primaria (PK) en la tabla codigo_de_referencia
-ALTER TABLE area_de_identificacion ADD CONSTRAINT codigoUnicoPK 
-	PRIMARY KEY(codigo_de_referencia);
+#ALTER TABLE area_de_identificacion ADD CONSTRAINT codigoUnicoPK 
+	#PRIMARY KEY(codigo_de_referencia);
 
 # AREA DE CONTEXTO
 CREATE TABLE IF NOT EXISTS area_de_contexto(
