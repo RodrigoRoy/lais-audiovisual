@@ -3,8 +3,11 @@ var lais = angular.module('lais',['ngRoute']);
 lais.config(function ($routeProvider, $locationProvider){
 	console.log("Ruteando");
 	$routeProvider
-		.when("/page1",{
-			templateUrl: "templates/page1.html"
+		.when("/",{
+			templateUrl: "templates/inicio.html"
+		})
+		.when("/inicio",{
+			templateUrl: "templates/inicio.html"
 		})
 		.when("/page2",{
 			templateUrl: "templates/page2.html"
