@@ -13,7 +13,7 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/page2.html"
 		})
 		.when("/page3",{
-			templateUrl: "templates/page1.html"
+			templateUrl: "templates/page3.html"
 		})
 		.otherwise({
 			redirectTo: "/"
