@@ -2,6 +2,7 @@
 <html>
 <body>
 <head>
+	<!-- NOTA: edit.php es una versión modificada y actualizada de esta misma página -->
     <title>Sistema de apoyo a la catalogación de archivos audiovisuales</title>
 
     <meta charset="utf-8"> <!-- Codificación de la página (permite acentos) -->

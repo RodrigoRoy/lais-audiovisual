@@ -1,3 +1,10 @@
+/* Script que tiene como función principal agregar un icono que describa el tipo de contenido de cada campo en el formulario de un audiovisual.
+
+Agrega de manera automática el siguiente texto a cada elemento input/textarea:
+<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="top" data-content=""><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+Donde el valor de "data-content" es tomado del arreglo "dataContent".
+*/
+
 // Todas las descripciones o textos de ayuda de cada campo en el formulario.
 var dataContent = {
 	"titulo_propio": "Título original de distribución en el país del origen. Se incluyen, en su caso, el subtítulo que es una palabra o frase que aparece junto con y subordinada al título propio, incluyuendo la traducción al español entre paréntesis.",
