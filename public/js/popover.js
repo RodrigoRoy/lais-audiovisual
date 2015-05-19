@@ -89,6 +89,7 @@ $(document).ready(function(){
 		var element = "#" + key;
 		if(dataContent[key].trim()) // Si hay texto entonces agregamos el HTML
 			$(element).before(popoverTextInit + dataContent[key].trim() + popoverTextLast) // Se agrega antes del input/textarea
+		$(element).after('<div class="help-block with-errors"></div>'); // Agrega un div para mensajes de error de validación
 	}
 
 	// Habilita todos los popover en el documento
