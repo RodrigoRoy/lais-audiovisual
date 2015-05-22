@@ -10,7 +10,8 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/inicio.html"
 		})
 		.when("/page2",{
-			templateUrl: "templates/page2.html"
+			templateUrl: "templates/page2.html",
+			controller: "conexionCtrl"
 		})
 		.when("/page3",{
 			templateUrl: "templates/page3.html"
@@ -20,4 +21,9 @@ lais.config(function ($routeProvider, $locationProvider){
 		});
 });
 
-
+lais.controller('conexionCtrl', function($scope, $http){
+	$http.get('http://localhost/lais/public/php/conexion.php').
+    success(function(data) {
+        $scope.users = data;
+    });
+});

@@ -39,12 +39,12 @@ catch(PDOException $e) {
 
 	<div class="container">
 		<div class="page-header">
-			<h1>Editar audiovisual</h1>
+			<h1>Actualizar audiovisual</h1>
 		</div>
 
 		<!-- Realizar consulta en la base de acuerdo al id (código de identificación) -->
 		<?php
-		$select = "SELECT * FROM area_de_identificacion WHERE codigo_de_referencia = '" . $_GET['id'] . "'";
+		$select = "SELECT * FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion WHERE codigo_de_referencia = '" . $_GET['id'] . "'";
 	    $stmt = $conn->prepare($select);
 	    $stmt->execute();
 	    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
@@ -58,12 +58,12 @@ catch(PDOException $e) {
 	    }
 		?>
 
-		<form role="form" id="audiovisualForm" method="POST" data-toggle="validator"> <!-- Se omite action="another.php" para que la acción se ejecute en este documento -->
+		<form role="form" id="audiovisualForm" method="POST" action="actualizar2.php" data-toggle="validator"> <!-- Se omite action="another.php" para que la acción se ejecute en este documento -->
 
 			<!-- El código de identificación es el único campo no-editable -->
 			<div class="form-group">
 				<label for="codigo_de_referencia">Código de identificación:</label>
-				<input class="form-control" name="codigo_de_referencia" id="codigo_de_referencia" value="<?php echo $_GET['id'];?>" readonly>
+				<input class="form-control" name="codigo_de_referencia" id="codigo_de_referencia" value="<?php echo $_GET['id'];?>" maxlength="20" pattern="^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}$" data-error="El formato debe ser similar a: MXIM-AV-1-8-1"> <!--readonly-->
 			</div>
 
 			<!-- Todos los campos input son por default texto: type="text" -->
@@ -178,31 +178,31 @@ catch(PDOException $e) {
 				<div class="panel-body collapse">
 					<div class="form-group">
 						<label for="entidad_productora">Entidad productora</label>
-						<input class="form-control" id="entidad_productora" name="entidad_productora" maxlength="250" pattern="^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$" data-error="Solo se permiten nombres válidos (separados por comas en caso de ser varios)">
+						 <input class="form-control" id="entidad_productora" name="entidad_productora" value="<?php echo (isset($av->entidad_productora)) ? $av->entidad_productora : ''; ?>" maxlength="250" pattern="^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$" data-error="Solo se permiten nombres válidos (separados por comas en caso de ser varios)">
 					</div>
 					<div class="form-group">
 						<label for="productor">Productor</label>
-						<input class="form-control" id="productor" name="productor" maxlength="160" pattern="^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$" data-error="Solo se permiten nombres válidos (separados por comas en caso de ser varios)">
+						<input class="form-control" id="productor" name="productor" value="<?php echo (isset($av->productor)) ? $av->productor : ''; ?>" maxlength="160" pattern="^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$" data-error="Solo se permiten nombres válidos (separados por comas en caso de ser varios)">
 					</div>
 					<div class="form-group">
 						<label for="distribuidora">Distribuidora</label>
-						<input class="form-control" id="distribuidora" name="distribuidora" maxlength="160" pattern="^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$" data-error="Solo se permiten nombres válidos (separados por comas en caso de ser varios)">
+						<input class="form-control" id="distribuidora" name="distribuidora" value="<?php echo (isset($av->distribuidora)) ? $av->distribuidora : ''; ?>" maxlength="160" pattern="^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$" data-error="Solo se permiten nombres válidos (separados por comas en caso de ser varios)">
 					</div>
 					<div class="form-group">
 						<label for="historia_institucional">Historia institucional</label>
-						<textarea class="form-control" rows="4" id="historia_institucional" name="historia_institucional"></textarea>
+						<textarea class="form-control" rows="4" id="historia_institucional" name="historia_institucional" value="<?php echo (isset($av->historia_institucional)) ? $av->historia_institucional : ''; ?>"></textarea>
 					</div>
 					<div class="form-group">
 						<label for="resena_biografica">Reseña biográfica</label>
-						<textarea class="form-control" rows="4" id="resena_biografica" name="resena_biografica"></textarea>
+						<textarea class="form-control" rows="4" id="resena_biografica" name="resena_biografica" value="<?php echo (isset($av->resena_biografica)) ? $av->resena_biografica : ''; ?>"></textarea>
 					</div>
 					<div class="form-group">
 						<label for="forma_de_ingreso">Forma de ingreso</label>
-						<input class="form-control" id="forma_de_ingreso" name="forma_de_ingreso" list="formaDeIngreso" maxlength="35">
+						<input class="form-control" id="forma_de_ingreso" name="forma_de_ingreso" value="<?php echo (isset($av->forma_de_ingreso)) ? $av->forma_de_ingreso : ''; ?>" list="formaDeIngreso" maxlength="35">
 					</div>
 					<div class="form-group">
 						<label for="fecha_de_ingreso">Fecha de ingreso</label>
-						<input class="form-control" id="fecha_de_ingreso" name="fecha_de_ingreso" maxlength="12" pattern="([0-3]?\d ?\/ ?[01]?\d ?\/ ?)?\d{4}" data-error="Incluye el año de ingreso o la fecha completa separada por guiones (Ej: 15/3/1991)">
+						<input class="form-control" id="fecha_de_ingreso" name="fecha_de_ingreso" value="<?php echo (isset($av->fecha_de_ingreso)) ? $av->fecha_de_ingreso : ''; ?>" maxlength="12" pattern="([0-3]?\d ?\/ ?[01]?\d ?\/ ?)?\d{4}" data-error="Incluye el año de ingreso o la fecha completa separada por guiones (Ej: 15/3/1991)">
 					</div>
 				</div>
 			</div>
@@ -212,27 +212,27 @@ catch(PDOException $e) {
 				<div class="panel-body collapse">
 					<div class="form-group">
 						<label for="sinopsis">Sinopsis</label>
-						<textarea class="form-control" rows="4" id="sinopsis" name="sinopsis"></textarea>
+						<textarea class="form-control" rows="4" id="sinopsis" name="sinopsis" value="<?php echo (isset($av->sinopsis)) ? $av->sinopsis : ''; ?>"></textarea>
 					</div>
 					<div class="form-group">
 						<label for="descriptor_onomastico">Descriptor onomástico</label>
-						<input class="form-control" id="descriptor_onomastico" name="descriptor_onomastico">
+						<input class="form-control" id="descriptor_onomastico" name="descriptor_onomastico" value="<?php echo (isset($av->descriptor_onomastico)) ? $av->descriptor_onomastico : ''; ?>">
 					</div>
 					<div class="form-group">
 						<label for="descriptor_toponimico">Descriptor toponímico</label>
-						<textarea class="form-control" rows="2" id="descriptor_toponimico" name="descriptor_toponimico"></textarea>
+						<textarea class="form-control" rows="2" id="descriptor_toponimico" name="descriptor_toponimico" value="<?php echo (isset($av->descriptor_toponimico)) ? $av->descriptor_toponimico : ''; ?>"></textarea>
 					</div>
 					<div class="form-group">
 						<label for="descriptor_cronologico">Descriptor cronológico</label>
-						<input class="form-control" id="descriptor_cronologico" name="descriptor_cronologico">
+						<input class="form-control" id="descriptor_cronologico" name="descriptor_cronologico" value="<?php echo (isset($av->descriptor_cronologico)) ? $av->descriptor_cronologico : ''; ?>">
 					</div>
 					<div class="form-group">
 						<label for="tipo_de_produccion">Tipo de producción</label>
-						<input class="form-control" id="tipo_de_produccion" name="tipo_de_produccion" list="tipoDeProduccion" maxlength="31">
+						<input class="form-control" id="tipo_de_produccion" name="tipo_de_produccion" value="<?php echo (isset($av->tipo_de_produccion)) ? $av->tipo_de_produccion : ''; ?>" list="tipoDeProduccion" maxlength="31">
 					</div>
 					<div class="form-group">
 						<label for="genero">Género</label>
-						<input class="form-control" id="genero" name="genero" maxlength="30">
+						<input class="form-control" id="genero" name="genero" value="<?php echo (isset($av->genero)) ? $av->genero : ''; ?>" maxlength="30">
 					</div>
 					<div class="form-group">
 						<label for="fuentes">Fuentes</label>
@@ -266,7 +266,7 @@ catch(PDOException $e) {
 					<div class="form-group">
 						<label for="recursos">Recursos</label>
 						<!--<input class="form-control" id="recursos" name="recursos" list="recursosDatalist" maxlength="170">-->
-						<select class="form-control select-toggle" id="fuentes" name="fuentes" size="12" multiple>
+						<select class="form-control select-toggle" id="recursos" name="recursos" size="12" multiple>
 							<option value="Entrevistas">Entrevistas</option>
 							<option value="Grabación de campo">Grabación de campo</option>
 							<option value="Puesta en escena">Puesta en escena</option>
@@ -289,15 +289,15 @@ catch(PDOException $e) {
 					</div>
 					<div class="form-group">
 						<label for="versiones">Versiones</label>
-						<input class="form-control" id="versiones" name="versiones" maxlength="45">
+						<input class="form-control" id="versiones" name="versiones" value="<?php echo (isset($av->versiones)) ? $av->versiones : ''; ?>" maxlength="45">
 					</div>
 					<div class="form-group">
 						<label for="formato_original">Formato original</label>
-						<input class="form-control" id="formato_original" name="formato_original" maxlength="25">
+						<input class="form-control" id="formato_original" name="formato_original" value="<?php echo (isset($av->formato_original)) ? $av->formato_original : ''; ?>" maxlength="25">
 					</div>
 					<div class="form-group">
 						<label for="material_extra">Material extra</label>
-						<input class="form-control" id="material_extra" name="material_extra" maxlength="30">
+						<input class="form-control" id="material_extra" name="material_extra" value="<?php echo (isset($av->material_extra)) ? $av->material_extra : ''; ?>" maxlength="30">
 					</div>
 				</div>
 			</div>
@@ -307,55 +307,55 @@ catch(PDOException $e) {
 				<div class="panel-body collapse">
 					<div class="form-group">
 						<label for="condiciones_de_acceso">Condiciones de acceso</label>
-						<input class="form-control" id="condiciones_de_acceso" name="condiciones_de_acceso" list="condicionesDeAcceso" maxlength="37">
+						<input class="form-control" id="condiciones_de_acceso" name="condiciones_de_acceso" value="<?php echo (isset($av->condiciones_de_acceso)) ? $av->condiciones_de_acceso : ''; ?>" list="condicionesDeAcceso" maxlength="37">
 					</div>
 					<div class="form-group">
 						<label for="existencia_y_localizacion_de_originales">Existencia y localizacion de originales</label>
-						<textarea class="form-control" rows="2" id="existencia_y_localizacion_de_originales" name="existencia_y_localizacion_de_originales"></textarea>
+						<textarea class="form-control" rows="2" id="existencia_y_localizacion_de_originales" name="existencia_y_localizacion_de_originales" value="<?php echo (isset($av->existencia_y_localizacion_de_originales)) ? $av->existencia_y_localizacion_de_originales : ''; ?>"></textarea>
 					</div>
 					<div class="form-group">
 						<label for="idioma_original">Idioma original</label>
-						<input class="form-control" id="idioma_original" name="idioma_original">
+						<input class="form-control" id="idioma_original" name="idioma_original" value="<?php echo (isset($av->idioma_original)) ? $av->idioma_original : ''; ?>" maxlength="40">
 					</div>
 					<div class="form-group">
 						<label for="doblajes_disponibles">Doblajes disponibles</label>
-						<input class="form-control" id="doblajes_disponibles" name="doblajes_disponibles">
+						<input class="form-control" id="doblajes_disponibles" name="doblajes_disponibles" value="<?php echo (isset($av->doblajes_disponibles)) ? $av->doblajes_disponibles : ''; ?>" maxlength="40">
 					</div>
 					<div class="form-group">
 						<label for="subtitulajes">Subtitulajes disponibles</label>
-						<input class="form-control" id="subtitulajes" name="subtitulajes">
+						<input class="form-control" id="subtitulajes" name="subtitulajes" value="<?php echo (isset($av->subtitulajes)) ? $av->subtitulajes : ''; ?>" maxlength="40">
 					</div>
 					<div class="form-group">
 						<label for="soporte">Soporte</label>
-						<input class="form-control" id="soporte" name="soporte">
+						<input class="form-control" id="soporte" name="soporte" value="<?php echo (isset($av->soporte)) ? $av->soporte : ''; ?>" maxlength="40">
 					</div>
 					<div class="form-group">
 						<label for="numero_copias">Número de copias</label>
-						<input class="form-control" id="numero_copias" name="numero_copias" type="number" min="0">
+						<input class="form-control" id="numero_copias" name="numero_copias" value="<?php echo (isset($av->numero_copias)) ? $av->numero_copias : ''; ?>" maxlength="40">
 					</div>
 					<div class="form-group">
 						<label for="descripcion_fisica">Descripción física</label>
-						<textarea class="form-control" rows="2" id="descripcion_fisica" name="descripcion_fisica"></textarea>
+						<textarea class="form-control" rows="2" id="descripcion_fisica" name="descripcion_fisica" value="<?php echo (isset($av->descripcion_fisica)) ? $av->descripcion_fisica : ''; ?>" maxlength="60"></textarea>
 					</div>
 					<div class="form-group">
 						<label for="color">Color</label>
-						<input class="form-control" id="color" name="color">
+						<input class="form-control" id="color" name="color" value="<?php echo (isset($av->color)) ? $av->color : ''; ?>" maxlength="80">
 					</div>
 					<div class="form-group">
 						<label for="audio">Audio</label>
-						<input class="form-control" id="audio" name="audio">
+						<input class="form-control" id="audio" name="audio" value="<?php echo (isset($av->audio)) ? $av->audio : ''; ?>" maxlength="30">
 					</div>
 					<div class="form-group">
 						<label for="sistema_de_grabacion">Sistema de grabación</label>
-						<input class="form-control" id="sistema_de_grabacion" name="sistema_de_grabacion">
+						<input class="form-control" id="sistema_de_grabacion" name="sistema_de_grabacion" value="<?php echo (isset($av->sistema_de_grabacion)) ? $av->sistema_de_grabacion : ''; ?>" maxlength="10">
 					</div>
 					<div class="form-group">
 						<label for="region_dvd">Región del DVD</label>
-						<input class="form-control" id="region_dvd" name="region_dvd">
+						<input class="form-control" id="region_dvd" name="region_dvd" value="<?php echo (isset($av->region_dvd)) ? $av->region_dvd : ''; ?>" maxlength="20">
 					</div>
 					<div class="form-group">
 						<label for="requisitos_tecnicos">Requisitos técnicos</label>
-						<input class="form-control" id="requisitos_tecnicos" name="requisitos_tecnicos">
+						<input class="form-control" id="requisitos_tecnicos" name="requisitos_tecnicos" value="<?php echo (isset($av->requisitos_tecnicos)) ? $av->requisitos_tecnicos : ''; ?>" maxlength="40">
 					</div>
 				</div>
 			</div>
@@ -365,15 +365,15 @@ catch(PDOException $e) {
 				<div class="panel-body collapse">
 					<div class="form-group">
 						<label for="existencia_y_localizacion_de_copias">Existencia y localización de copias</label>
-						<input class="form-control" id="existencia_y_localizacion_de_copias" name="existencia_y_localizacion_de_copias">
+						<input class="form-control" id="existencia_y_localizacion_de_copias" name="existencia_y_localizacion_de_copias" value="<?php echo (isset($av->existencia_y_localizacion_de_copias)) ? $av->existencia_y_localizacion_de_copias : ''; ?>">
 					</div>
 					<div class="form-group">
 						<label for="unidades_de_descripcion_relacionadas">Unidades de descripción relacionadas</label>
-						<textarea class="form-control" rows="2" id="unidades_de_descripcion_relacionadas" name="unidades_de_descripcion_relacionadas"></textarea>
+						<textarea class="form-control" rows="2" id="unidades_de_descripcion_relacionadas" name="unidades_de_descripcion_relacionadas" value="<?php echo (isset($av->unidades_de_descripcion_relacionadas)) ? $av->unidades_de_descripcion_relacionadas : ''; ?>"></textarea>
 					</div>
 					<div class="form-group">
 						<label for="documentos_asociados">Documentos asociados</label>
-						<textarea class="form-control" rows="2" id="documentos_asociados" name="documentos_asociados"></textarea>
+						<textarea class="form-control" rows="2" id="documentos_asociados" name="documentos_asociados" value="<?php echo (isset($av->documentos_asociados)) ? $av->documentos_asociados : ''; ?>"></textarea>
 					</div>
 				</div>
 			</div>
@@ -383,7 +383,7 @@ catch(PDOException $e) {
 				<div class="panel-body collapse">
 					<div class="form-group">
 						<label for="area_de_notas">Área de notas</label>
-						<textarea class="form-control" rows="4" id="area_de_notas" name="area_de_notas"></textarea>
+						<textarea class="form-control" rows="4" id="area_de_notas" name="area_de_notas" value="<?php echo (isset($av->area_de_notas)) ? $av->area_de_notas : ''; ?>"></textarea>
 					</div>
 				</div>
 			</div>
@@ -393,19 +393,19 @@ catch(PDOException $e) {
 				<div class="panel-body collapse">
 					<div class="form-group">
 						<label for="notas_del_archivero">Notas del archivero</label>
-						<textarea class="form-control" rows="2" id="notas_del_archivero" name="notas_del_archivero"></textarea>
+						<textarea class="form-control" rows="2" id="notas_del_archivero" name="notas_del_archivero" value="<?php echo (isset($av->notas_del_archivero)) ? $av->notas_del_archivero : ''; ?>" maxlength="75"></textarea>
 					</div>
 					<div class="form-group">
 						<label for="datos_del_archivero">Datos del archivero</label>
-						<input class="form-control" id="datos_del_archivero" name="datos_del_archivero">
+						<input class="form-control" id="datos_del_archivero" name="datos_del_archivero" value="<?php echo (isset($av->datos_del_archivero)) ? $av->datos_del_archivero : ''; ?>" maxlength="60">
 					</div>
 					<div class="form-group">
 						<label for="reglas_o_normas">Reglas o normas</label>
-						<input class="form-control" id="reglas_o_normas" name="reglas_o_normas">
+						<input class="form-control" id="reglas_o_normas" name="reglas_o_normas" value="<?php echo (isset($av->reglas_o_normas)) ? $av->reglas_o_normas : ''; ?>" maxlength="31">
 					</div>
 					<div class="form-group">
 						<label for="fecha_de_descripcion">Fecha de descripción</label>
-						<input class="form-control" id="fecha_de_descripcion" name="fecha_de_descripcion" type="date" value="<?php echo date('Y-m-d'); ?>" readonly>
+						<input class="form-control" id="fecha_de_descripcion" name="fecha_de_descripcion" value="<?php echo (isset($av->fecha_de_descripcion)) ? $av->fecha_de_descripcion : ''; ?>" type="date">
 					</div>
 				</div>
 			</div>
@@ -491,15 +491,15 @@ catch(PDOException $e) {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 <!-- Script para colpsar/mostrar cada panel/sección del formulario -->
-<script src="js/collapse-panel.js"></script>
+<script src="../js/collapse-panel.js"></script>
 
 <!-- Script para agregar ayuda en los campos del formulario -->
-<script src="js/popover.js"></script>
+<script src="../js/popover.js"></script>
 
 <!-- (Bootstrap) Form Validator
 Se añade data-toggle="validator" a la etiqueta <form> para habilitar las validaciones
 Se requiere agregar <div class="help-block with-errors"></div> después de cada input/textarea del formulario -->
-<script src="js/validator.min.js"></script>
+<script src="../js/validator.min.js"></script>
 
 <script>
 $('.select-toggle').each(function(){    
@@ -510,7 +510,7 @@ $('.select-toggle').each(function(){
         values[this.value] = !values[this.value];
         $('option',select).each(function(i, option){            
             option.selected = values[option.value];        
-        });    
+        });
     });
 });
 </script>

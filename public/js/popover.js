@@ -7,6 +7,7 @@ Donde el valor de "data-content" es tomado del arreglo "dataContent".
 
 // Todas las descripciones o textos de ayuda de cada campo en el formulario.
 var dataContent = {
+	"codigo_de_referencia": "Se crea en relación al resto de los materiales contenidos en el acervo del LAIS, el cual se compone de fotografía, mapas, caricatura y material audiovisual. El código asignado a la Colección es: MXIM-AV",
 	"titulo_propio": "Título original de distribución en el país del origen. Se incluyen, en su caso, el subtítulo que es una palabra o frase que aparece junto con y subordinada al título propio, incluyuendo la traducción al español entre paréntesis.",
 	"titulo_paralelo": "Es un título propio en otra lengua (no es la traducción, sino un nuevo título creado para su versión en otra lengua). En caso de tener subtítulo también se consigna.",
 	"titulo_atribuido": "Nombre dado por el documentalista cuando el material no tiene nobre propio.",

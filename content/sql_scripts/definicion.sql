@@ -2,7 +2,7 @@
 # Rodrigo Rivera (15.02.19)
 
 # Crear base de datos
-CREATE DATABASE IF NOT EXISTS Coleccion_Archivistica CHARACTER SET UTF8;
+#CREATE DATABASE IF NOT EXISTS Coleccion_Archivistica CHARACTER SET UTF8;
 
 # Mostrar todas las bases de datos existentes
 #SHOW DATABASES;
@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS area_de_identificacion(
 # Agregar la llave primaria de la tabla codigo_de_referencia
 #ALTER TABLE area_de_identificacion ADD PRIMARY KEY (codigo_de_referencia);
 # Agregar restriccion (para su posible manipulacion) que agrega la llave primaria (PK) en la tabla codigo_de_referencia
-#ALTER TABLE area_de_identificacion ADD CONSTRAINT codigoUnicoPK 
-	#PRIMARY KEY(codigo_de_referencia);
+ALTER TABLE area_de_identificacion ADD CONSTRAINT codigoUnicoPK 
+	PRIMARY KEY(codigo_de_referencia);
 
 # AREA DE CONTEXTO
 CREATE TABLE IF NOT EXISTS area_de_contexto(
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS area_de_contenido_y_estructura(
 	sinopsis TEXT DEFAULT NULL,
 	descriptor_onomastico TEXT DEFAULT NULL,
 	descriptor_toponimico TEXT DEFAULT NULL,
-	descriptor_cronologico TEXT DEFAULT NULL, # TODO: Cambiar por tipo de dato TIME
+	descriptor_cronologico TEXT DEFAULT NULL,
 	tipo_de_produccion VARCHAR(31) DEFAULT NULL,
 	genero VARCHAR(30) DEFAULT NULL,
 	fuentes VARCHAR(170) DEFAULT NULL,
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS area_de_notas(
 # Agregar llave foranea (FK) para el codigo_de_referencia que ya existe en la tabla area_de_identificacion
 ALTER TABLE area_de_notas ADD CONSTRAINT codigoNotasFK
 	FOREIGN KEY(codigo_de_referencia) REFERENCES area_de_identificacion(codigo_de_referencia)
-	ON DELETE CASCADE	
+	ON DELETE CASCADE
 	ON UPDATE CASCADE;
 
 # AREA DE DESCRIPCION
