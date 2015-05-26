@@ -172,7 +172,7 @@ class Audiovisual{
 	public function __toString(){
 		$str = '';
 		foreach ($this as $key => $value) {
-			if(!is_null($value)){
+			if(!is_null($value) && $value != '00:00:00'){ // Segunda comprobación solo para el campo de duración
 				$str .= '<strong>' . $key . '</strong>: ' . $value . '</br>';
 			}
 		}

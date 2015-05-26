@@ -237,7 +237,7 @@ catch(PDOException $e) {
 					<div class="form-group">
 						<label for="fuentes">Fuentes</label>
 						<!--<input class="form-control" id="fuentes" name="fuentes" list="fuentesDatalist" maxlength="170">-->
-						<select class="form-control select-toggle" id="fuentes" name="fuentes" size="12" multiple>
+						<select class="form-control select-toggle" id="fuentes" name="fuentes[]" size="12" multiple>
 							<option value="Animación">Animación</option>
 							<option value="Ficción">Ficción</option>
 							<option value="Documental">Documental</option>
@@ -266,7 +266,7 @@ catch(PDOException $e) {
 					<div class="form-group">
 						<label for="recursos">Recursos</label>
 						<!--<input class="form-control" id="recursos" name="recursos" list="recursosDatalist" maxlength="170">-->
-						<select class="form-control select-toggle" id="recursos" name="recursos" size="12" multiple>
+						<select class="form-control select-toggle" id="recursos" name="recursos[]" size="12" multiple>
 							<option value="Entrevistas">Entrevistas</option>
 							<option value="Grabación de campo">Grabación de campo</option>
 							<option value="Puesta en escena">Puesta en escena</option>

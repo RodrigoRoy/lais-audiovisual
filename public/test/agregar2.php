@@ -13,6 +13,24 @@
 </head>
 
 <body>
+	<?php
+	### Filtros y conversiones extras para los campos duracion, fuentes y recursos
+	include 'filters.php';
+	
+	$_POST['duracion'] = setDuracion($_POST['duracion']);
+	
+	if(isset($_POST['fuentes'])){
+		$_POST['fuentes'] = setFuenteRecurso($_POST['fuentes']);
+	}else{
+		$_POST['fuentes'] = '';
+	}
+	
+	if(isset($_POST['recursos'])){
+		$_POST['recursos'] = setFuenteRecurso($_POST['recursos']);
+	}else{
+		$_POST['recursos'] = '';
+	}
+	?>
 
 	<!-- CONEXION CON LA BASE DE DATOS -->
 	<!-- TODO: Encapsular la lógica de la conexión a la base -->
@@ -50,7 +68,7 @@
 			. $_POST['numero_de_programa'] . "','"
 			. $_POST['pais'] . "','"
 			. $_POST['fecha'] . "',"
-			. str_replace("'", "", $_POST['duracion']) . ",'"
+			. $_POST['duracion'] . ",'"
 			. $_POST['investigacion'] . "','"
 			. $_POST['realizacion'] . "','"
 			. $_POST['direccion'] . "','"
@@ -91,8 +109,8 @@
 			. $_POST['descriptor_cronologico'] . "','"
 			. $_POST['tipo_de_produccion'] . "','"
 			. $_POST['genero'] . "','"
-			. implode(", ", $_POST['fuentes']) . "','"
-			. implode(", ", $_POST['recursos']) . "','"
+			. $_POST['fuentes'] . "','"
+			. $_POST['recursos'] . "','"
 			. $_POST['versiones'] . "','"
 			. $_POST['formato_original'] . "','"
 			. $_POST['material_extra'] 
@@ -135,13 +153,14 @@
 			. $_POST['fecha_de_descripcion'] 
 			. "');";
 
-		echo '<pre>' . $identificacion . '</pre>';
+		// Mostrar en página las consultas realizadas (para revisar sintáxis)
+		/*echo '<pre>' . $identificacion . '</pre>';
 		echo '<pre>' . $contexto . '</pre>';
 		echo '<pre>' . $contenido . '</pre>';
 		echo '<pre>' . $condiciones . '</pre>';
 		echo '<pre>' . $documentacion . '</pre>';
 		echo '<pre>' . $notas . '</pre>';
-		echo '<pre>' . $descripcion . '</pre>';
+		echo '<pre>' . $descripcion . '</pre>';*/
 		
 		try{
 	    	$conn->exec($identificacion);
@@ -152,7 +171,8 @@
 	    	$conn->exec($notas);
 	    	$conn->exec($descripcion);
 
-	    	echo '<div class="alert alert-success" role="alert">New record created successfully</div>';
+	    	echo '<div class="alert alert-success" role="alert"><p>New record created successfully</p><p>View the record <a href="vista.php?id=' 
+	    	. $_POST['codigo_de_referencia'] . '">here</a></p></div>';
 		}
 		catch(PDOException $e){
 	    	echo $e->getMessage();

@@ -100,3 +100,5 @@ UPDATE area_de_identificacion
 UPDATE area_de_contexto
 	SET productor='Foo'
 	WHERE codigo_de_referencia='MXIM-AV-1-4-30';
+
+SELECT CURDATE();

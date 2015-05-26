@@ -58,6 +58,14 @@ catch(PDOException $e) {
 	    }
 		?>
 
+		<?php
+		### Filtros y conversiones extras para el campo de duracion
+		include 'filters.php';
+		$av->duracion = getDuracion($av->duracion);
+		$av->fuentes = getFuenteRecurso($av->fuentes);
+		$av->recursos = getFuenteRecurso($av->recursos);
+		?>
+
 		<form role="form" id="audiovisualForm" method="POST" action="actualizar2.php" data-toggle="validator"> <!-- Se omite action="another.php" para que la acción se ejecute en este documento -->
 
 			<!-- El código de identificación es el único campo no-editable -->
@@ -237,54 +245,54 @@ catch(PDOException $e) {
 					<div class="form-group">
 						<label for="fuentes">Fuentes</label>
 						<!--<input class="form-control" id="fuentes" name="fuentes" list="fuentesDatalist" maxlength="170">-->
-						<select class="form-control select-toggle" id="fuentes" name="fuentes" size="12" multiple>
-							<option value="Animación">Animación</option>
-							<option value="Ficción">Ficción</option>
-							<option value="Documental">Documental</option>
-							<option value="Registros fílmicos">Registros fílmicos</option>
-							<option value="Fotografía">Fotografía</option>
-							<option value="Pintura">Pintura</option>
-							<option value="Otros gráficos">Otros gráficos</option>
-							<option value="Grabados">Grabados</option>
-							<option value="Hemerografía">Hemerografía</option>
-							<option value="Cartografía">Cartografía</option>
-							<option value="Testimonios orales">Testimonios orales</option>
-							<option value="Testimonios video orales">Testimonios video orales</option>
-							<option value="Noticieros fílmicos">Noticieros fílmicos</option>
-							<option value="Programas de TV">Programas de TV</option>
-							<option value="Publicidad">Publicidad</option>
-							<option value="Videoclips">Videoclips</option>
-							<option value="Dibujo">Dibujo</option>
-							<option value="Multimedia">Multimedia</option>
-							<option value="Registros fonográficos">Registros fonográficos</option>
-							<option value="Música de época">Música de época</option>
-							<option value="Documentos">Documentos</option>
-							<option value="Registros radiofónicos">Registros radiofónicos</option>
-							<option value="Registros videográficos">Registros videográficos</option>
+						<select class="form-control select-toggle" id="fuentes" name="fuentes[]" size="12" multiple>
+							<option <?php if(in_array("Animación", $av->fuentes)) echo 'selected'; ?> value="Animación">Animación</option>
+							<option <?php if(in_array("Ficción", $av->fuentes)) echo 'selected'; ?> value="Ficción">Ficción</option>
+							<option <?php if(in_array("Documental", $av->fuentes)) echo 'selected'; ?> value="Documental">Documental</option>
+							<option <?php if(in_array("Registros fílmicos", $av->fuentes)) echo 'selected'; ?> value="Registros fílmicos">Registros fílmicos</option>
+							<option <?php if(in_array("Fotografía", $av->fuentes)) echo 'selected'; ?> value="Fotografía">Fotografía</option>
+							<option <?php if(in_array("Pintura", $av->fuentes)) echo 'selected'; ?> value="Pintura">Pintura</option>
+							<option <?php if(in_array("Otros gráficos", $av->fuentes)) echo 'selected'; ?> value="Otros gráficos">Otros gráficos</option>
+							<option <?php if(in_array("Grabados", $av->fuentes)) echo 'selected'; ?> value="Grabados">Grabados</option>
+							<option <?php if(in_array("Hemerografía", $av->fuentes)) echo 'selected'; ?> value="Hemerografía">Hemerografía</option>
+							<option <?php if(in_array("Cartografía", $av->fuentes)) echo 'selected'; ?> value="Cartografía">Cartografía</option>
+							<option <?php if(in_array("Testimonios orales", $av->fuentes)) echo 'selected'; ?> value="Testimonios orales">Testimonios orales</option>
+							<option <?php if(in_array("Testimonios video orales", $av->fuentes)) echo 'selected'; ?> value="Testimonios video orales">Testimonios video orales</option>
+							<option <?php if(in_array("Noticieros fílmicos", $av->fuentes)) echo 'selected'; ?> value="Noticieros fílmicos">Noticieros fílmicos</option>
+							<option <?php if(in_array("Programas de TV", $av->fuentes)) echo 'selected'; ?> value="Programas de TV">Programas de TV</option>
+							<option <?php if(in_array("Publicidad", $av->fuentes)) echo 'selected'; ?> value="Publicidad">Publicidad</option>
+							<option <?php if(in_array("Videoclips", $av->fuentes)) echo 'selected'; ?> value="Videoclips">Videoclips</option>
+							<option <?php if(in_array("Dibujo", $av->fuentes)) echo 'selected'; ?> value="Dibujo">Dibujo</option>
+							<option <?php if(in_array("Multimedia", $av->fuentes)) echo 'selected'; ?> value="Multimedia">Multimedia</option>
+							<option <?php if(in_array("Registros fonográficos", $av->fuentes)) echo 'selected'; ?> value="Registros fonográficos">Registros fonográficos</option>
+							<option <?php if(in_array("Música de época", $av->fuentes)) echo 'selected'; ?> value="Música de época">Música de época</option>
+							<option <?php if(in_array("Documentos", $av->fuentes)) echo 'selected'; ?> value="Documentos">Documentos</option>
+							<option <?php if(in_array("Registros radiofónicos", $av->fuentes)) echo 'selected'; ?> value="Registros radiofónicos">Registros radiofónicos</option>
+							<option <?php if(in_array("Registros videográficos", $av->fuentes)) echo 'selected'; ?> value="Registros videográficos">Registros videográficos</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label for="recursos">Recursos</label>
 						<!--<input class="form-control" id="recursos" name="recursos" list="recursosDatalist" maxlength="170">-->
-						<select class="form-control select-toggle" id="recursos" name="recursos" size="12" multiple>
-							<option value="Entrevistas">Entrevistas</option>
-							<option value="Grabación de campo">Grabación de campo</option>
-							<option value="Puesta en escena">Puesta en escena</option>
-							<option value="Animación">Animación</option>
-							<option value="Fotografía">Fotografía</option>
-							<option value="Pintura">Pintura</option>
-							<option value="Grabados">Grabados</option>
-							<option value="Cartografía">Cartografía</option>
-							<option value="Testimonios orales">Testimonios orales</option>
-							<option value="Testimonios video orales">Testimonios video orales</option>
-							<option value="Videoclips">Videoclips</option>
-							<option value="Dibujo">Dibujo</option>
-							<option value="Multimedia">Multimedia</option>
-							<option value="Insidentales">Insidentales</option>
-							<option value="Voz en off">Voz en off</option>
-							<option value="Narración">Narración</option>
-							<option value="Conducción">Conducción</option>
-							<option value="Interactividad">Interactividad</option>
+						<select class="form-control select-toggle" id="recursos" name="recursos[]" size="12" multiple>
+							<option <?php if(in_array("Entrevistas", $av->recursos)) echo 'selected'; ?> value="Entrevistas">Entrevistas</option>
+							<option <?php if(in_array("Grabación de campo", $av->recursos)) echo 'selected'; ?> value="Grabación de campo">Grabación de campo</option>
+							<option <?php if(in_array("Puesta en escena", $av->recursos)) echo 'selected'; ?> value="Puesta en escena">Puesta en escena</option>
+							<option <?php if(in_array("Animación", $av->recursos)) echo 'selected'; ?> value="Animación">Animación</option>
+							<option <?php if(in_array("Fotografía", $av->recursos)) echo 'selected'; ?> value="Fotografía">Fotografía</option>
+							<option <?php if(in_array("Pintura", $av->recursos)) echo 'selected'; ?> value="Pintura">Pintura</option>
+							<option <?php if(in_array("Grabados", $av->recursos)) echo 'selected'; ?> value="Grabados">Grabados</option>
+							<option <?php if(in_array("Cartografía", $av->recursos)) echo 'selected'; ?> value="Cartografía">Cartografía</option>
+							<option <?php if(in_array("Testimonios orales", $av->recursos)) echo 'selected'; ?> value="Testimonios orales">Testimonios orales</option>
+							<option <?php if(in_array("Testimonios video orales", $av->recursos)) echo 'selected'; ?> value="Testimonios video orales">Testimonios video orales</option>
+							<option <?php if(in_array("Videoclips", $av->recursos)) echo 'selected'; ?> value="Videoclips">Videoclips</option>
+							<option <?php if(in_array("Dibujo", $av->recursos)) echo 'selected'; ?> value="Dibujo">Dibujo</option>
+							<option <?php if(in_array("Multimedia", $av->recursos)) echo 'selected'; ?> value="Multimedia">Multimedia</option>
+							<option <?php if(in_array("Insidentales", $av->recursos)) echo 'selected'; ?> value="Insidentales">Insidentales</option>
+							<option <?php if(in_array("Voz en off", $av->recursos)) echo 'selected'; ?> value="Voz en off">Voz en off</option>
+							<option <?php if(in_array("Narración", $av->recursos)) echo 'selected'; ?> value="Narración">Narración</option>
+							<option <?php if(in_array("Conducción", $av->recursos)) echo 'selected'; ?> value="Conducción">Conducción</option>
+							<option <?php if(in_array("Interactividad", $av->recursos)) echo 'selected'; ?> value="Interactividad">Interactividad</option>
 						</select>
 					</div>
 					<div class="form-group">
@@ -405,7 +413,7 @@ catch(PDOException $e) {
 					</div>
 					<div class="form-group">
 						<label for="fecha_de_descripcion">Fecha de descripción</label>
-						<input class="form-control" id="fecha_de_descripcion" name="fecha_de_descripcion" value="<?php echo (isset($av->fecha_de_descripcion)) ? $av->fecha_de_descripcion : ''; ?>" type="date">
+						<input class="form-control" id="fecha_de_descripcion" name="fecha_de_descripcion" value="<?php echo (isset($av->fecha_de_descripcion)) ? $av->fecha_de_descripcion : ''; ?>" type="date"><!--type="date"-->
 					</div>
 				</div>
 			</div>
