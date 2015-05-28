@@ -13,7 +13,7 @@ switch ($_GET['action']) {
 		break;
 }
 	
-
+/*Funcion que muestra los datos completos de cada archivo audiovisual*/
 function mostrar(){
 	$select = "SELECT * FROM area_de_identificacion";
     $stmt = $GLOBALS['conn']->prepare($select);
@@ -32,6 +32,10 @@ function mostrar(){
         return json_encode($data);
 
     }
-
 }
+
+function agregar(){
+    
+}
+
 ?>
