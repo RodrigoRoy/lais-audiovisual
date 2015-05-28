@@ -14,41 +14,20 @@
 
 <body>
 	<?php
-	### Filtros y conversiones extras para los campos duracion, fuentes y recursos
-	include 'filters.php';
+	require_once 'Audiovisual.php'; // Clase para representar un audiovisual
+	require_once 'conexion.php'; // Conexión a la base de datos
 	
+	// Cambiar al formato correcto en los campos duracion, fuentes y recursos.
 	$_POST['duracion'] = setDuracion($_POST['duracion']);
-	
 	if(isset($_POST['fuentes'])){
 		$_POST['fuentes'] = setFuenteRecurso($_POST['fuentes']);
 	}else{
 		$_POST['fuentes'] = '';
 	}
-	
 	if(isset($_POST['recursos'])){
 		$_POST['recursos'] = setFuenteRecurso($_POST['recursos']);
 	}else{
 		$_POST['recursos'] = '';
-	}
-	?>
-
-	<!-- CONEXION CON LA BASE DE DATOS -->
-	<!-- TODO: Encapsular la lógica de la conexión a la base -->
-	<?php
-	$servername = "localhost";
-	$username = "root";
-	$password = "advantage7";
-	$database = "Coleccion_Archivistica";
-	// NOTA: La manipulación a la base de datos se realiza con PDO (PHP Database Object)
-	try {
-	    $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-	    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Para manejo de errores con PDO
-
-	    $conn->exec("SET NAMES utf8"); // Permite mostrar los resultados con acentos y caracteres extraños
-	}
-	catch(PDOException $e) {
-	    echo "I'm sorry, Dave. I'm afraid I can't do that.<br>"; // :)
-	    echo "Error: " . $e->getMessage();
 	}
 	?>
 
