@@ -19,7 +19,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "advantage7";
+$password = "djrashad";
 $database = "Coleccion_Archivistica";
 // NOTA: La manipulación a la base de datos se realiza con PDO (PHP Database Object)
 try {

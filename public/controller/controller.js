@@ -9,12 +9,13 @@ lais.config(function ($routeProvider, $locationProvider){
 		.when("/inicio",{
 			templateUrl: "templates/inicio.html"
 		})
-		.when("/page2",{
-			templateUrl: "templates/page2.html",
-			controller: "conexionCtrl"
+		.when("/acercade",{
+			templateUrl: "templates/acerca_del_sitio.html",
+			
 		})
-		.when("/page3",{
-			templateUrl: "templates/page3.html"
+		.when("/archivos",{
+			templateUrl: "templates/archivos_audiovisuales.html",
+			controller: "conexionCtrl"
 		})
 		.otherwise({
 			redirectTo: "/"
@@ -22,8 +23,9 @@ lais.config(function ($routeProvider, $locationProvider){
 });
 
 lais.controller('conexionCtrl', function($scope, $http){
-	$http.get('http://localhost/lais/public/php/conexion.php').
+	$http.get('http://localhost/lais-audiovisual/public/php/manejoBD.php?action=ver').
     success(function(data) {
-        $scope.users = data;
+        $scope.registros = data;
+        console.log(data);
     });
 });
