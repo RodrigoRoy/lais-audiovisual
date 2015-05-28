@@ -14,9 +14,11 @@
 </head>
 
 <?php
-include 'Audiovisual.php'; // Clase para representar un audiovisual
+require_once 'Audiovisual.php'; // Clase para representar un audiovisual
+require_once 'conexion.php'; // Conexión a la base de datos
 ?>
 
+<<<<<<< HEAD
 <!-- CONEXION CON LA BASE DE DATOS -->
 <?php
 $servername = "localhost";
@@ -37,6 +39,8 @@ catch(PDOException $e) {
 ?>
 
 
+=======
+>>>>>>> 5e5e6a41695baeb709cd238dfdbf12cd64d47c51
 <div class="container">
 	<h1>Vista individual de Audiovisual</h1>
 	

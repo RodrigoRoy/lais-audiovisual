@@ -14,9 +14,8 @@
 
 <body>
 
-<!-- CONEXION CON LA BASE DE DATOS -->
-<!-- TODO: Encapsular la lógica de la conexión a la base -->
 <?php
+<<<<<<< HEAD
 $servername = "localhost";
 $username = "root";
 $password = "djrashad";
@@ -32,6 +31,9 @@ catch(PDOException $e) {
     echo "I'm sorry, Dave. I'm afraid I can't do that.<br>"; // :)
     echo "Error: " . $e->getMessage();
 }
+=======
+require_once 'conexion.php'; // Conexión a la base de datos
+>>>>>>> 5e5e6a41695baeb709cd238dfdbf12cd64d47c51
 ?>
 
 	<div class="container">
