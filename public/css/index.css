@@ -1,5 +1,5 @@
 .boton {
-	background: url(http://localhost/lais-audiovisual/public/#/archivos) /* Url de la imagen */ no-repeat center center, #62BC0F /* Color del botón */;
+	background: url(http://localhost/lais-audiovisual/public/#/archivos) /* Url de la imagen */ no-repeat center center, #ddd /* Color del botón */;
 	background-size: 60%; /* Tamaño de la imagen */
 	height: 5em;  /* Alto del botón */
 	width: 5em;  /* Ancho del botón */
@@ -11,9 +11,7 @@
 	inset 0 10px 15px rgba(255,255,255,.35), inset 0 -10px 15px rgba(0,0,0,.05), inset 10px 0 15px rgba(0,0,0,.05), inset -10px 0 15px rgba(0,0,0,.05), 
 	/* Sombras internas */
 	0 5px 20px rgba(0,0,0,.1);
-	position: relative;
-  	margin-top: 36%;
-  	margin-left: 92%;
+	margin-left: 87%;
 }
 
 /* Al presionar */
@@ -21,3 +19,12 @@
 	box-shadow: inset 0 5px 30px rgba(0,0,0,.2); /* Sombra interior */
 	background-size: 55%; /* Cambiamos el tamaño de la imagen */
 }
+
+#footer{
+	position:fixed;
+	bottom:0px;
+	left:0px;
+	width:100%;
+	padding:8px;
+}
+
