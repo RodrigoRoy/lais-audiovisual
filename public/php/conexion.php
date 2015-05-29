@@ -3,8 +3,8 @@
     // set up the connection variables
     $database  = 'Coleccion_Archivistica';
     $hostname = '127.0.0.1';
-    $password = 'djrashad1992';
-    $username = 'root';
+    $password = 'audiovisual';
+    $username = 'lais';
 
     try {
         $conn = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
