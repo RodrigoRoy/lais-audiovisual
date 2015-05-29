@@ -17,6 +17,9 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/archivos_audiovisuales.html",
 			controller: "conexionCtrl"
 		})
+		.when("/archivos/agregarArchivo",{
+			templateUrl: "templates/agregarArchivo.html"
+		})
 		.otherwise({
 			redirectTo: "/"
 		});
