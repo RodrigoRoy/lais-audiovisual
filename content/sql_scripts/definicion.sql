@@ -12,6 +12,9 @@ USE Coleccion_Archivistica;
 # Util para mostrar correctamente caracteres 'extraños'
 SET NAMES utf8;
 
+# Otorga privilegios a las cuentas de usuario MySQL
+GRANT ALL ON Coleccion_Archivistica.* TO lais@localhost IDENTIFIED BY 'audiovisual';
+
 # Eliminar una base de datos
 #DROP DATABASE IF EXISTS Coleccion_Archivistica;
 
