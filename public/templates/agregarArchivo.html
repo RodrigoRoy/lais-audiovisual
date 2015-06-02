@@ -1,3 +1,8 @@
+
+<script src="js/validator.min.js"></script>
+<!-- Script único auxiliar para el formulario -->
+<script src="js/form.js"></script>
+<br>
 <div class="container">
 	<div class="page-header">
 		<h1>Agregar audiovisual</h1>
@@ -10,11 +15,13 @@
 		</div>
 
 		<!-- Todos los campos input son por default texto: type="text" -->
-		<div class="panel panel-default">
-			<div class="panel-heading">Área de identificación</div>
+		<div class="list-group">
+			<a class="list-group-item">Área de identificación</a>
 			<div class="panel-body collapse">
 				<div class="form-group control-group">
 					<label for="titulo_propio">Título propio</label>
+					<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="HolaMundo">
+					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
 					<input class="form-control" autofocus id="titulo_propio" name="titulo_propio" maxlength="120">
 				</div>
 				<div class="form-group control-group">
@@ -116,8 +123,8 @@
 			</div>
 		</div>
 
-		<div class="panel panel-default">
-			<div class="panel-heading">Área de contexto</div>
+		<div class="list-group">
+			<a class="list-group-item">Área de contexto</a>
 			<div class="panel-body collapse">
 				<div class="form-group">
 					<label for="entidad_productora">Entidad productora</label>
@@ -150,8 +157,8 @@
 			</div>
 		</div>
 
-		<div class="panel panel-default">
-			<div class="panel-heading">Área de contenido y estructura</div>
+		<div class="list-group">
+			<a class="list-group-item">Área de contenido y estructura</a>
 			<div class="panel-body collapse">
 				<div class="form-group">
 					<label for="sinopsis">Sinopsis</label>
@@ -180,52 +187,13 @@
 				<div class="form-group">
 					<label for="fuentes">Fuentes</label>
 					<select class="form-control select-toggle" id="fuentes" name="fuentes[]" size="12" multiple>
-						<option value="Animación">Animación</option>
-						<option value="Ficción">Ficción</option>
-						<option value="Documental">Documental</option>
-						<option value="Registros fílmicos">Registros fílmicos</option>
-						<option value="Fotografía">Fotografía</option>
-						<option value="Pintura">Pintura</option>
-						<option value="Otros gráficos">Otros gráficos</option>
-						<option value="Grabados">Grabados</option>
-						<option value="Hemerografía">Hemerografía</option>
-						<option value="Cartografía">Cartografía</option>
-						<option value="Testimonios orales">Testimonios orales</option>
-						<option value="Testimonios video orales">Testimonios video orales</option>
-						<option value="Noticieros fílmicos">Noticieros fílmicos</option>
-						<option value="Programas de TV">Programas de TV</option>
-						<option value="Publicidad">Publicidad</option>
-						<option value="Videoclips">Videoclips</option>
-						<option value="Dibujo">Dibujo</option>
-						<option value="Multimedia">Multimedia</option>
-						<option value="Registros fonográficos">Registros fonográficos</option>
-						<option value="Música de época">Música de época</option>
-						<option value="Documentos">Documentos</option>
-						<option value="Registros radiofónicos">Registros radiofónicos</option>
-						<option value="Registros videográficos">Registros videográficos</option>
+						
 					</select>
 				</div>
 				<div class="form-group">
 					<label for="recursos">Recursos</label>
 					<select class="form-control select-toggle" id="recursos" name="recursos[]" size="12" multiple>
-						<option value="Entrevistas">Entrevistas</option>
-						<option value="Grabación de campo">Grabación de campo</option>
-						<option value="Puesta en escena">Puesta en escena</option>
-						<option value="Animación">Animación</option>
-						<option value="Fotografía">Fotografía</option>
-						<option value="Pintura">Pintura</option>
-						<option value="Grabados">Grabados</option>
-						<option value="Cartografía">Cartografía</option>
-						<option value="Testimonios orales">Testimonios orales</option>
-						<option value="Testimonios video orales">Testimonios video orales</option>
-						<option value="Videoclips">Videoclips</option>
-						<option value="Dibujo">Dibujo</option>
-						<option value="Multimedia">Multimedia</option>
-						<option value="Insidentales">Insidentales</option>
-						<option value="Voz en off">Voz en off</option>
-						<option value="Narración">Narración</option>
-						<option value="Conducción">Conducción</option>
-						<option value="Interactividad">Interactividad</option>
+						
 					</select>
 				</div>
 				<div class="form-group">
@@ -243,8 +211,8 @@
 			</div>
 		</div>
 
-		<div class="panel panel-default">
-			<div class="panel-heading">Área de condiciones de acceso</div>
+		<div class="list-group">
+			<a class="list-group-item">Área de condiciones de acceso</a>
 			<div class="panel-body collapse">
 				<div class="form-group">
 					<label for="condiciones_de_acceso">Condiciones de acceso</label>
@@ -301,8 +269,8 @@
 			</div>
 		</div>
 
-		<div class="panel panel-default">
-			<div class="panel-heading">Área de documentación asociada</div>
+		<div class="list-group">
+			<a class="list-group-item">Área de documentación asociada</a>
 			<div class="panel-body collapse">
 				<div class="form-group">
 					<label for="existencia_y_localizacion_de_copias">Existencia y localización de copias</label>
@@ -319,8 +287,8 @@
 			</div>
 		</div>
 
-		<div class="panel panel-default">
-			<div class="panel-heading">Área de notas</div>
+		<div class="list-group">
+			<a class="list-group-item">Área de notas</a>
 			<div class="panel-body collapse">
 				<div class="form-group">
 					<label for="area_de_notas">Área de notas</label>
@@ -329,8 +297,8 @@
 			</div>
 		</div>
 
-		<div class="panel panel-default">
-			<div class="panel-heading">Área de descripción</div>
+		<div class="list-group">
+			<a class="list-group-item">Área de descripción</a>
 			<div class="panel-body collapse">
 				<div class="form-group">
 					<label for="notas_del_archivero">Notas del archivero</label>
@@ -354,3 +322,75 @@
 		<button type="submit" class="btn btn-default">Enviar</button> 
 	</form>
 </div>
+<!-- Datalists utilizados en los campos -->
+<datalist id="formaDeIngreso">
+	<option value="Compra">
+	<option value="Donación">
+	<option value="Producción propia">
+</datalist>
+
+<datalist id="tipoDeProduccion">
+	<option value="Película de ficción">
+	<option value="Película documental">
+	<option value="Programa de televisión">
+	<option value="Trailer">
+	<option value="Publicidad">
+	<option value="Propaganda">
+	<option value="Registros fílmicos">
+	<option value="Registros en video">
+	<option value="Extractos de otras producciones">
+</datalist>
+
+<datalist id="recursosDatalist">
+	<option value="Entrevistas">
+	<option value="Grabación de campo">
+	<option value="Puesta en escena">
+	<option value="Animación">
+	<option value="Fotografía">
+	<option value="Pintura">
+	<option value="Grabados">
+	<option value="Cartografía">
+	<option value="Testimonios orales">
+	<option value="Testimonios video orales">
+	<option value="Videoclips">
+	<option value="Dibujo">
+	<option value="Multimedia">
+	<option value="Insidentales">
+	<option value="Voz en off">
+	<option value="Narración">
+	<option value="Conducción">
+	<option value="Interactividad">
+</datalist>
+
+<datalist id="fuentesDatalist">
+	<option value="Animación">
+	<option value="Ficción">
+	<option value="Documental">
+	<option value="Registros fílmicos">
+	<option value="Fotografía">
+	<option value="Pintura">
+	<option value="Otros gráficos">
+	<option value="Grabados">
+	<option value="Hemerografía">
+	<option value="Cartografía">
+	<option value="Testimonios orales">
+	<option value="Testimonios video orales">
+	<option value="Noticieros fílmicos">
+	<option value="Programas de TV">
+	<option value="Publicidad">
+	<option value="Videoclips">
+	<option value="Dibujo">
+	<option value="Multimedia">
+	<option value="Registros fonográficos">
+	<option value="Música de época">
+	<option value="Documentos">
+	<option value="Registros radiofónicos">
+	<option value="Registros videográficos">
+</datalist>
+
+<datalist id="condicionesDeAcceso">
+	<option value="Usos no lucrativos">
+	<option value="Usos reservados para consulta in situ">
+</datalist>
+
+

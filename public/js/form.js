@@ -42,8 +42,8 @@ function clicSecciones(){
 	$("div.collapse").first().collapse('show');
 
 	// Intercambia el colapsado/descolapzado de cada panel al dar un click
-    $(".panel-heading").click(function(){
-        $(this).parent(".panel-default").children(".collapse").collapse('toggle');
+    $(".list-group-item").click(function(){
+        $(this).parent(".list-group").children(".collapse").collapse('toggle');
     });
 };
 

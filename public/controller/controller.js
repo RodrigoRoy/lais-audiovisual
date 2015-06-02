@@ -32,3 +32,4 @@ lais.controller('conexionCtrl', function($scope, $http){
         console.log(data);
     });
 });
+

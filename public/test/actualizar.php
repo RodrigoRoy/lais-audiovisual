@@ -57,8 +57,8 @@ require_once 'conexion.php'; // Conexión a la base de datos
 			</div>
 
 			<!-- Todos los campos input son por default texto: type="text" -->
-			<div class="panel panel-default">
-				<div class="panel-heading">Área de identificación</div>
+			<div class="list-group">
+				<a class="list-group-item">Área de identificación</a>
 				<div class="panel-body collapse">
 					<div class="form-group control-group">
 						<label for="titulo_propio">Título propio</label>
