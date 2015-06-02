@@ -2,8 +2,8 @@
 <!-- Al final se tendrá disponible la variable $conn para efectuar consultas SQL a la base de datos -->
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "advantage7";
+$username = "lais";
+$password = "audiovisual";
 $database = "Coleccion_Archivistica";
 // NOTA: La manipulación a la base de datos se realiza con PDO (PHP Database Object)
 try {

@@ -13,33 +13,10 @@
 </head>
 
 <body>
-<?php
-<<<<<<< HEAD
-include 'Audiovisual.php'; // Clase para representar un audiovisual
-?>
 
-<!-- CONEXION CON LA BASE DE DATOS -->
-<!-- TODO: Encapsular la lógica de la conexión a la base -->
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "djrashad1992";
-$database = "Coleccion_Archivistica";
-// NOTA: La manipulación a la base de datos se realiza con PDO (PHP Database Object)
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Para manejo de errores con PDO
-
-    $conn->exec("SET NAMES utf8"); // Permite mostrar los resultados con acentos y caracteres extraños
-}
-catch(PDOException $e) {
-    echo "I'm sorry, Dave. I'm afraid I can't do that.<br>"; // :)
-    echo "Error: " . $e->getMessage();
-}
-=======
 require_once 'Audiovisual.php'; // Clase para representar un audiovisual
 require_once 'conexion.php'; // Conexión a la base de datos
->>>>>>> 5e5e6a41695baeb709cd238dfdbf12cd64d47c51
 ?>
 
 	<div class="container">
@@ -55,17 +32,17 @@ require_once 'conexion.php'; // Conexión a la base de datos
 	    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
 	    // Check if id is in database (for develop purpose only)
 	    if ($stmt->rowCount() == 0){
-	    	echo '<pre>It not works!</pre>';
+	    	//echo '<pre>It not works!</pre>';
 	    } else {
-	    	echo '<pre>It works!</pre>';
+	    	//echo '<pre>It works!</pre>';
 	    	$data = $stmt->fetch(); // Obtener el único resultado de la base de datos
 	    	$av = new Audiovisual($data); // Crear el objeto Audiovisual a partir de la información de la base
 	    }
 		?>
 
 		<?php
-		### Filtros y conversiones extras para el campo de duracion
-		include 'filters.php';
+		/* Filtros y conversiones extras para el campo de duracion */
+		require_once 'filters.php';
 		$av->duracion = getDuracion($av->duracion);
 		$av->fuentes = getFuenteRecurso($av->fuentes);
 		$av->recursos = getFuenteRecurso($av->recursos);
@@ -503,30 +480,13 @@ require_once 'conexion.php'; // Conexión a la base de datos
 <!-- Latest compiled and minified JavaScript (Bootstrap)-->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-<!-- Script para colpsar/mostrar cada panel/sección del formulario -->
-<script src="../js/collapse-panel.js"></script>
-
-<!-- Script para agregar ayuda en los campos del formulario -->
-<script src="../js/popover.js"></script>
-
 <!-- (Bootstrap) Form Validator
 Se añade data-toggle="validator" a la etiqueta <form> para habilitar las validaciones
 Se requiere agregar <div class="help-block with-errors"></div> después de cada input/textarea del formulario -->
 <script src="../js/validator.min.js"></script>
 
-<script>
-$('.select-toggle').each(function(){    
-    var select = $(this), values = {};    
-    $('option',select).each(function(i, option){
-        values[option.value] = option.selected;        
-    }).click(function(event){        
-        values[this.value] = !values[this.value];
-        $('option',select).each(function(i, option){            
-            option.selected = values[option.value];        
-        });
-    });
-});
-</script>
+<!-- Script único auxiliar para el formulario -->
+<script src="../js/form.js"></script>
 
 </body>
 </html>

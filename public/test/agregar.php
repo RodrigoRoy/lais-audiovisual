@@ -448,30 +448,13 @@
 <!-- Latest compiled and minified JavaScript (Bootstrap)-->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-<!-- Script para colpsar/mostrar cada panel/sección del formulario -->
-<script src="../js/collapse-panel.js"></script>
-
-<!-- Script para agregar ayuda en los campos del formulario -->
-<script src="../js/popover.js"></script>
-
 <!-- (Bootstrap) Form Validator
 Se añade data-toggle="validator" a la etiqueta <form> para habilitar las validaciones
 Se requiere agregar <div class="help-block with-errors"></div> después de cada input/textarea del formulario -->
 <script src="../js/validator.min.js"></script>
 
-<script>
-$('.select-toggle').each(function(){    
-    var select = $(this), values = {};    
-    $('option',select).each(function(i, option){
-        values[option.value] = option.selected;        
-    }).click(function(event){        
-        values[this.value] = !values[this.value];
-        $('option',select).each(function(i, option){            
-            option.selected = values[option.value];        
-        });
-    });
-});
-</script>
+<!-- Script único auxiliar para el formulario -->
+<script src="../js/form.js"></script>
 
 </body>
 </html>

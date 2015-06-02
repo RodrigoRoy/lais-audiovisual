@@ -32,29 +32,6 @@
 	}
 	?>
 
-<<<<<<< HEAD
-	<!-- CONEXION CON LA BASE DE DATOS -->
-	<!-- TODO: Encapsular la lógica de la conexión a la base -->
-	<?php
-	$servername = "localhost";
-	$username = "root";
-	$password = "djrashad1992";
-	$database = "Coleccion_Archivistica";
-	// NOTA: La manipulación a la base de datos se realiza con PDO (PHP Database Object)
-	try {
-	    $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-	    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Para manejo de errores con PDO
-
-	    $conn->exec("SET NAMES utf8"); // Permite mostrar los resultados con acentos y caracteres extraños
-	}
-	catch(PDOException $e) {
-	    echo "I'm sorry, Dave. I'm afraid I can't do that.<br>"; // :)
-	    echo "Error: " . $e->getMessage();
-	}
-	?>
-
-=======
->>>>>>> 5e5e6a41695baeb709cd238dfdbf12cd64d47c51
 	<div class="container">
 		<div class="page-header">
 			<h1>Agregar audiovisual</h1>

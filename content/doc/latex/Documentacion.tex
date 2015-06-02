@@ -17,7 +17,7 @@
 \begin{document}
 
 % Top matter
-\title{Documentación del sistema de consulta para el Laboratorio Audiovisual de Investigación Social}
+\title{Documentación del sistema de apoyo a la catalogación de archivos audiovisuales}
 \author{Rodrigo Eduardo Colín Rivera}
 \date{\today}
 \maketitle
@@ -37,7 +37,7 @@ El Laboratorio Audiovisual de Investigación Social (LAIS) del Instituto Mora co
 
 La problemática principal con esta manera de catalogación es que resulta complicado buscar o filtrar los registros. Aunque este problema es la base de la propuesta del sistema, existen otros problemas relacionados tales como: La integridad de la información entre los libros de las hojas de cálculo, la cantidad de usuarios que pueden consultar estos registros y la manipulación de los datos.
 
-\section{Propuesta para el sistema de consulta del LAIS}
+\section{Propuesta para el sistema de apoyo a la catalogación del LAIS}
 La propuesta principal está apoyada en la idea de crear una base de datos para el manejo actual y futuro de las fichas de documentación de los materiales audiovisuales del LAIS.
 
 \subsection{Diferencias entre hojas de cálculo y bases de datos}
@@ -102,7 +102,7 @@ Finalmente se muestra las responsabilidades del programador para el diseño y cr
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{EsquemaGeneral.png}
-	\caption{Esquema general del sistema de consulta}
+	\caption{Esquema general del sistema de apoyo a la catalogación}
 	\label{fig:esquema_general}
 \end{figure}
 
@@ -135,6 +135,9 @@ Así como PHP es el intermediario con la base de datos, el intermediario que hac
 
 Bootstrap es un conjunto de herramientas para la creación de páginas web y aplicaciones web, principalmente usado para darle estilo a componentes como la tipografía, formularios, botónes y otros componentes de la interfaz. Además permite diseño responsivo para que la interfaz web sea adecuada tanto en monitores grandes de computadoras de escritorio como para pantallas pequeñas de dispositivos móviles (smartphones y tablets).
 
+\subsection{AngularJS}
+% TODO: Agregar descripcion!
+
 \section{Diseño de la base de datos}
 Las tablas y los campos o columnas que lo conforman están basadas en la descripción archivística existente en hojas de cálculo que hasta el momento han sido el modelo a seguir para la catalogación archivística.
 
@@ -157,14 +160,23 @@ Cada tabla muestra los campos que lo componen y el tipo de dato asociado, los ti
 		Representa una cadena de caracteres (texto) de longitud muy extensa. Es útil para descripciones como la \textit{historia institucional} o la \textit{reseña biográfica}. Aunque ofrece una longitud teóricamente ilimitada de texto, las consultas o búsquedas en este tipo de datos son más lentas que en \textbf{varchar}.
 	\item[time] \hfill \\
 		Representa tiempo y tiene dos utilidades: representar una hora del día (por ejemplo, las 2:15 pm) y representar un lapso de tiempo (por ejemplo, 2 horas y 15 minutos). Nos interesa el último uso para la representación de \textit{duración}.
-	\item[date] \hfill \\
-		Representa fechas y son especialmente útiles para campos como \textit{fecha de ingreso} o \textit{fecha de descripción}.
+	%\item[date] \hfill \\
+	%	Representa fechas y son especialmente útiles para campos como \textit{fecha de ingreso} o \textit{fecha de descripción}.
 \end{description}
 
 Cada tabla contiene el campo \textbf{código de referencia} porque todas las tablas hacen referencia a un archivo audiovisual que debe aparecer una sola vez en cada tabla, este tipo de relación es llamada ``1 a 1'' y es por eso que en la figura~\ref{fig:entidad_relacion} se muestran números `1' al inicio y fin de cada línea.
 También el \textbf{código de referencia} es el único elemento obligatorio para todas las tablas, el resto de los campos o columnas de las tablas son opcionales (es decir, pueden quedar en blanco).
 
 La descripción que existe en los archivos Excel repiten el campo de \textit{título propio} para cada hoja. Este detalle no se permite en la base de datos porque crearía redundancia de información (repetición de datos).
+
+\subsection{Análisis sobre la base de datos}
+Una parte importante del diseño de la base de datos consiste en asignar la longitud máxima para cada campo de tipo \verb|varchar|. El tipo de información que se almacena en la base es principalmente texto, ya sea de manera descriptiva de algún rubro como también para nombres de personas involucradas principalmente.
+
+Para determinar estas longitudes máximas se realizó un análisis sobre los datos existentes en las hojas de cálculo, se calculó cuál es la longitud máxima de cada campo sobre todos los registros existentes. Como regla general se añade un 20\% a la cifra máxima obtenida, para el caso de tener que registrar un campo de longitud ligeramente mayor.
+
+Los campos de Investigación, Realización, Dirección, Guión, Adaptación, Idea original, Fotografía, Fotografía fija, Edición, Grabación de sonido, Edición de sonido, Música original, Musicalización, Voces, Actores, Animación, Otros colaboradores y Productor, guardan uno o varios nombres. En el caso de ser varios nombres se recomienda separarlos con comas (,).
+
+Los campos de Historia institucional, Reseña biográfica, Descriptor onomástico, Descriptor toponímico, Descriptor cronológico, Existencia y localización de originales, Existencia y localización de copias, Unidades de descripción relacionadas, Documentos asociados y Área de notas, pueden llegar a contener mucha información escrita porque lo que es mejor asignar el tipo de dato \verb|Text|. Este tipo de dato no tiene límite de longitud, pero se debe limitar su uso ya que el acceso a estos datos toma más tiempo para la base de datos.
 
 \section{Prototipos de la interfaz web}
 Los prototipos o ejemplos de prueba son un diseño inicial para mostrar las características y funcionalidad principalmente de la interfaz web.
@@ -194,6 +206,7 @@ La figura~\ref{fig:prueba_formulario} muestra un formulario básico de consulta 
 	\label{fig:prueba_formulario_2}
 \end{figure}
 
+% TODO: A partir de aquí se deben actualizar los nuevos resultados obtenidos y las nuevas problematicas y futuros desarrollos #####
 \section{Futuro desarrollo}
 Se requiere de la supervisión del equipo del LAIS para aprobar el diseño de la base de datos y crear nuevos prototipos para la interfaz web que sean adecuados para las necesidades del LAIS.
 
