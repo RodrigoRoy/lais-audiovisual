@@ -11,13 +11,11 @@
 	inset 0 10px 15px rgba(255,255,255,.35), inset 0 -10px 15px rgba(0,0,0,.05), inset 10px 0 15px rgba(0,0,0,.05), inset -10px 0 15px rgba(0,0,0,.05), 
 	/* Sombras internas */
 	0 5px 20px rgba(0,0,0,.1);
-<<<<<<< HEAD
 	/*position: relative;*/
   	margin-top: 36%;
   	margin-left: 92%;
-=======
 	margin-left: 87%;
->>>>>>> 73a1af13d4856689ba9b94d8c0bf1384d2dab3a2
+
 }
 
 /* Al presionar */
@@ -34,3 +32,8 @@
 	padding:8px;
 }
 
+.caret{
+	position: absolute;
+  	right: 15px;
+ 	margin-top: 9px;
+}
