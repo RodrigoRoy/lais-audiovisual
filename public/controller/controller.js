@@ -99,7 +99,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http){
 			'existencia_y_localizacion_de_copias' : $scope.existencia_y_localizacion_de_copias, //Propiedades del área de documentación aociada
 			'unidades_de_descripcion_relacionadas' : $scope.unidades_de_descripcion_relacionadas,
 			'documentos_asociados' : $scope.documentos_asociados,
-			'area_de_notas' : $scope.area_de_notas; //Propiedades del área de notas
+			'area_de_notas' : $scope.area_de_notas, //Propiedades del área de notas
 			'notas_del_archivero' : $scope.notas_del_archivero, //Propiedades del área de descripción
 			'datos_del_archivero' : $scope.datos_del_archivero,
 			'reglas_o_normas' : $scope.reglas_o_normas,
