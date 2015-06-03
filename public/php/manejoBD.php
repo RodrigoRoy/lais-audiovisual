@@ -21,11 +21,16 @@ function mostrar(){
     
     // Check if id is in database (for develop purpose only)
     if ($stmt->rowCount() == 0){
+    
     } else {
-
+        $data = $stmt->fetchAll(); // Obtener el único resultado de la base de datos
+        for($i=0; $i < count($data) ; $i++) { 
+            $data[$i]['duracion'] = getDuracion($data[$i]['duracion']);
+        }
+        print_r(json_encode($data));
+        return json_encode($data);
     }
 }
-
 
 /*Funcion que agrega un nuevo archivo audivisual*/
 function agregar(){

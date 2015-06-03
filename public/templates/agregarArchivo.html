@@ -9,7 +9,7 @@
 		<!-- El código de identificación es el único campo no-editable -->
 		<div class="form-group">
 			<label for="codigo_de_referencia">Código de identificación:</label>
-			<input class="form-control" name="codigo_de_referencia" id="codigo_de_referencia" value="<?php echo $_GET['id'];?>" maxlength="20" pattern="^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}$" data-error="El formato debe ser similar a: MXIM-AV-1-8-1"> <!--readonly-->
+			<input class="form-control" name="codigo_de_referencia" ng-model="codigo_de_referencia" id="codigo_de_referencia" maxlength="20" pattern="^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}$" data-error="El formato debe ser similar a: MXIM-AV-1-8-1"> <!--readonly-->
 		</div>
 
 		<!-- Todos los campos input son por default texto: type="text" -->
@@ -337,7 +337,7 @@
 			</div>
 		</div>
 
-		<button type="submit" class="btn btn-default" ng-click="submit()">Enviar</button> 
+		<button type="submit" class="btn btn-default" ng-click="submita()">Enviar</button> 
 	</form>
 </div>
 <!-- Datalists utilizados en los campos -->
