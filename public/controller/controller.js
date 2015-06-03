@@ -36,7 +36,7 @@ lais.controller('conexionCtrl', function($scope, $http){
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
-lais.controller('agregarDatosCtrl',function($scope, $http){
+lais.controller('agregarDatosCtrl',function($scope,$http){
 	$http.post('http://localhost/lais-audiovisual/public/php/manejoBD.php?action=agregar',{
 			// Propiedades del área de identificación
 			'codigo_de_referencia': $scope.codigo_de_referencia, // ID único de cada audiovisual

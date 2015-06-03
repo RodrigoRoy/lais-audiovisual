@@ -3,16 +3,15 @@ include 'filters.php';
 include 'conexion.php';
 	
 
-/* Casos para tomar la acción del controlador */
+ /*Casos para tomar la acción del controlador*/
 switch ($_GET['action']) {
 	case 'agregar':
-		agregar();
         break;
 	case 'ver':
 		mostrar();
 		break;
 }
-	
+
 /*Funcion que muestra los datos completos de cada archivo audiovisual*/
 function mostrar(){
 	$select = "SELECT * FROM area_de_identificacion";
@@ -23,16 +22,10 @@ function mostrar(){
     // Check if id is in database (for develop purpose only)
     if ($stmt->rowCount() == 0){
     } else {
-        $data = $stmt->fetchAll(); // Obtener el único resultado de la base de datos
-        for($i=0; $i < count($data) ; $i++) { 
-      		$data[$i]['duracion'] = getDuracion($data[$i]['duracion']);	
-        }
-        
-        print_r(json_encode($data));
-        return json_encode($data);
 
     }
 }
+
 
 /*Funcion que agrega un nuevo archivo audivisual*/
 function agregar(){
@@ -45,7 +38,7 @@ function agregar(){
     $titulo_atribuido = $datos->titulo_atribuido;
     $titulo_de_serie = $datos->titulo_de_serie;
     $numero_de_programa = $datos->numero_de_programa;
-    $pais; = $datos->pais;
+    $pais = $datos->pais;
     $fecha = $datos->fecha;
     $duracion = $datos->duracion;
     $investigacion = $datos->investigacion;
@@ -237,19 +230,19 @@ function agregar(){
 
         try{
             $qry = $conn->query($identificacion);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($contexto);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($contenido);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($condiciones);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($documentacion);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($notas);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($descripcion);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
 
             echo '<div class="alert alert-success" role="alert"><p>New record created successfully</p><p>View the record <a href="vista.php?id=' 
             . $codigo_de_referencia . '">here</a></p></div>';
