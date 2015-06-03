@@ -45,7 +45,7 @@ function agregar(){
     $titulo_atribuido = $datos->titulo_atribuido;
     $titulo_de_serie = $datos->titulo_de_serie;
     $numero_de_programa = $datos->numero_de_programa;
-    $pais; = $datos->pais;
+    $pais = $datos->pais;
     $fecha = $datos->fecha;
     $duracion = $datos->duracion;
     $investigacion = $datos->investigacion;
@@ -237,19 +237,19 @@ function agregar(){
 
         try{
             $qry = $conn->query($identificacion);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($contexto);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($contenido);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($condiciones);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($documentacion);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($notas);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
             $qry = $conn->query($descripcion);
-            print_r(json_encode($qry);
+            print_r(json_encode($qry));
 
             echo '<div class="alert alert-success" role="alert"><p>New record created successfully</p><p>View the record <a href="vista.php?id=' 
             . $codigo_de_referencia . '">here</a></p></div>';
