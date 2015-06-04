@@ -77,6 +77,7 @@ var dataContent = {
 
 // Cuando el documento esté listo se realizan todas las llamadas a las funciones que involucran al formulario.
 $(document).ready(function(){
+	$('#audiovisualForm').validator(); // Activación de validación (con validator.min.js)
 	agregaIconoAyuda();
 	clicSecciones();
 	agregaDivErrores();
