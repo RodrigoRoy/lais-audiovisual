@@ -3,6 +3,15 @@ include 'filters.php';
 include 'conexion.php';
 	
 
+ /*Casos para tomar la acción del controlador*/
+switch ($_GET['action']) {
+    case 'agregar':
+        agregar();
+        break;
+    case 'ver':
+        mostrar();
+        break;
+}
 
 /*Funcion que muestra los datos completos de cada archivo audiovisual*/
 function mostrar(){
@@ -73,8 +82,8 @@ function agregar(){
     $descriptor_cronologico = $datos->descriptor_cronologico;
     $tipo_de_produccion = $datos->tipo_de_produccion;
     $genero = $datos->genero;
-    $fuentes = $datos->fuentes;
-    $recursos = $datos->recursos;
+    //$fuentes = $datos->fuentes;
+    //$recursos = $datos->recursos;
     $versiones = $datos->versiones;
     $formato_original = $datos->formato_original;
     $material_extra = $datos->material_extra;
@@ -110,6 +119,7 @@ function agregar(){
 
     $duracion = setDuracion($duracion);
     
+    /*
     if(isset($fuentes)){
         $fuentes = setFuenteRecurso($fuentes);
     }else{
@@ -121,6 +131,7 @@ function agregar(){
     }else{
         $recursos = '';
     }
+    */
 
     $identificacion = "INSERT INTO area_de_identificacion() VALUES('"
             . $codigo_de_referencia . "','"
@@ -151,6 +162,7 @@ function agregar(){
             . $otros_colaboradores
             . "');";
 
+        
         $contexto = "INSERT INTO area_de_contexto() VALUES('"
             . $codigo_de_referencia . "','"
             . $entidad_productora . "','"
@@ -216,7 +228,7 @@ function agregar(){
             . $fecha_de_descripcion 
             . "');";
         
-
+        
         //Mostrar en página las consultas realizadas (para revisar sintáxis)
         /*echo '<pre>' . $identificacion . '</pre>';
         echo '<pre>' . $contexto . '</pre>';
@@ -227,40 +239,24 @@ function agregar(){
         echo '<pre>' . $descripcion . '</pre>';*/
 
         try{
-            $qry = $conn->query($identificacion);
-            print_r(json_encode($qry));
-            $qry = $conn->query($contexto);
-            print_r(json_encode($qry));
-            $qry = $conn->query($contenido);
-            print_r(json_encode($qry));
-            $qry = $conn->query($condiciones);
-            print_r(json_encode($qry));
-            $qry = $conn->query($documentacion);
-            print_r(json_encode($qry));
-            $qry = $conn->query($notas);
-            print_r(json_encode($qry));
-            $qry = $conn->query($descripcion);
-            print_r(json_encode($qry));
-
-            echo '<div class="alert alert-success" role="alert"><p>New record created successfully</p><p>View the record <a href="vista.php?id=' 
-            . $codigo_de_referencia . '">here</a></p></div>';
+            $qry = $GLOBALS['conn']->exec($identificacion);          
+            $qry = $GLOBALS['conn']->query($contexto);
+            $qry = $GLOBALS['conn']->query($contenido);
+            $qry = $GLOBALS['conn']->query($condiciones);
+            $qry = $GLOBALS['conn']->query($documentacion);
+            $qry = $GLOBALS['conn']->query($notas);
+            $qry = $GLOBALS['conn']->query($descripcion);
+            
+            //echo '<div class="alert alert-success" role="alert"><p>New record created successfully</p><p>View the record <a href="vista.php?id=' 
+            //. $codigo_de_referencia . '">here</a></p></div>';
+            
         }
         catch(PDOException $e){
             echo $e->getMessage();
         }
 
-        $conn = null;
-
+        $GLOBALS['conn'] = null;
 }
 
- /*Casos para tomar la acción del controlador*/
-switch ($_GET['action']) {
-    case 'agregar':
-        agregar();
-        break;
-    case 'ver':
-        mostrar();
-        break;
-}
 
 ?>
