@@ -151,3 +151,12 @@ function multiSelect(){
 	});
 };
 
+function desabilitarEnvio(){
+	$('#form').validator().on('submit', function (e) {
+  		if (e.isDefaultPrevented()) {
+    		// handle the invalid form...
+  		} else {
+    		// everything looks good!
+  		}
+	});
+};
