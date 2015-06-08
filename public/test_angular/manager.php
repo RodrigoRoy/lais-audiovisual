@@ -56,9 +56,7 @@ function obtener_usuario($usuario){
 
 function agregar_datos(){
 	$data = json_decode(file_get_contents("php://input"));
-    $name = $data->nombre;
-    $email = $data->correo;
-    $sql = "INSERT INTO persona() VALUES('" . $name . "', '" . $email . "');";
+    $sql = "INSERT INTO persona() VALUES('" . $data->nombre . "', '" . $data->correo . "', '" . $data->colores . "');";
     try{
     	$GLOBALS['conn']->exec($sql);
 	}
@@ -70,10 +68,7 @@ function agregar_datos(){
 
 function actualizar_usuario(){
     $data = json_decode(file_get_contents("php://input"));
-    $name = $data->nombre;
-    $email = $data->correo;
-    $name_aux = $data->nombreAuxiliar;
-    $sql = "UPDATE persona SET nombre_usuario='" . $name . "', correo_electronico='" . $email . "' WHERE nombre_usuario='" . $name_aux . "'";
+    $sql = "UPDATE persona SET nombre_usuario='" . $data->nombre . "', correo_electronico='" . $data->correo . "', colores_favoritos='" . $data->colores . "' WHERE nombre_usuario='" . $data->nombreAuxiliar . "'";
     try{
         $stmt = $GLOBALS['conn']->prepare($sql);
         $stmt->execute();
