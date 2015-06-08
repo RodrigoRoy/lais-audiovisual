@@ -37,23 +37,7 @@ lais.controller('conexionCtrl', function($scope, $http){
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
 lais.controller('agregarDatosCtrl',function($scope, $http){
-	// NOTA: Validación del formulario válido (validator.js)
-	$('#audiovisualForm').validator().on('submit', function (e) {
-	  if (e.isDefaultPrevented()) {
-	  	console.log("Invalid form");
-	    $('#submitButton').attr('ng-disabled', 'true');
-	  } else {
-	  	console.log("Valid form");
-	    $('#submitButton').attr('ng-disabled', 'false');
-	  }
-	})
-
 	$scope.envia = function(){
-		console.log("Botón: " + $('#submitButton').attr('ng-disabled'));
-		if($('#submitButton').attr('ng-disabled')){
-			console.log("Envio cancelado");
-			return;
-		}
 		$http.post('php/manejoBD.php?action=agregar',
 			{
 				// Propiedades del área de identificación

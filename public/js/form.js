@@ -151,12 +151,18 @@ function multiSelect(){
 	});
 };
 
+/**
 function desabilitarEnvio(){
-	$('#form').validator().on('submit', function (e) {
-  		if (e.isDefaultPrevented()) {
-    		// handle the invalid form...
-  		} else {
-    		// everything looks good!
-  		}
+	$('#audiovisualForm').validator().on('submit', function (e) {
+	  if (e.isDefaultPrevented()) {
+	  	console.log("Invalid form");
+	    $('#submitButton').attr('ng-disabled', 'true');
+	  } else {
+	  	console.log("Valid form");
+	    $('#submitButton').attr('ng-disabled', 'false');
+	  }
 	});
 };
+*/
+// NOTA: Validación del formulario válido (validator.js)
+	
