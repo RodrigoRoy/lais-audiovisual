@@ -10,7 +10,8 @@ crudApp.controller('mainCtrl', function ($scope,$http) {
 		$http.post('manager.php?action=agregar',
 		{
 			'nombre': $scope.nombre,
-			'correo': $scope.correo
+			'correo': $scope.correo,
+			'colores': $scope.colores.join() // Array->String
 		}).
 		success(function(data, status, headers, config) {
 			alert("Datos enviados");
@@ -28,6 +29,7 @@ crudApp.controller('mainCtrl', function ($scope,$http) {
     	success(function(data) {
 	        $scope.nombre = data.nombre_usuario;
 	        $scope.correo = data.correo_electronico;
+	        $scope.colores = data.colores_favoritos.split(","); // String->Array
 	    });
     }
 
@@ -37,12 +39,11 @@ crudApp.controller('mainCtrl', function ($scope,$http) {
 		{
 			'nombre': $scope.nombre,
 			'correo': $scope.correo,
+			'colores': $scope.colores.join(), // Array->String
 			'nombreAuxiliar': $scope.nombreAuxiliar
 		}).
 		success(function(data, status, headers, config) {
 			alert("Datos actualizados");
-			//$scope.nombre = '';
-			//$scope.correo = '';
 			location.reload();
 		}).
 		error(function(data, status, headers, config) {
