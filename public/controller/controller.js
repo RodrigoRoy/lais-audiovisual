@@ -21,6 +21,10 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/agregarArchivo.html",
 			controller: "agregarDatosCtrl"
 		})
+		.when("/archivos/editarArchivo",{
+			templateUrl: "templates/editarArchivo.html",
+			controller: "edicionCtrl"
+		})
 		.otherwise({
 			redirectTo: "/"
 		});
@@ -34,6 +38,11 @@ lais.controller('conexionCtrl', function($scope, $http){
         //console.log(data);
     });
 
+    $scope.editar = function(id){
+    	console.log("Clic para edición de " + id);
+    	$location.url('/editarArchivo/' + id);
+    }
+
     $scope.eliminar = function(id){
     	$http.post('php/manejoBD.php?action=borrar',
 		{
@@ -45,6 +54,25 @@ lais.controller('conexionCtrl', function($scope, $http){
 		}).
 		error(function(data, status, headers, config) {
 			alert("Error al borrar usuario");
+		});
+    }
+});
+
+lais.controller('edicionCtrl', function($scope, $routeParams){
+	$scope.toEdit = $routeParams.id
+
+	$scope.editar = function(){
+    	$http.post('php/manejoBD.php?action=editar',
+		{
+			'codigo_de_referencia': id
+			// Resto de los campos
+		}).
+		success(function(data, status, headers, config) {
+			alert("Registro actualizado");
+			// Enviar al usuario a los audiovisuales
+		}).
+		error(function(data, status, headers, config) {
+			alert("Error al editar usuario");
 		});
     }
 });
