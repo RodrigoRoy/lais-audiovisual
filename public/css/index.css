@@ -1,3 +1,26 @@
+*{
+	padding: 0px;
+	border: none;
+	marging: 0px;
+}
+
+body{
+    width: 100%;
+    height: 100%;
+    background-image:url('../imgs/documentales.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    background-size: cover;
+}
+
+html{
+    width: 100%;
+    height: 100%;
+    overflow:hidden;
+}
+
+
 .boton {
 	background: url(http://localhost/lais-audiovisual/public/#/archivos) /* Url de la imagen */ no-repeat center center, #ddd /* Color del botón */;
 	background-size: 60%; /* Tamaño de la imagen */
@@ -41,3 +64,8 @@
   	right: 15px;
  	margin-top: 9px;
 }
+
+.navbar-fixed-top{
+	opacity: .9;
+}
+
