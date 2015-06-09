@@ -13,6 +13,9 @@ switch ($_GET['action']) {
     case 'actualizar':
         actualizar();
         break;
+    case 'borrar':
+        borrar();
+        break;
 }
 
 /*Funcion que muestra los datos completos de cada archivo audiovisual*/
@@ -289,6 +292,19 @@ function actualizar(){
         $stmt->execute();
         $stmt = $GLOBALS['conn']->prepare($descripcion);
         $stmt->execute();
+    }
+    catch(PDOException $e){
+        echo $e->getMessage();
+    }
+    $GLOBALS['conn'] = null;
+}
+
+function borrar(){
+    $datos = json_decode(file_get_contents("php://input"));
+    
+    $sql = "DELETE FROM area_de_identificacion WHERE codigo_de_referencia = '" . $datos->codigo_de_referencia . "';";
+    try{
+        $GLOBALS['conn']->exec($sql);
     }
     catch(PDOException $e){
         echo $e->getMessage();

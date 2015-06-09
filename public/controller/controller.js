@@ -31,8 +31,22 @@ lais.controller('conexionCtrl', function($scope, $http){
 	$http.get('php/manejoBD.php?action=ver').
     success(function(data) {
         $scope.registros = data;
-        console.log(data);
+        //console.log(data);
     });
+
+    $scope.eliminar = function(id){
+    	$http.post('php/manejoBD.php?action=borrar',
+		{
+			'codigo_de_referencia': id
+		}).
+		success(function(data, status, headers, config) {
+			alert("Registro eliminado");
+			location.reload();
+		}).
+		error(function(data, status, headers, config) {
+			alert("Error al borrar usuario");
+		});
+    }
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html

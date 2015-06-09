@@ -3,9 +3,31 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">Panel heading</div>
 		<table class="table">
-			<thead><tr><th>Codigo de Referencia</th><th>Titulo</th><th>País</th><th>Fecha</th><th>Duración</th></tr></thead>
+			<thead>
+				<tr>
+					<th>Codigo de Referencia</th>
+					<th>Titulo</th>
+					<th>País</th>
+					<th>Fecha</th>
+					<th>Duración</th>
+					<th>Editar</th>
+					<th>Borrar</th>
+				</tr>
+			</thead>
 			<tbody>
-				<tr ng-repeat="registro in registros"><td>{{registro.codigo_de_referencia}}</td><td>{{registro.titulo_propio}}</td><td>{{registro.pais}}</td><td>{{registro.fecha}}</td><td>{{registro.duracion}}</td></tr>
+				<tr ng-repeat="registro in registros">
+					<td>{{registro.codigo_de_referencia}}</td>
+					<td>{{registro.titulo_propio}}</td>
+					<td>{{registro.pais}}</td>
+					<td>{{registro.fecha}}</td>
+					<td>{{registro.duracion}}</td>
+					<td>
+						<button class="btn btn-default" ng-click="editar(registro.codigo_de_referencia)"><span class="glyphicon glyphicon-pencil"></span></button>
+					</td>
+					<td>
+						<button class="btn btn-danger" ng-click="eliminar(registro.codigo_de_referencia)"><span class="glyphicon glyphicon-remove"></span></button>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
