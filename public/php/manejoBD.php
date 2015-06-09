@@ -45,21 +45,7 @@ function mostrar(){
 /*Funcion que agrega un nuevo archivo audivisual*/
 function agregar(){
     $datos = json_decode(file_get_contents("php://input"));
-    $datos->duracion = setDuracion($datos->duracion);
-    /*
-    if(isset($datos->fuentes)){
-        $datos->fuentes = setFuenteRecurso($datos->fuentes);
-    }else{
-        $datos->fuentes = '';
-    }
     
-    if(isset($datos->recursos)){
-        $datos->recursos = setFuenteRecurso($datos->recursos);
-    }else{
-        $datos->recursos = '';
-    }
-    */
-
     $identificacion = "INSERT INTO area_de_identificacion() VALUES('"
             . $datos->codigo_de_referencia . "','"
             . $datos->titulo_propio . "','" 
@@ -89,7 +75,6 @@ function agregar(){
             . $datos->otros_colaboradores
             . "');";
 
-        
         $contexto = "INSERT INTO area_de_contexto() VALUES('"
             . $datos->codigo_de_referencia . "','"
             . $datos->entidad_productora . "','"
@@ -101,8 +86,6 @@ function agregar(){
             . $datos->fecha_de_ingreso 
             . "');";
         
-        // Los campos de Fuentes y Recursos son un arreglo con múltiples valores y se utiliza la función
-        // implode() para convertir en cadena de texto y delimitando por comas (,) cada valor.
         $contenido = "INSERT INTO area_de_contenido_y_estructura() VALUES('"
             . $datos->codigo_de_referencia . "','"
             . $datos->sinopsis . "','"
@@ -163,9 +146,6 @@ function agregar(){
             $GLOBALS['conn']->exec($documentacion);
             $GLOBALS['conn']->exec($notas);
             $GLOBALS['conn']->exec($descripcion);
-            //echo '<div class="alert alert-success" role="alert"><p>New record created successfully</p><p>View the record <a href="vista.php?id=' 
-            //. $codigo_de_referencia . '">here</a></p></div>';
-            
         }
         catch(PDOException $e){
             echo $e->getMessage();
@@ -175,21 +155,7 @@ function agregar(){
 
 function actualizar(){
     $datos = json_decode(file_get_contents("php://input"));
-    $datos->duracion = setDuracion($datos->duracion);
-    /*
-    if(isset($datos->fuentes)){
-        $datos->fuentes = setFuenteRecurso($datos->fuentes);
-    }else{
-        $datos->fuentes = '';
-    }
     
-    if(isset($datos->recursos)){
-        $datos->recursos = setFuenteRecurso($datos->recursos);
-    }else{
-        $datos->recursos = '';
-    }
-    */
-
     $identificacion = "UPDATE area_de_identificacion SET "
         . "titulo_propio='" . $datos->titulo_propio . "', " 
         . "titulo_paralelo='" . $datos->titulo_paralelo . "', " 

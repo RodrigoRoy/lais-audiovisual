@@ -35,11 +35,9 @@ lais.controller('conexionCtrl', function($scope, $http, $location){
 	$http.get('php/manejoBD.php?action=ver').
     success(function(data) {
         $scope.registros = data;
-        //console.log(data);
     });
 
     $scope.editar = function(id){
-    	console.log("Clic para edición de " + id);
     	$location.url('/archivos/editarArchivo/' + id);
     }
 
@@ -69,7 +67,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
 		$scope.numero_de_programa = data.numero_de_programa;
 		$scope.pais = data.pais;
 		$scope.fecha = data.fecha;
-		$scope.duracion = data.duracion;
+		$scope.duracion = getDuracion(data.duracion); // Parse desde filter.js
 		$scope.investigacion = data.investigacion;
 		$scope.realizacion = data.realizacion;
 		$scope.direccion = data.direccion;
@@ -100,8 +98,8 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
 		$scope.descriptor_cronologico = data.descriptor_cronologico;
 		$scope.tipo_de_produccion = data.tipo_de_produccion;
 		$scope.genero = data.genero;
-		$scope.fuentes = data.fuentes;
-		$scope.recursos = data.recursos;
+		$scope.fuentes = getFuenteRecurso(data.fuentes); // Parse desde filter.js
+		$scope.recursos = getFuenteRecurso(data.recursos); // Parse desde filter.js
 		$scope.versiones = data.versiones;
 		$scope.formato_original = data.formato_original;
 		$scope.material_extra = data.material_extra;
@@ -139,7 +137,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
 			'numero_de_programa': $scope.numero_de_programa,
 			'pais': $scope.pais,
 			'fecha': $scope.fecha,
-			'duracion': $scope.duracion,
+			'duracion': setDuracion($scope.duracion), // Parse desde filter.js
 			'investigacion': $scope.investigacion,
 			'realizacion': $scope.realizacion,
 			'direccion': $scope.direccion,
@@ -157,45 +155,45 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
 			'actores': $scope.actores,
 			'animacion': $scope.animacion,
 			'otros_colaboradores': $scope.otros_colaboradores,
-			'entidad_productora' : $scope.entidad_productora,
-			'productor' : $scope.productor,
-			'distribuidora' : $scope.distribuidora,
-			'historia_institucional' : $scope.historia_institucional,
-			'resena_biografica' : $scope.resena_biografica,
-			'forma_de_ingreso' : $scope.forma_de_ingreso,
-			'fecha_de_ingreso' : $scope.fecha_de_ingreso,
-			'sinopsis' : $scope.sinopsis,
-			'descriptor_onomastico' : $scope.descriptor_onomastico,
-			'descriptor_toponimico' : $scope.descriptor_toponimico,
-			'descriptor_cronologico' : $scope.descriptor_cronologico,
-			'tipo_de_produccion' : $scope.tipo_de_produccion,
-			'genero' : $scope.genero,
-			'fuentes' : $scope.fuentes,
-			'recursos' : $scope.recursos,
-			'versiones' : $scope.versiones,
-			'formato_original' : $scope.formato_original,
-			'material_extra' : $scope.material_extra,
-			'condiciones_de_acceso' : $scope.condiciones_de_acceso,
-			'existencia_y_localizacion_de_originales' : $scope.existencia_y_localizacion_de_originales,
-			'idioma_original' : $scope.idioma_original,
-			'doblajes_disponibles' : $scope.doblajes_disponibles,
-			'subtitulajes' : $scope.subtitulajes,
-			'soporte' : $scope.soporte,
-			'numero_copias' : $scope.numero_copias,
-			'descripcion_fisica' : $scope.descripcion_fisica,
-			'color' : $scope.color,
-			'audio' : $scope.audio,
-			'sistema_de_grabacion' : $scope.sistema_de_grabacion,
-			'region_dvd' : $scope.region_dvd,
-			'requisitos_tecnicos' : $scope.requisitos_tecnicos,
-			'existencia_y_localizacion_de_copias' : $scope.existencia_y_localizacion_de_copias,
-			'unidades_de_descripcion_relacionadas' : $scope.unidades_de_descripcion_relacionadas,
-			'documentos_asociados' : $scope.documentos_asociados,
-			'area_de_notas' : $scope.area_de_notas,
-			'notas_del_archivero' : $scope.notas_del_archivero,
-			'datos_del_archivero' : $scope.datos_del_archivero,
-			'reglas_o_normas' : $scope.reglas_o_normas,
-			'fecha_de_descripcion' : $scope.fecha_de_descripcion
+			'entidad_productora': $scope.entidad_productora,
+			'productor': $scope.productor,
+			'distribuidora': $scope.distribuidora,
+			'historia_institucional': $scope.historia_institucional,
+			'resena_biografica': $scope.resena_biografica,
+			'forma_de_ingreso': $scope.forma_de_ingreso,
+			'fecha_de_ingreso': $scope.fecha_de_ingreso,
+			'sinopsis': $scope.sinopsis,
+			'descriptor_onomastico': $scope.descriptor_onomastico,
+			'descriptor_toponimico': $scope.descriptor_toponimico,
+			'descriptor_cronologico': $scope.descriptor_cronologico,
+			'tipo_de_produccion': $scope.tipo_de_produccion,
+			'genero': $scope.genero,
+			'fuentes': setFuenteRecurso($scope.fuentes), // Parse desde filter.js
+			'recursos': setFuenteRecurso($scope.recursos), // Parse desde filter.js
+			'versiones': $scope.versiones,
+			'formato_original': $scope.formato_original,
+			'material_extra': $scope.material_extra,
+			'condiciones_de_acceso': $scope.condiciones_de_acceso,
+			'existencia_y_localizacion_de_originales': $scope.existencia_y_localizacion_de_originales,
+			'idioma_original': $scope.idioma_original,
+			'doblajes_disponibles': $scope.doblajes_disponibles,
+			'subtitulajes': $scope.subtitulajes,
+			'soporte': $scope.soporte,
+			'numero_copias': $scope.numero_copias,
+			'descripcion_fisica': $scope.descripcion_fisica,
+			'color': $scope.color,
+			'audio': $scope.audio,
+			'sistema_de_grabacion': $scope.sistema_de_grabacion,
+			'region_dvd': $scope.region_dvd,
+			'requisitos_tecnicos': $scope.requisitos_tecnicos,
+			'existencia_y_localizacion_de_copias': $scope.existencia_y_localizacion_de_copias,
+			'unidades_de_descripcion_relacionadas': $scope.unidades_de_descripcion_relacionadas,
+			'documentos_asociados': $scope.documentos_asociados,
+			'area_de_notas': $scope.area_de_notas,
+			'notas_del_archivero': $scope.notas_del_archivero,
+			'datos_del_archivero': $scope.datos_del_archivero,
+			'reglas_o_normas': $scope.reglas_o_normas,
+			'fecha_de_descripcion': $scope.fecha_de_descripcion
 		}).
 		success(function(data, status, headers, config) {
 			alert("Registro actualizado");
@@ -213,76 +211,73 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location){
 	$scope.envia = function(){
 		$http.post('php/manejoBD.php?action=agregar',
 			{
-				// Propiedades del área de identificación
-				'codigo_de_referencia': $scope.codigo_de_referencia,
-				'titulo_propio' : $scope.titulo_propio,
-				'titulo_paralelo': $scope.titulo_paralelo,
-				'titulo_atribuido': $scope.titulo_atribuido,
-				'titulo_de_serie': $scope.titulo_de_serie,
-				'numero_de_programa': $scope.numero_de_programa,
-				'pais': $scope.pais,
-				'fecha': $scope.fecha,
-				'duracion': $scope.duracion,
-				'investigacion': $scope.investigacion,
-				'realizacion': $scope.realizacion,
-				'direccion': $scope.direccion,
-				'guion': $scope.guion,
-				'adaptacion': $scope.adaptacion,
-				'idea_original': $scope.idea_original,
-				'fotografia': $scope.fotografia,
-				'fotografia_fija': $scope.fotografia_fija,
-				'edicion': $scope.edicion,
-				'sonido_grabacion': $scope.sonido_grabacion,
-				'sonido_edicion': $scope.sonido_edicion,
-				'musica_original': $scope.musica_original,
-				'musicalizacion': $scope.musicalizacion,
-				'voces': $scope.voces,
-				'actores': $scope.actores,
-				'animacion': $scope.animacion,
-				'otros_colaboradores': $scope.otros_colaboradores,
-				'entidad_productora': $scope.entidad_productora,
-				'productor': $scope.productor,
-				'distribuidora': $scope.distribuidora,
-				'historia_institucional': $scope.historia_institucional,
-				'resena_biografica': $scope.resena_biografica,
-				'forma_de_ingreso': $scope.forma_de_ingreso,
-				'fecha_de_ingreso': $scope.fecha_de_ingreso,
-				'sinopsis': $scope.sinopsis,
-				'descriptor_onomastico': $scope.descriptor_onomastico,
-				'descriptor_toponimico': $scope.descriptor_toponimico,
-				'descriptor_cronologico': $scope.descriptor_cronologico,
-				'tipo_de_produccion': $scope.tipo_de_produccion,
-				'genero': $scope.genero,
-				'fuentes': $scope.fuentes,
-				'recursos': $scope.recursos,
-				'versiones': $scope.versiones,
-				'formato_original': $scope.formato_original,
-				'material_extra': $scope.material_extra,
-				'condiciones_de_acceso': $scope.condiciones_de_acceso,
-				'existencia_y_localizacion_de_originales': $scope.existencia_y_localizacion_de_originales,
-				'idioma_original': $scope.idioma_original,
-				'doblajes_disponibles': $scope.doblajes_disponibles,
-				'subtitulajes': $scope.subtitulajes,
-				'soporte': $scope.soporte,
-				'numero_copias': $scope.numero_copias,
-				'descripcion_fisica': $scope.descripcion_fisica,
-				'color': $scope.color,
-				'audio': $scope.audio,
-				'sistema_de_grabacion': $scope.sistema_de_grabacion,
-				'region_dvd': $scope.region_dvd,
-				'requisitos_tecnicos': $scope.requisitos_tecnicos,
-				'existencia_y_localizacion_de_copias': $scope.existencia_y_localizacion_de_copias,
-				'unidades_de_descripcion_relacionadas': $scope.unidades_de_descripcion_relacionadas,
-				'documentos_asociados': $scope.documentos_asociados,
-				'area_de_notas': $scope.area_de_notas,
-				'notas_del_archivero': $scope.notas_del_archivero,
-				'datos_del_archivero': $scope.datos_del_archivero,
-				'reglas_o_normas': $scope.reglas_o_normas,
-				'fecha_de_descripcion': $scope.fecha_de_descripcion
-
+			'codigo_de_referencia': $scope.codigo_de_referencia,
+			'titulo_propio' : $scope.titulo_propio,
+			'titulo_paralelo': $scope.titulo_paralelo,
+			'titulo_atribuido': $scope.titulo_atribuido,
+			'titulo_de_serie': $scope.titulo_de_serie,
+			'numero_de_programa': $scope.numero_de_programa,
+			'pais': $scope.pais,
+			'fecha': $scope.fecha,
+			'duracion': setDuracion($scope.duracion), // Parse desde filter.js
+			'investigacion': $scope.investigacion,
+			'realizacion': $scope.realizacion,
+			'direccion': $scope.direccion,
+			'guion': $scope.guion,
+			'adaptacion': $scope.adaptacion,
+			'idea_original': $scope.idea_original,
+			'fotografia': $scope.fotografia,
+			'fotografia_fija': $scope.fotografia_fija,
+			'edicion': $scope.edicion,
+			'sonido_grabacion': $scope.sonido_grabacion,
+			'sonido_edicion': $scope.sonido_edicion,
+			'musica_original': $scope.musica_original,
+			'musicalizacion': $scope.musicalizacion,
+			'voces': $scope.voces,
+			'actores': $scope.actores,
+			'animacion': $scope.animacion,
+			'otros_colaboradores': $scope.otros_colaboradores,
+			'entidad_productora': $scope.entidad_productora,
+			'productor': $scope.productor,
+			'distribuidora': $scope.distribuidora,
+			'historia_institucional': $scope.historia_institucional,
+			'resena_biografica': $scope.resena_biografica,
+			'forma_de_ingreso': $scope.forma_de_ingreso,
+			'fecha_de_ingreso': $scope.fecha_de_ingreso,
+			'sinopsis': $scope.sinopsis,
+			'descriptor_onomastico': $scope.descriptor_onomastico,
+			'descriptor_toponimico': $scope.descriptor_toponimico,
+			'descriptor_cronologico': $scope.descriptor_cronologico,
+			'tipo_de_produccion': $scope.tipo_de_produccion,
+			'genero': $scope.genero,
+			'fuentes': setFuenteRecurso($scope.fuentes), // Parse desde filter.js
+			'recursos': setFuenteRecurso($scope.recursos), // Parse desde filter.js
+			'versiones': $scope.versiones,
+			'formato_original': $scope.formato_original,
+			'material_extra': $scope.material_extra,
+			'condiciones_de_acceso': $scope.condiciones_de_acceso,
+			'existencia_y_localizacion_de_originales': $scope.existencia_y_localizacion_de_originales,
+			'idioma_original': $scope.idioma_original,
+			'doblajes_disponibles': $scope.doblajes_disponibles,
+			'subtitulajes': $scope.subtitulajes,
+			'soporte': $scope.soporte,
+			'numero_copias': $scope.numero_copias,
+			'descripcion_fisica': $scope.descripcion_fisica,
+			'color': $scope.color,
+			'audio': $scope.audio,
+			'sistema_de_grabacion': $scope.sistema_de_grabacion,
+			'region_dvd': $scope.region_dvd,
+			'requisitos_tecnicos': $scope.requisitos_tecnicos,
+			'existencia_y_localizacion_de_copias': $scope.existencia_y_localizacion_de_copias,
+			'unidades_de_descripcion_relacionadas': $scope.unidades_de_descripcion_relacionadas,
+			'documentos_asociados': $scope.documentos_asociados,
+			'area_de_notas': $scope.area_de_notas,
+			'notas_del_archivero': $scope.notas_del_archivero,
+			'datos_del_archivero': $scope.datos_del_archivero,
+			'reglas_o_normas': $scope.reglas_o_normas,
+			'fecha_de_descripcion': $scope.fecha_de_descripcion
 		}).success(function(data,status, headers, congif){
 			alert("El archivo Audiovisual ha sido agregado");
-			//$('#audiovisualForm').after('<div class="alert alert-success" role="alert"><p>New record' + $scope.codigo_de_referencia + 'created successfully </p><p>View the record</p></div>');
 			$location.url('/archivos/');
 		}).error(function(error){
 			console.log(error);
