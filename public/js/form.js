@@ -81,7 +81,7 @@ $(document).ready(function(){
 	agregaIconoAyuda();
 	clicSecciones();
 	//agregaDivErrores();
-	multiSelect();
+	//multiSelect();
 });
 
 
