@@ -1,1 +1,842 @@
-Audiovisual a editar: {{toEdit}}
+<br>
+<div class="container">
+	<div class="page-header">
+		<h1>Editar audiovisual</h1>
+	</div>
+	<form name="audForm" role="form" id="audiovisualForm" novalidate> <!-- Se omite action="another.php" para que la acción se ejecute en este documento -->
+		<!-- El código de identificación es el único campo no-editable -->
+		<div class="form-group">
+			<label for="codigo_de_referencia">Código de identificación:</label>
+			<input class="form-control" name="codigo_de_referencia" ng-model="codigo_de_referencia" id="codigo_de_referencia" ng-maxlength="20" ng-pattern="/^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}$/" required> <!--readonly-->
+		</div>
+		<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+		<div class="error" 
+          ng-show="audForm.codigo_de_referencia.$dirty && audForm.codigo_de_referencia.$invalid">
+          <small class="error" ng-show="audForm.codigo_de_referencia.$error.required">
+            ERROR: Se requiere el codigo de referencia
+          </small>
+          <small class="error" ng-show="audForm.codigo_de_referencia.$error.maxlength">
+            ERROR: El maximo de tu palabra es 20 caracteres
+          </small>
+          <small class="error" ng-show="audForm.codigo_de_referencia.$error.pattern">
+            ERROR: El formato debe ser similar a: MXIM-AV-1-8-1
+          </small>
+        </div>
+		<!-- Todos los campos input son por default texto: type="text" -->
+		<div class="list-group">
+			<a href="" class="list-group-item">Área de identificación<span class="caret"></span></a>
+			<div class="panel-body collapse">
+				<div class="form-group control-group">
+					<label for="titulo_propio">Título propio</label>
+					<input class="form-control" autofocus id="titulo_propio" name="titulo_propio" ng-model="titulo_propio" ng-maxlength="120">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+			        ng-show="audForm.titulo_propio.$dirty && audForm.titulo_propio.$invalid">
+			        <small class="error" ng-show="audForm.titulo_propio.$error.maxlength">
+			            ERROR: El maximo de tu palabra es 120 caracteres
+			        </small>
+		        </div>
+				<div class="form-group control-group">
+					<label for="titulo_paralelo">Título paralelo</label>
+					<input class="form-control" id="titulo_paralelo" name="titulo_paralelo" ng-model="titulo_paralelo" ng-maxlength="120">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+			        ng-show="audForm.titulo_paralelo.$dirty && audForm.titulo_paralelo.$invalid">
+			        <small class="error" ng-show="audForm.titulo_paralelo.$error.maxlength">
+			            ERROR: El maximo de tu palabra es 120 caracteres
+			        </small>
+		        </div>
+				<div class="form-group control-group">
+					<label for="titulo_atribuido">Título atribuido</label>
+					<input class="form-control" id="titulo_atribuido" name="titulo_atribuido" ng-model="titulo_atribuido" ng-maxlength="120">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+			        ng-show="audForm.titulo_atribuido.$dirty && audForm.titulo_atribuido.$invalid">
+			        <small class="error" ng-show="audForm.titulo_atribuido.$error.maxlength">
+			            ERROR: El maximo de tu palabra es 120 caracteres
+			        </small>
+		        </div>
+				<div class="form-group">
+					<label for="titulo_de_serie">Título de la serie</label>
+					<input class="form-control" id="titulo_de_serie" name="titulo_de_serie" ng-model="titulo_de_serie" ng-maxlength="70">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+			        ng-show="audForm.titulo_de_serie.$dirty && audForm.titulo_de_serie.$invalid">
+			        <small class="error" ng-show="audForm.titulo_de_serie.$error.maxlength">
+			            ERROR: El maximo de tu palabra es 70 caracteres
+			        </small>
+		        </div>
+				<div class="form-group">
+					<label for="numero_de_programa">Número de programa</label>
+					<input class="form-control" id="numero_de_programa" name="numero_de_programa" ng-model="numero_de_programa" ng-maxlength="15">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+			        ng-show="audForm.numero_de_programa.$dirty && audForm.numero_de_programa.$invalid">
+			        <small class="error" ng-show="audForm.numero_de_programa.$error.maxlength">
+			            ERROR: El maximo de tu palabra es 15 caracteres
+			        </small>
+		        </div>
+				<div class="form-group">
+					<label for="pais">País</label>
+					<input class="form-control" id="pais" name="pais" ng-model="pais" ng-maxlength="30">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+			        ng-show="audForm.pais.$dirty && audForm.pais.$invalid">
+			        <small class="error" ng-show="audForm.pais.$error.maxlength">
+			            ERROR: El maximo de tu palabra es 70 caracteres
+			        </small>
+		        </div>
+				<div class="form-group">
+					<label for="fecha">Fecha</label>
+					<input class="form-control" id="fecha" name="fecha" ng-model="fecha" ng-pattern="/^\d{4}( ?- ?\d{4})?$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.fecha.$dirty && audForm.fecha.$invalid">
+		          	<small class="error" ng-show="audForm.fecha.$error.pattern">
+		            	ERROR: El formato debe ser similar a: 1970 ó 1948-1949
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="duracion">Duración</label>
+					<input class="form-control" id="duracion" name="duracion" ng-model="duracion" placeholder="Formato: MM'SS' (Ejemplo: 120', 38'60'', 49'')" ng-pattern="/(^\d{0,3}' ?[0-5]?\d''$)|(^\d{0,3}'$)|(^[0-5]?\d''$)/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.duracion.$dirty && audForm.duracion.$invalid">
+		          	<small class="error" ng-show="audForm.duracion.$error.pattern">
+		            	ERROR: Utiliza el símbolo de apóstrofe ( ' ) para indicar horas y minutos 
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="investigacion">Investigación</label>
+					<input class="form-control" id="investigacion" name="investigacion" ng-model="investigacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.investigacion.$dirty && audForm.investigacion.$invalid">
+		          	<small class="error" ng-show="audForm.investigacion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.investigacion.$error.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="realizacion">Realización</label>
+					<input class="form-control" id="realizacion" name="realizacion" ng-model="realizacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.realizacion.$dirty && audForm.realizacion.$invalid">
+		          	<small class="error" ng-show="audForm.realizacion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.realizacion.$error.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="direccion">Dirección</label>
+					<input class="form-control" id="direccion" name="direccion" ng-model="direccion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.direccion.$dirty && audForm.direccion.$invalid">
+		          	<small class="error" ng-show="audForm.direccion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.realizacion.$error.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="guion">Guión</label>
+					<input class="form-control" id="guion" name="guion" ng-model="guion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.guion.$dirty && audForm.guion.$invalid">
+		          	<small class="error" ng-show="audForm.guion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.guion.$error.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="adaptacion">Adaptación</label>
+					<input class="form-control" id="adaptacion" name="adaptacion" ng-model="adaptacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.adaptacion.$dirty && audForm.adaptacion.$invalid">
+		          	<small class="error" ng-show="audForm.adaptacion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.adaptacion.$error.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="idea_original">Idea original</label>
+					<input class="form-control" id="idea_original" name="idea_original" ng-model="idea_original" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.idea_original.$dirty && audForm.idea_original.$invalid">
+		          	<small class="error" ng-show="audForm.idea_original.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.idea_original.$error.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="fotografia">Fotografía</label>
+					<input class="form-control" id="fotografia" name="fotografia" ng-model="fotografia" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.fotografia.$dirty && audForm.fotografia.$invalid">
+		          	<small class="error" ng-show="audForm.fotografia.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.fotografia.$error.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="fotografia_fija">Fotografía fija</label>
+					<input class="form-control" id="fotografia_fija" name="fotografia_fija" ng-model="fotografia_fija" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.fotografia_fija.$dirty && audForm.fotografia_fija.$invalid">
+		          	<small class="error" ng-show="audForm.fotografia_fija.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.fotografia_fija.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="edicion">Edición</label>
+					<input class="form-control" id="edicion" name="edicion" ng-model="edicion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.edicion.$dirty && audForm.edicion.$invalid">
+		          	<small class="error" ng-show="audForm.edicion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.edicion.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="sonido_grabacion">Grabación de sonido</label>
+					<input class="form-control" id="sonido_grabacion" name="sonido_grabacion" ng-model="sonido_grabacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.sonido_grabacion.$dirty && audForm.sonido_grabacion.$invalid">
+		          	<small class="error" ng-show="audForm.sonido_grabacion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.sonido_grabacion.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="sonido_edicion">Edición de sonido</label>
+					<input class="form-control" id="sonido_edicion" name="sonido_edicion" ng-model="sonido_edicion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.sonido_edicion.$dirty && audForm.sonido_edicion.$invalid">
+		          	<small class="error" ng-show="audForm.sonido_edicion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.sonido_edicion.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="musica_original">Música original</label>
+					<input class="form-control" id="musica_original" name="musica_original" ng-model="musica_original" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.musica_original.$dirty && audForm.musica_original.$invalid">
+		          	<small class="error" ng-show="audForm.musica_original.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.musica_original.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="musicalizacion">Musicalización</label>
+					<input class="form-control" id="musicalizacion" name="musicalizacion" ng-model="musicalizacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.musicalizacion.$dirty && audForm.musicalizacion.$invalid">
+		          	<small class="error" ng-show="audForm.musicalizacion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.musicalizacion.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="voces">Voces</label>
+					<input class="form-control" id="voces" name="voces" ng-model="voces" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.voces.$dirty && audForm.voces.$invalid">
+		          	<small class="error" ng-show="audForm.voces.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.voces.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="actores">Actores</label>
+					<input class="form-control" id="actores" name="actores" ng-model="actores" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.actores.$dirty && audForm.actores.$invalid">
+		          	<small class="error" ng-show="audForm.actores.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.actores.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="animacion">Animación</label>
+					<input class="form-control" id="animacion" name="animacion" ng-model="animacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.animacion.$dirty && audForm.animacion.$invalid">
+		          	<small class="error" ng-show="audForm.animacion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.animacion.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="otros_colaboradores">Otros colaboradores</label>
+					<input class="form-control" id="otros_colaboradores" name="otros_colaboradores" ng-model="otros_colaboradores" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.otros_colaboradores.$dirty && audForm.otros_colaboradores.$invalid">
+		          	<small class="error" ng-show="audForm.otros_colaboradores.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.otros_colaboradores.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+			</div>
+		</div>
+
+		<div class="list-group">
+			<a href="" class="list-group-item">Área de contexto<span class="caret"></span></a>
+			<div class="panel-body collapse">
+				<div class="form-group">
+					<label for="entidad_productora">Entidad productora</label>
+					<input class="form-control" id="entidad_productora" name="entidad_productora" ng-model="entidad_productora" ng-maxlength="250" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.entidad_productora.$dirty && audForm.entidad_productora.$invalid">
+		          	<small class="error" ng-show="audForm.entidad_productora.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 250 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.entidad_productora.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="productor">Productor</label>
+					<input class="form-control" id="productor" name="productor" ng-model="productor" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.productor.$dirty && audForm.productor.$invalid">
+		          	<small class="error" ng-show="audForm.productor.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.productor.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="distribuidora">Distribuidora</label>
+					<input class="form-control" id="distribuidora" name="distribuidora" ng-model="distribuidora" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.distribuidora.$dirty && audForm.distribuidora.$invalid">
+		          	<small class="error" ng-show="audForm.distribuidora.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 160 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.distribuidora.pattern">
+		            	ERROR: Solo se permiten nombres válidos (separados por comas en caso de ser varios)
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="historia_institucional">Historia institucional</label>
+					<textarea class="form-control" rows="4" id="historia_institucional" name="historia_institucional" ng-model="historia_institucional"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="resena_biografica">Reseña biográfica</label>
+					<textarea class="form-control" rows="4" id="resena_biografica" name="resena_biografica" ng-model="resena_biografica"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="forma_de_ingreso">Forma de ingreso</label>
+					<input class="form-control" id="forma_de_ingreso" name="forma_de_ingreso" ng-model="forma_de_ingreso" list="formaDeIngreso" ng-maxlength="35">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.forma_de_ingreso.$dirty && audForm.forma_de_ingreso.$invalid">
+		          	<small class="error" ng-show="audForm.forma_de_ingreso.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 35 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="fecha_de_ingreso">Fecha de ingreso</label>
+					<input class="form-control" id="fecha_de_ingreso" name="fecha_de_ingreso" ng-model="fecha_de_ingreso" ng-maxlength="12" ng-pattern="/^([0-3]?\d ?\/ ?[01]?\d ?\/ ?)?\d{4}/$/">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.fecha_de_ingreso.$dirty && audForm.fecha_de_ingreso.$invalid">
+		          	<small class="error" ng-show="audForm.fecha_de_ingreso.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 12 caracteres
+		          	</small>
+		          	<small class="error" ng-show="audForm.fecha_de_ingreso.pattern">
+		            	ERROR: Incluye el año de ingreso o la fecha completa separada por guiones (Ej: 15/3/1991)
+		          	</small>
+		        </div>
+			</div>
+		</div>
+
+		<div class="list-group">
+			<a href="" class="list-group-item">Área de contenido y estructura<span class="caret"></span></a>
+			<div class="panel-body collapse">
+				<div class="form-group">
+					<label for="sinopsis">Sinopsis</label>
+					<textarea class="form-control" rows="4" id="sinopsis" name="sinopsis" ng-model="sinopsis"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="descriptor_onomastico">Descriptor onomástico</label>
+					<input class="form-control" id="descriptor_onomastico" name="descriptor_onomastico" ng-model="descriptor_onomastico">
+				</div>
+				<div class="form-group">
+					<label for="descriptor_toponimico">Descriptor toponímico</label>
+					<textarea class="form-control" rows="2" id="descriptor_toponimico" name="descriptor_toponimico" ng-model="descriptor_toponimico"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="descriptor_cronologico">Descriptor cronológico</label>
+					<input class="form-control" id="descriptor_cronologico" name="descriptor_cronologico" ng-model="descriptor_cronologico">
+				</div>
+				<div class="form-group">
+					<label for="tipo_de_produccion">Tipo de producción</label>
+					<input class="form-control" id="tipo_de_produccion" name="tipo_de_produccion" ng-model="tipo_de_produccion" list="tipoDeProduccion" ng-maxlength="31">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.tipo_de_produccion.$dirty && audForm.tipo_de_produccion.$invalid">
+		          	<small class="error" ng-show="audForm.tipo_de_produccion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 31 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="genero">Género</label>
+					<input class="form-control" id="genero" name="genero" ng-model="genero" ng-maxlength="30">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.genero.$dirty && audForm.genero.$invalid">
+		          	<small class="error" ng-show="audForm.genero.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 30 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="fuentes">Fuentes</label>
+					<select class="form-control select-toggle" id="fuentes" name="fuentes[]" ng-model="fuentes" size="12" multiple>
+						<option  value="Animación">Animación</option>
+						<option  value="Ficción">Ficción</option>
+						<option  value="Documental">Documental</option>
+						<option  value="Registros fílmicos">Registros fílmicos</option>
+						<option  value="Fotografía">Fotografía</option>
+						<option  value="Pintura">Pintura</option>
+						<option  value="Otros gráficos">Otros gráficos</option>
+						<option  value="Grabados">Grabados</option>
+						<option  value="Hemerografía">Hemerografía</option>
+						<option  value="Cartografía">Cartografía</option>
+						<option  value="Testimonios orales">Testimonios orales</option>
+						<option  value="Testimonios video orales">Testimonios video orales</option>
+						<option  value="Noticieros fílmicos">Noticieros fílmicos</option>
+						<option  value="Programas de TV">Programas de TV</option>
+						<option  value="Publicidad">Publicidad</option>
+						<option  value="Videoclips">Videoclips</option>
+						<option  value="Dibujo">Dibujo</option>
+						<option  value="Multimedia">Multimedia</option>
+						<option  value="Registros fonográficos">Registros fonográficos</option>
+						<option  value="Música de época">Música de época</option>
+						<option  value="Documentos">Documentos</option>
+						<option  value="Registros radiofónicos">Registros radiofónicos</option>
+						<option  value="Registros videográficos">Registros videográficos</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="recursos">Recursos</label>
+					<select class="form-control select-toggle" id="recursos" name="recursos[]" ng-model="recursos" size="12" multiple>
+						
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="versiones">Versiones</label>
+					<input class="form-control" id="versiones" name="versiones" ng-model="versiones" ng-maxlength="45">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.versiones.$dirty && audForm.versiones.$invalid">
+		          	<small class="error" ng-show="audForm.versiones.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 45 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="formato_original">Formato original</label>
+					<input class="form-control" id="formato_original" name="formato_original" ng-model="formato_original" ng-maxlength="25">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.formato_original.$dirty && audForm.formato_original.$invalid">
+		          	<small class="error" ng-show="audForm.formato_original.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 25 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="material_extra">Material extra</label>
+					<input class="form-control" id="material_extra" name="material_extra" ng-model="material_extra" ng-maxlength="30">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.material_extra.$dirty && audForm.material_extra.$invalid">
+		          	<small class="error" ng-show="audForm.material_extra.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 30 caracteres
+		          	</small>
+		        </div>
+			</div>
+		</div>
+
+		<div class="list-group">
+			<a href="" class="list-group-item">Área de condiciones de acceso<span class="caret"></span></a>
+			<div class="panel-body collapse">
+				<div class="form-group">
+					<label for="condiciones_de_acceso">Condiciones de acceso</label>
+					<input class="form-control" id="condiciones_de_acceso" name="condiciones_de_acceso" ng-model="condiciones_de_acceso" list="condicionesDeAcceso" ng-maxlength="37">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.condiciones_de_acceso.$dirty && audForm.condiciones_de_acceso.$invalid">
+		          	<small class="error" ng-show="audForm.condiciones_de_acceso.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 37 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="existencia_y_localizacion_de_originales">Existencia y localizacion de originales</label>
+					<textarea class="form-control" rows="2" id="existencia_y_localizacion_de_originales" name="existencia_y_localizacion_de_originales" ng-model="existencia_y_localizacion_de_originales"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="idioma_original">Idioma original</label>
+					<input class="form-control" id="idioma_original" name="idioma_original" ng-model="idioma_original" ng-maxlength="40">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.idioma_original.$dirty && audForm.idioma_original.$invalid">
+		          	<small class="error" ng-show="audForm.idioma_original.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 40 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="doblajes_disponibles">Doblajes disponibles</label>
+					<input class="form-control" id="doblajes_disponibles" name="doblajes_disponibles" ng-model="doblajes_disponibles" ng-maxlength="40">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.doblajes_disponibles.$dirty && audForm.doblajes_disponibles.$invalid">
+		          	<small class="error" ng-show="audForm.doblajes_disponibles.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 40 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="subtitulajes">Subtitulajes disponibles</label>
+					<input class="form-control" id="subtitulajes" name="subtitulajes" ng-model="subtitulajes" maxlength="40">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.subtitulajes.$dirty && audForm.subtitulajes.$invalid">
+		          	<small class="error" ng-show="audForm.subtitulajes.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 40 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="soporte">Soporte</label>
+					<input class="form-control" id="soporte" name="soporte" ng-model="soporte" ng-maxlength="40">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.soporte.$dirty && audForm.soporte.$invalid">
+		          	<small class="error" ng-show="audForm.soporte.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 40 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="numero_copias">Número de copias</label>
+					<input class="form-control" id="numero_copias" name="numero_copias" ng-model="numero_copias" ng-maxlength="40">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.numero_copias.$dirty && audForm.numero_copias.$invalid">
+		          	<small class="error" ng-show="audForm.numero_copias.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 40 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="descripcion_fisica">Descripción física</label>
+					<textarea class="form-control" rows="2" id="descripcion_fisica" name="descripcion_fisica" ng-model="descripcion_fisica" ng-maxlength="60"></textarea>
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.descripcion_fisica.$dirty && audForm.descripcion_fisica.$invalid">
+		          	<small class="error" ng-show="audForm.descripcion_fisica.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 60 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="color">Color</label>
+					<input class="form-control" id="color" name="color" ng-model="color" ng-maxlength="80">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.color.$dirty && audForm.color.$invalid">
+		          	<small class="error" ng-show="audForm.color.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 80 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="audio">Audio</label>
+					<input class="form-control" id="audio" name="audio" ng-model="audio" ng-maxlength="30">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.audio.$dirty && audForm.audio.$invalid">
+		          	<small class="error" ng-show="audForm.audio.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 30 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="sistema_de_grabacion">Sistema de grabación</label>
+					<input class="form-control" id="sistema_de_grabacion" name="sistema_de_grabacion" ng-model="sistema_de_grabacion" ng-maxlength="10">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.sistema_de_grabacion.$dirty && audForm.sistema_de_grabacion.$invalid">
+		          	<small class="error" ng-show="audForm.sistema_de_grabacion.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 10 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="region_dvd">Región del DVD</label>
+					<input class="form-control" id="region_dvd" name="region_dvd" ng-model="region_dvd" ng-maxlength="20">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.region_dvd.$dirty && audForm.region_dvd.$invalid">
+		          	<small class="error" ng-show="audForm.region_dvd.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 20 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="requisitos_tecnicos">Requisitos técnicos</label>
+					<input class="form-control" id="requisitos_tecnicos" name="requisitos_tecnicos" ng-model="requisitos_tecnicos" ng-maxlength="40">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.requisitos_tecnicos.$dirty && audForm.requisitos_tecnicos.$invalid">
+		          	<small class="error" ng-show="audForm.requisitos_tecnicos.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 40 caracteres
+		          	</small>
+		        </div>
+			</div>
+		</div>
+
+		<div class="list-group">
+			<a href="" class="list-group-item">Área de documentación asociada<span class="caret"></span></a>
+			<div class="panel-body collapse">
+				<div class="form-group">
+					<label for="existencia_y_localizacion_de_copias">Existencia y localización de copias</label>
+					<input class="form-control" id="existencia_y_localizacion_de_copias" name="existencia_y_localizacion_de_copias" ng-model="existencia_y_localizacion_de_copias">
+				</div>
+				<div class="form-group">
+					<label for="unidades_de_descripcion_relacionadas">Unidades de descripción relacionadas</label>
+					<textarea class="form-control" rows="2" id="unidades_de_descripcion_relacionadas" name="unidades_de_descripcion_relacionadas" ng-model="unidades_de_descripcion_relacionadas"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="documentos_asociados">Documentos asociados</label>
+					<textarea class="form-control" rows="2" id="documentos_asociados" name="documentos_asociados" ng-model="documentos_asociados"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<div class="list-group">
+			<a href="" class="list-group-item">Área de notas<span class="caret"></span></a>
+			<div class="panel-body collapse">
+				<div class="form-group">
+					<label for="area_de_notas">Área de notas</label>
+					<textarea class="form-control" rows="4" id="area_de_notas" name="area_de_notas" ng-model="area_de_notas"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<div class="list-group">
+			<a href="" class="list-group-item">Área de descripción<span class="caret"></span></a>
+			<div class="panel-body collapse">
+				<div class="form-group">
+					<label for="notas_del_archivero">Notas del archivero</label>
+					<textarea class="form-control" rows="2" id="notas_del_archivero" name="notas_del_archivero" ng-model="notas_del_archivero" ng-maxlength="75"></textarea>
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.notas_del_archivero.$dirty && audForm.notas_del_archivero.$invalid">
+		          	<small class="error" ng-show="audForm.notas_del_archivero.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 75 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="datos_del_archivero">Datos del archivero</label>
+					<input class="form-control" id="datos_del_archivero" name="datos_del_archivero" ng-model="datos_del_archivero" ng-maxlength="60">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.datos_del_archivero.$dirty && audForm.datos_del_archivero.$invalid">
+		          	<small class="error" ng-show="audForm.datos_del_archivero.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 60 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="reglas_o_normas">Reglas o normas</label>
+					<input class="form-control" id="reglas_o_normas" name="reglas_o_normas" ng-model="reglas_o_normas" ng-maxlength="31">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+				<div class="error" 
+		          	ng-show="audForm.reglas_o_normas.$dirty && audForm.reglas_o_normas.$invalid">
+		          	<small class="error" ng-show="audForm.reglas_o_normas.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 31 caracteres
+		          	</small>
+		        </div>
+				<div class="form-group">
+					<label for="fecha_de_descripcion">Fecha de descripción</label>
+					<input class="form-control" id="fecha_de_descripcion" name="fecha_de_descripcion" ng-model="fecha_de_descripcion" type="date">
+				</div>
+			</div>
+		</div>
+
+		<button type="submit" class="btn btn-default" ng-click="editar()">Editar</button> <!-- ng-disabled="audForm.$invalid" -->
+	</form>
+</div>
+
+<!-- Datalists utilizados en los campos -->
+<datalist id="formaDeIngreso">
+	<option value="Compra">
+	<option value="Donación">
+	<option value="Producción propia">
+</datalist>
+
+<datalist id="tipoDeProduccion">
+	<option value="Película de ficción">
+	<option value="Película documental">
+	<option value="Programa de televisión">
+	<option value="Trailer">
+	<option value="Publicidad">
+	<option value="Propaganda">
+	<option value="Registros fílmicos">
+	<option value="Registros en video">
+	<option value="Extractos de otras producciones">
+</datalist>
+
+<datalist id="recursosDatalist">
+	<option value="Entrevistas">
+	<option value="Grabación de campo">
+	<option value="Puesta en escena">
+	<option value="Animación">
+	<option value="Fotografía">
+	<option value="Pintura">
+	<option value="Grabados">
+	<option value="Cartografía">
+	<option value="Testimonios orales">
+	<option value="Testimonios video orales">
+	<option value="Videoclips">
+	<option value="Dibujo">
+	<option value="Multimedia">
+	<option value="Insidentales">
+	<option value="Voz en off">
+	<option value="Narración">
+	<option value="Conducción">
+	<option value="Interactividad">
+</datalist>
+
+<datalist id="fuentesDatalist">
+	<option value="Animación">
+	<option value="Ficción">
+	<option value="Documental">
+	<option value="Registros fílmicos">
+	<option value="Fotografía">
+	<option value="Pintura">
+	<option value="Otros gráficos">
+	<option value="Grabados">
+	<option value="Hemerografía">
+	<option value="Cartografía">
+	<option value="Testimonios orales">
+	<option value="Testimonios video orales">
+	<option value="Noticieros fílmicos">
+	<option value="Programas de TV">
+	<option value="Publicidad">
+	<option value="Videoclips">
+	<option value="Dibujo">
+	<option value="Multimedia">
+	<option value="Registros fonográficos">
+	<option value="Música de época">
+	<option value="Documentos">
+	<option value="Registros radiofónicos">
+	<option value="Registros videográficos">
+</datalist>
+
+<datalist id="condicionesDeAcceso">
+	<option value="Usos no lucrativos">
+	<option value="Usos reservados para consulta in situ">
+</datalist>
+
+<!-- Script único auxiliar para el formulario -->
+<script src="js/form.js"></script>
+<!-- (Bootstrap) Form Validator
+Se añade data-toggle="validator" a la etiqueta <form> para habilitar las validaciones
+Se requiere agregar <div class="help-block with-errors"></div> después de cada input/textarea del formulario -->

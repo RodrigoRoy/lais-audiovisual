@@ -10,6 +10,9 @@ switch ($_GET['action']) {
     case 'ver':
         mostrar();
         break;
+    case 'obtener':
+        getId($_GET['id']);
+        break;
     case 'actualizar':
         actualizar();
         break;
@@ -308,6 +311,18 @@ function borrar(){
     }
     catch(PDOException $e){
         echo $e->getMessage();
+    }
+    $GLOBALS['conn'] = null;
+}
+
+function getId($id){
+    $select = "SELECT * FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion WHERE codigo_de_referencia = '" . $id . "'";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    if ($stmt->rowCount() == 1){
+        $data = $stmt->fetch(); // Obtener el único resultado de la base de datos
+        print_r(json_encode($data));
     }
     $GLOBALS['conn'] = null;
 }
