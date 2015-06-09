@@ -12,7 +12,7 @@
 	/* Sombras internas */
 	0 5px 20px rgba(0,0,0,.1);
 	/*position: relative;*/
-	margin-left: 90%;
+	/*margin-left: 90%;*/
 }
 
 /* Al presionar */
@@ -33,6 +33,7 @@
 	height: 80px;
 	bottom: 0;
 	position: fixed;
+	margin-left: 90%;
 }
 
 .caret{
