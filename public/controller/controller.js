@@ -58,9 +58,7 @@ lais.controller('conexionCtrl', function($scope, $http, $location){
     }
 });
 
-lais.controller('edicionCtrl', function($scope, $http, $routeParams){
-	//$scope.toEdit = $routeParams.id
-
+lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
 	$http.get('php/manejoBD.php?action=obtener&id=' + $routeParams.id).
     success(function(data) {
         $scope.codigo_de_referencia = data.codigo_de_referencia;
@@ -71,7 +69,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams){
 		$scope.numero_de_programa = data.numero_de_programa;
 		$scope.pais = data.pais;
 		$scope.fecha = data.fecha;
-		//$scope.duracion = data.duracion;
+		$scope.duracion = data.duracion;
 		$scope.investigacion = data.investigacion;
 		$scope.realizacion = data.realizacion;
 		$scope.direccion = data.direccion;
@@ -102,8 +100,8 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams){
 		$scope.descriptor_cronologico = data.descriptor_cronologico;
 		$scope.tipo_de_produccion = data.tipo_de_produccion;
 		$scope.genero = data.genero;
-		//$scope.fuentes = data.fuentes;
-		//$scope.recursos = data.recursos;
+		$scope.fuentes = data.fuentes;
+		$scope.recursos = data.recursos;
 		$scope.versiones = data.versiones;
 		$scope.formato_original = data.formato_original;
 		$scope.material_extra = data.material_extra;
@@ -131,7 +129,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams){
     });
 
 	$scope.editar = function(){
-    	$http.post('php/manejoBD.php?action=editar',
+    	$http.post('php/manejoBD.php?action=actualizar',
 		{
 			'codigo_de_referencia': $scope.codigo_de_referencia,
 			'titulo_propio' : $scope.titulo_propio,
@@ -202,6 +200,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams){
 		success(function(data, status, headers, config) {
 			alert("Registro actualizado");
 			// Enviar al usuario a los audiovisuales
+			$location.url('/archivos/');
 		}).
 		error(function(data, status, headers, config) {
 			alert("Error al editar usuario");
@@ -210,12 +209,12 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams){
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
-lais.controller('agregarDatosCtrl',function($scope, $http){
+lais.controller('agregarDatosCtrl',function($scope, $http, $location){
 	$scope.envia = function(){
 		$http.post('php/manejoBD.php?action=agregar',
 			{
 				// Propiedades del área de identificación
-				'codigo_de_referencia': $scope.codigo_de_referencia, // ID único de cada audiovisual
+				'codigo_de_referencia': $scope.codigo_de_referencia,
 				'titulo_propio' : $scope.titulo_propio,
 				'titulo_paralelo': $scope.titulo_paralelo,
 				'titulo_atribuido': $scope.titulo_atribuido,
@@ -241,130 +240,52 @@ lais.controller('agregarDatosCtrl',function($scope, $http){
 				'actores': $scope.actores,
 				'animacion': $scope.animacion,
 				'otros_colaboradores': $scope.otros_colaboradores,
-				'entidad_productora' : $scope.entidad_productora,  //Propiedades del área de contexto
-				'productor' : $scope.productor,
-				'distribuidora' : $scope.distribuidora,
-				'historia_institucional' : $scope.historia_institucional,
-				'resena_biografica' : $scope.resena_biografica,
-				'forma_de_ingreso' : $scope.forma_de_ingreso,
-				'fecha_de_ingreso' : $scope.fecha_de_ingreso,
-				'sinopsis' : $scope.sinopsis, //Propiedades del área de contenido y estructura
-				'descriptor_onomastico' : $scope.descriptor_onomastico,
-				'descriptor_toponimico' : $scope.descriptor_toponimico,
-				'descriptor_cronologico' : $scope.descriptor_cronologico,
-				'tipo_de_produccion' : $scope.tipo_de_produccion,
-				'genero' : $scope.genero,
-				//fuentes' : $scope.fuentes,
-				//fecursos' : $scope.recursos,
-				'versiones' : $scope.versiones,
-				'formato_original' : $scope.formato_original,
-				'material_extra' : $scope.material_extra,
-				'condiciones_de_acceso' : $scope.condiciones_de_acceso, //Propiedades del área de condiciones de acceso
-				'existencia_y_localizacion_de_originales' : $scope.existencia_y_localizacion_de_originales,
-				'idioma_original' : $scope.idioma_original,
-				'doblajes_disponibles' : $scope.doblajes_disponibles,
-				'subtitulajes' : $scope.subtitulajes,
-				'soporte' : $scope.soporte,  // características físicas y requisitos técnicos
-				'numero_copias' : $scope.numero_copias,
-				'descripcion_fisica' : $scope.descripcion_fisica,
-				'color' : $scope.color,
-				'audio' : $scope.audio,
-				'sistema_de_grabacion' : $scope.sistema_de_grabacion,
-				'region_dvd' : $scope.region_dvd,
-				'requisitos_tecnicos' : $scope.requisitos_tecnicos,
-				'existencia_y_localizacion_de_copias' : $scope.existencia_y_localizacion_de_copias, //Propiedades del área de documentación aociada
-				'unidades_de_descripcion_relacionadas' : $scope.unidades_de_descripcion_relacionadas,
-				'documentos_asociados' : $scope.documentos_asociados,
-				'area_de_notas' : $scope.area_de_notas, //Propiedades del área de notas
-				'notas_del_archivero' : $scope.notas_del_archivero, //Propiedades del área de descripción
-				'datos_del_archivero' : $scope.datos_del_archivero,
-				'reglas_o_normas' : $scope.reglas_o_normas,
-				'fecha_de_descripcion' : $scope.fecha_de_descripcion
+				'entidad_productora': $scope.entidad_productora,
+				'productor': $scope.productor,
+				'distribuidora': $scope.distribuidora,
+				'historia_institucional': $scope.historia_institucional,
+				'resena_biografica': $scope.resena_biografica,
+				'forma_de_ingreso': $scope.forma_de_ingreso,
+				'fecha_de_ingreso': $scope.fecha_de_ingreso,
+				'sinopsis': $scope.sinopsis,
+				'descriptor_onomastico': $scope.descriptor_onomastico,
+				'descriptor_toponimico': $scope.descriptor_toponimico,
+				'descriptor_cronologico': $scope.descriptor_cronologico,
+				'tipo_de_produccion': $scope.tipo_de_produccion,
+				'genero': $scope.genero,
+				'fuentes': $scope.fuentes,
+				'recursos': $scope.recursos,
+				'versiones': $scope.versiones,
+				'formato_original': $scope.formato_original,
+				'material_extra': $scope.material_extra,
+				'condiciones_de_acceso': $scope.condiciones_de_acceso,
+				'existencia_y_localizacion_de_originales': $scope.existencia_y_localizacion_de_originales,
+				'idioma_original': $scope.idioma_original,
+				'doblajes_disponibles': $scope.doblajes_disponibles,
+				'subtitulajes': $scope.subtitulajes,
+				'soporte': $scope.soporte,
+				'numero_copias': $scope.numero_copias,
+				'descripcion_fisica': $scope.descripcion_fisica,
+				'color': $scope.color,
+				'audio': $scope.audio,
+				'sistema_de_grabacion': $scope.sistema_de_grabacion,
+				'region_dvd': $scope.region_dvd,
+				'requisitos_tecnicos': $scope.requisitos_tecnicos,
+				'existencia_y_localizacion_de_copias': $scope.existencia_y_localizacion_de_copias,
+				'unidades_de_descripcion_relacionadas': $scope.unidades_de_descripcion_relacionadas,
+				'documentos_asociados': $scope.documentos_asociados,
+				'area_de_notas': $scope.area_de_notas,
+				'notas_del_archivero': $scope.notas_del_archivero,
+				'datos_del_archivero': $scope.datos_del_archivero,
+				'reglas_o_normas': $scope.reglas_o_normas,
+				'fecha_de_descripcion': $scope.fecha_de_descripcion
 
 		}).success(function(data,status, headers, congif){
-			console.log($scope.titulo_propio);
-			console.log($scope.titulo_paralelo);
 			alert("El archivo Audiovisual ha sido agregado");
-			$('#audiovisualForm').after('<div class="alert alert-success" role="alert"><p>New record' + $scope.codigo_de_referencia + 'created successfully </p><p>View the record</p></div>');
+			//$('#audiovisualForm').after('<div class="alert alert-success" role="alert"><p>New record' + $scope.codigo_de_referencia + 'created successfully </p><p>View the record</p></div>');
+			$location.url('/archivos/');
 		}).error(function(error){
 			console.log(error);
 		});
 	}
 });
-
-lais.controller('actualizarDatosCtrl',function($scope, $http){
-	$http.post('manejoBD.php?action=actualizar',
-		{
-			'codigo_de_referencia': $scope.codigo_de_referencia,
-			'titulo_propio': $scope.titulo_propio,
-			'titulo_paralelo': $scope.titulo_paralelo,
-			'titulo_atribuido': $scope.titulo_atribuido,
-			'titulo_de_serie': $scope.titulo_de_serie,
-			'numero_de_programa': $scope.numero_de_programa,
-			'pais': $scope.pais,
-			'fecha': $scope.fecha,
-			'duracion': $scope.duracion,
-			'investigacion': $scope.investigacion,
-			'realizacion': $scope.realizacion,
-			'direccion': $scope.direccion,
-			'guion': $scope.guion,
-			'adaptacion': $scope.adaptacion,
-			'idea_original': $scope.idea_original,
-			'fotografia': $scope.fotografia,
-			'fotografia_fija': $scope.fotografia_fija,
-			'edicion': $scope.edicion,
-			'sonido_grabacion': $scope.sonido_grabacion,
-			'sonido_edicion': $scope.sonido_edicion,
-			'musica_original': $scope.musica_original,
-			'musicalizacion': $scope.musicalizacion,
-			'voces': $scope.voces,
-			'actores': $scope.actores,
-			'animacion': $scope.animacion,
-			'otros_colaboradores': $scope.otros_colaboradores,
-			'entidad_productora': $scope.entidad_productora,
-			'productor': $scope.productor,
-			'distribuidora': $scope.distribuidora,
-			'historia_institucional': $scope.historia_institucional,
-			'resena_biografica': $scope.resena_biografica,
-			'forma_de_ingreso': $scope.forma_de_ingreso,
-			'fecha_de_ingreso': $scope.fecha_de_ingreso,
-			'sinopsis': $scope.sinopsis,
-			'descriptor_onomastico': $scope.descriptor_onomastico,
-			'descriptor_toponimico': $scope.descriptor_toponimico,
-			'descriptor_cronologico': $scope.descriptor_cronologico,
-			'tipo_de_produccion': $scope.tipo_de_produccion,
-			'genero': $scope.genero,
-			'fuentes': $scope.fuentes,
-			'recursos': $scope.recursos,
-			'versiones': $scope.versiones,
-			'formato_original': $scope.formato_original,
-			'material_extra': $scope.material_extra,
-			'condiciones_de_acceso': $scope.condiciones_de_acceso,
-			'existencia_y_localizacion_de_originales': $scope.existencia_y_localizacion_de_originales,
-			'idioma_original': $scope.idioma_original,
-			'doblajes_disponibles': $scope.doblajes_disponibles,
-			'subtitulajes': $scope.subtitulajes,
-			'soporte': $scope.soporte,
-			'numero_copias': $scope.numero_copias,
-			'descripcion_fisica': $scope.descripcion_fisica,
-			'color': $scope.color,
-			'audio': $scope.audio,
-			'sistema_de_grabacion': $scope.sistema_de_grabacion,
-			'region_dvd': $scope.region_dvd,
-			'requisitos_tecnicos': $scope.requisitos_tecnicos,
-			'existencia_y_localizacion_de_copias': $scope.existencia_y_localizacion_de_copias,
-			'unidades_de_descripcion_relacionadas': $scope.unidades_de_descripcion_relacionadas,
-			'documentos_asociados': $scope.documentos_asociados,
-			'area_de_notas': $scope.area_de_notas,
-			'notas_del_archivero': $scope.notas_del_archivero,
-			'datos_del_archivero': $scope.datos_del_archivero,
-			'reglas_o_normas': $scope.reglas_o_normas,
-			'fecha_de_descripcion': $scope.fecha_de_descripcion
-		}).
-		success(function(data, status, headers, config) {
-			// Comportamiento tras éxito en el envio (pendiente)
-		}).
-		error(function(data, status, headers, config) {
-			alert("Error en actualizacion de datos");
-		});
-});	
