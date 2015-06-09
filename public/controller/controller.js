@@ -182,7 +182,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams){
 			'idioma_original' : $scope.idioma_original,
 			'doblajes_disponibles' : $scope.doblajes_disponibles,
 			'subtitulajes' : $scope.subtitulajes,
-			'soporte' : $scope.soporte,  // características físicas y requisitos técnicos
+			'soporte' : $scope.soporte,
 			'numero_copias' : $scope.numero_copias,
 			'descripcion_fisica' : $scope.descripcion_fisica,
 			'color' : $scope.color,
@@ -190,11 +190,11 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams){
 			'sistema_de_grabacion' : $scope.sistema_de_grabacion,
 			'region_dvd' : $scope.region_dvd,
 			'requisitos_tecnicos' : $scope.requisitos_tecnicos,
-			'existencia_y_localizacion_de_copias' : $scope.existencia_y_localizacion_de_copias, //Propiedades del área de documentación aociada
+			'existencia_y_localizacion_de_copias' : $scope.existencia_y_localizacion_de_copias,
 			'unidades_de_descripcion_relacionadas' : $scope.unidades_de_descripcion_relacionadas,
 			'documentos_asociados' : $scope.documentos_asociados,
-			'area_de_notas' : $scope.area_de_notas, //Propiedades del área de notas
-			'notas_del_archivero' : $scope.notas_del_archivero, //Propiedades del área de descripción
+			'area_de_notas' : $scope.area_de_notas,
+			'notas_del_archivero' : $scope.notas_del_archivero,
 			'datos_del_archivero' : $scope.datos_del_archivero,
 			'reglas_o_normas' : $scope.reglas_o_normas,
 			'fecha_de_descripcion' : $scope.fecha_de_descripcion
