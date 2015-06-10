@@ -66,3 +66,18 @@ html{
 	opacity: .9;
 }
 
+.vista{
+	position: absolute;
+	width: 160px;
+	height: 160px;
+	margin-top: 10%;
+  	margin-left: 8%;
+  	opacity: .7;
+  	background-color: black;
+  	border-radius: 7px;
+}
+
+#logo{
+	margin-top: 7%;
+	margin-left: 3%;
+}
