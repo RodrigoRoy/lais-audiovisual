@@ -10,6 +10,6 @@
 \beamer@sectionintoc {5}{Selecci\IeC {\'o}n de tecnolog\IeC {\'\i }as}{14}{0}{5}
 \beamer@sectionintoc {6}{Dise\IeC {\~n}o de la base de datos}{15}{0}{6}
 \beamer@sectionintoc {7}{Prototipos}{17}{0}{7}
-\beamer@subsectionintoc {7}{1}{Observaciones sobre el formulario}{24}{0}{7}
-\beamer@sectionintoc {8}{Pr\IeC {\'o}ximo desarrollo}{25}{0}{8}
-\beamer@sectionintoc {9}{Conclusi\IeC {\'o}n}{26}{0}{9}
+\beamer@sectionintoc {8}{Observaciones sobre el formulario}{24}{0}{8}
+\beamer@sectionintoc {9}{Pr\IeC {\'o}ximo desarrollo}{29}{0}{9}
+\beamer@sectionintoc {10}{Conclusi\IeC {\'o}n}{30}{0}{10}
