@@ -3,3 +3,7 @@
 *.log
 *.out
 *.gz
+# More Latex aux files
+*.nav
+*.snm
+*.toc
