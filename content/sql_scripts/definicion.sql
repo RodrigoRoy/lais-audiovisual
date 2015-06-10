@@ -2,7 +2,7 @@
 # Rodrigo Rivera (15.02.19)
 
 # Crear base de datos
-#CREATE DATABASE IF NOT EXISTS Coleccion_Archivistica CHARACTER SET UTF8;
+CREATE DATABASE IF NOT EXISTS Coleccion_Archivistica CHARACTER SET UTF8;
 
 # Mostrar todas las bases de datos existentes
 #SHOW DATABASES;
