@@ -1,0 +1,26 @@
+<br><br><br>
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">Resultados de la búsqueda</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Codigo de Referencia</th>
+					<th>Titulo</th>
+					<th>País</th>
+					<th>Fecha</th>
+					<th>Duración</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="registro in datos">
+					<td>{{registro.codigo_de_referencia}}</td>
+					<td>{{registro.titulo_propio}}</td>
+					<td>{{registro.pais}}</td>
+					<td>{{registro.fecha}}</td>
+					<td>{{registro.duracion}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
