@@ -27,6 +27,7 @@ DROP TABLE area_de_documentacion_asociada;
 DROP TABLE area_de_notas;
 DROP TABLE area_de_descripcion;
 DROP TABLE area_de_identificacion; # Debido a que codigo_de_referencia es PK, se elimina al final
+DROP VIEW decada1920, audiovisual; # Borar vistas
 # Mostrar todos los registros de todas las tablas
 SELECT *
 	FROM area_de_identificacion 
@@ -102,3 +103,13 @@ UPDATE area_de_contexto
 	WHERE codigo_de_referencia='MXIM-AV-1-4-30';
 
 SELECT CURDATE();
+# Mostrar toda la información de las columnas
+SELECT * FROM information_schema.`COLUMNS` C WHERE TABLE_SCHEMA = 'Coleccion_Archivistica.area_de_identificacion';
+#SELECT COLUMN_NAME FROM information_schema.`COLUMNS` C WHERE TABLE_SCHEMA = 'Coleccion_Archivistica';
+# Mostrar todas las tablas de la base de datos
+SHOW TABLES;
+#Mostrar todas las columnas de una tabla
+SHOW COLUMNS FROM area_de_identificacion;
+DESCRIBE area_de_identificacion;
+#SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'my_database' AND TABLE_NAME = 'my_table';
+SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Coleccion_Archivistica' AND TABLE_NAME = 'area_de_identificacion';

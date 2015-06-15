@@ -11,6 +11,9 @@ switch ($_GET['action']) {
     case 'ver':
         mostrar();
         break;
+    case 'buscar':
+        buscar($_GET['query']);
+        break;
     case 'obtener':
         getId($_GET['id']);
         break;
@@ -37,8 +40,8 @@ function mostrar(){
     
     } else {
         $data = $stmt->fetchAll(); // Obtener el único resultado de la base de datos
-        for($i=0; $i < count($data) ; $i++) { 
-            $data[$i]['duracion'] = getDuracion($data[$i]['duracion']);
+        foreach ($data as &$registro) { // In order to be able to directly modify array elements within the loop precede $value with &. In that case the value will be assigned by reference.
+            $registro['duracion'] = getDuracion($registro['duracion']);
         }
         print_r(json_encode($data));
         return json_encode($data);
@@ -297,6 +300,7 @@ function getId($id){
     $GLOBALS['conn'] = null;
 }
 
+<<<<<<< HEAD
 //Función que hace el login para verificar si los usuarios estan en la base de datos
 function login(){
     $datos = json_decode(file_get_contents("php://input"));
@@ -308,5 +312,67 @@ function login(){
     }else{
         print_r(json_encode(array("Id"=>"-1")));
     }
+=======
+function getColumnNames($table){
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Coleccion_Archivistica' AND TABLE_NAME = :table";
+    try{
+        $stmt = $GLOBALS['conn']->prepare($sql);
+        $stmt->bindValue(':table', $table);
+        $stmt->execute();
+        $output = array();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+        while($row = $stmt->fetch()){
+            $output[] = $row['COLUMN_NAME'];
+        }
+        return $output;
+    }
+    catch(PDOException $e){
+        echo "I'm sorry, Dave. I'm afraid I can't do that.<br>"; // :)
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+function getAllColumnNames($tables){
+    $output = array();
+    foreach ($tables as $table) {
+        $columNames = getColumnNames($table);
+        foreach ($columNames as $name) {
+            array_push($output, $name);
+        }
+        $output = array_unique($output);
+    }
+    return $output;
+}
+
+function buscar($query){
+    $arrayQuery = explode(' ', $query);
+    $totalResults = array();
+    $tablas = array('area_de_identificacion', 'area_de_contexto', 'area_de_contenido_y_estructura', 'area_de_condiciones_de_acceso', 'area_de_documentacion_asociada', 'area_de_notas', 'area_de_descripcion');
+    $columnas = getAllColumnNames($tablas);
+    
+    foreach ($arrayQuery as $value) {
+        foreach ($columnas as $columna) {
+            $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion WHERE " . $columna . " LIKE '%" . $value . "%'";
+            $stmt = $GLOBALS['conn']->prepare($select);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+            $results = $stmt->fetchAll();
+            foreach ($results as $registro){
+                array_push($totalResults, $registro['codigo_de_referencia']);
+            }
+            $totalResults = array_unique($totalResults);
+        }
+    }
+    $registros = array();
+    foreach ($totalResults as $clave) {
+        $select = "SELECT * FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion WHERE codigo_de_referencia='" . $clave . "'";
+        $stmt = $GLOBALS['conn']->prepare($select);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+        $results = $stmt->fetch();
+        array_push($registros, $results);
+    }
+    print_r(json_encode($registros));
+>>>>>>> cf2606e1748cc167ec2d53f6797fb1909f01ccd4
 }
 ?>

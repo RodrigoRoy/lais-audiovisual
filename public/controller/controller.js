@@ -1,7 +1,7 @@
 var lais = angular.module('lais',['ngRoute','ngCookies']);
 
 lais.config(function ($routeProvider, $locationProvider){
-	console.log("Ruteando");
+	//console.log("Ruteando");
 	$routeProvider
 		.when("/",{
 			templateUrl: "templates/inicio.html"
@@ -10,7 +10,7 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/inicio.html"
 		})
 		.when("/acercade",{
-			templateUrl: "templates/acerca_del_sitio.html",
+			templateUrl: "templates/acerca_del_sitio.html"
 			
 		})
 		.when("/archivos",{
@@ -24,6 +24,10 @@ lais.config(function ($routeProvider, $locationProvider){
 		.when("/archivos/editarArchivo/:id",{
 			templateUrl: "templates/editarArchivo.html",
 			controller: "edicionCtrl"
+		})
+		.when("/archivos/busqueda/:query",{
+			templateUrl: "templates/buscarRegistros.html",
+			controller: "busquedaCtrl"
 		})
 		.otherwise({
 			redirectTo: "/"
@@ -285,6 +289,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location){
 	}
 });
 
+<<<<<<< HEAD
 //Funcion que verifica el login y logout 
 lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $location, $window){
 	$scope.permiso = 0;
@@ -337,4 +342,23 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 		$location.url('/inicio');
 
 	}
+=======
+lais.controller('busquedaFormCtrl',function($scope, $location){
+	$scope.busqueda = function(query){
+		if(query === undefined)
+			return;
+		var texto = query.trim().toLowerCase();
+		//console.log("Query: " + texto);
+		if(texto.length > 0)
+    		$location.url('/archivos/busqueda/' + texto);
+    }
+});
+
+lais.controller('busquedaCtrl',function($scope, $http, $routeParams, $location){
+	$scope.query = $routeParams.query;
+	$http.get('php/manejoBD.php?action=buscar&query=' + $routeParams.query).
+    success(function(data) {
+        $scope.datos = data;
+    });
+>>>>>>> cf2606e1748cc167ec2d53f6797fb1909f01ccd4
 });
