@@ -1,4 +1,4 @@
-var lais = angular.module('lais',['ngRoute']);
+var lais = angular.module('lais',['ngRoute','ngCookies']);
 
 lais.config(function ($routeProvider, $locationProvider){
 	console.log("Ruteando");
@@ -282,5 +282,59 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location){
 		}).error(function(error){
 			console.log(error);
 		});
+	}
+});
+
+//Funcion que verifica el login y logout 
+lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $location, $window){
+	$scope.permiso = 0;
+	$scope.errores = false;
+	$scope.sesion = $cookieStore.get('sesion');
+	console.log("Inicio:" + $scope.sesion);
+	$scope.login= function(){
+		console.log("Usuario: " + $scope.usuario);
+		console.log("Pass: " + $scope.pass);
+		$http.post('php/manejoBD.php?action=login',
+			{
+				'Username' : $scope.usuario,
+				'Password' : $scope.pass
+			}).success(function(data,status,headers,config){
+				console.log("Se mandaron los datos");
+				if($scope.usuario == data.Username && $scope.pass == data.Password){
+					$cookieStore.put('sesion','true');
+					$scope.sesion = $cookieStore.get('sesion');
+					$scope.permiso = data.Privilegio;
+					console.log("En sesion\n"+ $scope.sesion);
+					console.log($scope.permiso);
+					$window.location.reload();
+				}else{
+					$cookieStore.remove('sesion');
+					$scope.sesion = false;
+					$scope.errores = true;
+					$scope.permiso = 0;
+					console.log("Error de Sesion\n"+ $scope.sesion);
+					console.log($scope.permiso);
+					$scope.permiso = 0;
+					$scope.usuario = "";
+					$scope.pass = "";
+				}
+			}).error(function(data){
+				console.log("ERROR");
+			});
+	}
+
+	$scope.logout = function(){
+		$cookieStore.remove('sesion');
+		$scope.sesion = false;
+		//$cookieStore.put('sesion','false');
+		//$scope.sesion = $cookieStore.get('sesion');
+		//$cookieStore.remove('sesion');
+		$scope.permiso = 0;
+		$scope.usuario = "";
+		$scope.pass = "";
+		console.log("Cerrar Sesion\n" + $scope.sesion);
+		console.log($scope.permiso);
+		$location.url('/inicio');
+
 	}
 });
