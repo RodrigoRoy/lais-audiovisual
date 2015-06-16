@@ -149,6 +149,7 @@ function agregar(){
             $GLOBALS['conn']->exec($documentacion);
             $GLOBALS['conn']->exec($notas);
             $GLOBALS['conn']->exec($descripcion);
+            //print_r(json_encode(array("Status"=>"Ok")));
         }
         catch(PDOException $e){
             echo $e->getMessage();
