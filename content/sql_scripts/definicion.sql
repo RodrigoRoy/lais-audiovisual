@@ -157,3 +157,21 @@ ALTER TABLE area_de_descripcion ADD CONSTRAINT codigoDescripcionFK
 	FOREIGN KEY(codigo_de_referencia) REFERENCES area_de_identificacion(codigo_de_referencia)
 	ON DELETE CASCADE	
 	ON UPDATE CASCADE;
+
+# Crear tabla para usuarios registrados
+CREATE TABLE `usuarios` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Password` varchar(255) DEFAULT NULL,
+  `Username` varchar(255) DEFAULT NULL,
+  `Privilegio` int DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `Username` (`Username`)
+);
+
+#Insertar usuarios registrados a la tabla 'usuarios'
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Sergio",0);
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Carlos",3);
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Felipe",3);
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Lourdes",3);
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Fulanito1",2);
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Usuario1",1);
