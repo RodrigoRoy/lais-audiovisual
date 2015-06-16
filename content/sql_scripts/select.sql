@@ -11,6 +11,7 @@ SELECT * FROM area_de_condiciones_de_acceso;
 SELECT * FROM area_de_documentacion_asociada;
 SELECT * FROM area_de_notas;
 SELECT * FROM area_de_descripcion;
+SELECT * FROM usuarios;
 # Borrar todos los contenidos de las tablas
 DELETE FROM area_de_identificacion;
 DELETE FROM area_de_contexto;

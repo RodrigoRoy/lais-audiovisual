@@ -1,7 +1,6 @@
 <?php
 require_once 'filters.php';
 require_once 'conexion.php';
-require_once 'conexionUsuarios.php';
 
  /*Casos para tomar la acción del controlador*/
 switch ($_GET['action']) {
@@ -153,6 +152,7 @@ function agregar(){
             $GLOBALS['conn']->exec($documentacion);
             $GLOBALS['conn']->exec($notas);
             $GLOBALS['conn']->exec($descripcion);
+            //print_r(json_encode(array("Status"=>"Ok")));
         }
         catch(PDOException $e){
             echo $e->getMessage();
@@ -305,7 +305,7 @@ function getId($id){
 function login(){
     $datos = json_decode(file_get_contents("php://input"));
     $query = 'SELECT * FROM usuarios WHERE Username="'.$datos->Username.'" and Password="'.$datos->Password.'"';
-    $stmt = $GLOBALS['conex']->prepare($query);
+    $stmt = $GLOBALS['conn']->prepare($query);
     $stmt->execute();
     if($stmt->rowCount() == 1){
         print_r(json_encode($stmt->fetch(PDO::FETCH_ASSOC)));
