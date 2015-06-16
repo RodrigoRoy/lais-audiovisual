@@ -7,7 +7,7 @@
     		<link rel="stylesheet" href="css/index.css">
 
 		</head>
-		<body ng-app="lais" ng-controller="datosAutentificacion">
+		<body ng-app="lais" ng-controller="datosAutentificacion" ng-model="sesion">
 			<nav class="navbar navbar-inverse navbar-fixed-top">
 				<div class="container-fluid">
 		    		<!-- Brand and toggle get grouped for better mobile display -->
@@ -64,7 +64,7 @@
 	                        <input type="password" class="form-control" id="recipient-name" ng-model="pass" value="Pass">
 	                      </div>
 	                    <!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
-	                    <div class="error" ng-show="errores">
+	                    <div class="error" ng-model="errores" ng-show="errores">
 	                        <small class="error" ng-show="errores">
 	                            ERROR: Usuario o Contraseña invalida!
 	                        </small>

@@ -289,7 +289,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location){
 	}
 });
 
-<<<<<<< HEAD
+
 //Funcion que verifica el login y logout 
 lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $location, $window){
 	$scope.permiso = 0;
@@ -342,7 +342,8 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 		$location.url('/inicio');
 
 	}
-=======
+});
+
 lais.controller('busquedaFormCtrl',function($scope, $location){
 	$scope.busqueda = function(query){
 		if(query === undefined)
@@ -360,5 +361,4 @@ lais.controller('busquedaCtrl',function($scope, $http, $routeParams, $location){
     success(function(data) {
         $scope.datos = data;
     });
->>>>>>> cf2606e1748cc167ec2d53f6797fb1909f01ccd4
 });

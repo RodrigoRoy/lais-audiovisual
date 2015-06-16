@@ -300,7 +300,7 @@ function getId($id){
     $GLOBALS['conn'] = null;
 }
 
-<<<<<<< HEAD
+
 //Función que hace el login para verificar si los usuarios estan en la base de datos
 function login(){
     $datos = json_decode(file_get_contents("php://input"));
@@ -312,7 +312,8 @@ function login(){
     }else{
         print_r(json_encode(array("Id"=>"-1")));
     }
-=======
+}
+    
 function getColumnNames($table){
     $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Coleccion_Archivistica' AND TABLE_NAME = :table";
     try{
@@ -373,6 +374,5 @@ function buscar($query){
         array_push($registros, $results);
     }
     print_r(json_encode($registros));
->>>>>>> cf2606e1748cc167ec2d53f6797fb1909f01ccd4
 }
 ?>
