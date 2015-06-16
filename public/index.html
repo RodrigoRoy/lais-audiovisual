@@ -6,10 +6,8 @@
     		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     		<link rel="stylesheet" href="css/index.css">
 
-
-
 		</head>
-		<body ng-app="lais">
+		<body ng-app="lais" ng-controller="datosAutentificacion" ng-model="sesion">
 			<nav class="navbar navbar-inverse navbar-fixed-top">
 				<div class="container-fluid">
 		    		<!-- Brand and toggle get grouped for better mobile display -->
@@ -32,7 +30,8 @@
 						
 							<ul class="nav navbar-nav navbar-right">
 								<li>
-									<a type="button" class="btn btn-link">Administrador</a>
+									<a ng-show="!sesion" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"class="btn btn-link"> Login </a>
+                                 	<a ng-click="logout()" ng-show="sesion" class="btn btn-link"> Cerrar Sesion </a>
 								</li>
 							</ul>
 							<form class="navbar-form navbar-right" role="search" ng-controller="busquedaFormCtrl">
@@ -45,8 +44,39 @@
 				</div><!-- /.container-fluid -->
 			</nav>
 			<div id="content" ><div ng-view></div></div>
-			
-			
+
+			<!--Para Iniciar sesion-->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	          <div class="modal-dialog">
+	            <div class="modal-content">
+	              <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title" id="exampleModalLabel">Autentificación LAIS</h4>
+	              </div>
+	              <div class="modal-body">
+	                <form methos="POST">
+	                      <div class="form-group">
+	                        <label for="recipient-name" class="control-label" >Usuario</label>
+	                        <input type="text" class="form-control" id="recipient-name" ng-model="usuario" value="User">
+	                      </div>
+	                      <div class="form-group">
+	                        <label for="message-text" class="control-label" >Contraseña</label>
+	                        <input type="password" class="form-control" id="recipient-name" ng-model="pass" value="Pass">
+	                      </div>
+	                    <!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+	                    <div class="error" ng-model="errores" ng-show="errores">
+	                        <small class="error" ng-show="errores">
+	                            ERROR: Usuario o Contraseña invalida!
+	                        </small>
+	                    </div>
+	                </form>
+	              </div>
+	              <div class="modal-footer">
+	                <button type="button" class="btn btn-primary" ng-click="login()">Iniciar Sesion</button>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
     		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>	
     		
@@ -55,7 +85,22 @@
 
     		<!-- AngularJS-->
     		<script data-require="angular.js@1.2.22" data-semver="1.2.22" src="https://code.angularjs.org/1.2.22/angular.js"></script>
+    		<!-- Para rutear las vistas AngularJS-->
     		<script src="https://code.angularjs.org/1.2.20/angular-route.js"></script>
+    		
+    		<!-- Cookies de AngularJS-->
+    		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular-cookies.js"></script>
+
+    		<!--Script Controlador -->
     		<script src="controller/controller.js"></script>
+
+    		<script type="text/javascript">
+	        $(document).ready(function(){
+	            $('#exampleModal').on('shown.bs.modal', function () {
+	                $('#exampleModal').focus();
+	            });
+	        });
+    		</script>
+
 		</body>
 	</html>

@@ -1,6 +1,7 @@
 <?php
 require_once 'filters.php';
 require_once 'conexion.php';
+require_once 'conexionUsuarios.php';
 
  /*Casos para tomar la acción del controlador*/
 switch ($_GET['action']) {
@@ -21,6 +22,9 @@ switch ($_GET['action']) {
         break;
     case 'borrar':
         borrar();
+        break;
+    case 'login':
+        login();
         break;
 }
 
@@ -297,6 +301,20 @@ function getId($id){
     $GLOBALS['conn'] = null;
 }
 
+
+//Función que hace el login para verificar si los usuarios estan en la base de datos
+function login(){
+    $datos = json_decode(file_get_contents("php://input"));
+    $query = 'SELECT * FROM usuarios WHERE Username="'.$datos->Username.'" and Password="'.$datos->Password.'"';
+    $stmt = $GLOBALS['conex']->prepare($query);
+    $stmt->execute();
+    if($stmt->rowCount() == 1){
+        print_r(json_encode($stmt->fetch(PDO::FETCH_ASSOC)));
+    }else{
+        print_r(json_encode(array("Id"=>"-1")));
+    }
+}
+    
 function getColumnNames($table){
     $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Coleccion_Archivistica' AND TABLE_NAME = :table";
     try{
