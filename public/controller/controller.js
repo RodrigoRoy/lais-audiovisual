@@ -15,7 +15,11 @@ lais.config(function ($routeProvider, $locationProvider){
 		})
 		.when("/decadas",{
 			templateUrl: "templates/archivos_audiovisuales.html",
-			controller: "conexionCtrl"
+			//controller: "conexionCtrl"
+			controller: "decadasCtrl"
+		})
+		.when("/decadas/:codigo",{
+			templateUrl: "templates/archivos_por_decadas.html"
 		})
 		.when("/archivos/agregarArchivo",{
 			templateUrl: "templates/agregarArchivo.html",
@@ -58,6 +62,40 @@ lais.controller('conexionCtrl', function($scope, $http, $location){
 			alert("Error al borrar usuario");
 		});
     }
+});
+
+//Controlador que muestra todas las decadas existentes
+lais.controller('decadasCtrl',function($scope, $location, $http){
+	$scope.allDecades = {'1':"1980-1989",
+					  '2':"1900-1909",
+					  '3':"1910-1919",
+					  '4':"1920-1929",
+					  '5':"1930-1939",
+					  '6':"1940-1949",
+					  '7':"1950-1959",
+					  '8':"1960-1969",
+					  '9':"1970-1979",
+					  '10':"1980-1989",
+					  '11':"1990-1999",
+					  '12':"2000-2009",
+					  '13':"2010-2019",
+					  '14':"2020-2029",
+					  '15':"2030-2039",
+					  '16':"2040-2049",
+					  '17':"2050-2059",
+					  '18':"2060-2069",
+					  '19':"2070-2079",
+					  '20':"2080-2089",
+					  '21':"2090-2099",
+					  '22':"3000-3009" };
+	$http.get('php/manejoBD.php?action=mostrarDecadas').
+	success(function(data){
+		$scope.decadas = data;
+	});
+});
+
+lais.controller('muestraDecadaCtrl',function($scope,$routeParams,$http){
+	
 });
 
 lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
@@ -217,6 +255,8 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 
 	}
 });
+
+
 
 lais.controller('busquedaFormCtrl',function($scope, $location){
 	$scope.busqueda = function(query){

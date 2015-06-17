@@ -25,6 +25,9 @@ switch ($_GET['action']) {
     case 'login':
         login();
         break;
+    case 'mostrarDecadas':
+        mostrarDecadas();
+        break;
 }
 
 /*Funcion que muestra los datos completos de cada archivo audiovisual*/
@@ -374,5 +377,21 @@ function buscar($query){
         array_push($registros, $results);
     }
     print_r(json_encode($registros));
+}
+
+function mostrarDecadas(){
+    $select = "SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decadas FROM area_de_identificacion ORDER BY decadas ASC";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    //$stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    
+    // Check if id is in database (for develop purpose only)
+    if ($stmt->rowCount() == 0){
+    
+    } else {
+        $data = $stmt->fetchAll(PDO::FETCH_COLUMN,0); // Obtener el único resultado de la base de datos
+        print_r(json_encode($data));
+        //print_r($data);
+    }
 }
 ?>
