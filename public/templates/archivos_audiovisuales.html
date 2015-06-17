@@ -4,71 +4,17 @@
 </div>
 <div class="container">
 	<div class="row">
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail otro">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/385_ROC.k.jpg">
-		    </a>
-		</div>
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/394.3_HER.c.jpg">
-		    </a>
-		</div>
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/647.92_MIM.jpg">
-		    </a>
-		</div>
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/720.972_ART.d.jpg">
-		    </a>
-		</div>
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/385_ROC.k.jpg">
-		    </a>
-		</div>
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/385_ROC.k.jpg">
-		    </a>
-		</div>
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/385_ROC.k.jpg">
-		    </a>
-		</div>
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/385_ROC.k.jpg">
-		    </a>
-		</div>
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/385_ROC.k.jpg">
-		    </a>
-		</div>
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/385_ROC.k.jpg">
-		    </a>
-		</div>
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/385_ROC.k.jpg">
-		    </a>
-		</div>
-		<div class="col-xs-6 col-md-3">
-		    <a href="#" class="thumbnail">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/385_ROC.k.jpg">
+		<div class="col-xs-6 col-md-3" ng-repeat="decada in decadas track by $index">
+		    <a href="#/decadas/{{decada}}" class="thumbnail otro">
+		    	<img class="img-rounded" id="coverDecades" src="imgs/Decadas/{{decada}}.jpg">
 		    </a>
 		</div>
 	</div>
 </div>
 
 
-<!--<div class="panel panel-default">
+<!--
+<div class="panel panel-default">
 		<div class="panel-heading">Panel heading</div>
 		<table class="table">
 			<thead>
@@ -103,6 +49,7 @@
 	<a class='boton' href="#/archivos/agregarArchivo">
 		<span class="glyphicon glyphicon-plus" style="font-size: 38px;margin-top: 20%;margin-left: 25%; color:white"></span>
 	</a>
-</div>-->
+</div>
+-->
 
 
