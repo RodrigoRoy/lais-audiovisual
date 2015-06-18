@@ -128,3 +128,22 @@ html{
 	box-shadow: 3px 3px 10px black;
 }
 
+.informacion{
+	width: 90%;
+	height: 100%;
+}
+
+#portada{
+	width: 90%;
+	height: 110%;
+}
+
+#contInfo{
+	background-color: transparent;
+	width: 124%;
+}
+
+#masInfo{
+	margin-top:4%; 
+	margin-left:14%;
+}

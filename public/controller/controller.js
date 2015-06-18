@@ -252,6 +252,7 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 					$cookieStore.put('sesion','true');
 					$scope.sesion = $cookieStore.get('sesion');
 					$scope.permiso = data.Privilegio;
+					$scope.agregar = true;
 					console.log("En sesion\n"+ $scope.sesion);
 					console.log($scope.permiso);
 					$window.location.reload(false);

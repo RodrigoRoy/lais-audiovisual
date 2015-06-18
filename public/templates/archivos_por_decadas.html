@@ -5,14 +5,59 @@
 <div class="container">
 	<div class="row">
 		<div class="col-xs-6 col-md-3" ng-repeat="archivo in archivos">
-		    <a href="" class="thumbnail otro">
+		    <a data-toggle="modal" data-target="#modalInfo" data-whatever="@mdo"class="btn btn-link" class="thumbnail otro">
 		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/El_Triangulo.jpg">
 		    </a>
 		</div>
 	</div>
 </div>
-<div id="footer">
+<div id="footer" ng-show="sesion">
 	<a class='boton' href="#/archivos/agregarArchivo">
 		<span class="glyphicon glyphicon-plus" style="font-size: 38px;margin-top: 20%;margin-left: 25%; color:white"></span>
 	</a>
 </div>
+
+<!--Modal que muestra la información de los audiovisuales -->
+<div class="modal fade" id="modalInfo" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog informacion" role="document">
+    <div class="modal-content" style="background-color: rgba(38, 105, 138,0.9); color:white">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h1 class="modal-title" id="gridSystemModalLabel">Titulo</h1>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-4">
+            	<img id="portada" src="imgs/Portadas/El_Triangulo.jpg">
+            </div>
+            <div class="col-xs-6">
+            	<div class= "row"> 
+            		<h4>Duracion: 128min</h4>
+            	</div>
+            	<div class= "row"> 
+            		<h4> Año: 1921</h4>
+            	</div>
+            	<div class= "row"> 
+            		<h2>Sinopsis</h2>
+            		<div id="contInfo" >
+            			En junio la Cineteca Nacional le rinde homenaje a uno de los realizadores más sobresalientes de la historia del cine mexicano: Ismael Rodríguez. Las actividades incluyen la exhibición de nueve cintas y una muestra fotográfica. El Foro al Aire Libre recibe documentales que retratan la vida y la obra de algunas de las grandes figuras del arte mexicano, cortesía de Canal 22. La programación se complementa del 28 de mayo al 8 de junio con el Festival Mix; del 3 al 7 con la Muestra fílmica del CUEC, y del 4 al 14 con la Muestra de cine argentino contemporáneo. Además, en colaboración la con la Embajada de Suecia se presenta el ciclo Sexo, erotismo y censura en el cine sueco. Clásicos en pantalla grande nos sorprende con: Un tiro en la noche, El bueno, el malo y el feo, El ocaso de una vida, La dulce vida. También destaca la sección de estrenos: 20,000 días en la Tierra, Ayotzinapa: Crónica de un crimen de Estado, Caníbal, Ciencias naturales, Duro ser un Dios, Eco en la montaña, El almanaque, El juicio de Viviane Amsalem, Estocolmo, Hagen y yo, Muros y Oasis. 
+            		</div>
+            	</div>
+            	<div class= "row"> 
+            			<button type="button" id="masInfo" class="btn btn-primary btn-lg btn-block">Ver mas</button>
+            	</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#modalInfo').on('shown.bs.modal', function () {
+            $('#modalInfo').focus();
+        });
+    });
+</script>
