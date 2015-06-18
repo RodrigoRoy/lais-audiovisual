@@ -115,8 +115,16 @@ DESCRIBE area_de_identificacion;
 #SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'my_database' AND TABLE_NAME = 'my_table';
 SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Coleccion_Archivistica' AND TABLE_NAME = 'area_de_identificacion';
 
+<<<<<<< HEAD
+# Muestra el código de cada década
+SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decada FROM area_de_identificacion ORDER BY decada ASC;
+=======
 #SELECT PARA TRAER SOLO LAS DECADAS SIN REPETIR
 SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decadas FROM area_de_identificacion ORDER BY decadas ASC;
+<<<<<<< HEAD
 
 #SELECT PARA TRAER TODOS LOS ARCHIVOS DE UNA DECADA EN ESPECIFICO
 SELECT codigo_de_referencia FROM area_de_identificacion WHERE codigo_de_referencia LIKE '%MXIM-AV-1-4%';
+=======
+>>>>>>> e96281b010a03aec1550ed9e44c3d21e387ec00a
+>>>>>>> ba6e50a42662b8ea0f984baca1f2376eebac1d60
