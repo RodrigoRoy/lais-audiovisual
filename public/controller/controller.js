@@ -19,7 +19,8 @@ lais.config(function ($routeProvider, $locationProvider){
 			controller: "decadasCtrl"
 		})
 		.when("/decadas/:codigo",{
-			templateUrl: "templates/archivos_por_decadas.html"
+			templateUrl: "templates/archivos_por_decadas.html",
+			controller: "muestraDecadaCtrl"
 		})
 		.when("/archivos/agregarArchivo",{
 			templateUrl: "templates/agregarArchivo.html",
@@ -94,9 +95,40 @@ lais.controller('decadasCtrl',function($scope, $location, $http){
 	});
 });
 
+//Controlador que mostrara los archivos audiovisuales con su portada por decadas
 lais.controller('muestraDecadaCtrl',function($scope,$routeParams,$http){
-	
+	console.log("Parametro URL: "+ $routeParams.codigo);
+	$scope.codigo = $routeParams.codigo;
+	var allDecades = {'1':"1980-1989",
+					  '2':"1900-1909",
+					  '3':"1910-1919",
+					  '4':"1920-1929",
+					  '5':"1930-1939",
+					  '6':"1940-1949",
+					  '7':"1950-1959",
+					  '8':"1960-1969",
+					  '9':"1970-1979",
+					  '10':"1980-1989",
+					  '11':"1990-1999",
+					  '12':"2000-2009",
+					  '13':"2010-2019",
+					  '14':"2020-2029",
+					  '15':"2030-2039",
+					  '16':"2040-2049",
+					  '17':"2050-2059",
+					  '18':"2060-2069",
+					  '19':"2070-2079",
+					  '20':"2080-2089",
+					  '21':"2090-2099",
+					  '22':"3000-3009" };
+	$('#decadas').html('<h1>Década '+allDecades[($scope.codigo).split("-")[3]]+'</h1>');
+	$http.get('php/manejoBD.php?action=mostrarCaratula&query='+$routeParams.codigo).
+	success(function(data){
+		console.log("Datos: " + data);
+		$scope.archivos = data;
+	});
 });
+
 
 lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
 	$http.get('php/manejoBD.php?action=obtener&id=' + $routeParams.id).
@@ -246,6 +278,7 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 					$cookieStore.put('sesion','true');
 					$scope.sesion = $cookieStore.get('sesion');
 					$scope.permiso = data.Privilegio;
+					$scope.agregar = true;
 					console.log("En sesion\n"+ $scope.sesion);
 					console.log($scope.permiso);
 					$window.location.reload(false);

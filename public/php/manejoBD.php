@@ -28,6 +28,9 @@ switch ($_GET['action']) {
     case 'mostrarDecadas':
         mostrarDecadas();
         break;
+    case 'mostrarCaratula':
+        mostrarCaratula($_GET['query']);
+        break;
 }
 
 /*Funcion que muestra los datos completos de cada archivo audiovisual*/
@@ -316,7 +319,23 @@ function login(){
         print_r(json_encode(array("Id"=>"-1")));
     }
 }
+
+//Función que resive un query sobre cada decada para mostrarlas
+function mostrarCaratula($query){
+    $select = "SELECT codigo_de_referencia FROM area_de_identificacion WHERE codigo_de_referencia LIKE '%".$query."%'";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    //$stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
     
+    // Check if id is in database (for develop purpose only)
+    if ($stmt->rowCount() == 0){
+    } else {
+        $data = $stmt->fetchAll(PDO::FETCH_COLUMN,0); // Obtener el único resultado de la base de datos
+        print_r(json_encode($data));
+        //print_r($data);
+    }
+}
+
 function getColumnNames($table){
     $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Coleccion_Archivistica' AND TABLE_NAME = :table";
     try{
@@ -379,6 +398,8 @@ function buscar($query){
     print_r(json_encode($registros));
 }
 
+
+//Funcion que muestra las caratulas de las decadas existentes en la base de datos
 function mostrarDecadas(){
     $select = "SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decadas FROM area_de_identificacion ORDER BY decadas ASC";
     $stmt = $GLOBALS['conn']->prepare($select);
