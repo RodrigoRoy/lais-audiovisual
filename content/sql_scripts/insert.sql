@@ -81,6 +81,15 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década4\ (
 	IGNORE 3 LINES
 	(codigo_de_referencia, @tituloIgnorado, notas_del_archivero, datos_del_archivero, reglas_o_normas, fecha_de_descripcion);
 
+# Agregar los códigos de referencia desde el archivo de Notas (el resto se inicializa vacio)
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década4\ (1920)\ Notas.csv'
+	INTO TABLE informacion_adicional
+	CHARACTER SET UTF8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 3 LINES
+	(codigo_de_referencia, @tituloIgnorado, @notasIgnoradas);
+
 
 
 # Cargar datos desde archivo csv para la década 5 (1930)
@@ -139,6 +148,14 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década5\ (
 	IGNORE 3 LINES
 	(codigo_de_referencia, @tituloIgnorado, notas_del_archivero, datos_del_archivero, reglas_o_normas, fecha_de_descripcion);
 
+# Agregar los códigos de referencia desde el archivo de Notas (el resto se inicializa vacio)
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década5\ (1930)\ Notas.csv'
+	INTO TABLE informacion_adicional
+	CHARACTER SET UTF8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 3 LINES
+	(codigo_de_referencia, @tituloIgnorado, @notasIgnoradas);
 
 
 # Cargar datos desde archivo csv para la década 6 (1940)
@@ -196,3 +213,12 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década6\ (
 	LINES TERMINATED BY '\n'
 	IGNORE 3 LINES
 	(codigo_de_referencia, @tituloIgnorado, notas_del_archivero, datos_del_archivero, reglas_o_normas, fecha_de_descripcion);
+
+# Agregar los códigos de referencia desde el archivo de Notas (el resto se inicializa vacio)
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década6\ (1940)\ Notas.csv'
+	INTO TABLE informacion_adicional
+	CHARACTER SET UTF8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 3 LINES
+	(codigo_de_referencia, @tituloIgnorado, @notasIgnoradas);

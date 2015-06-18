@@ -777,7 +777,37 @@
 			</div>
 		</div>
 
-		<button type="submit" class="btn btn-default" ng-disabled="audForm.$invalid" ng-click="envia()">Enviar</button>
+		<div class="list-group">
+			<a href="" class="list-group-item">Información adicional<span class="caret"></span></a>
+			<div class="panel-body collapse">
+				<div class="form-group">
+					<label for="imagen">Imágen o portada</label>
+					<!--<input class="form-control" id="imagen" name="imagen" ng-model="imagen" ng-maxlength="255">-->
+					<input type="file" id="imagen" accept="image/*" ngf-select="" ng-model="imagen" name="file" class="ng-pristine ng-valid ng-scope">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input
+				<div class="error" 
+		          	ng-show="audForm.imagen.$dirty && audForm.imagen.$invalid">
+		          	<small class="error" ng-show="audForm.imagen.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 255 caracteres
+		          	</small>
+		        </div>-->
+		        <img height="128" ng-show="imagen[0] != null" ngf-src="imagen[0]" class="thumb" ngf-accept="'image/*'">
+		        <div class="form-group">
+					<label for="url">Página web</label>
+					<input class="form-control" id="url" name="url" ng-model="url" ng-maxlength="255">
+				</div>
+				<!--Errores de Validaciones que se muestran verificando las validaciones de cada input
+				<div class="error" 
+		          	ng-show="audForm.url.$dirty && audForm.url.$invalid">
+		          	<small class="error" ng-show="audForm.url.$error.maxlength">
+		            	ERROR: El maximo de tu palabra es 255 caracteres
+		          	</small>
+		        </div>-->
+			</div>
+		</div>
+
+		<button type="submit" class="btn btn-default" ng-disabled="audForm.$invalid" ng-click="envia(imagen)">Enviar</button>
 	</form>
 
 	<!--<tt> selectedValues = {{fuentes}}</tt>-->
