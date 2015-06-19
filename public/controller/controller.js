@@ -1,4 +1,4 @@
-var lais = angular.module('lais',['ngRoute','ngCookies']);
+var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload']);
 
 lais.config(function ($routeProvider, $locationProvider){
 	//console.log("Ruteando");
@@ -225,11 +225,13 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
-lais.controller('agregarDatosCtrl',function($scope, $http, $location){
-	$scope.envia = function(){
+lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload){
+	$scope.envia = function(files){
 		$http.post('php/manejoBD.php?action=agregar', 
-				scopeData2object($scope)
-			).success(function(data,status, headers, congif){
+			scopeData2object($scope)
+		).success(function(data,status, headers, congif){
+			console.log(files);
+			$scope.upload(files); // Subir la imagen después de crear el registro en la base
 			alert("El archivo Audiovisual ha sido agregado");
 			//console.log("Datos: " + data);
 			//console.log("Estado: " + data["Status"]);
@@ -239,6 +241,30 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location){
 			console.log("Error de los datos: " + error);
 		});
 	}
+
+	// Componentes para subir archivos (imagenes)
+	$scope.$watch('files', function () {
+        $scope.upload($scope.files);
+    });
+    $scope.upload = function (files) {
+        if (files && files.length) {
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                Upload.upload({
+                    url: 'php/upload.php',
+                    method: 'POST',
+                    sendFieldsAs: 'form',
+                    fields: {'codigo_de_referencia': $scope.codigo_de_referencia},
+                    file: file
+                }).progress(function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                }).success(function (data, status, headers, config) {
+                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                });
+            }
+        }
+    };
 });
 
 
@@ -385,6 +411,7 @@ function scopeData2object(scope){
 		'notas_del_archivero': (scope.notas_del_archivero !== undefined) ? scope.notas_del_archivero : "",
 		'datos_del_archivero': (scope.datos_del_archivero !== undefined) ? scope.datos_del_archivero : "",
 		'reglas_o_normas': (scope.reglas_o_normas !== undefined) ? scope.reglas_o_normas : "",
-		'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? scope.fecha_de_descripcion : ""
+		'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? scope.fecha_de_descripcion : "",
+		'url': (scope.url !== undefined) ? scope.url : ""
 	}
 }

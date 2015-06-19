@@ -158,6 +158,18 @@ ALTER TABLE area_de_descripcion ADD CONSTRAINT codigoDescripcionFK
 	ON DELETE CASCADE	
 	ON UPDATE CASCADE;
 
+# INFORMACION ADICIONAL
+CREATE TABLE IF NOT EXISTS informacion_adicional(
+	codigo_de_referencia VARCHAR(20) NOT NULL,
+	imagen VARCHAR(255) DEFAULT '',
+	url VARCHAR(255) DEFAULT ''
+);
+# Agregar llave foranea (FK) para el codigo_de_referencia que ya existe en la tabla area_de_identificacion
+ALTER TABLE informacion_adicional ADD CONSTRAINT codigoInfoAdicionalFK
+	FOREIGN KEY(codigo_de_referencia) REFERENCES area_de_identificacion(codigo_de_referencia)
+	ON DELETE CASCADE	
+	ON UPDATE CASCADE;
+
 # Crear tabla para usuarios registrados
 CREATE TABLE `usuarios` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
