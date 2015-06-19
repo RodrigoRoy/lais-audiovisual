@@ -1,11 +1,13 @@
 <br><br><br>
-<div id="decadas">
-	<h1>Audiovisuales Por Décadas</h1>
-</div>
-<div class="container">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-12" class="row">
+		<div id="decadas">
+			<h1>Décadas</h1>
+		</div>
+	</div>
 	<div class="row">
-		<div class="col-xs-6 col-md-3" ng-repeat="decada in decadas track by $index">
-		    <a href="#/decadas/{{decada}}" class="thumbnail otro">
+		<div class="col-xs-12 col-sm-4 col-md-3" ng-repeat="decada in decadas track by $index">
+			    <a href="#/decadas/{{decada}}" class="thumbnail">
 		    	<img class="img-rounded" id="coverDecades" src="imgs/Decadas/{{decada}}.jpg">
 		    </a>
 		</div>

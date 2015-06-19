@@ -1,63 +1,106 @@
 <br><br><br>
-<div id="decadas">
-	
-</div>
-<div class="container">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <div id="decadas">
+      </div>
+    </div>
+  </div>
 	<div class="row">
-		<div class="col-xs-6 col-md-3" ng-repeat="archivo in archivos">
+		<div class="col-xs-12 col-sm-4 col-md-2" ng-repeat="archivo in archivos">
 		    <a data-toggle="modal" data-target="#modalInfo" data-whatever="@mdo"class="btn btn-link" class="thumbnail otro">
-		    	<img class="img-rounded" id="coverDecades" src="imgs/Portadas/El_Triangulo.jpg">
+		    	<img class="img-rounded" ng-click="getAllInfo(archivo)" id="coverDecades" src="imgs/Portadas/El_Triangulo.jpg">
 		    </a>
 		</div>
 	</div>
 </div>
+
+<!--Modal que muestra la información de los audiovisuales -->
+  <div class="modal fade" id="modalInfo" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog informacion" role="document">
+      <div class="modal-content" style="background-color: rgba(38, 105, 138,0.9); color:white">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h1 class="modal-title" id="gridSystemModalLabel">{{allInfo.identificacion.titulo_propio}}</h1>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-4">
+                <img id="portada" src="imgs/Portadas/El_Triangulo.jpg">
+              </div>
+              <div class="col-md-8">
+                <div id="aduracion">
+                  <h4>Duracion: {{allInfo.identificacion.duracion}}</h4>
+                </div>
+                <div id="aanio">
+                  <h4>Año: {{allInfo.identificacion.fecha}}</h4>
+                </div>
+                <div id="tsinopsis">
+                  <h2>Sinopsis</h2>
+                </div>
+                <div id="asinopsis">
+                  {{allInfo.contenido_y_estructura.sinopsis}}
+                </div>
+                <div id="aboton">      
+                  <button type="button" class="btn btn-primary btn-lg btn-block">Ver mas</button>
+                </div>      
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class= "row">
+              <div class="contenedorInfo">
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills" role="presentation" id="myTab">
+                  <li role="presentation" class="active"><a class="etiqueta" href="#identificacion" aria-controls="identificacion" role="tab" data-toggle="tab">Identificación</a></li>
+                  <li role="presentation"><a class="etiqueta" href="#contexto" aria-controls="contexto" role="tab" data-toggle="tab">Contexto</a></li>
+                  <li role="presentation"><a class="etiqueta" href="#contenido_y_estructura" aria-controls="contenido_y_estructura" role="tab" data-toggle="tab">Contenido y Estructura</a></li>
+                  <li role="presentation"><a class="etiqueta" href="#condiciones_de_acceso" aria-controls="condiciones_de_acceso" role="tab" data-toggle="tab">Condiciones de Acceso</a></li>
+                  <li role="presentation"><a class="etiqueta" href="#documentacion_asociada" aria-controls="documentacion_asociada" role="tab" data-toggle="tab">Documentación Asociada</a></li>
+                  <li role="presentation"><a class="etiqueta" href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Notas</a></li>
+                  <li role="presentation"><a class="etiqueta" href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Descripción</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane active" id="identificacion"><hr>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="contexto"><hr>
+                    Contexo</div>
+                  <div role="tabpanel" class="tab-pane" id="contenido_y_estructura"><hr>Contenido y Estructura</div>
+                  <div role="tabpanel" class="tab-pane" id="condiciones_de_acceso"><hr>Condiciones de Acceso</div>
+                  <div role="tabpanel" class="tab-pane" id="documentacion_asociada"><hr>Documentación Asociada</div>
+                  <div role="tabpanel" class="tab-pane" id="notas"><hr>Notas</div>
+                  <div role="tabpanel" class="tab-pane" id="messag"><hr>Descripción</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
 <div id="footer" ng-show="sesion">
 	<a class='boton' href="#/archivos/agregarArchivo">
 		<span class="glyphicon glyphicon-plus" style="font-size: 38px;margin-top: 20%;margin-left: 25%; color:white"></span>
 	</a>
 </div>
 
-<!--Modal que muestra la información de los audiovisuales -->
-<div class="modal fade" id="modalInfo" role="dialog" aria-labelledby="gridSystemModalLabel">
-  <div class="modal-dialog informacion" role="document">
-    <div class="modal-content" style="background-color: rgba(38, 105, 138,0.9); color:white">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h1 class="modal-title" id="gridSystemModalLabel">Titulo</h1>
-      </div>
-      <div class="modal-body">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-4">
-            	<img id="portada" src="imgs/Portadas/El_Triangulo.jpg">
-            </div>
-            <div class="col-xs-6">
-            	<div class= "row"> 
-            		<h4>Duracion: 128min</h4>
-            	</div>
-            	<div class= "row"> 
-            		<h4> Año: 1921</h4>
-            	</div>
-            	<div class= "row"> 
-            		<h2>Sinopsis</h2>
-            		<div id="contInfo" >
-            			En junio la Cineteca Nacional le rinde homenaje a uno de los realizadores más sobresalientes de la historia del cine mexicano: Ismael Rodríguez. Las actividades incluyen la exhibición de nueve cintas y una muestra fotográfica. El Foro al Aire Libre recibe documentales que retratan la vida y la obra de algunas de las grandes figuras del arte mexicano, cortesía de Canal 22. La programación se complementa del 28 de mayo al 8 de junio con el Festival Mix; del 3 al 7 con la Muestra fílmica del CUEC, y del 4 al 14 con la Muestra de cine argentino contemporáneo. Además, en colaboración la con la Embajada de Suecia se presenta el ciclo Sexo, erotismo y censura en el cine sueco. Clásicos en pantalla grande nos sorprende con: Un tiro en la noche, El bueno, el malo y el feo, El ocaso de una vida, La dulce vida. También destaca la sección de estrenos: 20,000 días en la Tierra, Ayotzinapa: Crónica de un crimen de Estado, Caníbal, Ciencias naturales, Duro ser un Dios, Eco en la montaña, El almanaque, El juicio de Viviane Amsalem, Estocolmo, Hagen y yo, Muros y Oasis. 
-            		</div>
-            	</div>
-            	<div class= "row"> 
-            			<button type="button" id="masInfo" class="btn btn-primary btn-lg btn-block">Ver mas</button>
-            	</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+
+
+<!--Togglable Tab para mostrar toda la información de cada audiovisual-->
+
 <script type="text/javascript">
     $(document).ready(function(){
         $('#modalInfo').on('shown.bs.modal', function () {
             $('#modalInfo').focus();
+        });
+        $('#myTab').click(function(e){
+          e.preventDefault();
+          $(this).tab('show');
         });
     });
 </script>

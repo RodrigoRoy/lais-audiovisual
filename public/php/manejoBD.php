@@ -31,6 +31,9 @@ switch ($_GET['action']) {
     case 'mostrarCaratula':
         mostrarCaratula($_GET['query']);
         break;
+    case 'obtenerXAreas':
+        obtenerArea($_GET['id']);
+        break;
 }
 
 /*Funcion que muestra los datos completos de cada archivo audiovisual*/
@@ -415,4 +418,68 @@ function mostrarDecadas(){
         //print_r($data);
     }
 }
+
+//Funcion que obtiene los datos por area de cada archivo audivisual
+function obtenerArea($id){
+    $areas = array();
+    $select = "SELECT * FROM area_de_identificacion WHERE codigo_de_referencia = '" . $id . "'";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    if ($stmt->rowCount() == 1){
+        $areas["identificacion"] = $stmt->fetch(); // Obtener el único resultado de la base de datos
+        
+    }
+    $select = "SELECT * FROM area_de_contexto WHERE codigo_de_referencia = '" . $id . "'";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    if ($stmt->rowCount() == 1){
+        $areas["contexto"] = $stmt->fetch(); // Obtener el único resultado de la base de datos
+        
+    }
+    $select = "SELECT * FROM area_de_condiciones_de_acceso WHERE codigo_de_referencia = '" . $id . "'";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    if ($stmt->rowCount() == 1){
+        $areas["condiciones_de_acceso"] = $stmt->fetch(); // Obtener el único resultado de la base de datos
+        
+    }
+    $select = "SELECT * FROM area_de_contenido_y_estructura WHERE codigo_de_referencia = '" . $id . "'";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    if ($stmt->rowCount() == 1){
+        $areas["contenido_y_estructura"] = $stmt->fetch(); // Obtener el único resultado de la base de datos
+        
+    }
+    $select = "SELECT * FROM area_de_descripcion WHERE codigo_de_referencia = '" . $id . "'";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    if ($stmt->rowCount() == 1){
+        $areas["descripcion"] = $stmt->fetch(); // Obtener el único resultado de la base de datos
+        
+    }
+    $select = "SELECT * FROM area_de_documentacion_asociada WHERE codigo_de_referencia = '" . $id . "'";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    if ($stmt->rowCount() == 1){
+        $areas["documentacion_asociada"] = $stmt->fetch(); // Obtener el único resultado de la base de datos
+        
+    }
+    $select = "SELECT * FROM area_de_notas WHERE codigo_de_referencia = '" . $id . "'";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    if ($stmt->rowCount() == 1){
+        $areas["notas"] = $stmt->fetch(); // Obtener el único resultado de la base de datos
+        
+    }
+    $GLOBALS['conn'] = null;
+    print_r(json_encode($areas));
+}
+
 ?>

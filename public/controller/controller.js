@@ -121,12 +121,21 @@ lais.controller('muestraDecadaCtrl',function($scope,$routeParams,$http){
 					  '20':"2080-2089",
 					  '21':"2090-2099",
 					  '22':"3000-3009" };
-	$('#decadas').html('<h1>Década '+allDecades[($scope.codigo).split("-")[3]]+'</h1>');
+	$('#decadas').html('<h1 style="margin-left:1%;">Década '+allDecades[($scope.codigo).split("-")[3]]+'</h1>');
 	$http.get('php/manejoBD.php?action=mostrarCaratula&query='+$routeParams.codigo).
 	success(function(data){
 		console.log("Datos: " + data);
 		$scope.archivos = data;
 	});
+
+	$scope.getAllInfo = function(codigoId){
+		console.log("codigo: " + codigoId);
+		$http.get('php/manejoBD.php?action=obtenerXAreas&id=' + codigoId).
+    	success(function(data) {
+    		console.log("All: " + data.identificacion.titulo_propio);
+    		$scope.allInfo = data;
+    	});
+	};
 });
 
 
