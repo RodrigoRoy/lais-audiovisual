@@ -134,10 +134,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	success(function(data) {
     		//console.log("All: " + data.identificacion.titulo_propio);
     		$scope.allInfo = data;
-    		//console.log("Datos:");
-    		//for(i in $scope.allInfo.identificacion){
-    		//	console.log(i);
-    		//}
     	});
 	};
 
@@ -177,6 +173,16 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		error(function(data, status, headers, config) {
 			alert("Error al borrar usuario");
 		});
+    }
+
+    $scope.hideInfo = false;
+    $scope.hideInfos = function(){
+    	$scope.hideInfo = !$scope.hideInfo;
+    }
+
+    $scope.notSort = function(obj){
+    	return Object.keys(obj);
+
     }
 });
 
