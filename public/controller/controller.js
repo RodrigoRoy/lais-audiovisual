@@ -96,7 +96,7 @@ lais.controller('decadasCtrl',function($scope, $location, $http){
 });
 
 //Controlador que mostrara los archivos audiovisuales con su portada por decadas
-lais.controller('muestraDecadaCtrl',function($scope,$routeParams,$http){
+lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http){
 	console.log("Parametro URL: "+ $routeParams.codigo);
 	$scope.codigo = $routeParams.codigo;
 	var allDecades = {'1':"1980-1989",
@@ -136,6 +136,18 @@ lais.controller('muestraDecadaCtrl',function($scope,$routeParams,$http){
     		$scope.allInfo = data;
     	});
 	};
+
+	$scope.editar = function(id){
+		$('#modalInfo').modal('hide');
+		$('body').removeClass('modal-open');
+		$('.modal-backdrop').remove();
+		/*$('#modalInfo').on('hidden.bs.modal', function (e) {
+		  //$location.url('/archivos/editarArchivo/' + id);
+		})*/
+		console.log("Modal se ha cerrado");
+		//$window.location.href='#/archivos/editarArchivo/' + id;
+		$location.url('/archivos/editarArchivo/' + id);
+    }
 });
 
 
