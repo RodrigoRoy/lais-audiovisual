@@ -67,7 +67,7 @@ lais.controller('conexionCtrl', function($scope, $http, $location){
 
 //Controlador que muestra todas las decadas existentes
 lais.controller('decadasCtrl',function($scope, $location, $http){
-	$scope.allDecades = {'1':"1980-1989",
+	$scope.allDecades = {'1':"1890-1899",
 					  '2':"1900-1909",
 					  '3':"1910-1919",
 					  '4':"1920-1929",
@@ -99,7 +99,7 @@ lais.controller('decadasCtrl',function($scope, $location, $http){
 lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http){
 	console.log("Parametro URL: "+ $routeParams.codigo);
 	$scope.codigo = $routeParams.codigo;
-	var allDecades = {'1':"1980-1989",
+	var allDecades = {'1':"1890-1899",
 					  '2':"1900-1909",
 					  '3':"1910-1919",
 					  '4':"1920-1929",
@@ -147,6 +147,32 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		console.log("Modal se ha cerrado");
 		//$window.location.href='#/archivos/editarArchivo/' + id;
 		$location.url('/archivos/editarArchivo/' + id);
+    }
+
+    $scope.confirmacion = function(){
+    	var txt;
+    	var c = confirm("¿Seguro que deseas borrar el archivo audiovisual?" + "\n" + $scope.allInfo.identificacion.codigo_de_referencia);
+    	if(c == true){
+    		console.log("Id: " + $scope.allInfo.identificacion.codigo_de_referencia);
+    		$scope.eliminar($scope.allInfo.identificacion.codigo_de_referencia);
+    	}else{
+    		
+    	}
+    	console.log(txt);
+    }
+
+    $scope.eliminar = function(id){
+    	$http.post('php/manejoBD.php?action=borrar',
+		{
+			'codigo_de_referencia': id
+		}).
+		success(function(data, status, headers, config) {
+			alert("Registro eliminado");
+			location.reload();
+		}).
+		error(function(data, status, headers, config) {
+			alert("Error al borrar usuario");
+		});
     }
 });
 
@@ -363,7 +389,7 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 		//$scope.sesion = $cookieStore.get('sesion');
 		//$cookieStore.remove('sesion');
 		$scope.permiso = 0;
-		$scope.usuario = "";
+		//$scope.usuario = "";
 		$scope.pass = "";
 		console.log("Cerrar Sesion\n" + $scope.sesion);
 		console.log($scope.permiso);
@@ -371,7 +397,6 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 
 	}
 });
-
 
 
 lais.controller('busquedaFormCtrl',function($scope, $location){
@@ -392,6 +417,7 @@ lais.controller('busquedaCtrl',function($scope, $http, $routeParams, $location){
         $scope.datos = data;
     });
 });
+
 
 function scopeData2object(scope){
 	return {
