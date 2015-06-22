@@ -262,6 +262,11 @@ function actualizar(){
         . "fecha_de_descripcion='" . $datos->fecha_de_descripcion
         . "' WHERE codigo_de_referencia='" . $datos->codigo_de_referencia . "'";
 
+    $info_adicional = "UPDATE informacion_adicional SET "
+        . "codigo_de_referencia='" . $datos->codigo_de_referencia . "', "
+        . "url='" . $datos->url
+        . "' WHERE codigo_de_referencia='" . $datos->codigo_de_referencia . "'";
+
     try{
         $stmt = $GLOBALS['conn']->prepare($identificacion);
         $stmt->execute();
@@ -276,6 +281,8 @@ function actualizar(){
         $stmt = $GLOBALS['conn']->prepare($notas);
         $stmt->execute();
         $stmt = $GLOBALS['conn']->prepare($descripcion);
+        $stmt->execute();
+        $stmt = $GLOBALS['conn']->prepare($info_adicional);
         $stmt->execute();
     }
     catch(PDOException $e){

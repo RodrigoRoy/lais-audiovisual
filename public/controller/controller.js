@@ -221,7 +221,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
 		$scope.fecha_de_descripcion = data.fecha_de_descripcion;
     });
 
-	$scope.editar = function(){
+	/*$scope.editar = function(){
     	$http.post('php/manejoBD.php?action=actualizar',
     		scopeData2object($scope)
 		).
@@ -233,7 +233,43 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
 		error(function(data, status, headers, config) {
 			alert("Error al editar usuario");
 		});
-    }
+    }*/
+
+    $scope.editar = function(files){
+		$http.post('php/manejoBD.php?action=actualizar', 
+			scopeData2object($scope)
+		).success(function(data,status, headers, congif){
+			$scope.upload(files); // Subir la imagen después de crear el registro en la base
+			alert("El archivo Audiovisual ha sido actualizado");
+			$location.url('/archivos/');
+		}).error(function(error){
+			console.log("Error de los datos: " + error);
+		});
+	}
+
+    // Componentes para subir archivos (imagenes)
+	$scope.$watch('files', function () {
+        $scope.upload($scope.files);
+    });
+    $scope.upload = function (files) {
+        if (files && files.length) {
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                Upload.upload({
+                    url: 'php/upload.php',
+                    method: 'POST',
+                    sendFieldsAs: 'form',
+                    fields: {'codigo_de_referencia': $scope.codigo_de_referencia},
+                    file: file
+                }).progress(function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                }).success(function (data, status, headers, config) {
+                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                });
+            }
+        }
+    };
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
