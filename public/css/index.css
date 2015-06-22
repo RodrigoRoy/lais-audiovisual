@@ -136,8 +136,9 @@ html{
 #asinopsis{
 	background-color: transparent;
 	width: 100%;
-	max-height: 250px;
+	max-height: 100px;
 	overflow: auto;
+	height: 250px;
 }
 
 #masInfo{
