@@ -20,18 +20,14 @@ html{
 
 
 .boton {
-	background: url(http://localhost/lais-audiovisual/public/#/archivos) /* Url de la imagen */ no-repeat center center, #ddd /* Color del botón */;
+	background-color: rgb(38, 105, 138);
 	background-size: 60%; /* Tamaño de la imagen */
 	height: 5em;  /* Alto del botón */
 	width: 5em;  /* Ancho del botón */
 	display: table;
 	border-radius: 100%;
 	cursor: pointer;
-	box-shadow:
-	/* Sombras externa */
-	inset 0 10px 15px rgba(255,255,255,.35), inset 0 -10px 15px rgba(0,0,0,.05), inset 10px 0 15px rgba(0,0,0,.05), inset -10px 0 15px rgba(0,0,0,.05), 
-	/* Sombras internas */
-	0 5px 20px rgba(0,0,0,.1);
+	box-shadow: 3px 3px 10px black;
 	/*position: relative;*/
 	/*margin-left: 90%;*/
 }
@@ -52,7 +48,7 @@ html{
 	*/
 	width: 100%;
 	height: 80px;
-	bottom: 8%;
+	bottom: 7%;
 	position: fixed;
 	margin-left: 88%;
 }
@@ -163,4 +159,15 @@ html{
 
 #aboton{
 	margin-top: 2%;
+}
+
+.iconEdicion{
+	color: white;
+	font-size: 32px;
+	display: inline-block;
+	margin-top:-4%;
+}
+
+.iconEdicion:hover{
+	color: blacK;
 }
