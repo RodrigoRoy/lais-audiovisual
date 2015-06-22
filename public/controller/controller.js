@@ -132,8 +132,12 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		console.log("codigo: " + codigoId);
 		$http.get('php/manejoBD.php?action=obtenerXAreas&id=' + codigoId).
     	success(function(data) {
-    		console.log("All: " + data.identificacion.titulo_propio);
+    		//console.log("All: " + data.identificacion.titulo_propio);
     		$scope.allInfo = data;
+    		//console.log("Datos:");
+    		//for(i in $scope.allInfo.identificacion){
+    		//	console.log(i);
+    		//}
     	});
 	};
 
@@ -245,6 +249,8 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
 		$scope.datos_del_archivero = data.datos_del_archivero;
 		$scope.reglas_o_normas = data.reglas_o_normas;
 		$scope.fecha_de_descripcion = data.fecha_de_descripcion;
+		$scope.url = data.url;
+		$scope.imagen_previa = data.imagen;
     });
 
 	/*$scope.editar = function(){

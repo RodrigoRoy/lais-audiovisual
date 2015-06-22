@@ -9,26 +9,30 @@ move_uploaded_file( $_FILES['file']['tmp_name'] , $destination );
 // Agregar el nombre de la imagen a la base de datos
 $codigo_de_referencia = $_POST['codigo_de_referencia'];
 
-$select = "SELECT imagen FROM informacion_adicional WHERE codigo_de_referencia = '" . $id . "'";
+$select = "SELECT imagen FROM informacion_adicional WHERE codigo_de_referencia = '" . $codigo_de_referencia . "'";
 $stmt = $conn->prepare($select);
 $stmt->execute();
 $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
-if ($stmt->rowCount() == 1){
-    $data = $stmt->fetch(); // Obtener el único resultado de la base de datos
-    print_r(json_encode($data));
+$data = $stmt->fetch(); // Obtener el único resultado de la base de datos
+
+if ($data['imagen'] == null || $data['imagen'] == ''){ // Verificar si se requiere crear o actualizar el registro
+    $info_adicional = "INSERT INTO informacion_adicional(codigo_de_referencia, imagen) VALUES('"
+		. $codigo_de_referencia . "','"
+		. $filename
+		. "');";
+}else{
+	$info_adicional = "UPDATE informacion_adicional SET "
+        . "imagen='" . $filename
+        . "' WHERE codigo_de_referencia='" . $codigo_de_referencia . "'";
 }
 
-
-
-$info_adicional = "INSERT INTO informacion_adicional(codigo_de_referencia, imagen) VALUES('"
-    . $codigo_de_referencia . "','"
-    . $filename
-    . "');";
+// Ejecutar inserción o actualizacion
 try{
     $conn->exec($info_adicional);
 }
 catch(PDOException $e){
     echo $e->getMessage();
 }
+
 $conn = null;
 ?>

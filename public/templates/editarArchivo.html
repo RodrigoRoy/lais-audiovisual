@@ -785,6 +785,8 @@
 					<!--<input class="form-control" id="imagen" name="imagen" ng-model="imagen" ng-maxlength="255">-->
 					<input type="file" id="imagen" accept="image/*" ngf-select="" ng-model="imagen" name="file" class="ng-pristine ng-valid ng-scope">
 				</div>
+				<img height="128" width="128" src="imgs/Portadas/Portada.jpg">
+				Previa: {{imagen_previa}}
 				<p ng-show="imagen[0] != null">Previsualización de imágen:</p>
 		        <img height="128" ng-show="imagen[0] != null" ngf-src="imagen[0]" class="thumb" ngf-accept="'image/*'">
 		        <div class="form-group">
