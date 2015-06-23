@@ -251,6 +251,11 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 
 
 lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, Upload){
+	if(!$scope.sesion && !$scope.permiso >= 2){
+		console.log('No hay permisos suficientes');
+		$location.url('/archivos/');
+	}
+
 	$http.get('php/manejoBD.php?action=obtener&id=' + $routeParams.id).
     success(function(data) {
         $scope.codigo_de_referencia = data.codigo_de_referencia;
@@ -375,6 +380,11 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
 lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload){
+	if(!$scope.sesion && !$scope.permiso >= 1){
+		console.log('No hay permisos suficientes');
+		$location.url('/archivos/');
+	}
+
 	$scope.envia = function(files){
 		$http.post('php/manejoBD.php?action=agregar', 
 			scopeData2object($scope)
