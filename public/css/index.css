@@ -147,8 +147,8 @@ html{
 }
 
 .contenedorInfo{
-	margin-left: 10%;
-	width: 80.29%;
+	margin-left: 5%;
+	width: 90%;
 	background-color: rgba(6, 63, 91,0.4);
 	border-radius: 5px;
 	margin-bottom: 1%;
@@ -159,9 +159,9 @@ html{
 }
 
 #aboton{
-	bottom: 0px;
-	position: absolute;
-	width: 95%;
+	width: 90%;
+	margin-left: 5%;
+	margin-bottom: 1%;
 }
 
 .iconEdicion{
