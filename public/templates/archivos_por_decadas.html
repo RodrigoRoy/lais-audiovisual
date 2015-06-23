@@ -73,25 +73,25 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                   <div class="tab-pane active" id="identificacion">
-                    <h3 ng-repeat="key in notSort(allInfo.identificacion)" ><strong>{{key}}: </strong>{{allInfo.identificacion[key]}}</h3>
+                    <h3 ng-repeat="key in notSort(allInfo.identificacion)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.identificacion[key]}}</h3>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="contexto">
-                    <h3 ng-repeat="key in notSort(allInfo.contexto)" ><strong>{{key}}: </strong>{{allInfo.contexto[key]}}</h3>
+                    <h3 ng-repeat="key in notSort(allInfo.contexto)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.contexto[key]}}</h3>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="contenido_y_estructura">
-                    <h3 ng-repeat="key in notSort(allInfo.contenido_y_estructura)" ><strong>{{key}}: </strong>{{allInfo.contenido_y_estructura[key]}}</h3>
+                    <h3 ng-repeat="key in notSort(allInfo.contenido_y_estructura)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.contenido_y_estructura[key]}}</h3>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="condiciones_de_acceso">
-                    <h3 ng-repeat="key in notSort(allInfo.condiciones_de_acceso)" ><strong>{{key}}: </strong>{{allInfo.condiciones_de_acceso[key]}}</h3>
+                    <h3 ng-repeat="key in notSort(allInfo.condiciones_de_acceso)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.condiciones_de_acceso[key]}}</h3>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="documentacion_asociada">
-                     <h3 ng-repeat="key in notSort(allInfo.documentacion_asociada)" ><strong>{{key}}: </strong>{{allInfo.documentacion_asociada[key]}}</h3>
+                     <h3 ng-repeat="key in notSort(allInfo.documentacion_asociada)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.documentacion_asociada[key]}}</h3>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="notas">
-                    <h3 ng-repeat="key in notSort(allInfo.notas)" ><strong>{{key}}: </strong>{{allInfo.notas[key]}}</h3>
+                    <h3 ng-repeat="key in notSort(allInfo.notas)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.notas[key]}}</h3>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="descripcion">
-                    <h3 ng-repeat="key in notSort(allInfo.descripcion)" ><strong>{{key}}: 
+                    <h3 ng-repeat="key in notSort(allInfo.descripcion)" ><strong>{{encabezados[key]}}: 
                     </strong>{{allInfo.descripcion[key]}}</h3>
                   </div>
                 </div>

@@ -121,6 +121,73 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 					  '20':"2080-2089",
 					  '21':"2090-2099",
 					  '22':"3000-3009" };
+	$scope.encabezados = {
+		'codigo_de_referencia': 'Código de referencia',
+		'titulo_propio': 'Título propio',
+		'titulo_paralelo': 'Título paralelo',
+		'titulo_atribuido': 'Título atribuido',
+		'titulo_de_serie': 'Título de serie',
+		'numero_de_programa': 'Número de programa',
+		'pais': 'País',
+		'fecha': 'Fecha',
+		'duracion': 'Duración',
+		'investigacion': 'Investigación',
+		'realizacion': 'Realización',
+		'direccion': 'Dirección',
+		'guion': 'Guión',
+		'adaptacion': 'Adaptación',
+		'idea_original': 'Idea original',
+		'fotografia': 'Fotografía',
+		'fotografia_fija': 'Fotografía fija',
+		'edicion': 'Edición',
+		'sonido_grabacion': 'Grabación de sonido',
+		'sonido_edicion': 'Edición de sonido',
+		'musica_original': 'Música original',
+		'musicalizacion': 'Musicalización',
+		'voces': 'Voces',
+		'actores': 'Actores',
+		'animacion': 'Animación',
+		'otros_colaboradores': 'Otros colaboradores',
+		'entidad_productora': 'Entidad productora',
+		'productor': 'Productor',
+		'distribuidora': 'Distribuidora',
+		'historia_institucional': 'Historia institucional',
+		'resena_biografica': 'Reseña biográfica',
+		'forma_de_ingreso': 'Forma de ingreso',
+		'fecha_de_ingreso': 'Fecha de ingreso',
+		'sinopsis': 'Sinópsis',
+		'descriptor_onomastico': 'Descriptor onomástico',
+		'descriptor_toponimico': 'Descriptor toponímico',
+		'descriptor_cronologico': 'Descriptor cronológico',
+		'tipo_de_produccion': 'Tipo de produccion',
+		'genero': 'Género',
+		'fuentes': 'Fuentes',
+		'recursos': 'Recursos',
+		'versiones': 'Versiones',
+		'formato_original': 'Formato original',
+		'material_extra': 'Material extra',
+		'condiciones_de_acceso': 'Condiciones de acceso',
+		'existencia_y_localizacion_de_originales': 'Existencia y localización de originales',
+		'idioma_original': 'Idioma original',
+		'doblajes_disponibles': 'Doblajes disponibles',
+		'subtitulajes': 'Subtitulajes',
+		'soporte': 'Soporte',
+		'numero_copias': 'Número de copias',
+		'descripcion_fisica': 'Descripción física',
+		'color': 'Color',
+		'audio': 'Audio',
+		'sistema_de_grabacion': 'Sistema de grabación',
+		'region_dvd': 'Región del DVD',
+		'requisitos_tecnicos': 'Requisitos técnicos',
+		'existencia_y_localizacion_de_copias': 'Existencia y localización de copias',
+		'unidades_de_descripcion_relacionadas': 'Unidades de descripción relacionadas',
+		'documentos_asociados': 'Documentos asociados',
+		'area_de_notas': 'Área de notas',
+		'notas_del_archivero': 'Notas del archivero',
+		'datos_del_archivero': 'Datos del archivero',
+		'reglas_o_normas': 'Reglas o normas',
+		'fecha_de_descripcion': 'Fecha de descripción'
+	}
 	$('#decadas').html('<h1 style="margin-left:1%;">Década '+allDecades[($scope.codigo).split("-")[3]]+'</h1>');
 	$http.get('php/manejoBD.php?action=mostrarCaratula&query='+$routeParams.codigo).
 	success(function(data){
@@ -138,15 +205,10 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	};
 
 	$scope.editar = function(id){
-		$('#modalInfo').modal('hide');
-		$('body').removeClass('modal-open');
+		$('#modalInfo').modal('hide'); // Ocultar modal
+		$('body').removeClass('modal-open'); // Eliminar del DOM
 		$('.modal-backdrop').remove();
-		/*$('#modalInfo').on('hidden.bs.modal', function (e) {
-		  //$location.url('/archivos/editarArchivo/' + id);
-		})*/
-		console.log("Modal se ha cerrado");
-		//$window.location.href='#/archivos/editarArchivo/' + id;
-		$location.url('/archivos/editarArchivo/' + id);
+		$location.url('/archivos/editarArchivo/' + id); // Redirigir a la página de edición
     }
 
     $scope.confirmacion = function(){
@@ -181,13 +243,14 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     }
 
     $scope.notSort = function(obj){
+    	if (!obj)
+    		return [];
     	return Object.keys(obj);
-
     }
 });
 
 
-lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location){
+lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, Upload){
 	$http.get('php/manejoBD.php?action=obtener&id=' + $routeParams.id).
     success(function(data) {
         $scope.codigo_de_referencia = data.codigo_de_referencia;

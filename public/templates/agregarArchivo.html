@@ -783,10 +783,10 @@
 				<div class="form-group">
 					<label for="imagen">Imágen o portada</label>
 					<!--<input class="form-control" id="imagen" name="imagen" ng-model="imagen" ng-maxlength="255">-->
-					<input type="file" id="imagen" accept="image/*" ngf-select="" ng-model="imagen" name="file" class="ng-pristine ng-valid ng-scope">
+					<input type="file" id="imagen" ngf-select ng-model="imagen" accept="image/*" ngf-max-size='2097152' name="file" class="ng-pristine ng-valid ng-scope">
 				</div>
 				<p ng-show="imagen[0] != null">Previsualización de imágen:</p>
-		        <img height="128" ng-show="imagen[0] != null" ngf-src="imagen[0]" class="thumb" ngf-accept="'image/*'">
+		        <img height="128" ng-show="imagen[0] != null" ngf-src="imagen[0]" ngf-accept="'image/*'" class="thumb">
 		        <div class="form-group">
 					<label for="url">Página web</label>
 					<input class="form-control" id="url" name="url" ng-model="url" ng-maxlength="255" ng-pattern="/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/">
