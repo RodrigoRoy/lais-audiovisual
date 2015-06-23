@@ -6,6 +6,7 @@
 body{
     width: 100%;
     height: 100%;
+    background-color: black;
     background-image:url('../imgs/chago_obscura.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -97,31 +98,29 @@ html{
 	margin-bottom: 2%;
 }
 
-.thumbnail{
-
-	background-color: transparent;
-	height: 350px;
-	display: block;
-	padding: 4px;
-	margin-bottom: 20px;
-	border: 0px;
+.portadas{
+	padding: 10px 10px 10px 15px;
+  	background-repeat: no-repeat;
+  	background: cover;
+  	display: inline-block;
 }
 
-.thumbnail img:hover{
+.portadas img {
+  width: 180px;
+  height: 250px;
+}
+
+.portadas img:hover{
 	/*
 	-webkit-transform: rotate(-7deg);
 	-moz-transform: rotate(-7deg);
 	-ms-transform: rotate(-7deg);
 	transform: rotate(-7deg);
+
 	*/
 	margin-top: -10px;
 }
 
-#coverDecades{
-	width: 100%;
-	height: 100%;
-	box-shadow: 3px 3px 10px black;
-}
 
 .informacion{
 	width: 90%;
@@ -183,3 +182,30 @@ html{
 .popover-content {
 	color: black;
 }
+
+#coverDecades{
+    width: 100%;
+    height: 100%;
+    box-shadow: 3px 3px 10px black;
+}
+
+.thumbnail{
+
+       background-color: transparent;
+       height: 350px;
+       display: block;
+       padding: 4px;
+       margin-bottom: 20px;
+       border: 0px;
+}
+
+.thumbnail img:hover{
+       /*
+       -webkit-transform: rotate(-7deg);
+       -moz-transform: rotate(-7deg);
+       -ms-transform: rotate(-7deg);
+       transform: rotate(-7deg);
+       */
+       margin-top: -10px;
+}
+
