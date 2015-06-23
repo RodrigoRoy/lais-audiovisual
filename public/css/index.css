@@ -136,9 +136,9 @@ html{
 #asinopsis{
 	background-color: transparent;
 	width: 100%;
-	max-height: 248px;
+	max-height: 240px;
 	overflow: auto;
-	height: 253px;
+	height: 240px;
 }
 
 #masInfo{
@@ -159,7 +159,9 @@ html{
 }
 
 #aboton{
-	margin-top: 2%;
+	bottom: 0px;
+	position: absolute;
+	width: 95%;
 }
 
 .iconEdicion{
