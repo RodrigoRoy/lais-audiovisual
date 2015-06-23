@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-4 col-md-2" ng-repeat="archivo in archivos">
 		    <a data-toggle="modal" data-target="#modalInfo" data-whatever="@mdo"class="btn btn-link" class="thumbnail otro">
-		    	<img class="img-rounded" ng-click="getAllInfo(archivo)" id="coverDecades" src="imgs/Portadas/El_Triangulo.jpg">
+		    	<img class="img-rounded" ng-click="getAllInfo(archivo)" id="coverDecades" ng-src="imgs/Portadas/El_Triangulo.jpg">
 		    </a>
 		</div>
 	</div>
@@ -22,10 +22,10 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h1 class="modal-title" id="gridSystemModalLabel">{{allInfo.identificacion.titulo_propio}} 
-            <a class="iconEdicion" href="" ng-click="editar(allInfo.identificacion.codigo_de_referencia)" >
-            <span class="glyphicon glyphicon-edit"></span>
+            <a ng-show="sesion" class="iconEdicion" href="" ng-click="editar(allInfo.identificacion.codigo_de_referencia)" >
+              <span class="glyphicon glyphicon-edit"></span>
             </a>
-            <a class="iconEdicion" href="" ng-click="confirmacion()">
+            <a ng-show="sesion" class="iconEdicion" href="" ng-click="confirmacion()">
               <span class="glyphicon glyphicon-remove-circle"></span>
             </a>
           </h1>
