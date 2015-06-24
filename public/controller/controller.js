@@ -1,4 +1,4 @@
-var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload']);
+var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload','infinite-scroll']);
 
 lais.config(function ($routeProvider, $locationProvider){
 	//console.log("Ruteando");
