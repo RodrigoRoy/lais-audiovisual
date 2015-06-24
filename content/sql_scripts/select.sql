@@ -126,3 +126,9 @@ SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decadas FROM area
 
 #SELECT PARA TRAER TODOS LOS ARCHIVOS DE UNA DECADA EN ESPECIFICO
 SELECT codigo_de_referencia FROM area_de_identificacion WHERE codigo_de_referencia LIKE '%MXIM-AV-1-4%';
+
+# Obtener una cantidad limitada de registros (en el ejemplo se piden 10 registros a partir del registro 0)
+SELECT * 
+	FROM area_de_identificacion 
+	WHERE codigo_de_referencia LIKE '%MXIM-AV-1-4%'
+	LIMIT 0,10; # offset, row_count
