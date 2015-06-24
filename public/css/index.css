@@ -54,7 +54,7 @@ html{
 	margin-left: 88%;
 }
 
-.caret{
+.caretForm{
 	position: absolute;
   	right: 15px;
  	margin-top: 9px;
@@ -207,4 +207,13 @@ html{
        transform: rotate(-7deg);
        */
        margin-top: -10px;
+}
+
+#menuUsuario{
+	background-color: #101010;
+	opacity: .9;
+}
+
+#texto{
+	color: white;
 }

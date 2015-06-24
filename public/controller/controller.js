@@ -191,12 +191,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	
 	
 	$('#decadas').html('<h1 style="margin-left:1%;">Década '+allDecades[($scope.codigo).split("-")[3]]+'</h1>');
-	/*
-	$http.get('php/manejoBD.php?action=mostrarCaratula&query='+$routeParams.codigo).
-	success(function(data){
-		$scope.archivos = data;
-	});
-	*/
+	
 	
 	$scope.archivos = [];
 	var contador = 0;
