@@ -187,7 +187,8 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		'datos_del_archivero': 'Datos del archivero',
 		'reglas_o_normas': 'Reglas o normas',
 		'fecha_de_descripcion': 'Fecha de descripción'
-	}
+	};
+
 	$('#decadas').html('<h1 style="margin-left:1%;">Década '+allDecades[($scope.codigo).split("-")[3]]+'</h1>');
 	$http.get('php/manejoBD.php?action=mostrarCaratula&query='+$routeParams.codigo).
 	success(function(data){
