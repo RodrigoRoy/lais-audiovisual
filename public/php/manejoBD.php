@@ -34,6 +34,9 @@ switch ($_GET['action']) {
     case 'obtenerXAreas':
         obtenerArea($_GET['id']);
         break;
+    case 'mostrarCaratulaScroll':
+        mostrarCaratulaScroll($_GET['codigo'],$_GET['howMany'],$_GET['offset']);
+        break;
 }
 
 /*Funcion que muestra los datos completos de cada archivo audiovisual*/
@@ -489,4 +492,17 @@ function obtenerArea($id){
     print_r(json_encode($areas)); // Devolver resultado para ser leido por controller.js
 }
 
+function mostrarCaratulaScroll($codigo,$howMany,$offset){
+    $select = "SELECT codigo_de_referencia FROM area_de_identificacion WHERE codigo_de_referencia LIKE '%".$codigo."%' LIMIT ".$offset.",".$howMany;
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    //$stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    
+    // Check if id is in database (for develop purpose only)
+    if ($stmt->rowCount() != 0){
+        $data = $stmt->fetchAll(PDO::FETCH_COLUMN,0); // Obtener el único resultado de la base de datos
+        print_r(json_encode($data));
+        //print_r($data);
+    }
+}
 ?>

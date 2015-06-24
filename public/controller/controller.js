@@ -188,13 +188,41 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		'reglas_o_normas': 'Reglas o normas',
 		'fecha_de_descripcion': 'Fecha de descripción'
 	};
-
+	
+	
 	$('#decadas').html('<h1 style="margin-left:1%;">Década '+allDecades[($scope.codigo).split("-")[3]]+'</h1>');
+	/*
 	$http.get('php/manejoBD.php?action=mostrarCaratula&query='+$routeParams.codigo).
 	success(function(data){
 		console.log("Datos: " + data);
 		$scope.archivos = data;
 	});
+	*/
+	
+	$scope.archivos = [];
+	var contador = 0;
+	var howMany = 12;
+	$scope.busy = false;
+
+	$scope.loadMore = function(){
+		if($scope.busy)
+			return;
+		$scope.busy = true;
+		$http.get('php/manejoBD.php?action=mostrarCaratulaScroll&codigo='+$routeParams.codigo+"&howMany="+howMany+"&offset="+contador).
+		success(function(data){
+			console.log("Datos: " + data);
+			//$scope.archivos = data;
+			for(portada in data){
+				$scope.archivos.push(portada);
+				contador++;
+			}
+			console.log($scope.archivos.length);
+			$scope.busy = false;
+			if (data.length == 0)
+				$scope.busy = true;
+			console.log("Data length: " + data.length);
+		});		
+	};
 
 	$scope.getAllInfo = function(codigoId){
 		console.log("codigo: " + codigoId);
