@@ -194,7 +194,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	/*
 	$http.get('php/manejoBD.php?action=mostrarCaratula&query='+$routeParams.codigo).
 	success(function(data){
-		console.log("Datos: " + data);
 		$scope.archivos = data;
 	});
 	*/
@@ -228,7 +227,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		console.log("codigo: " + codigoId);
 		$http.get('php/manejoBD.php?action=obtenerXAreas&id=' + codigoId).
     	success(function(data) {
-    		//console.log("All: " + data.identificacion.titulo_propio);
     		$scope.allInfo = data;
     	});
 	};
@@ -241,7 +239,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     }
 
     $scope.confirmacion = function(){
-    	var txt;
     	var c = confirm("¿Seguro que deseas borrar el archivo audiovisual?" + "\n" + $scope.allInfo.identificacion.codigo_de_referencia);
     	if(c == true){
     		console.log("Id: " + $scope.allInfo.identificacion.codigo_de_referencia);
@@ -249,7 +246,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	}else{
     		
     	}
-    	console.log(txt);
     }
 
     $scope.eliminar = function(id){

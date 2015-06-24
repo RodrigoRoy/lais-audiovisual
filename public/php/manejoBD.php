@@ -488,8 +488,8 @@ function obtenerArea($id){
         $areas["notas"] = $stmt->fetch();
         unset($areas['notas']['codigo_de_referencia']);
     }
-    $GLOBALS['conn'] = null; // Cerrar conexion
     print_r(json_encode($areas)); // Devolver resultado para ser leido por controller.js
+    $GLOBALS['conn'] = null; // Cerrar conexion
 }
 
 function mostrarCaratulaScroll($codigo,$howMany,$offset){

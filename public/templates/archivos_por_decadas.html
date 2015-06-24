@@ -71,25 +71,39 @@
               <!-- Tab panes -->
               <div class="tab-content">
                 <div class="tab-pane active" id="identificacion">
-                  <h3 ng-show="{{allInfo.identificacion[key]}}" ng-repeat="key in notSort(allInfo.identificacion)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.identificacion[key]}}</h3>
+                  <!--<table class="table">
+                    <thead>
+                      <tr>
+                        <th>Rubro</th>
+                        <th>Datos</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="key in notSort(allInfo.identificacion)" ng-show="{{allInfo.identificacion[key] != ''}}">
+                        <td>{{encabezados[key]}}</td>
+                        <td>{{allInfo.identificacion[key]}}</td>
+                      </tr>
+                    </tbody>
+                  </table>-->
+                  <h3 ng-repeat="key in notSort(allInfo.identificacion)" ng-show="{{allInfo.identificacion[key] != ''}}"><strong>{{encabezados[key]}}: </strong>{{allInfo.identificacion[key]}}</h3>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="contexto">
-                  <h3 ng-show="{{allInfo.contexto[key]}}" ng-repeat="key in notSort(allInfo.contexto)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.contexto[key]}}</h3>
+                  <h3 ng-repeat="key in notSort(allInfo.contexto)" ng-show="{{allInfo.contexto[key] != ''}}"><strong>{{encabezados[key]}}: </strong>{{allInfo.contexto[key]}}</h3>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="contenido_y_estructura">
-                  <h3 ng-show="{{allInfo.contenido_y_estructura[key]}}" ng-repeat="key in notSort(allInfo.contenido_y_estructura)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.contenido_y_estructura[key]}}</h3>
+                  <h3 ng-repeat="key in notSort(allInfo.contenido_y_estructura)" ng-show="{{allInfo.contenido_y_estructura[key] != ''}}"><strong>{{encabezados[key]}}: </strong>{{allInfo.contenido_y_estructura[key]}}</h3>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="condiciones_de_acceso">
-                  <h3 ng-show="{{allInfo.condiciones_de_acceso[key]}}" ng-repeat="key in notSort(allInfo.condiciones_de_acceso)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.condiciones_de_acceso[key]}}</h3>
+                  <h3 ng-repeat="key in notSort(allInfo.condiciones_de_acceso)" ng-show="{{allInfo.condiciones_de_acceso[key] != ''}}"><strong>{{encabezados[key]}}: </strong>{{allInfo.condiciones_de_acceso[key]}}</h3>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="documentacion_asociada">
-                   <h3 ng-show="{{allInfo.documentacion_asociada[key]}}" ng-repeat="key in notSort(allInfo.documentacion_asociada)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.documentacion_asociada[key]}}</h3>
+                   <h3 ng-repeat="key in notSort(allInfo.documentacion_asociada)" ng-show="{{allInfo.documentacion_asociada[key] != ''}}"><strong>{{encabezados[key]}}: </strong>{{allInfo.documentacion_asociada[key]}}</h3>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="notas">
-                  <h3 ng-show="{{allInfo.notas[key]}}" ng-repeat="key in notSort(allInfo.notas)" ><strong>{{encabezados[key]}}: </strong>{{allInfo.notas[key]}}</h3>
+                  <h3 ng-repeat="key in notSort(allInfo.notas)" ng-show="{{allInfo.notas[key] != ''}}"><strong>{{encabezados[key]}}: </strong>{{allInfo.notas[key]}}</h3>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="descripcion">
-                  <h3 ng-show="{{allInfo.descripcion[key]}}"ng-repeat="key in notSort(allInfo.descripcion)" ><strong>{{encabezados[key]}}: 
+                  <h3 ng-repeat="key in notSort(allInfo.descripcion)" ng-show="{{allInfo.descripcion[key] != ''}}"><strong>{{encabezados[key]}}: 
                   </strong>{{allInfo.descripcion[key]}}</h3>
                 </div>
               </div>
