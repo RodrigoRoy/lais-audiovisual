@@ -1,0 +1,40 @@
+% Preamble
+\documentclass[10pt,letterpaper]{article}
+\usepackage[spanish]{babel}
+
+% Packages
+\selectlanguage{spanish}
+\usepackage[utf8]{inputenc} % For spanish (and international) letters like acents.
+\usepackage{hyperref} % To create hyperlinks within the document.
+\usepackage{graphicx} % To include graphics (pictures, images)
+%\usepackage{float} % For the use of the parameter "H" in command "\begin{figure}[H]" (i.e. exact position of image in text)
+\usepackage{verbatim} % For long comments
+
+% Document environment
+\begin{document}
+
+% Top matter
+\title{Recomendaciones para el Manual de Catalogación del Acervo de Documental en Video}
+\author{Rodrigo Eduardo Colín Rivera}
+\date{\today}
+\maketitle
+
+\setcounter{secnumdepth}{0} % Non-numbering sections
+\setcounter{tocdepth}{0} % Non-numnbering table of contents
+%\graphicspath{{../Diagramas/}} % Path of the folder containing the images
+
+\section{Antecedentes}
+El Manual de Catalogación del Acervo de Documental en Video para la Serie de Documentales en Video del Laboratorio Audiovisual de Investigación Social del Instituto Mora es un manual que expone las características de los diversos rubros que integra la ficha de documentación gestada con base en la adaptación de la norma ISAD(G) (\textit{General International Standard Archival Description}).
+
+Durante el desarrollo del sistema de apoyo a la catalogación de archivos audiovisuales se tomó la decisión de crear una \textbf{base de datos} que almacene cada rubro estipulado en dicho manual. Sin embargo, dado que la información debe ser comprensible tanto para personas como para la máquina, es decir, se requieren algunos convenciones para que la información pueda ser procesada de manera automática sin perder la expresividad descrita por las personas o catalogadores.
+
+A continuación se describen los formatos deseables de algunos campos que facilitarán el proceso de automatizar y manejar la información del ccervo de documental en video.
+
+\section{Fechas}
+
+\subsection{Fecha}
+Comúnmente este rubro consigna el \textbf{año} en el que se terminó la producción de la obra. La fecha puede comprender un periodo de tiempo determinado indicando el año de inicio y el año de finalización de la obra y en caso de desconocer este dato, se aproxima la fecha entre corchetes. Por ejemplo: \verb|1956|, \verb|1948-1949|, \verb|[1982]|, \verb|[1992-1993]|.
+
+Se debe \textbf{evitar} escribir texto como: \verb|1992-1993 aprox.| o \verb|Siglo XX|.
+
+\end{document}
