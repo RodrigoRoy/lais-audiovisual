@@ -13,7 +13,9 @@
         <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != null) ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
       </p>
     </a>
-    <span ng-show="!busy" class="glyphicon glyphicon-refresh"></span>
+    <div id="load" ng-cloak ng-show="!busy">
+      <img id="imgLoad" src="imgs/loading.gif">
+    </div>
   </div>
 </div>
 

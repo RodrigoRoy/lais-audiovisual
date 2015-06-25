@@ -3,15 +3,7 @@ var crudApp = angular.module('crud', []);
 
 crudApp.controller('mainCtrl', function ($scope,$http) {
 	$scope.nombreAuxiliar = '';
-	$scope.edit = false; // Bandera para mostrar/ocultar botones
-	/*$scope.colores = [
-	    {name: "Rojo", ticked: true},
-	    {name: "Verde", ticked: false},
-	    {name: "Azul", ticked: false},
-	    {name: "Amarillo", ticked: false},
-	    {name: "Blanco", ticked: true},
-	    {name: "Negro", ticked: false}
-	];*/ 
+	$scope.edit = false; 
 
 	getDatos();
 

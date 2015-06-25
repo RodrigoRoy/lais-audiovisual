@@ -40,12 +40,11 @@
                                  		Cerrar Sesion
                                  		<span class="caret"></span> 
                                  	</a>-->
-
 								</li>
 								<li ng-show="sesion" class="dropdown">
-							        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuario <span class="caret"></span></a>
+							        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user}}<span class="caret"></span></a>
 							        <ul id="menuUsuario" class="dropdown-menu">
-							            <li ><a id="texto" href="">Administración</a></li>
+							            <li ><a id="texto" href="#administracion_usuarios">Administración</a></li>
 							            <li role="separator" class="divider"></li>
 							            <li ><a id="texto" ng-click="logout()" href="">Cerrar Sesion</a></li>
 							        </ul>

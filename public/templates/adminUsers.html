@@ -1,0 +1,89 @@
+<br><br>
+<div class="container adminUser">
+	<div class="page-header">
+		<h1>Administración de Usuarios</h1>
+	</div>
+
+	<h2 ng-cloak ng-show="!edit">Agregar</h2>
+	<h2 ng-cloak ng-show="edit">Editar</h2>
+	<form role="form" name="formUser">
+		<div class="form-group">
+			<label for="nombre">Nombre:</label>
+			<input type="text" class="form-control" name="nombre" ng-model="nombre" id="nombre" ng-minlength="3" required>
+		</div>
+		<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+		<div class="error" 
+          ng-show="formUser.nombre.$dirty && formUser.nombre.$invalid">
+          <small class="error" ng-show="formUser.nombre.$error.required">
+            ERROR: Se requiere un nombre
+          </small>
+          <small class="error" ng-show="formUser.nombre.$error.minlength">
+            ERROR: El nombre debe ser al menos de 3 letras
+          </small>
+        </div>
+		<div class="form-group">
+			<label for="password">Contraseña</label>
+			<input type="password" class="form-control" name="password" ng-model="password" id="password" ng-minlength="3" required>
+		</div>
+		<div class="error" 
+          ng-show="formUser.password.$dirty && formUser.password.$invalid">
+          <small class="error" ng-show="formUser.password.$error.required">
+            ERROR: Se requiere una contraseña
+          </small>
+          <small class="error" ng-show="formUser.password.$error.minlength">
+            ERROR: La contraseña debe ser al menos de 3 letras
+          </small>
+        </div>
+		<div class="form-group">
+			<label for="password">Confirmar Contraseña</label>
+			<input type="password" class="form-control" name="confirmPass" ng-model="confirmPass" id="confirmPass" ng-minlength="3" required ng-disabled="formUser.password.$invalid">
+		</div>
+		<div class="error" 
+          ng-show="formUser.password.$dirty && formUser.password.$invalid">
+          <small class="error" ng-show="{{$scope.password != $scope.confirmPass}}">
+            ERROR: La contraseña no coincide
+          </small>
+        </div>
+		<div class="form-group">
+			<label for="password">Selecciones los permisos</label>
+			<select class="form-control" name="privilegio" id="privilegio" ng-model="privilegio" required>
+				<option value="0">Sin Permisos</option>
+				<option value="1">Agregar</option>
+				<option value="2">Agregar y Editar</option>
+				<option value="3">Agregar, Editar y Eliminar</option>
+			</select>
+		</div>
+		<div class="error" 
+          ng-show="formUser.privilegio.$dirty && formUser.privilegio.$invalid">
+          <small class="error" ng-show="formUser.privilegio.$error.required">
+            ERROR: Se requiere seleccionar el tipo de permisos para el usuario
+          </small>
+        </div>
+		<button ng-disabled="formUser.$invalid" type="submit" class="btn btn-default" ng-click="enviar()" ng-show="!edit">Enviar</button>
+		<button ng-disabled="formUser.$invalid" type="submit" class="btn btn-default" ng-click="actualizar()" ng-hide="!edit">Actualizar</button>
+	</form>
+
+	<h2>Usuarios</h2>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Privilegio</th>
+				<th>Editar</th>
+				<th>Borrar</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="registro in datos">
+				<td>{{registro.Username}}</td>
+				<td>{{privilegios[registro.Privilegio]}}</td>
+				<td>
+					<button class="btn btn-default" ng-click="editar(registro.Username)"><span class="glyphicon glyphicon-pencil"></span></button>
+				</td>
+				<td>
+					<button class="btn btn-danger" ng-click="eliminar(registro.Username)"><span class="glyphicon glyphicon-remove"></span></button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

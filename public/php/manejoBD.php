@@ -40,6 +40,21 @@ switch ($_GET['action']) {
     case 'firstGet':
         firstGet($_GET['codigo'],$_GET['howMany'],$_GET['offset']);
         break;
+    case 'verUsuarios':
+        obtener_datosUsuarios();
+        break;
+    case 'obtenerUsuario':
+        obtener_usuario($_GET['name']);
+        break;
+    case 'agregarUsuario':
+        agregar_datosUsuario();
+        break;
+    case 'actualizarUsuario':
+        actualizar_usuario();
+        break;
+    case 'borrarUsuario':
+        borrarUsuario();
+        break;
 }
 
 /*Funcion que muestra los datos completos de cada archivo audiovisual*/
@@ -527,5 +542,71 @@ function firstGet($codigo, $howMany, $offset){
         $data = $stmt->fetchAll(); // Obtener los datos
         print_r(json_encode($data)); // Convertir a json y mostrar para poder rescatar los datos desde otro script
     }
+}
+
+//Obtiene todo los usuarios
+function obtener_datosUsuarios(){
+    $select = "SELECT * FROM usuarios";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $data = $stmt->fetchAll();
+    print_r(json_encode($data));
+    $GLOBALS['conn'] = null;
+}
+
+//Obtiene información de un usuario
+function obtener_usuario($usuario){
+    $select = "SELECT * FROM usuarios WHERE Username = '" . $usuario . "'";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    if ($stmt->rowCount() == 1){
+        $data = $stmt->fetch(); // Obtener el único resultado de la base de datos
+        print_r(json_encode($data));
+    }
+    $GLOBALS['conn'] = null;
+}
+
+
+//Funcion que agrega un nuevo usuario con sus respectivos datos
+function agregar_datosUsuario(){
+    $data = json_decode(file_get_contents("php://input"));
+    $sql = "INSERT INTO usuarios(Password,Username,Privilegio) VALUES('" . $data->Password . "', '" . $data->Username . "', '" . $data->Privilegio . "');";
+    try{
+        $GLOBALS['conn']->exec($sql);
+    }
+    catch(PDOException $e){
+        echo $e->getMessage();
+    }
+    $GLOBALS['conn'] = null;
+}
+
+//Función que actualiza a un usuario existente
+function actualizar_usuario(){
+    $data = json_decode(file_get_contents("php://input"));
+    $sql = "UPDATE usuarios SET Username ='" . $data->Username . "', Password ='" . $data->Password . "', Privilegio ='" . $data->Privilegio . "' WHERE Username='" . $data->nombreAuxiliar . "'";
+    try{
+        $stmt = $GLOBALS['conn']->prepare($sql);
+        $stmt->execute();
+    }
+    catch(PDOException $e){
+        echo $e->getMessage();
+    }
+    $GLOBALS['conn'] = null;
+}
+
+//Función que borra un usuario
+function borrarUsuario(){
+    $data = json_decode(file_get_contents("php://input"));
+    $name = $data->Username;
+    $sql = "DELETE FROM usuarios WHERE Username='" . $name . "'";
+    try{
+        $GLOBALS['conn']->exec($sql);
+    }
+    catch(PDOException $e){
+        echo $e->getMessage();
+    }
+    $GLOBALS['conn'] = null;
 }
 ?>
