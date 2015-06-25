@@ -34,6 +34,10 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/buscarRegistros.html",
 			controller: "busquedaCtrl"
 		})
+		.when("/administracion_usuarios",{
+			templateUrl: "templates/adminUsers.html",
+			controller: "adminUser"
+		})
 		.otherwise({
 			redirectTo: "/"
 		});
@@ -96,7 +100,7 @@ lais.controller('decadasCtrl',function($scope, $location, $http){
 });
 
 //Controlador que mostrara los archivos audiovisuales con su portada por decadas
-lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http){
+lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http, $timeout){
 	console.log("Parametro URL: "+ $routeParams.codigo);
 	$scope.codigo = $routeParams.codigo;
 	var allDecades = {'1':"1890-1899",
@@ -195,7 +199,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	
 	$scope.archivos = [];
 	var contador = 0;
-	var howMany = 12;
+	var howMany = 18;
 	$scope.busy = false;
 
 	$scope.loadMore = function(){
@@ -218,6 +222,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			//console.log("Data length: " + data.length);
 		});		
 	};
+
 
 	$scope.getAllInfo = function(codigoId){
 		console.log("codigo: " + codigoId);
@@ -410,7 +415,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload){
 		$http.post('php/manejoBD.php?action=agregar', 
 			scopeData2object($scope)
 		).success(function(data,status, headers, congif){
-			console.log(files);
+			//console.log(files);
 			$scope.upload(files); // Subir la imagen después de crear el registro en la base
 			alert("El archivo Audiovisual ha sido agregado");
 			//console.log("Datos: " + data);
@@ -453,10 +458,11 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 	$scope.permiso = 0;
 	$scope.errores = false;
 	$scope.sesion = $cookieStore.get('sesion');
-	console.log("Inicio:" + $scope.sesion);
+	$scope.user = $cookieStore.get('nombre');
+	//console.log("Inicio:" + $scope.sesion);
 	$scope.login= function(){
-		console.log("Usuario: " + $scope.usuario);
-		console.log("Pass: " + $scope.pass);
+		//console.log("Usuario: " + $scope.usuario);
+		//console.log("Pass: " + $scope.pass);
 		$http.post('php/manejoBD.php?action=login',
 			{
 				'Username' : $scope.usuario,
@@ -465,23 +471,30 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 				console.log("Se mandaron los datos");
 				if($scope.usuario == data.Username && $scope.pass == data.Password){
 					$cookieStore.put('sesion','true');
+					$cookieStore.put('nombre',data.Username);
 					$scope.sesion = $cookieStore.get('sesion');
+					$scope.user = $cookieStore.get('nombre');
 					$scope.permiso = data.Privilegio;
 					$scope.agregar = true;
-					console.log("En sesion\n"+ $scope.sesion);
-					console.log($scope.permiso);
+					//console.log("En sesion\n"+ $scope.sesion);
+					//console.log($scope.permiso);
+					//console.log("Usuario\n"+ $scope.user);
+
 					$window.location.reload(false);
+					//console.log("Usuario\n"+ $scope.usuario);
 					//$location.reload(true);
 				}else{
 					$cookieStore.remove('sesion');
+					$cookieStore.remove('nombre');
 					$scope.sesion = false;
 					$scope.errores = true;
 					$scope.permiso = 0;
-					console.log("Error de Sesion\n"+ $scope.sesion);
-					console.log($scope.permiso);
+					//console.log("Error de Sesion\n"+ $scope.sesion);
+					//console.log($scope.permiso);
 					$scope.permiso = 0;
 					$scope.usuario = "";
 					$scope.pass = "";
+					//console.log("Usuario\n"+ $scope.usuario);
 				}
 			}).error(function(data){
 				console.log("ERROR");
@@ -490,15 +503,14 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 
 	$scope.logout = function(){
 		$cookieStore.remove('sesion');
+		$cookieStore.remove('nombre');
 		$scope.sesion = false;
-		//$cookieStore.put('sesion','false');
-		//$scope.sesion = $cookieStore.get('sesion');
-		//$cookieStore.remove('sesion');
 		$scope.permiso = 0;
-		//$scope.usuario = "";
+		$scope.usuario = "";
 		$scope.pass = "";
-		console.log("Cerrar Sesion\n" + $scope.sesion);
-		console.log($scope.permiso);
+		//console.log("Cerrar Sesion\n" + $scope.sesion);
+		//console.log($scope.permiso);
+		//console.log("Usuario\n"+ $scope.user);
 		$location.url('/inicio');
 
 	}
@@ -524,6 +536,94 @@ lais.controller('busquedaCtrl',function($scope, $http, $routeParams, $location){
     });
 });
 
+//Administración de usuarios
+lais.controller('adminUser',function($scope,$http, $location){
+	//console.log("Sesion: " + $scope.sesion);
+	//console.log("Permiso: " + $scope.permiso);
+
+	if(!$scope.sesion && !($scope.permiso >= 3)){
+		console.log('No hay permisos suficientes');
+		$location.url('/inicio');
+	}
+	$scope.nombreAuxiliar = '';
+	$scope.edit = false; 
+
+	getDatos();
+
+	$scope.enviar = function(){
+		$http.post('php/manejoBD.php?action=agregarUsuario',
+		{
+			'Username': $scope.nombre,
+			'Password': $scope.password,
+			'Privilegio': $scope.privilegio
+		}).
+		success(function(data, status, headers, config) {
+			alert("Datos enviados");
+			location.reload();
+		}).
+		error(function(data, status, headers, config) {
+			alert("Error! en envio de datos");
+		});
+	}
+
+	$scope.editar = function(nombre){
+    	$scope.edit = true;
+    	$scope.nombreAuxiliar = nombre;
+    	$http.get('php/manejoBD.php?action=obtenerUsuario&name=' + nombre).
+    	success(function(data) {
+	        $scope.nombre = data.Username;
+	        $scope.password = data.Password;
+	        $scope.privilegio = data.Privilegio;
+	      
+	    });
+    }
+
+    $scope.actualizar = function(){
+    	$scope.edit = false;
+    	$http.post('php/manejoBD.php?action=actualizarUsuario',
+		{
+			'Username': $scope.nombre,
+			'Password': $scope.password,
+			'Privilegio': $scope.privilegio,
+			'nombreAuxiliar': $scope.nombreAuxiliar
+		}).
+		success(function(data, status, headers, config) {
+			alert("Datos actualizados");
+			location.reload();
+		}).
+		error(function(data, status, headers, config) {
+			alert("Error en actualizacion de datos");
+		});
+    }
+
+    $scope.eliminar = function(nombre){
+    	$http.post('php/manejoBD.php?action=borrarUsuario',
+		{
+			'Username': nombre
+		}).
+		success(function(data, status, headers, config) {
+			alert("Usuario eliminado");
+			location.reload();
+		}).
+		error(function(data, status, headers, config) {
+			alert("Error al borrar usuario");
+		});
+    }
+
+    function getDatos(){
+    	$scope.privilegios ={
+    		"0":"Sin Permisos",
+    		"1": "Agregar",
+    		"2": "Agregar y Editar",
+    		"3": "Agregar, Editar y Eliminar"
+    	};
+
+    	$http.get('php/manejoBD.php?action=verUsuarios').
+	    success(function(data) {
+	        $scope.datos = data;
+	    });
+    };
+});
 
 function scopeData2object(scope){
 	return {

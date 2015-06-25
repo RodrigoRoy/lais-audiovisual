@@ -6,11 +6,13 @@
       </div>
     </div>
   </div>
-  <div infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="4">
-    <a ng-repeat="archivo in archivos" data-toggle="modal" ng-href="" data-target="#modalInfo" data-whatever="@mdo" class="portadas">
+  <div infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="10">
+    <a ng-repeat="archivo in archivos" data-toggle="modal" href="" data-target="#modalInfo" data-whatever="@mdo" class="portadas">
       <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo)" ng-src="imgs/Portadas/sin_imagen.JPG">
     </a>
-    <span ng-show="!busy" class="glyphicon glyphicon-refresh"></span>
+    <div id="load" ng-cloak ng-show="!busy">
+      <img id="imgLoad" src="imgs/loading.gif">
+    </div>
   </div>
 </div>
 
