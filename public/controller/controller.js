@@ -204,17 +204,18 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		$scope.busy = true;
 		$http.get('php/manejoBD.php?action=mostrarCaratulaScroll&codigo='+$routeParams.codigo+"&howMany="+howMany+"&offset="+contador).
 		success(function(data){
-			console.log("Datos: " + data);
+			//console.log("Datos: " + data);
 			//$scope.archivos = data;
 			for(portada in data){
-				$scope.archivos.push(portada);
+				$scope.archivos.push(data[portada]);
 				contador++;
+				//console.log(data[portada]);
 			}
-			console.log($scope.archivos.length);
+			//console.log($scope.archivos.length);
 			$scope.busy = false;
 			if (data.length == 0)
 				$scope.busy = true;
-			console.log("Data length: " + data.length);
+			//console.log("Data length: " + data.length);
 		});		
 	};
 
