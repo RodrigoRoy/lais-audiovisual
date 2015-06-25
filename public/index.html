@@ -35,8 +35,21 @@
 							<ul class="nav navbar-nav navbar-right">
 								<li ng-cloak>
 									<a ng-show="!sesion" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"class="btn btn-link"> Login </a>
-                                 	<a ng-click="logout()" ng-show="sesion" class="btn btn-link"> Cerrar Sesion </a>
+									<!--
+                                 	<a id="usuarios" ng-click="logout()"  class="btn btn-link"> 
+                                 		Cerrar Sesion
+                                 		<span class="caret"></span> 
+                                 	</a>-->
+
 								</li>
+								<li ng-show="sesion" class="dropdown">
+							        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuario <span class="caret"></span></a>
+							        <ul id="menuUsuario" class="dropdown-menu">
+							            <li ><a id="texto" href="">Administración</a></li>
+							            <li role="separator" class="divider"></li>
+							            <li ><a id="texto" ng-click="logout()" href="">Cerrar Sesion</a></li>
+							        </ul>
+							    </li>
 							</ul>
 							<form class="navbar-form navbar-right" role="search" ng-controller="busquedaFormCtrl">
 								<div class="form-group">
