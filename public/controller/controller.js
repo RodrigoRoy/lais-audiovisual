@@ -194,7 +194,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	
 	
 	$scope.archivos = [];
-	var contador = 0;
+	var contador = 0; // Solo necesario en función loadMore
 	var howMany = 12;
 	$scope.busy = false;
 
@@ -217,6 +217,28 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 				$scope.busy = true;
 			//console.log("Data length: " + data.length);
 		});		
+	};
+
+	/* 
+		Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
+		En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
+	*/
+	$scope.firstLoad = function(){
+		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
+			return;
+		$scope.busy = true; // En estos momentos estamos "ocupados" obteniendo datos de la base
+		$http.get('php/manejoBD.php?action=firstGet&codigo='+$routeParams.codigo+"&howMany="+howMany+"&offset="+$scope.archivos.length).
+			success(function(data, status, headers, config) {
+				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
+					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
+				}
+				$scope.busy = false; // En este momento ya NO estamos "ocupados"
+				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
+					$scope.busy = true;
+			}).
+			error(function(data, status, headers, config) {
+				// called asynchronously if an error occurs or server returns response with an error status.
+			});
 	};
 
 	$scope.getAllInfo = function(codigoId){

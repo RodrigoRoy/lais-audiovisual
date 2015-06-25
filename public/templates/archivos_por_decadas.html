@@ -6,9 +6,12 @@
       </div>
     </div>
   </div>
-  <div infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="4">
-    <a ng-repeat="archivo in archivos" data-toggle="modal" ng-href="" data-target="#modalInfo" data-whatever="@mdo" class="portadas">
-      <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo)" ng-src="imgs/Portadas/sin_imagen.JPG">
+  <div infinite-scroll="firstLoad()" infinite-scroll-disabled='busy' infinite-scroll-distance="4">
+    <a ng-repeat="archivo in archivos" data-toggle="modal" href="" data-target="#modalInfo" data-whatever="@mdo" class="portadas">
+      <p class="text-center">
+        {{archivo.titulo_propio}}<br>
+        <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != null) ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
+      </p>
     </a>
     <span ng-show="!busy" class="glyphicon glyphicon-refresh"></span>
   </div>
@@ -33,7 +36,7 @@
         <div class="container-fluid">
           <div class="row">  
             <div class="col-md-4" >
-              <img id="portada" src="imgs/Portadas/El_Triangulo.jpg">
+              <img id="portada" src="{{(allInfo.adicional.imagen != null) ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
             </div>
             <div class="col-md-8">
               <div id="aduracion">

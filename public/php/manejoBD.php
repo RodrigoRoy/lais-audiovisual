@@ -37,6 +37,9 @@ switch ($_GET['action']) {
     case 'mostrarCaratulaScroll':
         mostrarCaratulaScroll($_GET['codigo'],$_GET['howMany'],$_GET['offset']);
         break;
+    case 'firstGet':
+        firstGet($_GET['codigo'],$_GET['howMany'],$_GET['offset']);
+        break;
 }
 
 /*Funcion que muestra los datos completos de cada archivo audiovisual*/
@@ -488,6 +491,14 @@ function obtenerArea($id){
         $areas["notas"] = $stmt->fetch();
         unset($areas['notas']['codigo_de_referencia']);
     }
+    $select = "SELECT * FROM informacion_adicional WHERE codigo_de_referencia = '" . $id . "'";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    if ($stmt->rowCount() == 1){
+        $areas["adicional"] = $stmt->fetch();
+        unset($areas['adicional']['codigo_de_referencia']);
+    }
     print_r(json_encode($areas)); // Devolver resultado para ser leido por controller.js
     $GLOBALS['conn'] = null; // Cerrar conexion
 }
@@ -500,9 +511,21 @@ function mostrarCaratulaScroll($codigo,$howMany,$offset){
     
     // Check if id is in database (for develop purpose only)
     if ($stmt->rowCount() != 0){
-        $data = $stmt->fetchAll(PDO::FETCH_COLUMN,0); // Obtener el único resultado de la base de datos
+        $data = $stmt->fetchAll(PDO::FETCH_COLUMN,0);
         print_r(json_encode($data));
         //print_r($data);
+    }
+}
+
+# Obtener datos básicos para mostrar audiovisuales por décadas: id, imagen, titulo, pais, fecha, duracion.
+function firstGet($codigo, $howMany, $offset){
+    $select = "SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia LIKE '%".$codigo."%' LIMIT ".$offset.",".$howMany;
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    if ($stmt->rowCount() != 0){
+        $data = $stmt->fetchAll(); // Obtener los datos
+        print_r(json_encode($data)); // Convertir a json y mostrar para poder rescatar los datos desde otro script
     }
 }
 ?>
