@@ -250,3 +250,9 @@ html{
 #seccionPortadas{
 	margin-left: 4%;
 }
+
+#logoInicio{
+	height: 44px;
+	width: 57px;
+	margin-top: -22%;
+}
