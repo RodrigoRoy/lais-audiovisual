@@ -118,7 +118,7 @@ html{
 	transform: rotate(-7deg);
 
 	*/
-	margin-top: -10px;
+	margin-top: -5px;
 }
 
 
@@ -235,3 +235,13 @@ html{
 	background: rgba(0,0,0,.4);
 	color: white;
 }
+
+.text-rigth{
+	white-space: nowrap;
+  	overflow: hidden;
+  	width: 180px;
+  	color: white;
+  	font-size: 15px;
+}
+
+
