@@ -36,11 +36,11 @@
         </div>
 		<div class="form-group">
 			<label for="password">Confirmar Contraseña</label>
-			<input type="password" class="form-control" name="confirmPass" ng-model="confirmPass" id="confirmPass" ng-minlength="3" required ng-disabled="formUser.password.$invalid">
+			<input type="password" class="form-control" name="confirmPass" ng-model="confirmPass" id="confirmPass" ng-minlength="3" required ng-disabled="formUser.password.$invalid" pw-check="password">
 		</div>
 		<div class="error" 
-          ng-show="formUser.password.$dirty && formUser.password.$invalid">
-          <small class="error" ng-show="{{$scope.password != $scope.confirmPass}}">
+          ng-show="formUser.confirmPass.$dirty && formUser.confirmPass.$invalid">
+          <small class="error" ng-show="formUser.confirmPass.$error.pwmatch">
             ERROR: La contraseña no coincide
           </small>
         </div>
