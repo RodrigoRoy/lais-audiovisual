@@ -534,7 +534,7 @@ function mostrarCaratulaScroll($codigo,$howMany,$offset){
 
 # Obtener datos básicos para mostrar audiovisuales por décadas: id, imagen, titulo, pais, fecha, duracion.
 function firstGet($codigo, $howMany, $offset){
-    $select = "SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia LIKE '%".$codigo."%' LIMIT ".$offset.",".$howMany;
+    $select = "SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia LIKE '%".$codigo."%' ORDER BY fecha ASC LIMIT ".$offset.",".$howMany;
     $stmt = $GLOBALS['conn']->prepare($select);
     $stmt->execute();
     $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)

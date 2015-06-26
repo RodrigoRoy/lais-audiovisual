@@ -20,8 +20,8 @@ DELETE FROM area_de_contenido_y_estructura;
 DELETE FROM area_de_condiciones_de_acceso;
 DELETE FROM area_de_documentacion_asociada;
 DELETE FROM area_de_notas;
-DELETE FROM informacion_adicional;
 DELETE FROM area_de_descripcion;
+DELETE FROM informacion_adicional;
 DELETE FROM usuarios;
 # Borrar todas las tablas (y sus contenidos) de la base Coleccion_Archivistica
 DROP TABLE area_de_contexto;
@@ -128,7 +128,9 @@ SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decadas FROM area
 SELECT codigo_de_referencia FROM area_de_identificacion WHERE codigo_de_referencia LIKE '%MXIM-AV-1-4%';
 
 # Obtener una cantidad limitada de registros (en el ejemplo se piden 10 registros a partir del registro 0)
-SELECT * 
-	FROM area_de_identificacion 
+SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen
+	FROM area_de_identificacion
+		NATURAL JOIN informacion_adicional
 	WHERE codigo_de_referencia LIKE '%MXIM-AV-1-4%'
+	ORDER BY fecha ASC
 	LIMIT 0,10; # offset, row_count

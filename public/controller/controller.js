@@ -1,3 +1,4 @@
+// La dependencia ngFileUpload sirve para subir imagenes (https://github.com/danialfarid/ng-file-upload)
 var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload','infinite-scroll']);
 
 // Directiva para comprobar que dos inputs tengan el mismo valor (password).
