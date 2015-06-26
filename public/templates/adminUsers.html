@@ -12,36 +12,36 @@
 			<input type="text" class="form-control" name="nombre" ng-model="nombre" id="nombre" ng-minlength="3" required>
 		</div>
 		<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
-		<div class="error" 
+		<div class="alert alert-danger" role="alert" 
           ng-show="formUser.nombre.$dirty && formUser.nombre.$invalid">
           <small class="error" ng-show="formUser.nombre.$error.required">
-            ERROR: Se requiere un nombre
+            <strong>ERROR:</strong> Se requiere un nombre
           </small>
           <small class="error" ng-show="formUser.nombre.$error.minlength">
-            ERROR: El nombre debe ser al menos de 3 letras
+            <strong>ERROR:</strong> El nombre debe ser al menos de 3 letras
           </small>
         </div>
 		<div class="form-group">
 			<label for="password">Contraseña</label>
 			<input type="password" class="form-control" name="password" ng-model="password" id="password" ng-minlength="3" required>
 		</div>
-		<div class="error" 
+		<div class="alert alert-danger" role="alert" 
           ng-show="formUser.password.$dirty && formUser.password.$invalid">
           <small class="error" ng-show="formUser.password.$error.required">
-            ERROR: Se requiere una contraseña
+            <strong>ERROR:</strong> Se requiere una contraseña
           </small>
           <small class="error" ng-show="formUser.password.$error.minlength">
-            ERROR: La contraseña debe ser al menos de 3 letras
+            <strong>ERROR:</strong> La contraseña debe ser al menos de 3 letras
           </small>
         </div>
 		<div class="form-group">
 			<label for="password">Confirmar Contraseña</label>
 			<input type="password" class="form-control" name="confirmPass" ng-model="confirmPass" id="confirmPass" ng-minlength="3" required ng-disabled="formUser.password.$invalid" pw-check="password">
 		</div>
-		<div class="error" 
+		<div class="alert alert-danger" role="alert" 
           ng-show="formUser.confirmPass.$dirty && formUser.confirmPass.$invalid">
           <small class="error" ng-show="formUser.confirmPass.$error.pwmatch">
-            ERROR: La contraseña no coincide
+            <strong>ERROR:</strong> La contraseña no coincide
           </small>
         </div>
 		<div class="form-group">
@@ -53,10 +53,10 @@
 				<option value="3">Agregar, Editar y Eliminar</option>
 			</select>
 		</div>
-		<div class="error" 
+		<div class="alert alert-danger" role="alert" 
           ng-show="formUser.privilegio.$dirty && formUser.privilegio.$invalid">
           <small class="error" ng-show="formUser.privilegio.$error.required">
-            ERROR: Se requiere seleccionar el tipo de permisos para el usuario
+            <strong>ERROR:</strong> Se requiere seleccionar el tipo de permisos para el usuario
           </small>
         </div>
 		<button ng-disabled="formUser.$invalid" type="submit" class="btn btn-default" ng-click="enviar()" ng-show="!edit">Enviar</button>
