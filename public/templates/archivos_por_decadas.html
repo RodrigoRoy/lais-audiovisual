@@ -13,7 +13,7 @@
             {{archivo.titulo_propio}}<br>
             {{archivo.fecha}}
         </p>
-        <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != null) ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
+        <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
       </a>
     </div>
     <div id="load" ng-cloak ng-show="!busy">
@@ -41,7 +41,7 @@
         <div class="container-fluid">
           <div class="row">  
             <div class="col-md-4" >
-              <img id="portada" src="{{(allInfo.adicional.imagen != null) ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
+              <img id="portada" src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
             </div>
             <div class="col-md-8">
               <div id="aduracion">

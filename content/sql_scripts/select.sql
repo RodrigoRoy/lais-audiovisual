@@ -20,8 +20,8 @@ DELETE FROM area_de_contenido_y_estructura;
 DELETE FROM area_de_condiciones_de_acceso;
 DELETE FROM area_de_documentacion_asociada;
 DELETE FROM area_de_notas;
-DELETE FROM area_de_descripcion;
 DELETE FROM informacion_adicional;
+DELETE FROM area_de_descripcion;
 DELETE FROM usuarios;
 # Borrar todas las tablas (y sus contenidos) de la base Coleccion_Archivistica
 DROP TABLE area_de_contexto;

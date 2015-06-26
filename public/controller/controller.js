@@ -236,6 +236,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			success(function(data, status, headers, config) {
 				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
 					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
+					console.log("Imgen: " + data[av].imagen);
 				}
 				$scope.busy = false; // En este momento ya NO estamos "ocupados"
 				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
