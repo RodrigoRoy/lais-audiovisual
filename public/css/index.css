@@ -101,12 +101,14 @@ html{
 .portadas{
 	padding: 10px 10px 10px 15px;
   	background-repeat: no-repeat;
-  	background: cover;
+  	background-color: rgba(0,0,0,.7);
+  	border-radius: 2%;
   	display: inline-block;
+  	margin:1%;
 }
 
 .portadas img {
-  width: 180px;
+  width: 176px;
   height: 250px;
 }
 
@@ -245,3 +247,6 @@ html{
 }
 
 
+#seccionPortadas{
+	margin-left: 4%;
+}
