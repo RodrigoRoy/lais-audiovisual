@@ -40,6 +40,9 @@ switch ($_GET['action']) {
     case 'firstGet':
         firstGet($_GET['codigo'],$_GET['howMany'],$_GET['offset']);
         break;
+    case 'getIndice':
+        getIndice($_GET['decada']);
+        break;
     case 'verUsuarios':
         obtener_datosUsuarios();
         break;
@@ -552,6 +555,28 @@ function firstGet($codigo, $howMany, $offset){
     if ($stmt->rowCount() != 0){
         $data = $stmt->fetchAll(); // Obtener los datos
         print_r(json_encode($data)); // Convertir a json y mostrar para poder rescatar los datos desde otro script
+    }
+}
+
+# Determinar el siguiente indice consecutivo dentro de una década
+# Recibe el código de identificación de una década (e.g. MXIM-AV-1-4)
+# Devuelve el primer indice consecutivo faltante en la numeración de audiovisuales
+function getIndice($decada){
+    $select = "SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',-1) as decadas FROM area_de_identificacion WHERE codigo_de_referencia LIKE '%" . $decada . "%' ORDER BY decadas ASC";
+    $stmt = $GLOBALS['conn']->prepare($select); // Obtener la numeración de la década (últimos dígitos del código de identificación)
+    $stmt->execute();
+    if ($stmt->rowCount() == 0){
+        print_r(json_encode(1)); // Nueva década
+    } else {
+        $data = $stmt->fetchAll(PDO::FETCH_COLUMN,0); // Obtener todos los datos de la única columna
+        sort($data); // Ordenar para recorrer en orden
+        for ($i=1; $i <= sizeof($data); $i++) {
+            if($i != (int)$data[$i-1]){ // El primer momento en que hay un "hueco" en la numeración
+                print_r(json_encode($i)); // Devolver el indice que llena el "hueco"
+                return;
+            }
+        }
+        print_r(json_encode(sizeof($data)+1)); // Devolver el último indice (no hay "huecos" en la numeración)
     }
 }
 

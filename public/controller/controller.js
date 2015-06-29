@@ -18,6 +18,194 @@ lais.directive('pwCheck', function () {
 	}
 });
 
+// Servicio cuya finalidad es ser intermediario de parametros entre controladores
+lais.service('ParamService', function(){
+	// Contenedor para los parametros entre controladores o para información repetitiva
+	var params = {
+		"test": "Hola mundo" // Valor de prueba
+	};
+
+	// Agregar una clave y valor que se desea recordar
+	this.set = function(key, value){
+		if(key != null){
+			params[key] = value;
+		}
+	};
+
+	// Obtener un valor mediante su clave o llave en el arreglo asociativo 'params'
+	this.get = function(key){
+		return params[key];
+	};
+
+	this.scopeData2object = function(scope){
+		return {
+			'codigo_de_referencia': (scope.codigo_de_referencia !== undefined) ? scope.codigo_de_referencia : "",
+			'titulo_propio' : (scope.titulo_propio !== undefined) ? scope.titulo_propio : "",
+			'titulo_paralelo': (scope.titulo_paralelo !== undefined) ? scope.titulo_paralelo : "",
+			'titulo_atribuido': (scope.titulo_atribuido !== undefined) ? scope.titulo_atribuido : "",
+			'titulo_de_serie': (scope.titulo_de_serie !== undefined) ? scope.titulo_de_serie : "",
+			'numero_de_programa': (scope.numero_de_programa !== undefined) ? scope.numero_de_programa : "",
+			'pais': (scope.pais !== undefined) ? scope.pais : "",
+			'fecha': (scope.fecha !== undefined) ? scope.fecha : "",
+			'duracion': setDuracion(scope.duracion), // Parse desde filter.js
+			'investigacion': (scope.investigacion !== undefined) ? scope.investigacion : "",
+			'realizacion': (scope.realizacion !== undefined) ? scope.realizacion : "",
+			'direccion': (scope.direccion !== undefined) ? scope.direccion : "",
+			'guion': (scope.guion !== undefined) ? scope.guion : "",
+			'adaptacion': (scope.adaptacion !== undefined) ? scope.adaptacion : "",
+			'idea_original': (scope.idea_original !== undefined) ? scope.idea_original : "",
+			'fotografia': (scope.fotografia !== undefined) ? scope.fotografia : "",
+			'fotografia_fija': (scope.fotografia_fija !== undefined) ? scope.fotografia_fija : "",
+			'edicion': (scope.edicion !== undefined) ? scope.edicion : "",
+			'sonido_grabacion': (scope.sonido_grabacion !== undefined) ? scope.sonido_grabacion : "",
+			'sonido_edicion': (scope.sonido_edicion !== undefined) ? scope.sonido_edicion : "",
+			'musica_original': (scope.musica_original !== undefined) ? scope.musica_original : "",
+			'musicalizacion': (scope.musicalizacion !== undefined) ? scope.musicalizacion : "",
+			'voces': (scope.voces !== undefined) ? scope.voces : "",
+			'actores': (scope.actores !== undefined) ? scope.actores : "",
+			'animacion': (scope.animacion !== undefined) ? scope.animacion : "",
+			'otros_colaboradores': (scope.otros_colaboradores !== undefined) ? scope.otros_colaboradores : "",
+			'entidad_productora': (scope.entidad_productora !== undefined) ? scope.entidad_productora : "",
+			'productor': (scope.productor !== undefined) ? scope.productor : "",
+			'distribuidora': (scope.distribuidora !== undefined) ? scope.distribuidora : "",
+			'historia_institucional': (scope.historia_institucional !== undefined) ? scope.historia_institucional : "",
+			'resena_biografica': (scope.resena_biografica !== undefined) ? scope.resena_biografica : "",
+			'forma_de_ingreso': (scope.forma_de_ingreso !== undefined) ? scope.forma_de_ingreso : "",
+			'fecha_de_ingreso': (scope.fecha_de_ingreso !== undefined) ? scope.fecha_de_ingreso : "",
+			'sinopsis': (scope.sinopsis !== undefined) ? scope.sinopsis : "",
+			'descriptor_onomastico': (scope.descriptor_onomastico !== undefined) ? scope.descriptor_onomastico : "",
+			'descriptor_toponimico': (scope.descriptor_toponimico !== undefined) ? scope.descriptor_toponimico : "",
+			'descriptor_cronologico': (scope.descriptor_cronologico !== undefined) ? scope.descriptor_cronologico : "",
+			'tipo_de_produccion': (scope.tipo_de_produccion !== undefined) ? scope.tipo_de_produccion : "",
+			'genero': (scope.genero !== undefined) ? scope.genero : "",
+			'fuentes': setFuenteRecurso(scope.fuentes), // Parse desde filter.js
+			'recursos': setFuenteRecurso(scope.recursos), // Parse desde filter.js
+			'versiones': (scope.versiones !== undefined) ? scope.versiones : "",
+			'formato_original': (scope.formato_original !== undefined) ? scope.formato_original : "",
+			'material_extra': (scope.material_extra !== undefined) ? scope.material_extra : "",
+			'condiciones_de_acceso': (scope.condiciones_de_acceso !== undefined) ? scope.condiciones_de_acceso : "",
+			'existencia_y_localizacion_de_originales': (scope.existencia_y_localizacion_de_originales !== undefined) ? scope.existencia_y_localizacion_de_originales : "",
+			'idioma_original': (scope.idioma_original !== undefined) ? scope.idioma_original : "",
+			'doblajes_disponibles': (scope.doblajes_disponibles !== undefined) ? scope.doblajes_disponibles : "",
+			'subtitulajes': (scope.subtitulajes !== undefined) ? scope.subtitulajes : "",
+			'soporte': (scope.soporte !== undefined) ? scope.soporte : "",
+			'numero_copias': (scope.numero_copias !== undefined) ? scope.numero_copias : "",
+			'descripcion_fisica': (scope.descripcion_fisica !== undefined) ? scope.descripcion_fisica : "",
+			'color': (scope.color !== undefined) ? scope.color : "",
+			'audio': (scope.audio !== undefined) ? scope.audio : "",
+			'sistema_de_grabacion': (scope.sistema_de_grabacion !== undefined) ? scope.sistema_de_grabacion : "",
+			'region_dvd': (scope.region_dvd !== undefined) ? scope.region_dvd : "",
+			'requisitos_tecnicos': (scope.requisitos_tecnicos !== undefined) ? scope.requisitos_tecnicos : "",
+			'existencia_y_localizacion_de_copias': (scope.existencia_y_localizacion_de_copias !== undefined) ? scope.existencia_y_localizacion_de_copias : "",
+			'unidades_de_descripcion_relacionadas': (scope.unidades_de_descripcion_relacionadas !== undefined) ? scope.unidades_de_descripcion_relacionadas : "",
+			'documentos_asociados': (scope.documentos_asociados !== undefined) ? scope.documentos_asociados : "",
+			'area_de_notas': (scope.area_de_notas !== undefined) ? scope.area_de_notas : "",
+			'notas_del_archivero': (scope.notas_del_archivero !== undefined) ? scope.notas_del_archivero : "",
+			'datos_del_archivero': (scope.datos_del_archivero !== undefined) ? scope.datos_del_archivero : "",
+			'reglas_o_normas': (scope.reglas_o_normas !== undefined) ? scope.reglas_o_normas : "",
+			'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? scope.fecha_de_descripcion : "",
+			'url': (scope.url !== undefined) ? scope.url : ""
+		}
+	}
+});
+
+// Servicio que permite hacer un parse de décadas y encabezados de cada rubro
+lais.service('DecadaService', function(){
+	this.allDecades = {
+		'1':"1890-1899",
+		'2':"1900-1909",
+		'3':"1910-1919",
+		'4':"1920-1929",
+		'5':"1930-1939",
+		'6':"1940-1949",
+		'7':"1950-1959",
+		'8':"1960-1969",
+		'9':"1970-1979",
+		'10':"1980-1989",
+		'11':"1990-1999",
+		'12':"2000-2009",
+		'13':"2010-2019",
+		'14':"2020-2029",
+		'15':"2030-2039",
+		'16':"2040-2049",
+		'17':"2050-2059",
+		'18':"2060-2069",
+		'19':"2070-2079",
+		'20':"2080-2089",
+		'21':"2090-2099",
+		'22':"3000-3009"
+	};
+
+	// Traducción de los encabezados (nombre_en_base_datos -> Nombre para leer)
+	this.encabezados = {
+		'codigo_de_referencia': 'Código de referencia',
+		'titulo_propio': 'Título propio',
+		'titulo_paralelo': 'Título paralelo',
+		'titulo_atribuido': 'Título atribuido',
+		'titulo_de_serie': 'Título de serie',
+		'numero_de_programa': 'Número de programa',
+		'pais': 'País',
+		'fecha': 'Fecha',
+		'duracion': 'Duración',
+		'investigacion': 'Investigación',
+		'realizacion': 'Realización',
+		'direccion': 'Dirección',
+		'guion': 'Guión',
+		'adaptacion': 'Adaptación',
+		'idea_original': 'Idea original',
+		'fotografia': 'Fotografía',
+		'fotografia_fija': 'Fotografía fija',
+		'edicion': 'Edición',
+		'sonido_grabacion': 'Grabación de sonido',
+		'sonido_edicion': 'Edición de sonido',
+		'musica_original': 'Música original',
+		'musicalizacion': 'Musicalización',
+		'voces': 'Voces',
+		'actores': 'Actores',
+		'animacion': 'Animación',
+		'otros_colaboradores': 'Otros colaboradores',
+		'entidad_productora': 'Entidad productora',
+		'productor': 'Productor',
+		'distribuidora': 'Distribuidora',
+		'historia_institucional': 'Historia institucional',
+		'resena_biografica': 'Reseña biográfica',
+		'forma_de_ingreso': 'Forma de ingreso',
+		'fecha_de_ingreso': 'Fecha de ingreso',
+		'sinopsis': 'Sinópsis',
+		'descriptor_onomastico': 'Descriptor onomástico',
+		'descriptor_toponimico': 'Descriptor toponímico',
+		'descriptor_cronologico': 'Descriptor cronológico',
+		'tipo_de_produccion': 'Tipo de produccion',
+		'genero': 'Género',
+		'fuentes': 'Fuentes',
+		'recursos': 'Recursos',
+		'versiones': 'Versiones',
+		'formato_original': 'Formato original',
+		'material_extra': 'Material extra',
+		'condiciones_de_acceso': 'Condiciones de acceso',
+		'existencia_y_localizacion_de_originales': 'Existencia y localización de originales',
+		'idioma_original': 'Idioma original',
+		'doblajes_disponibles': 'Doblajes disponibles',
+		'subtitulajes': 'Subtitulajes',
+		'soporte': 'Soporte',
+		'numero_copias': 'Número de copias',
+		'descripcion_fisica': 'Descripción física',
+		'color': 'Color',
+		'audio': 'Audio',
+		'sistema_de_grabacion': 'Sistema de grabación',
+		'region_dvd': 'Región del DVD',
+		'requisitos_tecnicos': 'Requisitos técnicos',
+		'existencia_y_localizacion_de_copias': 'Existencia y localización de copias',
+		'unidades_de_descripcion_relacionadas': 'Unidades de descripción relacionadas',
+		'documentos_asociados': 'Documentos asociados',
+		'area_de_notas': 'Área de notas',
+		'notas_del_archivero': 'Notas del archivero',
+		'datos_del_archivero': 'Datos del archivero',
+		'reglas_o_normas': 'Reglas o normas',
+		'fecha_de_descripcion': 'Fecha de descripción'
+	};
+});
+
 lais.config(function ($routeProvider, $locationProvider){
 	//console.log("Ruteando");
 	$routeProvider
@@ -88,33 +276,12 @@ lais.controller('conexionCtrl', function($scope, $http, $location){
 });
 
 //Controlador que muestra todas las decadas existentes
-lais.controller('decadasCtrl',function($scope, $location, $http){
+lais.controller('decadasCtrl',function($scope, $location, $http, DecadaService){
 	//Utiizó para que el modal se quitará cuando un susario le da un botón de regresar a la página
 	$('#modalInfo').modal('hide'); // Ocultar modal
 	$('body').removeClass('modal-open'); // Eliminar del DOM
 	$('.modal-backdrop').remove();
-	$scope.allDecades = {'1':"1890-1899",
-					  '2':"1900-1909",
-					  '3':"1910-1919",
-					  '4':"1920-1929",
-					  '5':"1930-1939",
-					  '6':"1940-1949",
-					  '7':"1950-1959",
-					  '8':"1960-1969",
-					  '9':"1970-1979",
-					  '10':"1980-1989",
-					  '11':"1990-1999",
-					  '12':"2000-2009",
-					  '13':"2010-2019",
-					  '14':"2020-2029",
-					  '15':"2030-2039",
-					  '16':"2040-2049",
-					  '17':"2050-2059",
-					  '18':"2060-2069",
-					  '19':"2070-2079",
-					  '20':"2080-2089",
-					  '21':"2090-2099",
-					  '22':"3000-3009" };
+	$scope.allDecades = DecadaService.allDecades;
 	$http.get('php/manejoBD.php?action=mostrarDecadas').
 	success(function(data){
 		$scope.decadas = data;
@@ -122,134 +289,17 @@ lais.controller('decadasCtrl',function($scope, $location, $http){
 });
 
 //Controlador que mostrara los archivos audiovisuales con su portada por decadas
-lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http, $timeout){
+lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http, $timeout, ParamService, DecadaService){
 	console.log("Parametro URL: "+ $routeParams.codigo);
-	$scope.codigo = $routeParams.codigo;
-	var allDecades = {'1':"1890-1899",
-					  '2':"1900-1909",
-					  '3':"1910-1919",
-					  '4':"1920-1929",
-					  '5':"1930-1939",
-					  '6':"1940-1949",
-					  '7':"1950-1959",
-					  '8':"1960-1969",
-					  '9':"1970-1979",
-					  '10':"1980-1989",
-					  '11':"1990-1999",
-					  '12':"2000-2009",
-					  '13':"2010-2019",
-					  '14':"2020-2029",
-					  '15':"2030-2039",
-					  '16':"2040-2049",
-					  '17':"2050-2059",
-					  '18':"2060-2069",
-					  '19':"2070-2079",
-					  '20':"2080-2089",
-					  '21':"2090-2099",
-					  '22':"3000-3009" };
-	$scope.encabezados = {
-		'codigo_de_referencia': 'Código de referencia',
-		'titulo_propio': 'Título propio',
-		'titulo_paralelo': 'Título paralelo',
-		'titulo_atribuido': 'Título atribuido',
-		'titulo_de_serie': 'Título de serie',
-		'numero_de_programa': 'Número de programa',
-		'pais': 'País',
-		'fecha': 'Fecha',
-		'duracion': 'Duración',
-		'investigacion': 'Investigación',
-		'realizacion': 'Realización',
-		'direccion': 'Dirección',
-		'guion': 'Guión',
-		'adaptacion': 'Adaptación',
-		'idea_original': 'Idea original',
-		'fotografia': 'Fotografía',
-		'fotografia_fija': 'Fotografía fija',
-		'edicion': 'Edición',
-		'sonido_grabacion': 'Grabación de sonido',
-		'sonido_edicion': 'Edición de sonido',
-		'musica_original': 'Música original',
-		'musicalizacion': 'Musicalización',
-		'voces': 'Voces',
-		'actores': 'Actores',
-		'animacion': 'Animación',
-		'otros_colaboradores': 'Otros colaboradores',
-		'entidad_productora': 'Entidad productora',
-		'productor': 'Productor',
-		'distribuidora': 'Distribuidora',
-		'historia_institucional': 'Historia institucional',
-		'resena_biografica': 'Reseña biográfica',
-		'forma_de_ingreso': 'Forma de ingreso',
-		'fecha_de_ingreso': 'Fecha de ingreso',
-		'sinopsis': 'Sinópsis',
-		'descriptor_onomastico': 'Descriptor onomástico',
-		'descriptor_toponimico': 'Descriptor toponímico',
-		'descriptor_cronologico': 'Descriptor cronológico',
-		'tipo_de_produccion': 'Tipo de produccion',
-		'genero': 'Género',
-		'fuentes': 'Fuentes',
-		'recursos': 'Recursos',
-		'versiones': 'Versiones',
-		'formato_original': 'Formato original',
-		'material_extra': 'Material extra',
-		'condiciones_de_acceso': 'Condiciones de acceso',
-		'existencia_y_localizacion_de_originales': 'Existencia y localización de originales',
-		'idioma_original': 'Idioma original',
-		'doblajes_disponibles': 'Doblajes disponibles',
-		'subtitulajes': 'Subtitulajes',
-		'soporte': 'Soporte',
-		'numero_copias': 'Número de copias',
-		'descripcion_fisica': 'Descripción física',
-		'color': 'Color',
-		'audio': 'Audio',
-		'sistema_de_grabacion': 'Sistema de grabación',
-		'region_dvd': 'Región del DVD',
-		'requisitos_tecnicos': 'Requisitos técnicos',
-		'existencia_y_localizacion_de_copias': 'Existencia y localización de copias',
-		'unidades_de_descripcion_relacionadas': 'Unidades de descripción relacionadas',
-		'documentos_asociados': 'Documentos asociados',
-		'area_de_notas': 'Área de notas',
-		'notas_del_archivero': 'Notas del archivero',
-		'datos_del_archivero': 'Datos del archivero',
-		'reglas_o_normas': 'Reglas o normas',
-		'fecha_de_descripcion': 'Fecha de descripción'
-	};
-	
-	
-	$('#decadas').html('<h1 style="margin-left:4.6%;">Década '+allDecades[($scope.codigo).split("-")[3]]+'</h1>');
-	
-	
-	$scope.archivos = [];
-
-	var contador = 0; // Solo necesario en función loadMore
-	var howMany = 18;
+	$scope.codigo = $routeParams.codigo; // Código de la década
+	$scope.allDecades = DecadaService.allDecades;
+	$scope.encabezados = DecadaService.encabezados;
+	$scope.archivos = []; // Todos los datos de los audiovisuales
 	$scope.busy = false;
+	var howMany = 18; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
 
-	$scope.loadMore = function(){
-		if($scope.busy)
-			return;
-		$scope.busy = true;
-		$http.get('php/manejoBD.php?action=mostrarCaratulaScroll&codigo='+$routeParams.codigo+"&howMany="+howMany+"&offset="+contador).
-		success(function(data){
-			//console.log("Datos: " + data);
-			//$scope.archivos = data;
-			for(portada in data){
-				$scope.archivos.push(data[portada]);
-				contador++;
-				//console.log(data[portada]);
-			}
-			//console.log($scope.archivos.length);
-			$scope.busy = false;
-			if (data.length == 0)
-				$scope.busy = true;
-			//console.log("Data length: " + data.length);
-		});		
-	};
-
-	/* 
-		Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
-		En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
-	*/
+	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
+	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
 	$scope.firstLoad = function(){
 		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
 			return;
@@ -258,7 +308,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			success(function(data, status, headers, config) {
 				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
 					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
-					console.log("Imgen: " + data[av].imagen);
+					//console.log("Imgen: " + data[av].imagen);
 				}
 				$scope.busy = false; // En este momento ya NO estamos "ocupados"
 				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
@@ -269,6 +319,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			});
 	};
 
+	// Obtener toda la información de un audiovisual particular. Recibe el código de identificación
 	$scope.getAllInfo = function(codigoId){
 		console.log("codigo: " + codigoId);
 		$http.get('php/manejoBD.php?action=obtenerXAreas&id=' + codigoId).
@@ -277,11 +328,33 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	});
 	};
 
+	// Acción del icono para agregar un nuevo audiovisual
+    $scope.agregarNuevo = function(decada){
+		ParamService.set("codigoDecada", decada); // Almacena el código de década
+		$location.url('/archivos/agregarArchivo/'); // Ir a la página "Agregar audiovisual"
+    }
+
+	// Acción al presionar el icono de edición
 	$scope.editar = function(id){
 		$('#modalInfo').modal('hide'); // Ocultar modal
 		$('body').removeClass('modal-open'); // Eliminar del DOM
 		$('.modal-backdrop').remove();
 		$location.url('/archivos/editarArchivo/' + id); // Redirigir a la página de edición
+    }
+
+    // Acción del icono para eliminar/borrar
+    $scope.eliminar = function(id){
+    	$http.post('php/manejoBD.php?action=borrar',
+		{
+			'codigo_de_referencia': id
+		}).
+		success(function(data, status, headers, config) {
+			alert("Registro eliminado");
+			location.reload();
+		}).
+		error(function(data, status, headers, config) {
+			alert("Error en la conexión");
+		});
     }
 
     $scope.confirmacion = function(){
@@ -294,25 +367,12 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	}
     }
 
-    $scope.eliminar = function(id){
-    	$http.post('php/manejoBD.php?action=borrar',
-		{
-			'codigo_de_referencia': id
-		}).
-		success(function(data, status, headers, config) {
-			alert("Registro eliminado");
-			location.reload();
-		}).
-		error(function(data, status, headers, config) {
-			alert("Error al borrar usuario");
-		});
-    }
-
     $scope.hideInfo = false;
     $scope.hideInfos = function(){
     	$scope.hideInfo = !$scope.hideInfo;
     }
 
+    // Auxiliar para obtener los rubros de manera no-ordenada alfabeticamente
     $scope.notSort = function(obj){
     	if (!obj)
     		return [];
@@ -320,13 +380,93 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     }
 });
 
-
-lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, Upload){
-	if(!$scope.sesion && !$scope.permiso >= 2){
-		console.log('No hay permisos suficientes');
-		$location.url('/archivos/');
+//Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
+lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, ParamService){
+	// Impide acceso no autorizado en la página
+	if(!$scope.sesion && !$scope.permiso >= 1){
+		console.log('No hay permisos suficientes para estar en esta página');
+		$location.url('/decadas/');
 	}
 
+	$scope.errorDuplicado = false;
+
+	// Establece el código de referencia con numeración consecutiva
+	$scope.codigoDecada = ParamService.get("codigoDecada"); // Recuperar la década
+	$http.get('php/manejoBD.php?action=getIndice&decada=' + $scope.codigoDecada).
+	success(function(data, status, headers, config) {
+		$scope.codigo_de_referencia = $scope.codigoDecada + '-' + data;
+	}).
+	error(function(data, status, headers, config) {
+		alert("Error de conexión");
+	});
+
+	/*
+	// El siguiente código es equivalente al de arriba pero marca error!!
+	$scope.codigo_de_referencia = $scope.codigoDecada + '-' + $scope.getIndice();
+	$scope.getIndice = function(){
+		$http.get('php/manejoBD.php?action=getIndice&decada=' + $scope.codigoDecada).
+		success(function(data, status, headers, config) {
+			console.log("Indice siguiente: " + data);
+		}).
+		error(function(data, status, headers, config) {
+			alert("Error de conexión");
+		});
+	}*/
+
+	// Acción al presionar el botón de "Enviar" del formulario
+	// Recibe como parámetro el archivo de imagen (único elemento que se sube a parte)
+	$scope.envia = function(files){
+		$http.post('php/manejoBD.php?action=agregar', 
+			ParamService.scopeData2object($scope) // Encapsular todos los datos para el servidor
+		).success(function(data, status, headers, congif){
+			if(data.Status === undefined){ // Si hay algún error en la base de datos
+				//alert("El archivo Audiovisual está duplicado");
+				$scope.errorDuplicado = true;
+				return;
+			}
+			$scope.upload(files); // Subir la imagen después de crear el registro en la base
+			alert("El archivo Audiovisual ha sido agregado");
+			$location.url('/decadas/');
+		}).error(function(error){
+			console.log("Error en envio de los datos datos: " + error);
+		});
+	}
+
+	// Funciones auxiliares para subir archivos (imagenes)
+	$scope.$watch('files', function () {
+        $scope.upload($scope.files);
+    });
+    // Función que hace el "trabajo sucio" de pedir a PHP que suba la imagen al servidor y a la base de datos
+    $scope.upload = function (files) {
+        if (files && files.length) {
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                Upload.upload({
+                    url: 'php/upload.php', // Script que maneja la imagen
+                    method: 'POST',
+                    sendFieldsAs: 'form',
+                    fields: {'codigo_de_referencia': $scope.codigo_de_referencia}, // Datos adicionales
+                    file: file
+                }).progress(function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                }).success(function (data, status, headers, config) {
+                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                });
+            }
+        }
+    };
+});
+
+// Edición de audiovisuales
+lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, Upload, ParamService){
+	// Impide acceso no autorizado en la página
+	if(!$scope.sesion && !$scope.permiso >= 2){
+		console.log('No hay permisos suficientes');
+		$location.url('/decadas/');
+	}
+
+	// Obtener todos los datos de cada campo desde la base
 	$http.get('php/manejoBD.php?action=obtener&id=' + $routeParams.id).
     success(function(data) {
         $scope.codigo_de_referencia = data.codigo_de_referencia;
@@ -397,28 +537,15 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		$scope.url = data.url;
 		$scope.imagen_previa = data.imagen;
     });
-
-	/*$scope.editar = function(){
-    	$http.post('php/manejoBD.php?action=actualizar',
-    		scopeData2object($scope)
-		).
-		success(function(data, status, headers, config) {
-			alert("Registro actualizado");
-			// Enviar al usuario a los audiovisuales
-			$location.url('/archivos/');
-		}).
-		error(function(data, status, headers, config) {
-			alert("Error al editar usuario");
-		});
-    }*/
-
+    
+    // Acción del botón "Editar" del formulario
     $scope.editar = function(files){
 		$http.post('php/manejoBD.php?action=actualizar', 
-			scopeData2object($scope)
+			ParamService.scopeData2object($scope) // Encapsula y envia los datos a la base
 		).success(function(data,status, headers, congif){
 			$scope.upload(files); // Subir la imagen después de crear el registro en la base
 			alert("El archivo Audiovisual ha sido actualizado");
-			$location.url('/archivos/');
+			$location.url('/decadas/');
 		}).error(function(error){
 			console.log("Error de los datos: " + error);
 		});
@@ -428,15 +555,16 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 	$scope.$watch('files', function () {
         $scope.upload($scope.files);
     });
+    // Función que hace el "trabajo sucio" de pedir a PHP que suba la imagen al servidor y a la base de datos
     $scope.upload = function (files) {
         if (files && files.length) {
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 Upload.upload({
-                    url: 'php/upload.php',
+                    url: 'php/upload.php', // Script que maneja la imagen
                     method: 'POST',
                     sendFieldsAs: 'form',
-                    fields: {'codigo_de_referencia': $scope.codigo_de_referencia},
+                    fields: {'codigo_de_referencia': $scope.codigo_de_referencia}, // Datos adicionales
                     file: file
                 }).progress(function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
@@ -448,56 +576,6 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
         }
     };
 });
-
-//Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
-lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload){
-	if(!$scope.sesion && !$scope.permiso >= 1){
-		console.log('No hay permisos suficientes');
-		$location.url('/archivos/');
-	}
-	$scope.errorDuplicado = false;
-	$scope.envia = function(files){
-		$http.post('php/manejoBD.php?action=agregar', 
-			scopeData2object($scope)
-		).success(function(data, status, headers, congif){
-			if(data.Status === undefined){
-				//alert("El archivo Audiovisual está duplicado");
-				$scope.errorDuplicado = true;
-				return;
-			}
-			$scope.upload(files); // Subir la imagen después de crear el registro en la base
-			alert("El archivo Audiovisual ha sido agregado");
-			$location.url('/decadas/');
-		}).error(function(error){
-			console.log("Error en envio de los datos datos: " + error);
-		});
-	}
-
-	// Componentes para subir archivos (imagenes)
-	$scope.$watch('files', function () {
-        $scope.upload($scope.files);
-    });
-    $scope.upload = function (files) {
-        if (files && files.length) {
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                Upload.upload({
-                    url: 'php/upload.php',
-                    method: 'POST',
-                    sendFieldsAs: 'form',
-                    fields: {'codigo_de_referencia': $scope.codigo_de_referencia},
-                    file: file
-                }).progress(function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-                }).success(function (data, status, headers, config) {
-                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                });
-            }
-        }
-    };
-});
-
 
 //Funcion que verifica el login y logout 
 lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $location, $window){
@@ -562,23 +640,24 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 	}
 });
 
-
+// Mini-controlador de la barra de búsqueda
 lais.controller('busquedaFormCtrl',function($scope, $location){
+	// Acción al presionar el botón de búsqueda en la barra superior de la página
 	$scope.busqueda = function(query){
 		if(query === undefined)
 			return;
-		var texto = query.replace(/\s+/g, " ").trim().toLowerCase(); // Eliminar espacios en blanco y pasar a minúsculas.
-		//texto = texto.trim().toLowerCase();
+		var texto = query.replace(/\s+/g, " ").trim().toLowerCase(); // Eliminar espacios en blanco y pasar a minúsculas
 		if(texto.length > 0)
     		$location.url('/archivos/busqueda/' + texto);
     }
 });
 
+// Permite mostrar los resultados de una búsqueda
 lais.controller('busquedaCtrl',function($scope, $http, $routeParams, $location){
-	$scope.query = $routeParams.query;
+	$scope.query = $routeParams.query; // Obtener query desde la barra de dirección
 	$http.get('php/manejoBD.php?action=buscar&query=' + $routeParams.query).
     success(function(data) {
-        $scope.datos = data;
+        $scope.datos = data; // Resultados de la búsqueda
     });
 });
 
@@ -635,7 +714,8 @@ lais.controller('adminUser',function($scope,$http, $location){
     }
 
     $scope.actualizar = function(){
-    	$scope.edit = false;
+    	//$scope.edit = false;
+    	$scope.errorDuplicadoLogin = false;
     	$http.post('php/manejoBD.php?action=actualizarUsuario',
 		{
 			'Username': $scope.nombre,
@@ -646,9 +726,11 @@ lais.controller('adminUser',function($scope,$http, $location){
 		success(function(data, status, headers, config) {
 			if(data.Status === undefined){
 				//alert("El archivo Audiovisual está duplicado");
+				$scope.edit = true;
 				$scope.errorDuplicadoLogin = true;
 				return;
 			}
+			$scope.edit = false;
 			alert("Datos actualizados");
 			location.reload();
 		}).
@@ -672,7 +754,7 @@ lais.controller('adminUser',function($scope,$http, $location){
     }
 
     function getDatos(){
-    	$scope.privilegios ={
+    	$scope.privilegios = {
     		"0":"Sin Permisos",
     		"1": "Agregar",
     		"2": "Agregar y Editar",
@@ -685,74 +767,3 @@ lais.controller('adminUser',function($scope,$http, $location){
 	    });
     };
 });
-
-function scopeData2object(scope){
-	return {
-		'codigo_de_referencia': (scope.codigo_de_referencia !== undefined) ? scope.codigo_de_referencia : "",
-		'titulo_propio' : (scope.titulo_propio !== undefined) ? scope.titulo_propio : "",
-		'titulo_paralelo': (scope.titulo_paralelo !== undefined) ? scope.titulo_paralelo : "",
-		'titulo_atribuido': (scope.titulo_atribuido !== undefined) ? scope.titulo_atribuido : "",
-		'titulo_de_serie': (scope.titulo_de_serie !== undefined) ? scope.titulo_de_serie : "",
-		'numero_de_programa': (scope.numero_de_programa !== undefined) ? scope.numero_de_programa : "",
-		'pais': (scope.pais !== undefined) ? scope.pais : "",
-		'fecha': (scope.fecha !== undefined) ? scope.fecha : "",
-		'duracion': setDuracion(scope.duracion), // Parse desde filter.js
-		'investigacion': (scope.investigacion !== undefined) ? scope.investigacion : "",
-		'realizacion': (scope.realizacion !== undefined) ? scope.realizacion : "",
-		'direccion': (scope.direccion !== undefined) ? scope.direccion : "",
-		'guion': (scope.guion !== undefined) ? scope.guion : "",
-		'adaptacion': (scope.adaptacion !== undefined) ? scope.adaptacion : "",
-		'idea_original': (scope.idea_original !== undefined) ? scope.idea_original : "",
-		'fotografia': (scope.fotografia !== undefined) ? scope.fotografia : "",
-		'fotografia_fija': (scope.fotografia_fija !== undefined) ? scope.fotografia_fija : "",
-		'edicion': (scope.edicion !== undefined) ? scope.edicion : "",
-		'sonido_grabacion': (scope.sonido_grabacion !== undefined) ? scope.sonido_grabacion : "",
-		'sonido_edicion': (scope.sonido_edicion !== undefined) ? scope.sonido_edicion : "",
-		'musica_original': (scope.musica_original !== undefined) ? scope.musica_original : "",
-		'musicalizacion': (scope.musicalizacion !== undefined) ? scope.musicalizacion : "",
-		'voces': (scope.voces !== undefined) ? scope.voces : "",
-		'actores': (scope.actores !== undefined) ? scope.actores : "",
-		'animacion': (scope.animacion !== undefined) ? scope.animacion : "",
-		'otros_colaboradores': (scope.otros_colaboradores !== undefined) ? scope.otros_colaboradores : "",
-		'entidad_productora': (scope.entidad_productora !== undefined) ? scope.entidad_productora : "",
-		'productor': (scope.productor !== undefined) ? scope.productor : "",
-		'distribuidora': (scope.distribuidora !== undefined) ? scope.distribuidora : "",
-		'historia_institucional': (scope.historia_institucional !== undefined) ? scope.historia_institucional : "",
-		'resena_biografica': (scope.resena_biografica !== undefined) ? scope.resena_biografica : "",
-		'forma_de_ingreso': (scope.forma_de_ingreso !== undefined) ? scope.forma_de_ingreso : "",
-		'fecha_de_ingreso': (scope.fecha_de_ingreso !== undefined) ? scope.fecha_de_ingreso : "",
-		'sinopsis': (scope.sinopsis !== undefined) ? scope.sinopsis : "",
-		'descriptor_onomastico': (scope.descriptor_onomastico !== undefined) ? scope.descriptor_onomastico : "",
-		'descriptor_toponimico': (scope.descriptor_toponimico !== undefined) ? scope.descriptor_toponimico : "",
-		'descriptor_cronologico': (scope.descriptor_cronologico !== undefined) ? scope.descriptor_cronologico : "",
-		'tipo_de_produccion': (scope.tipo_de_produccion !== undefined) ? scope.tipo_de_produccion : "",
-		'genero': (scope.genero !== undefined) ? scope.genero : "",
-		'fuentes': setFuenteRecurso(scope.fuentes), // Parse desde filter.js
-		'recursos': setFuenteRecurso(scope.recursos), // Parse desde filter.js
-		'versiones': (scope.versiones !== undefined) ? scope.versiones : "",
-		'formato_original': (scope.formato_original !== undefined) ? scope.formato_original : "",
-		'material_extra': (scope.material_extra !== undefined) ? scope.material_extra : "",
-		'condiciones_de_acceso': (scope.condiciones_de_acceso !== undefined) ? scope.condiciones_de_acceso : "",
-		'existencia_y_localizacion_de_originales': (scope.existencia_y_localizacion_de_originales !== undefined) ? scope.existencia_y_localizacion_de_originales : "",
-		'idioma_original': (scope.idioma_original !== undefined) ? scope.idioma_original : "",
-		'doblajes_disponibles': (scope.doblajes_disponibles !== undefined) ? scope.doblajes_disponibles : "",
-		'subtitulajes': (scope.subtitulajes !== undefined) ? scope.subtitulajes : "",
-		'soporte': (scope.soporte !== undefined) ? scope.soporte : "",
-		'numero_copias': (scope.numero_copias !== undefined) ? scope.numero_copias : "",
-		'descripcion_fisica': (scope.descripcion_fisica !== undefined) ? scope.descripcion_fisica : "",
-		'color': (scope.color !== undefined) ? scope.color : "",
-		'audio': (scope.audio !== undefined) ? scope.audio : "",
-		'sistema_de_grabacion': (scope.sistema_de_grabacion !== undefined) ? scope.sistema_de_grabacion : "",
-		'region_dvd': (scope.region_dvd !== undefined) ? scope.region_dvd : "",
-		'requisitos_tecnicos': (scope.requisitos_tecnicos !== undefined) ? scope.requisitos_tecnicos : "",
-		'existencia_y_localizacion_de_copias': (scope.existencia_y_localizacion_de_copias !== undefined) ? scope.existencia_y_localizacion_de_copias : "",
-		'unidades_de_descripcion_relacionadas': (scope.unidades_de_descripcion_relacionadas !== undefined) ? scope.unidades_de_descripcion_relacionadas : "",
-		'documentos_asociados': (scope.documentos_asociados !== undefined) ? scope.documentos_asociados : "",
-		'area_de_notas': (scope.area_de_notas !== undefined) ? scope.area_de_notas : "",
-		'notas_del_archivero': (scope.notas_del_archivero !== undefined) ? scope.notas_del_archivero : "",
-		'datos_del_archivero': (scope.datos_del_archivero !== undefined) ? scope.datos_del_archivero : "",
-		'reglas_o_normas': (scope.reglas_o_normas !== undefined) ? scope.reglas_o_normas : "",
-		'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? scope.fecha_de_descripcion : "",
-		'url': (scope.url !== undefined) ? scope.url : ""
-	}
-}
