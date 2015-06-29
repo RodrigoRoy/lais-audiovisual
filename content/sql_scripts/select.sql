@@ -134,3 +134,6 @@ SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen
 	WHERE codigo_de_referencia LIKE '%MXIM-AV-1-4%'
 	ORDER BY fecha ASC
 	LIMIT 0,10; # offset, row_count
+
+# Borrar pruebas
+DELETE FROM area_de_identificacion WHERE titulo_propio LIKE '%Foo%';
