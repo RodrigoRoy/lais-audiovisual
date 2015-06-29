@@ -1,3 +1,4 @@
+// La dependencia ngFileUpload sirve para subir imagenes (https://github.com/danialfarid/ng-file-upload)
 var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload','infinite-scroll']);
 
 // Directiva para comprobar que dos inputs tengan el mismo valor (password).
@@ -458,16 +459,16 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload){
 	$scope.envia = function(files){
 		$http.post('php/manejoBD.php?action=agregar', 
 			scopeData2object($scope)
-		).success(function(data,status, headers, congif){
-			//console.log(files);
+		).success(function(data, status, headers, congif){
+			if(data.Status === undefined){
+				alert("El archivo Audiovisual está duplicado");
+				return;
+			}
 			$scope.upload(files); // Subir la imagen después de crear el registro en la base
 			alert("El archivo Audiovisual ha sido agregado");
-			//console.log("Datos: " + data);
-			//console.log("Estado: " + data["Status"]);
-			//console.log("Estado del envio: " + data.Status);
-			$location.url('/archivos/');
+			$location.url('/decadas/');
 		}).error(function(error){
-			console.log("Error de los datos: " + error);
+			console.log("Error en envio de los datos datos: " + error);
 		});
 	}
 

@@ -187,3 +187,5 @@ INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Felipe",3);
 INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Lourdes",3);
 INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Fulanito1",2);
 INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Usuario1",1);
+
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Sergio",3);

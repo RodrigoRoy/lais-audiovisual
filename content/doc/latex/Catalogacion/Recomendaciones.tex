@@ -1,13 +1,11 @@
 % Preamble
 \documentclass[10pt,letterpaper]{article}
-\usepackage[spanish]{babel}
-
 % Packages
+\usepackage[spanish]{babel}
 \selectlanguage{spanish}
 \usepackage[utf8]{inputenc} % For spanish (and international) letters like acents.
 \usepackage{hyperref} % To create hyperlinks within the document.
 \usepackage{graphicx} % To include graphics (pictures, images)
-%\usepackage{float} % For the use of the parameter "H" in command "\begin{figure}[H]" (i.e. exact position of image in text)
 \usepackage{verbatim} % For long comments
 %\usepackage{color} % For color in text, background text and page background.
 \usepackage[usenames,dvipsnames]{xcolor} % For color in text, background text and page background.
@@ -23,7 +21,6 @@
 
 \setcounter{secnumdepth}{0} % Non-numbering sections
 \setcounter{tocdepth}{0} % Non-numnbering table of contents
-%\graphicspath{{../Diagramas/}} % Path of the folder containing the images
 
 \section{Antecedentes}
 El Manual de Catalogación del Acervo de Documental en Video para la Serie de Documentales en Video del Laboratorio Audiovisual de Investigación Social del Instituto Mora es un manual que expone las características de los diversos rubros que integra la ficha de documentación gestada con base en la adaptación de la norma ISAD(G) (\textit{General International Standard Archival Description}).
@@ -39,20 +36,20 @@ Comúnmente este rubro consigna el \textbf{año} en el que se terminó la produc
 
 Ejemplos de formato recomendado:
 {\color{Blue}
-\begin{verbatim}
-1956
-1948-1949
-[1982]
-[1992-1993]
-\end{verbatim}
+\begin{itemize}
+	\item \texttt{1956}
+	\item \texttt{1948-1949}
+	\item \texttt{[1982]}
+	\item \texttt{[1992-1993]}
+\end{itemize}
 }
 
 Se recomienda \textbf{evitar} escribir texto dentro de la fecha:
 {\color{Red}
-\begin{verbatim}
-1992-1993 aprox. 
-Siglo XX
-\end{verbatim}
+\begin{itemize}
+	\item \texttt{1992-1993 aprox.}
+	\item \texttt{Siglo XX}
+\end{itemize}
 }
 
 \subsection{Fecha de ingreso}
@@ -60,19 +57,19 @@ Para consignar la fecha de ingreso del material a la colección se recomienda us
 
 Ejemplos de formato recomendado:
 {\color{Blue}
-\begin{verbatim}
-31/10/2012
-1999
-2/9/2000
-\end{verbatim}
+\begin{itemize}
+	\item \texttt{31/10/2012}
+	\item \texttt{1999}
+	\item \texttt{2/9/2000}
+\end{itemize}
 }
 
 Se recomienda \textbf{evitar} la representación \textit{Middle-endian} o notación norteamericana:
 {\color{Red}
-\begin{verbatim}
-10/30/2010
-15/5/99 (Año abreviado)
-\end{verbatim}
+\begin{itemize}
+	\item \texttt{10/30/2010}
+	\item \texttt{15/5/99 (Año abreviado)}
+\end{itemize}
 }
 
 \subsection{Fecha de descripción}
@@ -80,19 +77,19 @@ Consigna la fecha en que se ha elaborado la ficha de la unidad. Se recomienda qu
 
 Ejemplos de formato recomendado:
 {\color{Blue}
-\begin{verbatim}
-24/06/2015
-01/05/2010
-20/5/1999
-\end{verbatim}
+\begin{itemize}
+	\item \texttt{24/06/2015}
+	\item \texttt{01/05/2010}
+	\item \texttt{20/5/1999}
+\end{itemize}
 }
 
 Se recomienda \textbf{evitar} escribir texto dentro de la fecha o agregar varias fechas:
 {\color{Red}
-\begin{verbatim}
-22/9/2012, 24/9/2012
-Última modificación: 20/03/2012
-\end{verbatim}
+\begin{itemize}
+	\item \texttt{22/9/2012, 24/9/2012}
+	\item \texttt{Última modificación: 20/03/2012}
+\end{itemize}
 }
 
 \section{Campos con múltiples nombres}
@@ -103,23 +100,24 @@ En ocasiones es necesario enlistar varias personas o entidades, así que se reco
 
 Ejemplos de formato recomendado:
 {\color{Blue}
-\begin{verbatim}
-Alain Resnais, Robert Hessens
-Director de fotografía: André A. Dantan; Asistente de fotografía: Marcel Fradetal
-Asistente: Jacqueline Grigaut-Lfévne, Damouré Zika; Direccion artística: René Bazar, Jean Rouch
-Georges Strouvé; Asistente de cámara: Patricio Guzmán
-Asistente de cámara: Patricio Guzmán; Georges Strouvé
-Instituto Cubano del Arte, Industria Cinematográficas
-\end{verbatim}
+\begin{itemize}
+	\item \texttt{Alain Resnais, Robert Hessens}
+	\item \texttt{Director de fotografía: André A. Dantan; Asistente de fotografía: Marcel Fradetal}
+	\item \texttt{Asistente: Jacqueline Grigaut-Lfévne, Damouré Zika; Direccion artística: René Bazar, Jean Rouch}
+	\item \texttt{Georges Strouvé; Asistente de cámara: Patricio Guzmán}
+	%\item \texttt{Asistente de cámara: Patricio Guzmán; Georges Strouvé}
+	\item \texttt{Instituto Cubano del Arte, Industria Cinematográficas}
+\end{itemize}
 }
 
 Se recomienda \textbf{evitar} el uso de otros caracteres o preposiciones para separar o delimitar una lista de personas:
+
 {\color{Red}
-\begin{verbatim}
-Alain Resnais y Robert Hessens
-Director de fotografía: André A. Dantan / Asistente de fotografía: Marcel Fradetal
-Instituto Cubano del Arte e Industria Cinematográficas
-\end{verbatim}
+\begin{itemize}
+	\item \texttt{Alain Resnais y Robert Hessens}
+	\item \texttt{Director de fotografía: André A. Dantan / Asistente de fotografía: Marcel Fradetal}
+	\item \texttt{Instituto Cubano del Arte e Industria Cinematográficas}
+\end{itemize}
 }
 
 \section{Duración}
@@ -127,12 +125,43 @@ El formato estricto es emplear horas, minutos y segundos separados por dos punto
 
 Ejemplos de formato recomendado:
 {\color{Blue}
-\begin{verbatim}
-01:43:00
-0:10:6
-21'17''
-47''
-\end{verbatim}
+\begin{itemize}
+	\item \texttt{01:43:00}
+	\item \texttt{0:10:6}
+	\item \texttt{21'17''}
+	\item \texttt{47''}
+\end{itemize}
 }
+
+Se recomienda \textbf{evitar} el uso de otros caracteres para indicar minutos y segundos en notación abreviada. En caso de notación con dos puntos (\verb|:|) no omitir las horas (aunque sean con valor cero) para evitar ambigüedad:
+{\color{Red}
+\begin{itemize}
+	\item \texttt{01:02 (Lo deseable sería 00:01:02)}
+	\item \texttt{12\'{}40\'{}\'{} (Se utiliza acento en lugar de apóstrofe)}
+	\item \texttt{90'10" (Se utilizan comillas en lugar de dos apóstrofes)}
+\end{itemize}
+}
+
+\section{Fuentes y Recursos}
+Ambos rubros registran la estructura del material que se está catalogando y ya existe una lista bien definida para catalogarlos, de manera que se recomienda seguir esta convención y en caso de incluir varios elementos para cada rubro, separar mediante comas (\verb|,|).
+
+Ejemplos de formato recomendado:
+{\color{Blue}
+\begin{itemize}
+	\item \texttt{Documental, registros fílmicos, testimonios orales}
+	\item \texttt{Grabación de campo, voz en off, conducción, entrevistas}
+\end{itemize}
+}
+
+Se recomienda \textbf{evitar} el uso de otro caracter o letra(s) para delimitar varios recursos o fuentes. Tener especial cuidado en no mezclar un recurso en una fuente y viceversa.
+{\color{Red}
+\begin{itemize}
+	\item \texttt{Grabación de campo y música en off}
+	\item \texttt{Grabación de campo, voz en off, música de época (\textit{Música de época} es una fuente al registrar recursos)}
+	\item \texttt{Intertítulos, entrevistas (El elemento \textit{intertítulos} no pertenece a fuentes o recursos)}
+\end{itemize}
+}
+
+Cabe hacer una reflexión en cuanto a cuáles elementos son considerados fuentes y recursos, ya que en ocasiones se registran elementos que no estan considerados (como el caso de \textit{intertítulos}) y en ocasiones se especifican dichos elementos (por ejemplo: música en off, fotografía aérea, pintura heráldica). Se recomienda determinar si es posible hacer está especificación, ya que es información valiosa que debe ser tratada de manera adecuada a través de un sistema automatizado.
 
 \end{document}
