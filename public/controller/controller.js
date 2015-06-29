@@ -88,6 +88,10 @@ lais.controller('conexionCtrl', function($scope, $http, $location){
 
 //Controlador que muestra todas las decadas existentes
 lais.controller('decadasCtrl',function($scope, $location, $http){
+	//Utiizó para que el modal se quitará cuando un susario le da un botón de regresar a la página
+	$('#modalInfo').modal('hide'); // Ocultar modal
+	$('body').removeClass('modal-open'); // Eliminar del DOM
+	$('.modal-backdrop').remove();
 	$scope.allDecades = {'1':"1890-1899",
 					  '2':"1900-1909",
 					  '3':"1910-1919",

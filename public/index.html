@@ -64,7 +64,7 @@
 					</div><!-- /.navbar-collapse -->
 				</div><!-- /.container-fluid -->
 			</nav>
-			<div id="content" ><div ng-view></div></div>
+			<div id="content" ><div ng-view onload="noBack()" onpageshow="if (event.persisted) noBack()" ></div></div>
 
 			<!--Modal para Iniciar sesion-->
 			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -85,9 +85,9 @@
 	                        <input type="password" class="form-control" id="recipient-name" ng-model="pass">
 	                      </div>
 	                    <!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
-	                    <div class="error" ng-model="errores" ng-show="errores">
+	                    <div class="alert alert-danger" role="alert" ng-model="errores" ng-show="errores">
 	                        <small class="error" ng-show="errores">
-	                            ERROR: Usuario o Contraseña invalida!
+	                            <strong>ERROR:</strong> Usuario o Contraseña invalida!
 	                        </small>
 	                    </div>
 	                </form>
@@ -127,6 +127,5 @@
 	            });
 	        });
     		</script>
-
 		</body>
 	</html>
