@@ -137,3 +137,13 @@ SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen
 
 # Borrar pruebas
 DELETE FROM area_de_identificacion WHERE titulo_propio LIKE '%Foo%';
+
+# Obtener indices por década
+SELECT 
+	DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',-1) as decadas 
+	FROM area_de_identificacion 
+	WHERE codigo_de_referencia LIKE '%MXIM-AV-1-4%'
+	ORDER BY decadas ASC;
+
+# Verificación de integridad de los usuarios (no permite modificación en nombres existentes)
+UPDATE usuarios SET Username ='Sergio', Password ='lais', Privilegio ='3' WHERE Username='Usuario1';
