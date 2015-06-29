@@ -173,8 +173,18 @@ function agregar(){
             . $datos->reglas_o_normas . "','"
             . $datos->fecha_de_descripcion 
             . "');";
+        # Agregar en blanco la imagen y demás información adicional
+        $info_adicional = "INSERT INTO informacion_adicional(codigo_de_referencia) VALUES('"
+            . $datos->codigo_de_referencia
+            . "');";
 
         try{
+            /*$result = $GLOBALS['conn']->exec($identificacion);
+            if($result == 0){
+                print_r(json_encode(array("Status"=>"Repetido")));
+                $GLOBALS['conn'] = null;
+                return;
+            }*/
             $GLOBALS['conn']->exec($identificacion);
             $GLOBALS['conn']->exec($contexto);
             $GLOBALS['conn']->exec($contenido);
@@ -182,7 +192,8 @@ function agregar(){
             $GLOBALS['conn']->exec($documentacion);
             $GLOBALS['conn']->exec($notas);
             $GLOBALS['conn']->exec($descripcion);
-            //print_r(json_encode(array("Status"=>"Ok")));
+            $GLOBALS['conn']->exec($info_adicional);
+            print_r(json_encode(array("Status"=>"Ok")));
         }
         catch(PDOException $e){
             echo $e->getMessage();

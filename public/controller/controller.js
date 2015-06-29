@@ -455,16 +455,16 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload){
 	$scope.envia = function(files){
 		$http.post('php/manejoBD.php?action=agregar', 
 			scopeData2object($scope)
-		).success(function(data,status, headers, congif){
-			//console.log(files);
+		).success(function(data, status, headers, congif){
+			if(data.Status === undefined){
+				alert("El archivo Audiovisual está duplicado");
+				return;
+			}
 			$scope.upload(files); // Subir la imagen después de crear el registro en la base
 			alert("El archivo Audiovisual ha sido agregado");
-			//console.log("Datos: " + data);
-			//console.log("Estado: " + data["Status"]);
-			//console.log("Estado del envio: " + data.Status);
-			$location.url('/archivos/');
+			$location.url('/decadas/');
 		}).error(function(error){
-			console.log("Error de los datos: " + error);
+			console.log("Error en envio de los datos datos: " + error);
 		});
 	}
 
