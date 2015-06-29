@@ -455,13 +455,14 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload){
 		console.log('No hay permisos suficientes');
 		$location.url('/archivos/');
 	}
-
+	$scope.errorDuplicado = false;
 	$scope.envia = function(files){
 		$http.post('php/manejoBD.php?action=agregar', 
 			scopeData2object($scope)
 		).success(function(data, status, headers, congif){
 			if(data.Status === undefined){
-				alert("El archivo Audiovisual está duplicado");
+				//alert("El archivo Audiovisual está duplicado");
+				$scope.errorDuplicado = true;
 				return;
 			}
 			$scope.upload(files); // Subir la imagen después de crear el registro en la base
@@ -595,6 +596,7 @@ lais.controller('adminUser',function($scope,$http, $location){
 
 	getDatos();
 
+	$scope.errorDuplicadoLogin = false;
 	$scope.enviar = function(){
 		$http.post('php/manejoBD.php?action=agregarUsuario',
 		{
@@ -603,6 +605,11 @@ lais.controller('adminUser',function($scope,$http, $location){
 			'Privilegio': $scope.privilegio
 		}).
 		success(function(data, status, headers, config) {
+			if(data.Status === undefined){
+				//alert("El archivo Audiovisual está duplicado");
+				$scope.errorDuplicadoLogin = true;
+				return;
+			}
 			alert("Datos enviados");
 			location.reload();
 		}).
@@ -610,16 +617,15 @@ lais.controller('adminUser',function($scope,$http, $location){
 			alert("Error! en envio de datos");
 		});
 	}
-
 	$scope.editar = function(nombre){
     	$scope.edit = true;
     	$scope.nombreAuxiliar = nombre;
     	$http.get('php/manejoBD.php?action=obtenerUsuario&name=' + nombre).
-    	success(function(data) {
+    	success(function(data,status) {
 	        $scope.nombre = data.Username;
 	        $scope.password = data.Password;
 	        $scope.privilegio = data.Privilegio;
-	      
+	      	$scope.errorDuplicadoLogin = false;
 	    }).
 	    error(function(data, status, headers, config) {
 	    	console.log("Error");
@@ -638,6 +644,11 @@ lais.controller('adminUser',function($scope,$http, $location){
 			'nombreAuxiliar': $scope.nombreAuxiliar
 		}).
 		success(function(data, status, headers, config) {
+			if(data.Status === undefined){
+				//alert("El archivo Audiovisual está duplicado");
+				$scope.errorDuplicadoLogin = true;
+				return;
+			}
 			alert("Datos actualizados");
 			location.reload();
 		}).

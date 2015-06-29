@@ -803,7 +803,13 @@
 		        </div>
 			</div>
 		</div>
-
+		<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+		<div class="alert alert-danger" role="alert" 
+          	ng-show="errorDuplicado">
+          	<small class="error" ng-show="errorDuplicado">
+            	<strong>ERROR:</strong> El código de referencia está duplicado 
+          	</small>
+        </div>
 		<button type="submit" class="btn btn-default" ng-disabled="audForm.$invalid" ng-click="envia(imagen)">Enviar</button>
 	</form>
 

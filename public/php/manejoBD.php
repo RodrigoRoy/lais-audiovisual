@@ -586,6 +586,7 @@ function agregar_datosUsuario(){
     $sql = "INSERT INTO usuarios(Password,Username,Privilegio) VALUES('" . $data->Password . "', '" . $data->Username . "', '" . $data->Privilegio . "');";
     try{
         $GLOBALS['conn']->exec($sql);
+        print_r(json_encode(array("Status"=>"Ok")));
     }
     catch(PDOException $e){
         echo $e->getMessage();
@@ -600,6 +601,7 @@ function actualizar_usuario(){
     try{
         $stmt = $GLOBALS['conn']->prepare($sql);
         $stmt->execute();
+        print_r(json_encode(array("Status"=>"Ok")));
     }
     catch(PDOException $e){
         echo $e->getMessage();

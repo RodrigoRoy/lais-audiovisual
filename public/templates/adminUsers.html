@@ -59,6 +59,13 @@
             <strong>ERROR:</strong> Se requiere seleccionar el tipo de permisos para el usuario
           </small>
         </div>
+        <!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+		<div class="alert alert-danger" role="alert" 
+          ng-show="errorDuplicadoLogin">
+          <small class="error" ng-show="errorDuplicadoLogin">
+            <strong>ERROR:</strong> Ya hay un usuario con ese nombre
+          </small>
+        </div>
 		<button ng-disabled="formUser.$invalid" type="submit" class="btn btn-default" ng-click="enviar()" ng-show="!edit">Enviar</button>
 		<button ng-disabled="formUser.$invalid" type="submit" class="btn btn-default" ng-click="actualizar()" ng-hide="!edit">Actualizar</button>
 	</form>
