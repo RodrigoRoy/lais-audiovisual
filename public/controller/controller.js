@@ -249,7 +249,8 @@ lais.config(function ($routeProvider, $locationProvider){
 		})
 		.when("/archivos/busqueda/:query",{
 			templateUrl: "templates/buscarRegistros.html",
-			controller: "busquedaCtrl"
+			//controller: "busquedaCtrl"
+			controller: "muestraDecadaCtrl"
 		})
 		.when("/administracion_usuarios",{
 			templateUrl: "templates/adminUsers.html",
@@ -308,8 +309,9 @@ lais.controller('decadasCtrl',function($scope, $location, $http, DecadaService,$
 
 //Controlador que mostrara los archivos audiovisuales con su portada por decadas
 lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http, $timeout, ParamService, DecadaService, agregarNuevoAll, $cookieStore){
-	console.log("Parametro URL: "+ $routeParams.codigo);
+	//console.log("Parametro URL: "+ $routeParams.codigo);
 	$scope.codigo = $routeParams.codigo; // Código de la década
+	$scope.query = $routeParams.query; // Query de búsqueda en la barra de navegación
 	$scope.allDecades = DecadaService.allDecades;
 	$scope.encabezados = DecadaService.encabezados;
 	$scope.archivos = []; // Todos los datos de los audiovisuales
@@ -327,6 +329,24 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
 					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
 					//console.log("Imgen: " + data[av].imagen);
+				}
+				$scope.busy = false; // En este momento ya NO estamos "ocupados"
+				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
+					$scope.busy = true;
+			}).
+			error(function(data, status, headers, config) {
+				// called asynchronously if an error occurs or server returns response with an error status.
+			});
+	};
+
+	$scope.firstQueryLoad = function(){
+		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
+			return;
+		$scope.busy = true; // En estos momentos estamos "ocupados" obteniendo datos de la base
+		$http.get('php/manejoBD.php?action=busqueda&query='+$routeParams.query+"&howMany="+howMany+"&offset="+$scope.archivos.length).
+			success(function(data, status, headers, config) {
+				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
+					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
 				}
 				$scope.busy = false; // En este momento ya NO estamos "ocupados"
 				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
@@ -686,11 +706,35 @@ lais.controller('busquedaFormCtrl',function($scope, $location){
 
 // Permite mostrar los resultados de una búsqueda
 lais.controller('busquedaCtrl',function($scope, $http, $routeParams, $location){
-	$scope.query = $routeParams.query; // Obtener query desde la barra de dirección
+	/*$scope.query = $routeParams.query; // Obtener query desde la barra de dirección
 	$http.get('php/manejoBD.php?action=buscar&query=' + $routeParams.query).
     success(function(data) {
         $scope.datos = data; // Resultados de la búsqueda
-    });
+    });*/
+
+    $scope.archivos = []; // Todos los datos de los audiovisuales
+	$scope.busy = false;
+    $scope.howMany = 18; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
+
+	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
+	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
+	$scope.firstLoad = function(){
+		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
+			return;
+		$scope.busy = true; // En estos momentos estamos "ocupados" obteniendo datos de la base
+		$http.get('php/manejoBD.php?action=busqueda&query='+$routeParams.query+"&howMany="+$scope.howMany+"&offset="+$scope.archivos.length).
+			success(function(data, status, headers, config) {
+				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
+					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
+				}
+				$scope.busy = false; // En este momento ya NO estamos "ocupados"
+				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
+					$scope.busy = true;
+			}).
+			error(function(data, status, headers, config) {
+				// called asynchronously if an error occurs or server returns response with an error status.
+			});
+	};
 });
 
 //Administración de usuarios

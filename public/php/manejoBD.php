@@ -13,6 +13,9 @@ switch ($_GET['action']) {
     case 'buscar':
         buscar($_GET['query']);
         break;
+    case 'busqueda': // Versión actuliazada del caso 'buscar'
+        busqueda($_GET['query'],$_GET['howMany'],$_GET['offset']);
+        break;
     case 'obtener':
         getId($_GET['id']);
         break;
@@ -384,6 +387,7 @@ function mostrarCaratula($query){
     }
 }
 
+// Devulve todos los nombres de columnas de (el nombre de) una tabla pasada como parámetro. Auxiliar para búsquedas sobre toda la base de datos.
 function getColumnNames($table){
     $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Coleccion_Archivistica' AND TABLE_NAME = :table";
     try{
@@ -403,6 +407,8 @@ function getColumnNames($table){
     }
 }
 
+// Regresa todos los nombres de columnas (sin repetición) de todas las tablas pasadas como parámetro (arreglo de cadenas de texto).
+// Devuelve un arreglo de cadenas de texto que representan cada nombre de columna
 function getAllColumnNames($tables){
     $output = array();
     foreach ($tables as $table) {
@@ -559,6 +565,41 @@ function firstGet($codigo, $howMany, $offset){
         $data = $stmt->fetchAll(); // Obtener los datos
         print_r(json_encode($data)); // Convertir a json y mostrar para poder rescatar los datos desde otro script
     }
+}
+
+// Busqueda en toda la base de datos a partir de una frase o palabra (parámetro $query)
+// Devuelve solamente la cantidad de elementos deseada (parámetro $howMany)
+// a partir del índice indicado (parámetro $offset)
+function busqueda($query, $howMany, $offset){
+    $arrayQuery = explode(' ', $query); // Descomponer el texto de búsqueda en palabras individuales
+    $totalResults = array(); // Arreglo para almacenar los códigos de los registros con ocurrencias de las palabras
+    $tablas = array('area_de_identificacion', 'area_de_contexto', 'area_de_contenido_y_estructura', 'area_de_condiciones_de_acceso', 'area_de_documentacion_asociada', 'area_de_notas', 'area_de_descripcion', 'informacion_adicional');
+    $columnas = getAllColumnNames($tablas); // Todos los nombres (strings) de columnas
+    
+    foreach ($arrayQuery as $value) { // Para cada palabra individual del query original
+        foreach ($columnas as $columna) { // Buscar en cada columna de toda la base
+            $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion NATURAL JOIN informacion_adicional WHERE " . $columna . " LIKE '%" . $value . "%' ORDER BY fecha ASC";
+            $stmt = $GLOBALS['conn']->prepare($select);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+            $results = $stmt->fetchAll(); // Obtener todos los codigos de referencia que empaten con la palabra buscada
+            foreach ($results as $registro){
+                array_push($totalResults, $registro['codigo_de_referencia']); // Almacenarlos en un solo arreglo
+            }
+            $totalResults = array_unique($totalResults); // No incluir repetidos
+        }
+    }
+    $registros = array(); // Registros de la base de datos con coincidencias de palabras buscadas
+    foreach ($totalResults as $clave) {
+    //for ($i=$offset; $i < $offser+$howMany; $i++) { // Solo obtener n resultados ($howMany) a partir del índice i ($offset)
+        $select = "SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia='" . $clave . "'"; // $totalResults[$i]
+        $stmt = $GLOBALS['conn']->prepare($select);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+        $results = $stmt->fetch();
+        array_push($registros, $results);
+    }
+    print_r(json_encode($registros));
 }
 
 # Determinar el siguiente indice consecutivo dentro de una década
