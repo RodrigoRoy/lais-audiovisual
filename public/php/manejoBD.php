@@ -58,6 +58,9 @@ switch ($_GET['action']) {
     case 'borrarUsuario':
         borrarUsuario();
         break;
+    case 'sugerencia':
+        sugerencia($_GET['clave']);
+        break;
 }
 
 /*Funcion que muestra los datos completos de cada archivo audiovisual*/
@@ -641,6 +644,32 @@ function borrarUsuario(){
     $sql = "DELETE FROM usuarios WHERE Username='" . $name . "'";
     try{
         $GLOBALS['conn']->exec($sql);
+    }
+    catch(PDOException $e){
+        echo $e->getMessage();
+    }
+    $GLOBALS['conn'] = null;
+}
+
+// Recibe código de referencia, determina si es un nuevo registro de nueva década y devuelve un código de sugerencia.
+// Devuelve el valor "1" para indicar que se va a crear una nueva década
+// Devuelve un valor numérico distinto de 1 para indicar la numeración correcta de una década existente
+function sugerencia($clave){
+    $select = "SELECT DISTINCT SUBSTRING_INDEX(SUBSTRING_INDEX(codigo_de_referencia,'-',-2), '-', 1) as decadas FROM area_de_identificacion ORDER BY decadas ASC";
+    try{
+        $stmt = $GLOBALS['conn']->prepare($select);
+        $stmt->execute();
+        if ($stmt->rowCount() == 0){
+            // error
+        } else {
+            $data = $stmt->fetchAll(PDO::FETCH_COLUMN,0); // Todas las claves de décadas existentes en la base de datos
+            if(in_array(explode("-", $clave)[3], $data)){ // Si la clave de década se encuentra en $data
+                getIndice(substr($clave, 0, strrpos($clave, '-'))); // Sugerir próximo indice consecutivo
+            }
+            else{
+                print_r(json_encode(1)); // Indicar que se trata de una nueva década
+            }
+        }
     }
     catch(PDOException $e){
         echo $e->getMessage();
