@@ -474,6 +474,20 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
             }
         }
     };
+
+    // Autocorrige el código de identificación para mantener la numeración correcta en la base de datos
+    $scope.sugerencias = function(){
+    	if($scope.codigo_de_referencia !== undefined){ // Porque que no se hace asignación (valor undefined) si el campo es inválido
+    		$http.get('php/manejoBD.php?action=sugerencia&clave=' + $scope.codigo_de_referencia).
+			success(function(data, status, headers, config) {
+				// Asigna el nuevo codigo_de_referencia (data contiene el número sugerido, revisar manejoBD.php para detalles)
+				$scope.codigo_de_referencia = $scope.codigo_de_referencia.substring(0, $scope.codigo_de_referencia.search(/-\d{1,4}$/)) + "-" + data;
+			}).
+			error(function(data, status, headers, config) {
+				alert("Error de conexión");
+			});
+    	}
+    };
 });
 
 // Edición de audiovisuales
