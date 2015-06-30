@@ -18,6 +18,17 @@ lais.directive('pwCheck', function () {
 	}
 });
 
+//Servicio que hace global la función de agregar nuevo elemento que guarda la decada y redirige al formulario
+lais.service('agregarNuevoAll', function( $cookieStore, $location){
+	// Acción del icono para agregar un nuevo audiovisual
+    this.agregarNew = function(decada){
+		if(decada != undefined )
+			$cookieStore.put('decada',decada); // Almacena el código de década
+		$location.url('/archivos/agregarArchivo/'); // Ir a la página "Agregar audiovisual"
+
+    }
+});
+
 // Servicio cuya finalidad es ser intermediario de parametros entre controladores
 lais.service('ParamService', function(){
 	// Contenedor para los parametros entre controladores o para información repetitiva
@@ -276,7 +287,9 @@ lais.controller('conexionCtrl', function($scope, $http, $location){
 });
 
 //Controlador que muestra todas las decadas existentes
-lais.controller('decadasCtrl',function($scope, $location, $http, DecadaService){
+lais.controller('decadasCtrl',function($scope, $location, $http, DecadaService,$cookieStore, agregarNuevoAll){
+	//Eliminar el cookie del codigo de decadas
+	$cookieStore.remove('decada');
 	//Utiizó para que el modal se quitará cuando un susario le da un botón de regresar a la página
 	$('#modalInfo').modal('hide'); // Ocultar modal
 	$('body').removeClass('modal-open'); // Eliminar del DOM
@@ -286,10 +299,15 @@ lais.controller('decadasCtrl',function($scope, $location, $http, DecadaService){
 	success(function(data){
 		$scope.decadas = data;
 	});
+
+	// Acción del icono para agregar un nuevo audiovisual
+    $scope.agregarNuevo = function(decada){
+    	agregarNuevoAll.agregarNew(decada);
+    }
 });
 
 //Controlador que mostrara los archivos audiovisuales con su portada por decadas
-lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http, $timeout, ParamService, DecadaService){
+lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http, $timeout, ParamService, DecadaService, agregarNuevoAll, $cookieStore){
 	console.log("Parametro URL: "+ $routeParams.codigo);
 	$scope.codigo = $routeParams.codigo; // Código de la década
 	$scope.allDecades = DecadaService.allDecades;
@@ -330,8 +348,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 
 	// Acción del icono para agregar un nuevo audiovisual
     $scope.agregarNuevo = function(decada){
-		ParamService.set("codigoDecada", decada); // Almacena el código de década
-		$location.url('/archivos/agregarArchivo/'); // Ir a la página "Agregar audiovisual"
+    	agregarNuevoAll.agregarNew(decada);
     }
 
 	// Acción al presionar el icono de edición
@@ -381,7 +398,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
-lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, ParamService){
+lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, ParamService,$cookieStore){
 	// Impide acceso no autorizado en la página
 	if(!$scope.sesion && !$scope.permiso >= 1){
 		console.log('No hay permisos suficientes para estar en esta página');
@@ -391,7 +408,8 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 	$scope.errorDuplicado = false;
 
 	// Establece el código de referencia con numeración consecutiva
-	$scope.codigoDecada = ParamService.get("codigoDecada"); // Recuperar la década
+	//$scope.codigoDecada = ParamService.get("codigoDecada"); // Recuperar la década
+	$scope.codigoDecada = $cookieStore.get('decada');
 	$http.get('php/manejoBD.php?action=getIndice&decada=' + $scope.codigoDecada).
 	success(function(data, status, headers, config) {
 		$scope.codigo_de_referencia = $scope.codigoDecada + '-' + data;

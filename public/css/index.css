@@ -20,7 +20,7 @@ html{
 }
 
 
-.boton {
+.botonUno {
 	background-color: rgb(38, 105, 138);
 	background-size: 60%; /* Tamaño de la imagen */
 	height: 5em;  /* Alto del botón */
@@ -33,8 +33,21 @@ html{
 	/*margin-left: 90%;*/
 }
 
+.botonDos {
+	background-color: rgb(170, 85, 42);
+	background-size: 60%; /* Tamaño de la imagen */
+	height: 5em;  /* Alto del botón */
+	width: 5em;  /* Ancho del botón */
+	display: table;
+	border-radius: 100%;
+	cursor: pointer;
+	box-shadow: 3px 3px 10px black;
+	/*position: relative;*/
+	/*margin-left: 90%;*/
+}
+
 /* Al presionar */
-.boton:active {
+.botonUno:active {
 	box-shadow: inset 0 5px 30px rgba(0,0,0,.2); /* Sombra interior */
 	background-size: 55%; /* Cambiamos el tamaño de la imagen */
 }
