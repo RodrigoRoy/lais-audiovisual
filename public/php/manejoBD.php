@@ -2,7 +2,7 @@
 require_once 'filters.php';
 require_once 'conexion.php';
 
- /*Casos para tomar la acción del controlador*/
+/*Casos para tomar la acción del controlador*/
 switch ($_GET['action']) {
     case 'agregar':
         agregar();
@@ -85,7 +85,6 @@ function mostrar(){
         return json_encode($data);
     }
 }
-
 
 /*Funcion que agrega un nuevo archivo audivisual*/
 function agregar(){
@@ -188,12 +187,6 @@ function agregar(){
             . "');";
 
         try{
-            /*$result = $GLOBALS['conn']->exec($identificacion);
-            if($result == 0){
-                print_r(json_encode(array("Status"=>"Repetido")));
-                $GLOBALS['conn'] = null;
-                return;
-            }*/
             $GLOBALS['conn']->exec($identificacion);
             $GLOBALS['conn']->exec($contexto);
             $GLOBALS['conn']->exec($contenido);
@@ -202,7 +195,7 @@ function agregar(){
             $GLOBALS['conn']->exec($notas);
             $GLOBALS['conn']->exec($descripcion);
             $GLOBALS['conn']->exec($info_adicional);
-            print_r(json_encode(array("Status"=>"Ok")));
+            print_r(json_encode(array("Status"=>"Ok"))); // Responder que la operación fué exitosa
         }
         catch(PDOException $e){
             echo $e->getMessage();
@@ -210,6 +203,7 @@ function agregar(){
         $GLOBALS['conn'] = null;
 }
 
+/*Funcion que actualiza un nuevo archivo audivisual*/
 function actualizar(){
     $datos = json_decode(file_get_contents("php://input"));
     
@@ -570,6 +564,7 @@ function firstGet($codigo, $howMany, $offset){
 // Busqueda en toda la base de datos a partir de una frase o palabra (parámetro $query)
 // Devuelve solamente la cantidad de elementos deseada (parámetro $howMany)
 // a partir del índice indicado (parámetro $offset)
+// OPTIMIZABLE:
 function busqueda($query, $howMany, $offset){
     $arrayQuery = explode(' ', $query); // Descomponer el texto de búsqueda en palabras individuales
     $totalResults = array(); // Arreglo para almacenar los códigos de los registros con ocurrencias de las palabras
@@ -581,25 +576,27 @@ function busqueda($query, $howMany, $offset){
             $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion NATURAL JOIN informacion_adicional WHERE " . $columna . " LIKE '%" . $value . "%' ORDER BY fecha ASC";
             $stmt = $GLOBALS['conn']->prepare($select);
             $stmt->execute();
-            $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
-            $results = $stmt->fetchAll(); // Obtener todos los codigos de referencia que empaten con la palabra buscada
-            foreach ($results as $registro){
-                array_push($totalResults, $registro['codigo_de_referencia']); // Almacenarlos en un solo arreglo
-            }
+            $results = $stmt->fetchAll(PDO::FETCH_COLUMN,0); // Obtener todos los datos de la única columna (codigo_de_referencia)
+            $totalResults = array_merge($totalResults, $results); // Agregarlos a un único arreglo
             $totalResults = array_unique($totalResults); // No incluir repetidos
         }
     }
     $registros = array(); // Registros de la base de datos con coincidencias de palabras buscadas
-    foreach ($totalResults as $clave) {
-    //for ($i=$offset; $i < $offser+$howMany; $i++) { // Solo obtener n resultados ($howMany) a partir del índice i ($offset)
-        $select = "SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia='" . $clave . "'"; // $totalResults[$i]
-        $stmt = $GLOBALS['conn']->prepare($select);
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
-        $results = $stmt->fetch();
-        array_push($registros, $results);
+    for ($i=$offset; $i < ($offset+$howMany); $i++) { // Solo obtener n resultados ($howMany) a partir del índice i ($offset)
+        if($i < sizeof($totalResults)){ // Para evitar ArrayIndexOutOfBoundException
+            $select = "SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia='" . $totalResults[$i] . "'"; // $clave || $totalResults[$i]
+            $stmt = $GLOBALS['conn']->prepare($select);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+            if($stmt->rowCount() != 0){ // Evitar agregar valores inexistentes (false) al arreglo final de resultados
+                $results = $stmt->fetch();
+                array_push($registros, $results);
+            }
+        }
     }
-    print_r(json_encode($registros));
+    if (!empty($registros)) { // Solamente mostrar resultados cuando la búsqueda no es vacia
+        print_r(json_encode($registros));
+    }
 }
 
 # Determinar el siguiente indice consecutivo dentro de una década
