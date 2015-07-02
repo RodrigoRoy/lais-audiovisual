@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS area_de_identificacion(
 	titulo_paralelo VARCHAR(120) DEFAULT '',
 	titulo_atribuido VARCHAR(120) DEFAULT '',
 	titulo_de_serie VARCHAR(70) DEFAULT '',
-	numero_de_programa VARCHAR(15) DEFAULT "NN",
+	numero_de_programa VARCHAR(15) DEFAULT '',
 	pais VARCHAR(30) DEFAULT '', # Alternativa con ISO Standard: http://en.wikipedia.org/wiki/ISO_3166-2
 	fecha VARCHAR(12) DEFAULT '', # La fecha puede ser un periodo: "[1980-1990]"
 	duracion TIME,
@@ -79,10 +79,10 @@ ALTER TABLE area_de_contexto ADD CONSTRAINT codigoIdentificacionFK
 # AREA DE CONTENIDO Y ESTRUCTURA
 CREATE TABLE IF NOT EXISTS area_de_contenido_y_estructura(
 	codigo_de_referencia VARCHAR(20) NOT NULL,
-	sinopsis TEXT DEFAULT '',
-	descriptor_onomastico TEXT DEFAULT '',
-	descriptor_toponimico TEXT DEFAULT '',
-	descriptor_cronologico TEXT DEFAULT '',
+	sinopsis TEXT,
+	descriptor_onomastico TEXT,
+	descriptor_toponimico TEXT,
+	descriptor_cronologico TEXT,
 	tipo_de_produccion VARCHAR(31) DEFAULT '',
 	genero VARCHAR(30) DEFAULT '',
 	fuentes VARCHAR(170) DEFAULT '',
@@ -123,9 +123,9 @@ ALTER TABLE area_de_condiciones_de_acceso ADD CONSTRAINT codigoCondAccesoFK
 # AREA DE DOCUMENTACION ASOCIADA
 CREATE TABLE IF NOT EXISTS area_de_documentacion_asociada(
 	codigo_de_referencia VARCHAR(20) NOT NULL,
-	existencia_y_localizacion_de_copias TEXT DEFAULT '',
-	unidades_de_descripcion_relacionadas TEXT DEFAULT '',
-	documentos_asociados TEXT DEFAULT ''
+	existencia_y_localizacion_de_copias TEXT,
+	unidades_de_descripcion_relacionadas TEXT,
+	documentos_asociados TEXT
 );
 # Agregar llave foranea (FK) para el codigo_de_referencia que ya existe en la tabla area_de_identificacion
 ALTER TABLE area_de_documentacion_asociada ADD CONSTRAINT codigoDocAsociadaFK
@@ -136,7 +136,7 @@ ALTER TABLE area_de_documentacion_asociada ADD CONSTRAINT codigoDocAsociadaFK
 # AREA DE NOTAS
 CREATE TABLE IF NOT EXISTS area_de_notas(
 	codigo_de_referencia VARCHAR(20) NOT NULL,
-	area_de_notas TEXT DEFAULT ''
+	area_de_notas TEXT
 );
 # Agregar llave foranea (FK) para el codigo_de_referencia que ya existe en la tabla area_de_identificacion
 ALTER TABLE area_de_notas ADD CONSTRAINT codigoNotasFK
