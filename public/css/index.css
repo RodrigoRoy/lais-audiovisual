@@ -144,14 +144,9 @@ html{
 	height: 100%;
 }
 
-#portada{
-	width: 90%;
-	height: 417px;
-}
-
 #asinopsis{
 	background-color: transparent;
-	width: 100%;
+	/*width: 100%;*/
 	max-height: 240px;
 	overflow: auto;
 	height: 240px;
