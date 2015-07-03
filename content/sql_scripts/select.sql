@@ -31,8 +31,8 @@ DROP TABLE area_de_documentacion_asociada;
 DROP TABLE area_de_notas;
 DROP TABLE area_de_descripcion;
 DROP TABLE informacion_adicional;
-DROP TABLE usuarios;
 DROP TABLE area_de_identificacion; # Debido a que codigo_de_referencia es PK, se elimina al final
+DROP TABLE usuarios;
 DROP VIEW decada1920, audiovisual; # Borar vistas
 # Mostrar todos los registros de todas las tablas
 SELECT *

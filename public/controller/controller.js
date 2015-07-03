@@ -218,7 +218,6 @@ lais.service('DecadaService', function(){
 });
 
 lais.config(function ($routeProvider, $locationProvider){
-	//console.log("Ruteando");
 	$routeProvider
 		.when("/",{
 			templateUrl: "templates/inicio.html"
@@ -254,7 +253,7 @@ lais.config(function ($routeProvider, $locationProvider){
 		})
 		.when("/administracion_usuarios",{
 			templateUrl: "templates/adminUsers.html",
-			controller: "adminUser"
+			controller: "adminUserCtrl"
 		})
 		.otherwise({
 			redirectTo: "/"
@@ -262,6 +261,7 @@ lais.config(function ($routeProvider, $locationProvider){
 });
 
 //Controlador que muestra los datos en el html, con la conexion a la base de datos
+// Actualmente fue reemplazado por decadasCtrl
 lais.controller('conexionCtrl', function($scope, $http, $location){
 	$http.get('php/manejoBD.php?action=ver').
     success(function(data) {
@@ -339,6 +339,9 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			});
 	};
 
+	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas después de una búsqueda
+	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
+	// (Esta función es una copia de firstLoad())
 	$scope.firstQueryLoad = function(){
 		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
 			return;
@@ -437,19 +440,6 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 	error(function(data, status, headers, config) {
 		alert("Error de conexión");
 	});
-
-	/*
-	// El siguiente código es equivalente al de arriba pero marca error!!
-	$scope.codigo_de_referencia = $scope.codigoDecada + '-' + $scope.getIndice();
-	$scope.getIndice = function(){
-		$http.get('php/manejoBD.php?action=getIndice&decada=' + $scope.codigoDecada).
-		success(function(data, status, headers, config) {
-			console.log("Indice siguiente: " + data);
-		}).
-		error(function(data, status, headers, config) {
-			alert("Error de conexión");
-		});
-	}*/
 
 	// Acción al presionar el botón de "Enviar" del formulario
 	// Recibe como parámetro el archivo de imagen (único elemento que se sube a parte)
@@ -705,53 +695,37 @@ lais.controller('busquedaFormCtrl',function($scope, $location){
 });
 
 // Permite mostrar los resultados de una búsqueda
+// (Actualmente ya no se ocupa)
 lais.controller('busquedaCtrl',function($scope, $http, $routeParams, $location){
-	/*$scope.query = $routeParams.query; // Obtener query desde la barra de dirección
+	$scope.query = $routeParams.query; // Obtener query desde la barra de dirección
 	$http.get('php/manejoBD.php?action=buscar&query=' + $routeParams.query).
     success(function(data) {
         $scope.datos = data; // Resultados de la búsqueda
-    });*/
-
-    $scope.archivos = []; // Todos los datos de los audiovisuales
-	$scope.busy = false;
-    $scope.howMany = 18; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
-
-	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
-	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
-	$scope.firstLoad = function(){
-		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
-			return;
-		$scope.busy = true; // En estos momentos estamos "ocupados" obteniendo datos de la base
-		$http.get('php/manejoBD.php?action=busqueda&query='+$routeParams.query+"&howMany="+$scope.howMany+"&offset="+$scope.archivos.length).
-			success(function(data, status, headers, config) {
-				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
-					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
-				}
-				$scope.busy = false; // En este momento ya NO estamos "ocupados"
-				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
-					$scope.busy = true;
-			}).
-			error(function(data, status, headers, config) {
-				// called asynchronously if an error occurs or server returns response with an error status.
-			});
-	};
+    });
 });
 
 //Administración de usuarios
-lais.controller('adminUser',function($scope,$http, $location){
-	//console.log("Sesion: " + $scope.sesion);
-	//console.log("Permiso: " + $scope.permiso);
-
+lais.controller('adminUserCtrl',function($scope,$http, $location){
+	// Impide acceso no autorizado en la página
 	if(!$scope.sesion && !($scope.permiso >= 3)){
 		console.log('No hay permisos suficientes');
 		$location.url('/inicio');
 	}
+	
 	$scope.nombreAuxiliar = '';
-	$scope.edit = false; 
-
-	getDatos();
-
+	$scope.edit = false;
+	$scope.privilegios = { // Renombre de los permisos de usuario a un número (como en la base de datos)
+		"0": "Sin Permisos",
+		"1": "Agregar",
+		"2": "Agregar y Editar",
+		"3": "Agregar, Editar y Eliminar"
+	};
 	$scope.errorDuplicadoLogin = false;
+
+	// $scope.datos contiene todos los usuarios (ver función getDatos)
+	getDatos(); // Inicializacion, $scope.datos se llena.
+	
+	// Acción al dar clic en el botón "Enviar". Agrega los datos del nuevo usuario a la base.
 	$scope.enviar = function(){
 		$http.post('php/manejoBD.php?action=agregarUsuario',
 		{
@@ -760,21 +734,48 @@ lais.controller('adminUser',function($scope,$http, $location){
 			'Privilegio': $scope.privilegio
 		}).
 		success(function(data, status, headers, config) {
-			if(data.Status === undefined){
-				//alert("El archivo Audiovisual está duplicado");
+			if(data.Status === undefined){ // Cuando no recibimos respuesta de la base, es porque el nombre de usuario está repetido
 				$scope.errorDuplicadoLogin = true;
 				return;
 			}
-			alert("Datos enviados");
+			alert("Nuevo usuario registrado exitosamente.");
 			location.reload();
 		}).
 		error(function(data, status, headers, config) {
-			alert("Error! en envio de datos");
+			alert("Error de conexión durante envio de datos.");
 		});
 	}
+
+    // Acción al dar clic en el botón "Editar". Actualiza los datos de un usuario existente en la base.
+    $scope.actualizar = function(){
+    	$scope.errorDuplicadoLogin = false;
+    	$http.post('php/manejoBD.php?action=actualizarUsuario',
+		{
+			'Username': $scope.nombre, // Nombre nuevo
+			'Password': $scope.password,
+			'Privilegio': $scope.privilegio,
+			'nombreAuxiliar': $scope.nombreAuxiliar // Nombre 'anterior' (no necesariamente igual a $scope.nombre)
+		}).
+		success(function(data, status, headers, config) {
+			if(data.Status === undefined){ // Cuando no recibimos respuesta de la base, es porque el nombre de usuario está repetido
+				$scope.edit = true;
+				$scope.errorDuplicadoLogin = true;
+				return;
+			}
+			$scope.edit = false;
+			alert("Datos de usuario actualizados exitosamente.");
+			location.reload();
+		}).
+		error(function(data, status, headers, config) {
+			alert("Error de conexión al enviar datos de actualización.");
+		});
+    }
+
+    // Acción al dar clic en el botón de editar (icono de lápiz)
+	// Reasigna los valores de los campos por los del usuario seleccionado (parámetro 'nombre') para editarlos
 	$scope.editar = function(nombre){
     	$scope.edit = true;
-    	$scope.nombreAuxiliar = nombre;
+    	$scope.nombreAuxiliar = nombre; // Recuerda y permite cambiar el nombre de usuario durante la consulta SQL
     	$http.get('php/manejoBD.php?action=obtenerUsuario&name=' + nombre).
     	success(function(data,status) {
 	        $scope.nombre = data.Username;
@@ -783,60 +784,28 @@ lais.controller('adminUser',function($scope,$http, $location){
 	      	$scope.errorDuplicadoLogin = false;
 	    }).
 	    error(function(data, status, headers, config) {
-	    	console.log("Error");
-			console.log(data);
-			console.log(status);
+			alert("Error de conexión durante envio de datos.");
 		});
     }
 
-    $scope.actualizar = function(){
-    	//$scope.edit = false;
-    	$scope.errorDuplicadoLogin = false;
-    	$http.post('php/manejoBD.php?action=actualizarUsuario',
-		{
-			'Username': $scope.nombre,
-			'Password': $scope.password,
-			'Privilegio': $scope.privilegio,
-			'nombreAuxiliar': $scope.nombreAuxiliar
-		}).
-		success(function(data, status, headers, config) {
-			if(data.Status === undefined){
-				//alert("El archivo Audiovisual está duplicado");
-				$scope.edit = true;
-				$scope.errorDuplicadoLogin = true;
-				return;
-			}
-			$scope.edit = false;
-			alert("Datos actualizados");
-			location.reload();
-		}).
-		error(function(data, status, headers, config) {
-			alert("Error en actualizacion de datos");
-		});
-    }
-
+    // Acción al dar clic en el botón de borrar (icono de tache)
+    // Elimina el registro de la base de datos
     $scope.eliminar = function(nombre){
     	$http.post('php/manejoBD.php?action=borrarUsuario',
 		{
 			'Username': nombre
 		}).
 		success(function(data, status, headers, config) {
-			alert("Usuario eliminado");
+			alert("El usuario fué eliminado de la base de datos.");
 			location.reload();
 		}).
 		error(function(data, status, headers, config) {
-			alert("Error al borrar usuario");
+			alert("Error de conexión al borrar al usurio.");
 		});
     }
 
+    // Obtener todos los registros existentes de los usuarios en la base de datos
     function getDatos(){
-    	$scope.privilegios = {
-    		"0":"Sin Permisos",
-    		"1": "Agregar",
-    		"2": "Agregar y Editar",
-    		"3": "Agregar, Editar y Eliminar"
-    	};
-
     	$http.get('php/manejoBD.php?action=verUsuarios').
 	    success(function(data) {
 	        $scope.datos = data;
