@@ -619,13 +619,16 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
     };
 });
 
-//Funcion que verifica el login y logout 
+//Controlador que verifica el login y logout 
 lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $location, $window){
 	$scope.permiso = 0;
 	$scope.errores = false;
 	$scope.sesion = $cookieStore.get('sesion');
 	$scope.user = $cookieStore.get('nombre');
 	//console.log("Inicio:" + $scope.sesion);
+	
+	//Funcion que verifica el login con username y password mandandolos a la base de datos
+	//mediante post
 	$scope.login= function(){
 		//console.log("Usuario: " + $scope.usuario);
 		//console.log("Pass: " + $scope.pass);
@@ -666,7 +669,7 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 				console.log("ERROR");
 			});
 	}
-
+	//Función que hace el logout de un usuario
 	$scope.logout = function(){
 		$cookieStore.remove('sesion');
 		$cookieStore.remove('nombre');
