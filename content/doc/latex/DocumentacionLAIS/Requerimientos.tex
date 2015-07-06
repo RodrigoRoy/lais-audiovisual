@@ -27,7 +27,7 @@
 
 \setcounter{secnumdepth}{0} % Non-numbering sections
 \setcounter{tocdepth}{0} % Non-numnbering table of contents
-\graphicspath{{../Diagramas/}} % Path of the folder containing the images
+\graphicspath{{../Diagramas/}{../Screenshots}} % Path of the folder containing the images
 
 \begin{abstract}
 La siguiente documentación tiene como objetivo \ldots
@@ -47,25 +47,30 @@ La siguiente documentación tiene como objetivo \ldots
 
 \subsection{Caso consultar información de archivo audiovisual}
 % Actor
-\textbf{Actor:} Cualquier tipo de usuario
+\textbf{Actor:} Usuario visitante
 
 % Imagen del diagrama específica del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUsoDetalladoVisitanteConsultarRegistro.png}
+\end{figure}
 
 % Descripción
 \textbf{Descipción: } Acción que permite mostrar la información completa de un archivo audiovisual cuya portada es mostrada en pantalla.
 
 % Precondiciones
 \textbf{Precondiciones:} Estar en alguna de las páginas que muestra los archivos audiovisuales por década.
+
 % Flujo Normal de Eventos (tabla)
 \begin{adjustwidth}{-6em}{-6em}
 	\begin{center}
-		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | p{0.6cm} | X | p{1.5cm} | }
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
 			\hline
-			\rowcolor{NewBlue} \multicolumn{5}{|c|}{Flujo normal de eventos} \\
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
 			\hline
-			\multicolumn{2}{|c|}{Actor(es)}	&	\multicolumn{2}{c|}{Sistema}	&	Excepción \\
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
 			\hline
-			Paso	&	Acción	&	Paso	&	Acción	&	ID \\
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
 			\hline
 			1 & 
 			Dar clic en la portada del audiovisual que se desea ver &
@@ -77,19 +82,38 @@ La siguiente documentación tiene como objetivo \ldots
 			&
 			3 &
 			El sistema muestra una ventana emergente con toda la información del audiovisual. & 
+			A1 \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo Alterno (en caso de ser necesario)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo alterno de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			A1 &
+			El usuario da clic en el botón de ``Ver más'' para ver información específica del archivo audiovisual &
+			El sistema muestra en la parte inferior toda la información disponible del archivo audiovisual separada por áreas.
 			\\
 			\hline
 		\end{tabularx}
 	\end{center}
 \end{adjustwidth}
+
 % Flujo de Excepcion de Eventos (tabla)
 \begin{adjustwidth}{-6em}{-6em}
 	\begin{center}
 		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
 			\hline
-			\rowcolor{NewBlue} \multicolumn{3}{|c|}{Flujo excepcional de eventos} \\
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo excepcional de eventos}} \\
 			\hline
-			Id	&	Descripción	&	Acción \\
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
 			\hline
 			E1 &
 			No hay conexión con la base de datos. &
@@ -99,16 +123,23 @@ La siguiente documentación tiene como objetivo \ldots
 		\end{tabularx}
 	\end{center}
 \end{adjustwidth}
+
 % Post-condiciones
 \textbf{Postcondiciones:} El entorno de la página se oscurece para dar enfoque a la información completa del archivo audiovisual.
+
 % Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
 \begin{adjustwidth}{-6em}{-6em}
 	\begin{center}
 		\begin{tabularx}{1.2\textwidth}{ | X | X | }
 			\hline
-			\rowcolor{NewBlue} \multicolumn{2}{|c|}{Casos de prueba (Flujo normal)} \\
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
 			\hline
-			Entradas	&	Resultado esperado \\
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
 			\hline
 			Clic en una portada de audiovisual. &
 			Mostrar el contenido completo del archivo audiovisual seleccionado.
@@ -117,14 +148,44 @@ La siguiente documentación tiene como objetivo \ldots
 		\end{tabularx}
 	\end{center}
 \end{adjustwidth}
-% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+
+% Casos de prueba (Flujo alterno de eventos) [cuando es necesario]
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
 \begin{adjustwidth}{-6em}{-6em}
 	\begin{center}
 		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
 			\hline
-			\rowcolor{NewBlue} \multicolumn{3}{|c|}{Caso de prueba (Flujo excepcional)} \\
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo alterno)}} \\
 			\hline
-			Id	&	Entrada	&	Resultado esperado \\
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			A1 &
+			Clic en el botón de ``Ver más''. &
+			El sistema muestra en la parte inferior toda la información disponible del archivo audiovisual separada por áreas.
+			\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
 			\hline
 			E1 &
 			Clic en una portada de audiovisual. &
