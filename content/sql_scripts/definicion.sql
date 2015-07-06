@@ -101,7 +101,7 @@ ALTER TABLE area_de_contenido_y_estructura ADD CONSTRAINT codigoContEstructFK
 CREATE TABLE IF NOT EXISTS area_de_condiciones_de_acceso(
 	codigo_de_referencia VARCHAR(20) NOT NULL,
 	condiciones_de_acceso VARCHAR(37) DEFAULT '',
-	existencia_y_localizacion_de_originales TEXT DEFAULT '',
+	existencia_y_localizacion_de_originales TEXT,
 	idioma_original VARCHAR(40) DEFAULT '',
 	doblajes_disponibles VARCHAR(40) DEFAULT '',
 	subtitulajes VARCHAR(40) DEFAULT '',
