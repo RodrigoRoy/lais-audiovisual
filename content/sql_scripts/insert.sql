@@ -6,10 +6,6 @@
 #INSERT INTO area_de_identificacion() VALUES('MXIM-AV-1-4-4','Nanook of the north','Nanouk l´esquimau (Francia) / Nanook el esquimal (España)',DEFAULT,DEFAULT,DEFAULT,'Estados Unidos','1922',7816,DEFAULT,'Robert J. Flaherty',DEFAULT,'Robert J. Flaherty',DEFAULT,DEFAULT,'Robert J. Flaherty',DEFAULT,'Charles Gelb / Robert J. Flaherty',DEFAULT,DEFAULT,'Timothy Brock',DEFAULT,DEFAULT,DEFAULT,DEFAULT,'Ayudante de dirección: Thierry Mallet');
 #INSERT INTO area_de_identificacion() VALUES('MXIM-AV-1-4-5','"Nogent, eldorado du diamanche"','Nogent',DEFAULT,DEFAULT,DEFAULT,'Francia','1929',1700,DEFAULT,'Marcel Carné',DEFAULT,DEFAULT,DEFAULT,DEFAULT,'Marcel Carné',DEFAULT,DEFAULT,DEFAULT,DEFAULT,'Bernard Gerard (música añadida en 1968)',DEFAULT,DEFAULT,DEFAULT,DEFAULT,'Michel Sanvoisin');
 #INSERT INTO area_de_identificacion() VALUES('MXIM-AV-1-4-6','Regen','Inglés: Rain. Francés: La Pluie',DEFAULT,DEFAULT,DEFAULT,'Holanda','1929',12,DEFAULT,'"Joris Ivens, Mannus H. K. Franken"',DEFAULT,'"Joris Ivens, Mannus H. K. Franken"',DEFAULT,DEFAULT,'Joris Ivens',DEFAULT,'Joris Ivens',DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT);
-# --TEST--
-#INSERT
-#	INTO area_de_identificacion(codigo_de_referencia, titulo_propio, pais, fecha, duracion)
-#	VALUES ('MXIM-AV-1-10-28', 'Titulo de ejemplo', 'México', '2015', '1010');
 
 #################### DECADA 4 (1920) ####################
 
@@ -18,7 +14,7 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década4\ (
 	INTO TABLE area_de_identificacion
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-	LINES TERMINATED BY '\n'
+	LINES TERMINATED BY '\r\n' # Debido a la manipulación con Python3
 	IGNORE 3 LINES;
 
 # Cargar datos desde archivo csv para la tabla area_de_contexto
@@ -90,7 +86,7 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década5\ (
 	INTO TABLE area_de_identificacion
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-	LINES TERMINATED BY '\n'
+	LINES TERMINATED BY '\r\n'
 	IGNORE 3 LINES;
 
 LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década5\ (1930)\ Contexto.csv'
@@ -155,7 +151,7 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década6\ (
 	INTO TABLE area_de_identificacion
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-	LINES TERMINATED BY '\n'
+	LINES TERMINATED BY '\r\n'
 	IGNORE 3 LINES;
 
 LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década6\ (1940)\ Contexto.csv'
@@ -220,7 +216,7 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década7\ (
 	INTO TABLE area_de_identificacion
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-	LINES TERMINATED BY '\n'
+	LINES TERMINATED BY '\r\n'
 	IGNORE 3 LINES;
 
 LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década7\ (1950)\ Contexto.csv'

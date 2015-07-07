@@ -147,3 +147,15 @@ SELECT
 
 # Verificación de integridad de los usuarios (no permite modificación en nombres existentes)
 UPDATE usuarios SET Username ='Sergio', Password ='lais', Privilegio ='3' WHERE Username='Usuario1';
+
+# Selección para depurar información
+SELECT codigo_de_referencia, titulo_propio, otros_colaboradores 
+	FROM area_de_identificacion
+	WHERE codigo_de_referencia LIKE 'MXIM-AV-1-7%'
+	ORDER BY codigo_de_referencia ASC;
+SELECT * 
+	FROM area_de_identificacion 
+	WHERE codigo_de_referencia LIKE 'MXIM-AV-1-6%';
+
+# Permite borrar los registro de una década particular (en este caso la década 5)
+DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-7%';
