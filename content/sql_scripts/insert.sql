@@ -37,7 +37,7 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década4\ (
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 	LINES TERMINATED BY '\n'
 	IGNORE 3 LINES
-	(codigo_de_referencia, @tituloIgnorado, sinopsis, descriptor_onomastico, descriptor_toponimico, descriptor_cronologico,	tipo_de_produccion,	genero,	fuentes, recursos, versiones, formato_original, material_extra);
+	(codigo_de_referencia, @tituloIgnorado, sinopsis, descriptor_onomastico, descriptor_toponimico, descriptor_cronologico,	tipo_de_produccion,	genero, fuentes, recursos, versiones, formato_original, material_extra);
 
 # Cargar datos desde archivo csv para la tabla 'area_de_condiciones_de_acceso'
 LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década4\ (1920)\ Condiciones.csv'
