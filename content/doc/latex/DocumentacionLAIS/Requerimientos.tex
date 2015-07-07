@@ -579,6 +579,170 @@ La siguiente documentación tiene como objetivo \ldots
 % Actor
 \textbf{Actor:} Usuario para agregar
 
+% Imágen del diagrama específico del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUso_Agregar_AgregarNuevoRegistro.png}
+\end{figure}
+
+% Descripción
+\textbf{Descipción: } Acción que permite al usuario agregar un nuevo archivo audiovisual al sistema.
+
+% Precondiciones
+\textbf{Precondiciones:} Tener iniciada la sesion del usuario y tener los datos de los campos necesarios para agregar el nuevo archivo audiovisual.
+
+% Flujo Normal de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
+			\hline
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
+			\hline
+			1 & 
+			 El usuario ya estando es sesión da clic en la pestaña audiovisual.&
+			2 &
+			El sistema mostrará una página donde contendrá las portadas de las décadas junto con un botón de agregar.&
+			E1
+			\\
+			\hline
+			3 & 
+			 El usuario da clic en el botón de agregar.&
+			4 &
+			El sistema mostrará una pagína donde contendrá los formularios para que el usuario escriba la nueva información del archivo a agregar&
+			\\
+			\hline
+			5 & 
+			 El usuario llenará los campos con la información solicitada en el formulario y despueś dará clic en agregar.&
+			6 &
+			El sistema redirigirá a la pestaña audiovidual y mostrará el nuevo elemento agregado.&
+			E1,E2,A1
+			\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo Alterno (en caso de ser necesario)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo alterno de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			A1 &
+			El usuario da clic en una década específica y se mostrará junto a las portadas de los archivos el botón de agregar donde, al darle clic aparecerá el mismo formulario para agregar pero con la diferencia de que el archivo solo se agregará para la década específica seleccionada.&
+			El sistema autoredirige al usuario a la página donde estan todas las portadas de los archivos audiovisuales de la década con el nuevo registro. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo de Excepcion de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo excepcional de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los campos del usuario no estan llenados correctamente. &
+			El sistema muestra un mensaje error por cada campo incorrecto y desactiva el botón de agregar. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Post-condiciones
+\textbf{Postcondiciones:} El usuario es autodirigido a la página que muestra el nuevo archivo audiovisual agregado
+
+% Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
+			\hline
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
+			\hline
+			Ir a la pestaña de audiovisuales. &
+			El sistema muestra las portadas de las décadas en pantalla junto con el boton de agregar. \\
+			\hline
+			Dar clic en el botón de agregar.&
+			El sistema muestrá el formulario con sus respectivos campos a llenar en pantalla. \\
+			\hline
+			El usuario inserta la información en los campos necesarios del nuevo archivo audiovisual y da clic en agregar.&
+			El sistema manda un mensaje de que se ha agregado con exíto el archivo audiovisual.\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba (Flujo alterno de eventos) [cuando es necesario]
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo alterno)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			A1 &
+			El usuario da clic en una década específica, se muestrá en pantalla las postadas de los archivos audiovisuales a esa década junto con el botón de agregar, da clic en el botón de agregar, se muestra el formulario inserta los datos del nuevo archivo audiovisual y da clic en el botón de agregar. &
+			El sistema redirigirá a la página de las portadas de la década seleccionada con el nuevo archivo agregado. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los datos insertados en los campos del formulario no son correctos. &
+			El sistema muestra un mensaje de error por cada campo incorrecto y desactiva el botón de agregar. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
 \subsubsection{Iniciar sesion como usuario de LAIS}
 % Actor
 \textbf{Actor:} Usuario para agregar
@@ -586,6 +750,110 @@ La siguiente documentación tiene como objetivo \ldots
 \subsubsection{Cerrar sesion como usuario del LAIS}
 % Actor
 \textbf{Actor:} Usuario para agregar
+
+% Imagen del diagrama específico del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUso_Agregar_CerrarSesion.png}
+\end{figure}
+
+% Descripción
+\textbf{Descipción: } Acción que permite cerrar sesión del sistema.
+
+% Precondiciones
+\textbf{Precondiciones:} Tener iniciada la sesión del usuario y estar en cualquiera de las páginas del sistema.
+
+% Flujo Normal de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
+			\hline
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
+			\hline
+			1 & 
+			Dar clic en el botón de cerrar sesión situado en la parte superior del navegador.&
+			2 &
+			El sistema cierra sesión redirigiendo a la página de inicio.&			
+			\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+}
+
+% Post-condiciones
+\textbf{Postcondiciones:} El sistema cierra sesión y autoredirige al usuario a la página de inicio.
+
+% Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
+			\hline
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
+			\hline
+			Clic en el botón de cerrar sesión. &
+			El sistema cierra sesión. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba (Flujo alterno de eventos) [cuando es necesario]
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo alterno)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			A1 &
+			Se selleciona la opción de cancelar. &
+			El sistema cancela la eliminación redirigiendo a la página donde se esta consultando el archivo audiovisual. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
 
 \subsection{Usuario administrador}
 
@@ -853,6 +1121,170 @@ La siguiente documentación tiene como objetivo \ldots
 % Actor
 \textbf{Actor:} Usuario administrador
 
+% Imágen del diagrama específico del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUso_Administrador_AgregarNuevoRegistro.png}
+\end{figure}
+
+% Descripción
+\textbf{Descipción: } Acción que permite al usuario agregar un nuevo archivo audiovisual al sistema.
+
+% Precondiciones
+\textbf{Precondiciones:} Tener iniciada la sesion del usuario y tener los datos de los campos necesarios para agregar el nuevo archivo audiovisual.
+
+% Flujo Normal de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
+			\hline
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
+			\hline
+			1 & 
+			 El usuario ya estando es sesión da clic en la pestaña audiovisual.&
+			2 &
+			El sistema mostrará una página donde contendrá las portadas de las décadas junto con un botón de agregar.&
+			E1
+			\\
+			\hline
+			3 & 
+			 El usuario da clic en el botón de agregar.&
+			4 &
+			El sistema mostrará una pagína donde contendrá los formularios para que el usuario escriba la nueva información del archivo a agregar&
+			\\
+			\hline
+			5 & 
+			 El usuario llenará los campos con la información solicitada en el formulario y despueś dará clic en agregar.&
+			6 &
+			El sistema redirigirá a la pestaña audiovidual y mostrará el nuevo elemento agregado.&
+			E1,E2,A1
+			\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo Alterno (en caso de ser necesario)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo alterno de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			A1 &
+			El usuario da clic en una década específica y se mostrará junto a las portadas de los archivos el botón de agregar donde, al darle clic aparecerá el mismo formulario para agregar pero con la diferencia de que el archivo solo se agregará para la década específica seleccionada.&
+			El sistema autoredirige al usuario a la página donde estan todas las portadas de los archivos audiovisuales de la década con el nuevo registro. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo de Excepcion de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo excepcional de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los campos del usuario no estan llenados correctamente. &
+			El sistema muestra un mensaje error por cada campo incorrecto y desactiva el botón de agregar. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Post-condiciones
+\textbf{Postcondiciones:} El usuario es autodirigido a la página que muestra el nuevo archivo audiovisual agregado
+
+% Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
+			\hline
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
+			\hline
+			Ir a la pestaña de audiovisuales. &
+			El sistema muestra las portadas de las décadas en pantalla junto con el boton de agregar. \\
+			\hline
+			Dar clic en el botón de agregar.&
+			El sistema muestrá el formulario con sus respectivos campos a llenar en pantalla. \\
+			\hline
+			El usuario inserta la información en los campos necesarios del nuevo archivo audiovisual y da clic en agregar.&
+			El sistema manda un mensaje de que se ha agregado con exíto el archivo audiovisual.\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba (Flujo alterno de eventos) [cuando es necesario]
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo alterno)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			A1 &
+			El usuario da clic en una década específica, se muestrá en pantalla las postadas de los archivos audiovisuales a esa década junto con el botón de agregar, da clic en el botón de agregar, se muestra el formulario inserta los datos del nuevo archivo audiovisual y da clic en el botón de agregar. &
+			El sistema redirigirá a la página de las portadas de la década seleccionada con el nuevo archivo agregado. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los datos insertados en los campos del formulario no son correctos. &
+			El sistema muestra un mensaje de error por cada campo incorrecto y desactiva el botón de agregar. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
 \subsubsection{Editar registro existente de material audiovisual}
 % Actor
 \textbf{Actor:} Usuario administrador
@@ -860,6 +1292,154 @@ La siguiente documentación tiene como objetivo \ldots
 \subsubsection{Eliminar registro de material audiovisual}
 % Actor
 \textbf{Actor:} Usuario administrador
+
+% Imagen del diagrama específico del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUso_Administrador_EliminarRegistro.png}
+\end{figure}
+
+% Descripción
+\textbf{Descipción: } Acción que permite a un usuario borrar uno varios archivos audiovisuales.
+
+% Precondiciones
+\textbf{Precondiciones:} Tener iniciada la sesion del usuario y haber consultado un registro audiovisual.
+
+% Flujo Normal de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
+			\hline
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
+			\hline
+			1 & 
+			Dar clic en el botón de eliminar al consultar el archivo audiovisual.&
+			2 &
+			El sistema muestra un mensaje de confirmación para eliminar el archivo seleccionado&
+			A1			
+			\\
+			\hline
+			3
+			&
+			El usuario selecciona aceptar para borrar el archivo.
+			&
+			3 &
+			El sistema muestra una ventana emergente diciendo que se ha eliminado el archivo audiovisual. & 
+			E1 \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo Alterno (en caso de ser necesario)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo alterno de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			A1 &
+			El usuario selecciona cancelar la eliminación del archivo audiovisual &
+			El sistema cancela la eliminación y redirige a la página donde esta consultando el archivo audiovisual. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo de Excepcion de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo excepcional de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Post-condiciones
+\textbf{Postcondiciones:} Se muestra en pantalla las portadas del los archivos audiovisuales sin el archivo eliminado.
+
+% Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
+			\hline
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
+			\hline
+			Clic en el botón de eliminar. &
+			El sistema muestra un mensaje de confimación para eliminar el archivo audiovisual. \\
+			\hline
+			Se selecciona aceptar&
+			El sistema muestra un mensaje de que se ha eliminado el archivo. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba (Flujo alterno de eventos) [cuando es necesario]
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo alterno)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			A1 &
+			Se selleciona la opción de cancelar. &
+			El sistema cancela la eliminación redirigiendo a la página donde se esta consultando el archivo audiovisual. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
 
 \subsubsection{Iniciar sesion como usuario del LAIS}
 % Actor
