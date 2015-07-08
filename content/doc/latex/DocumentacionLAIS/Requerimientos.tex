@@ -747,6 +747,99 @@ La siguiente documentación tiene como objetivo \ldots
 % Actor
 \textbf{Actor:} Usuario para agregar
 
+% Imagen del diagrama específico del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUso_Agregar_IniciarSesion.png}
+\end{figure}
+
+% Descripción
+\textbf{Descipción: } Acción que permite iniciar sesión del sistema.
+
+% Precondiciones
+\textbf{Precondiciones:} Estar en cualquiera de las páginas del sistema y estar en sesión cerrada.
+
+% Flujo Normal de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
+			\hline
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
+			\hline
+			1 & 
+			Dar clic en el botón de iniciar sesión situado en la parte superior del navegador.&
+			2 &
+			El sistema muestra una ventana que contiene los campos de nombre de usuario y contraseña.&\\
+			\hline			
+			3&
+			Usuario inserta los datos correspondientes a su nombre de usuario y contraseña y da clic a iniciar sesion.&
+			4&
+			El sistema inicia sesión con el usuario correspondiente eliminando la ventana de iniciar sesión&
+			E1,E2
+			\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Post-condiciones
+\textbf{Postcondiciones:} El sistema cierra sesión y autoredirige al usuario a la página de inicio.
+
+% Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
+			\hline
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
+			\hline
+			Clic en el botón de iniciar sesión. &
+			El sistema muestra laa ventana de iniciar sesión. \\
+			\hline
+			El usuario inserta los datos correspondientes a nombre de usuario y contraseña y da clic en iniciar sesión. &
+			El sistema inicia sesion con el usuario correspondiente. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			E1 &
+			Los datos de iniciar sesión como contraseña o nombre de usuario o ambos son incorrectos. &
+			El sistema devuelve un mensaje de error de los campos incorrectos. \\
+			\hline
+			E2 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
 \subsubsection{Cerrar sesion como usuario del LAIS}
 % Actor
 \textbf{Actor:} Usuario para agregar
@@ -783,8 +876,6 @@ La siguiente documentación tiene como objetivo \ldots
 		\end{tabularx}
 	\end{center}
 \end{adjustwidth}
-
-}
 
 % Post-condiciones
 \textbf{Postcondiciones:} El sistema cierra sesión y autoredirige al usuario a la página de inicio.
@@ -1445,9 +1536,204 @@ La siguiente documentación tiene como objetivo \ldots
 % Actor
 \textbf{Actor:} Usuario administrador
 
+% Imagen del diagrama específico del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUso_Administrador_IniciarSesion.png}
+\end{figure}
+
+% Descripción
+\textbf{Descipción: } Acción que permite iniciar sesión del sistema.
+
+% Precondiciones
+\textbf{Precondiciones:} Estar en cualquiera de las páginas del sistema y estar en sesión cerrada.
+
+% Flujo Normal de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
+			\hline
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
+			\hline
+			1 & 
+			Dar clic en el botón de iniciar sesión situado en la parte superior del navegador.&
+			2 &
+			El sistema muestra una ventana que contiene los campos de nombre de usuario y contraseña.&\\
+			\hline			
+			3&
+			Usuario inserta los datos correspondientes a su nombre de usuario y contraseña y da clic a iniciar sesion.&
+			4&
+			El sistema inicia sesión con el usuario correspondiente eliminando la ventana de iniciar sesión&
+			E1,E2
+			\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Post-condiciones
+\textbf{Postcondiciones:} El sistema cierra sesión y autoredirige al usuario a la página de inicio.
+
+% Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
+			\hline
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
+			\hline
+			Clic en el botón de iniciar sesión. &
+			El sistema muestra laa ventana de iniciar sesión. \\
+			\hline
+			El usuario inserta los datos correspondientes a nombre de usuario y contraseña y da clic en iniciar sesión. &
+			El sistema inicia sesion con el usuario correspondiente. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			E1 &
+			Los datos de iniciar sesión como contraseña o nombre de usuario o ambos son incorrectos. &
+			El sistema devuelve un mensaje de error de los campos incorrectos. \\
+			\hline
+			E2 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
 \subsubsection{Cerrar sesion como usuario del LAIS}
 % Actor
 \textbf{Actor:} Usuario administrador
+
+% Imagen del diagrama específico del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUso_Administrador_CerrarSesion.png}
+\end{figure}
+
+% Descripción
+\textbf{Descipción: } Acción que permite cerrar sesión del sistema.
+
+% Precondiciones
+\textbf{Precondiciones:} Tener iniciada la sesión del usuario y estar en cualquiera de las páginas del sistema.
+
+% Flujo Normal de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
+			\hline
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
+			\hline
+			1 & 
+			Dar clic en el botón de cerrar sesión situado en la parte superior del navegador.&
+			2 &
+			El sistema cierra sesión redirigiendo a la página de inicio.&			
+			\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Post-condiciones
+\textbf{Postcondiciones:} El sistema cierra sesión y autoredirige al usuario a la página de inicio.
+
+% Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
+			\hline
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
+			\hline
+			Clic en el botón de cerrar sesión. &
+			El sistema cierra sesión. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba (Flujo alterno de eventos) [cuando es necesario]
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo alterno)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			A1 &
+			Se selleciona la opción de cancelar. &
+			El sistema cancela la eliminación redirigiendo a la página donde se esta consultando el archivo audiovisual. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
 
 \subsubsection{Administración de usuarios del LAIS}
 % Actor

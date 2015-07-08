@@ -84,11 +84,11 @@ setDuracion("80'15''")
 setDuracion("180'59''")
 '''
 
-decadas = {4:"1920", 5:"1930", 6:"1940"}
+decadas = {4:"1920", 5:"1930", 6:"1940", 7:"1950"}
 
 for llave in decadas.keys():
 	print(llave)
-	convertDuracion("../csv/Fichas década" + str(llave) + " (" + decadas[llave] + ") Identificacion.csv")
+	#convertDuracion("../csv/Fichas década" + str(llave) + " (" + decadas[llave] + ") Identificacion.csv")
 	codificacionDescripcion("../csv/Fichas década" + str(llave) + " (" + decadas[llave] + ") Descripcion.csv")
 
 '''
