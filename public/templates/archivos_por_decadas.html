@@ -10,7 +10,7 @@
   <div id="seccionPortadas" infinite-scroll="firstLoad()" infinite-scroll-disabled='busy' infinite-scroll-distance="4">
     <div id="audiovisual">
       <a ng-repeat="archivo in archivos" data-toggle="modal" href="" data-target="#modalInfo" data-whatever="@mdo" class="portadas">
-        <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
+        <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.png')}}">
         <p class="text-rigth" >
             {{archivo.titulo_propio}}<br>
             <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
