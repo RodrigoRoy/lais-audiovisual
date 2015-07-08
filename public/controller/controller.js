@@ -625,6 +625,7 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 	$scope.errores = false;
 	$scope.sesion = $cookieStore.get('sesion');
 	$scope.user = $cookieStore.get('nombre');
+	$scope.permiso = $cookieStore.get('permiso');
 	//console.log("Inicio:" + $scope.sesion);
 	
 	//Funcion que verifica el login con username y password mandandolos a la base de datos
@@ -641,9 +642,10 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 				if($scope.usuario == data.Username && $scope.pass == data.Password){
 					$cookieStore.put('sesion','true');
 					$cookieStore.put('nombre',data.Username);
+					$cookieStore.put('permiso',data.Privilegio);
 					$scope.sesion = $cookieStore.get('sesion');
 					$scope.user = $cookieStore.get('nombre');
-					$scope.permiso = data.Privilegio;
+					$scope.permiso = $cookieStore.get('permiso');
 					$scope.agregar = true;
 					//console.log("En sesion\n"+ $scope.sesion);
 					//console.log($scope.permiso);
@@ -655,6 +657,7 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 				}else{
 					$cookieStore.remove('sesion');
 					$cookieStore.remove('nombre');
+					$cookieStore.remove('permiso');
 					$scope.sesion = false;
 					$scope.errores = true;
 					$scope.permiso = 0;
@@ -673,6 +676,7 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 	$scope.logout = function(){
 		$cookieStore.remove('sesion');
 		$cookieStore.remove('nombre');
+		$cookieStore.remove('permiso');
 		$scope.sesion = false;
 		$scope.permiso = 0;
 		$scope.usuario = "";
