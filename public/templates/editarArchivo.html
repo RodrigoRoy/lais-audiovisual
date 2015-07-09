@@ -1,7 +1,7 @@
 <br>
 <div class="container" id="formulario">
 	<div class="page-header">
-		<h1>Editar audiovisual</h1>
+		<h1>Editar registro</h1>
 	</div>
 	<form name="audForm" role="form" id="audiovisualForm" novalidate> <!-- Se omite action="another.php" para que la acción se ejecute en este documento -->
 		<!-- El código de identificación es el único campo no-editable -->
@@ -772,9 +772,9 @@
 					<!--<input class="form-control" id="imagen" name="imagen" ng-model="imagen" ng-maxlength="255">-->
 					<input type="file" id="imagen" ngf-select ng-model="imagen" accept="image/*" ngf-max-size='2097152' name="file" class="ng-pristine ng-valid ng-scope">
 				</div>
-				<p ng-show="imagen_previa">Imágen existente</p>
+				<p ng-show="imagen_previa">Portada actual:</p>
 				<img height="128" ng-show="imagen_previa" src="{{'imgs/Portadas/' + imagen_previa}}" class="thumb">
-				<p ng-show="imagen[0] != null">Previsualización de nueva imágen</p>
+				<p ng-show="imagen[0] != null">Nueva portada</p>
 		        <img height="128" ng-show="imagen[0] != null" ngf-src="imagen[0]" ngf-accept="'image/*'" class="thumb">
 		        <div class="form-group">
 					<label for="url">Página web</label>
@@ -793,10 +793,9 @@
 			</div>
 		</div>
 
-		<button type="submit" class="btn btn-default" ng-disabled="audForm.$invalid" ng-click="editar(imagen)">Editar</button>
+		<button type="submit" class="btn btn-primary btn-lg btn-block" ng-disabled="audForm.$invalid" ng-click="editar(imagen)">Editar registro</button>
 	</form>
 
-	<!--<tt> selectedValues = {{fuentes}}</tt>-->
 </div>
 <!-- Datalists utilizados en los campos -->
 <datalist id="formaDeIngreso">
