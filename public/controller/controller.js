@@ -144,7 +144,7 @@ lais.service('DecadaService', function(){
 		'19':"2070-2079",
 		'20':"2080-2089",
 		'21':"2090-2099",
-		'22':"3000-3009"
+		'22':"2100-2109"
 	};
 
 	// Traducción de los encabezados (nombre_en_base_datos -> Nombre para leer)
