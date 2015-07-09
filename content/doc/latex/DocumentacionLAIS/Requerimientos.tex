@@ -465,7 +465,7 @@ La siguiente documentación tiene como objetivo \ldots
 % Actor
 \textbf{Actor:} Usuario para agregar
 
-% Imágen del diagrama específico del caso
+% Imagen del diagrama específico del caso
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{CasoDeUso_Agregar_Busqueda.png}
@@ -579,7 +579,7 @@ La siguiente documentación tiene como objetivo \ldots
 % Actor
 \textbf{Actor:} Usuario para agregar
 
-% Imágen del diagrama específico del caso
+% Imagen del diagrama específico del caso
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{CasoDeUso_Agregar_AgregarNuevoRegistro.png}
@@ -1212,7 +1212,7 @@ La siguiente documentación tiene como objetivo \ldots
 % Actor
 \textbf{Actor:} Usuario administrador
 
-% Imágen del diagrama específico del caso
+% Imagen del diagrama específico del caso
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{CasoDeUso_Agregar_AgregarNuevoRegistro.png}
@@ -1379,6 +1379,162 @@ La siguiente documentación tiene como objetivo \ldots
 \subsubsection{Editar registro existente de material audiovisual}
 % Actor
 \textbf{Actor:} Usuario administrador
+
+% Imagen del diagrama específico del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUso_Administrador_EditarRegistro.png}
+\end{figure}
+
+% Descripción
+\textbf{Descipción: } Acción que permite a un usuario editar un registro.
+
+% Precondiciones
+\textbf{Precondiciones:} Tener iniciada la sesion del usuario y haber consultado el registro audiovisual que se desea editar.
+
+% Flujo Normal de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
+			\hline
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
+			\hline
+			1 & 
+			Con sesión iniciada y consultando el registro que se desea editar, dar clic en el botón de edición.&
+			2 &
+			El sistema redirige a una nueva página con un formulario pre--llenado con la información existente del registo.&
+			E1			
+			\\
+			\hline
+			3
+			&
+			El usuario cambia, elimina o agrega información en los campos del formulario y da clic en el botón de \textit{Enviar}.
+			&
+			4 &
+			El sistema envia la información y actualiza la base de datos mostrando un mensaje éxito en la edición. Redirige al usuario a la página de \textit{Décadas}.& 
+			A1, E1, E2 \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo Alterno (en caso de ser necesario)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo alterno de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			A1 &
+			El usuario selecciona el botón de cancelar la edición del registro &
+			El sistema cancela la edición y el envio de información redirigiendo al usuario a la página anterior.\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo de Excepcion de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo excepcional de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los datos insertados en los campos del formulario no son correctos. &
+			El sistema muestra un mensaje de error por cada campo incorrecto y desactiva el botón de agregar. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Post-condiciones
+\textbf{Postcondiciones:} La base de datos queda actualizada con los cambios realizados. Dichos cambios se reflejarán inmediatamente en el sistema si se consulta el mismo registro.
+
+% Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
+			\hline
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
+			\hline
+			Dar clic en el botón de edición. &
+			El sistema muestra el formulario con todos los campos a llenar, algunos ya contienen la información de la base de datos. \\
+			\hline
+			El usuario modifica, agrega o elimina la información en los campos necesarios del registro y da clic en el botón de \textit{Enviar}&
+			El sistema manda un mensaje de que la edición de los datos del registro se realizó con éxito. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba (Flujo alterno de eventos) [cuando es necesario]
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo alterno)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			A1 &
+			Se selleciona la opción de cancelar. &
+			El sistema cancela la edición redirigiendo al usuario a la página anterior. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los datos insertados en los campos del formulario no son correctos. &
+			El sistema muestra un mensaje de error por cada campo incorrecto y desactiva el botón de agregar. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
 
 \subsubsection{Eliminar registro de material audiovisual}
 % Actor
@@ -1735,11 +1891,451 @@ La siguiente documentación tiene como objetivo \ldots
 	\end{center}
 \end{adjustwidth}
 
-\subsubsection{Administración de usuarios del LAIS}
+\subsubsection{Agregar usuario al sistema}
 % Actor
 \textbf{Actor:} Usuario administrador
 
-% El formato anterior se repite como subseccion para cada caso de uso
+% Imagen del diagrama específico del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUso_Administrador_AdministracionDeUsuarios.png}
+\end{figure}
 
+% Descripción
+\textbf{Descipción: } Acción que permite a un administrador registrar a otro usuario. El tipo de usuario que se agrega comúnmente es un usuario con permisos para agregar u otro administrador.
+
+% Precondiciones
+\textbf{Precondiciones:} Ser un usuario con permisos de administrador y tener iniciada la sesión.
+
+% Flujo Normal de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
+			\hline
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
+			\hline
+			1 & 
+			El usuario da clic sobre su nombre de usuario en la barra superior de la página.&
+			2 &
+			El sistema despliega un pequeño recuadro donde se muestra la opción ``Administración''. &
+			
+			\\
+			\hline
+			3 & 
+			El usuario da clic en la opción ``Administración''.&
+			4 &
+			El sistema envia a la página de Administración de usuarios donde se muestra un breve formulario junto con la lista de los usuarios registrados.&
+			E1
+			\\
+			\hline
+			5 & 
+			El usuario llenará los campos del formulario con la información solicitada y da clic en el botón \textit{Enviar}.&
+			6 &
+			El sistema envia los datos a la base de datos y muestra un mensaje de éxito. Se recarga la página para enlistar al nuevo usuario registrado.&
+			E1,E2
+			\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo de Excepcion de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo excepcional de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los campos del usuario no estan llenados correctamente. &
+			El sistema muestra un mensaje error por cada campo incorrecto y desactiva el botón de agregar. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Post-condiciones
+\textbf{Postcondiciones:} Se registra el nuevo usuario con los permisos establecidos y está listo para iniciar sesión.
+
+% Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
+			\hline
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
+			\hline
+			Seleccionar el nombre de usuario en la barra superior de la página.&
+			El sistema despliega un pequeño recuadro donde se muestra la opción ``Administración''.\\
+			\hline
+			El usuario da clic en la opción ``Administración''.&
+			El sistema muestra el formulario con sus respectivos campos a llenar para registrar nuevo usuario. \\
+			\hline
+			El usuario inserta la información en los campos necesarios y da clic en el botón \textit{Enviar}.&
+			El sistema manda un mensaje de que se ha agregado con exíto un nuevo usuario.\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los datos insertados en los campos del formulario no son correctos. &
+			El sistema muestra un mensaje de error por cada campo incorrecto y desactiva el botón \textit{Enviar}. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+\subsubsection{Editar usuario del sistema}
+% Actor
+\textbf{Actor:} Usuario administrador
+
+% Imagen del diagrama específico del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUso_Administrador_AdministracionDeUsuarios.png}
+\end{figure}
+
+% Descripción
+\textbf{Descipción: } Acción que permite a un administrador editar la información (nombre y contraseña) o permisos de un usuario registrado (incluyendo al mismo usuario).
+
+% Precondiciones
+\textbf{Precondiciones:} Ser un usuario con permisos de administrador y tener iniciada la sesión.
+
+% Flujo Normal de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
+			\hline
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
+			\hline
+			1 & 
+			El usuario da clic sobre su nombre de usuario en la barra superior de la página.&
+			2 &
+			El sistema despliega un pequeño recuadro donde se muestra la opción ``Administración''. &
+			
+			\\
+			\hline
+			3 & 
+			El usuario da clic en la opción ``Administración''.&
+			4 &
+			El sistema envia a la página de Administración de usuarios donde se muestra un breve formulario junto con la lista de los usuarios registrados (del lado derecho de cada usuario incluye un botón de edición).&
+			E1
+			\\
+			\hline
+			5 & 
+			El usuario identifica al usuario en la lista y da clic en el botón \textit{Editar}&
+			6 &
+			El sistema pide la información a la base de datos y agrega dicha información en el formulario de la parte superior.&
+			E1
+			\\
+			\hline
+			7 & 
+			El usuario modificará los campos del formulario con la información necesaria y da clic en el botón \textit{Actualizar}.&
+			8 &
+			El sistema envia los datos a la base de datos y muestra un mensaje de éxito. Se recarga la página para enlistar al usuario con la nueva información.&
+			E1,E2
+			\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo de Excepcion de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo excepcional de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los campos del usuario no estan llenados correctamente. &
+			El sistema muestra un mensaje error por cada campo incorrecto y desactiva el botón de agregar. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Post-condiciones
+\textbf{Postcondiciones:} Se reflejan inmediatamente los cambios del usuario: cambiar nombre de usuario, contraseña o tipo de privilegios.
+
+% Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
+			\hline
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
+			\hline
+			Seleccionar el nombre de usuario en la barra superior de la página.&
+			El sistema despliega un pequeño recuadro donde se muestra la opción ``Administración''.\\
+			\hline
+			El usuario da clic en la opción ``Administración''.&
+			El sistema muestra en la parte inferior una lista con los usuarios del sistema, incluyendo un botón de edición al lado derecho de cada usuario. \\
+			\hline
+			El usuario identifica al usuario en la lista y da clic en el botón \textit{Editar}&
+			El sistema agrega la información actual del usuario en el formulario en la parte superior de la página. \\
+			\hline
+			El usuario modifica la información en los campos necesarios y da clic en el botón \textit{Actualizar}.&
+			El sistema manda un mensaje de que se ha modificado con éxito al usuario.\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+			
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los datos insertados en los campos del formulario no son correctos. &
+			El sistema muestra un mensaje de error por cada campo incorrecto y desactiva el botón \textit{Actualizar}. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+
+\subsubsection{Eliminar usuario del sistema}
+% Actor
+\textbf{Actor:} Usuario administrador
+
+% Imagen del diagrama específico del caso
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CasoDeUso_Administrador_AdministracionDeUsuarios.png}
+\end{figure}
+
+% Descripción
+\textbf{Descipción: } Acción que permite a un administrador eliminar a un usuario registrado en el sistema.
+
+% Precondiciones
+\textbf{Precondiciones:} Ser un usuario con permisos de administrador y tener iniciada la sesión.
+
+% Flujo Normal de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.7cm} | X | p{0.7cm} | X | p{1.5cm} | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{5}{|c|}{\textbf{Flujo normal de eventos}} \\
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Actor(es)}}	&	\multicolumn{2}{c|}{\textbf{Sistema}}	&	\textbf{Alterno} \\
+			\hline
+			\textbf{Paso}	&	\textbf{Acción}	&	\textbf{Paso}	&	\textbf{Acción}	&	\textbf{ID} \\
+			\hline
+			1 & 
+			El usuario da clic sobre su nombre de usuario en la barra superior de la página.&
+			2 &
+			El sistema despliega un pequeño recuadro donde se muestra la opción ``Administración''. &
+			
+			\\
+			\hline
+			3 & 
+			El usuario da clic en la opción ``Administración''.&
+			4 &
+			El sistema envia a la página de Administración de usuarios donde se muestra un breve formulario junto con la lista de los usuarios registrados (del lado derecho de cada usuario incluye un botón de borrar).&
+			E1
+			\\
+			\hline
+			5 & 
+			El usuario identifica al usuario en la lista y da clic en el botón \textit{Borrar}&
+			6 &
+			El sistema muestra un mensaje de confirmación para eliminar al usuario seleccionado.&
+			A1
+			\\
+			7 &
+			El usuario selecciona aceptar para borrar al usuario del sistema. &
+			8 &
+			El sistema muestra un mensaje de éxito. Se recarga la página para mostrar que el usuario ya no aparece entre los usuarios registrados.& 
+			E1 \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo Alterno (en caso de ser necesario)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo alterno de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			A1 &
+			El usuario selecciona cancelar la eliminación del usuario &
+			El sistema cancela la eliminación. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Flujo de Excepcion de Eventos (tabla)
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Flujo excepcional de eventos}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Descripción}	&	\textbf{Acción} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los campos del usuario no estan llenados correctamente. &
+			El sistema muestra un mensaje error por cada campo incorrecto y desactiva el botón de agregar. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Post-condiciones
+\textbf{Postcondiciones:} El usuario eliminado ya no tiene permitido el acceder al sistema ni será mostrado en la lista de usuarios registrados.
+
+% Casos de prueba para flujo normal (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{2}{|c|}{\textbf{Casos de prueba (Flujo normal)}} \\
+			\hline
+			\textbf{Entradas}	&	\textbf{Resultado esperado} \\
+			\hline
+			Seleccionar el nombre de usuario en la barra superior de la página.&
+			El sistema despliega un pequeño recuadro donde se muestra la opción ``Administración''.\\
+			\hline
+			El usuario da clic en la opción ``Administración''.&
+			El sistema muestra en la parte inferior una lista con los usuarios del sistema, incluyendo un botón de borrado al lado derecho de cada usuario. \\
+			\hline
+			El usuario identifica al usuario en la lista y da clic en el botón \textit{Borrar}&
+			El sistema muestra un mensaje de confirmación para eliminar al usuario seleccionado.\\
+			\hline
+			Se confirma la eliminación del usuario.&
+			El sistema manda un mensaje de que se ha elminado con éxito al usuario.\\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+
+% Casos de prueba (Flujo alterno de eventos) [cuando es necesario]
+
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo alterno)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			A1 &
+			Se selleciona la opción de cancelar. &
+			El sistema cancela la eliminación y se muestra nuevamente la página de administración de usuarios. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
+			
+% Casos de prueba para excepción de eventos (tabla) y su prototipo (imagen)
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.8\textwidth]{imagen.png}
+%\end{figure}
+
+\begin{adjustwidth}{-6em}{-6em}
+	\begin{center}
+		\begin{tabularx}{1.2\textwidth}{ | p{0.6cm} | X | X | }
+			\hline
+			\rowcolor{NewBlue} \multicolumn{3}{|c|}{\textbf{Caso de prueba (Flujo excepcional)}} \\
+			\hline
+			\textbf{ID}	&	\textbf{Entrada}	&	\textbf{Resultado esperado} \\
+			\hline
+			E1 &
+			No hay conexión con la base de datos. &
+			El sistema devuelve un mensaje de error de conexión. \\
+			\hline
+			E2 &
+			Los datos insertados en los campos del formulario no son correctos. &
+			El sistema muestra un mensaje de error por cada campo incorrecto y desactiva el botón \textit{Actualizar}. \\
+			\hline
+		\end{tabularx}
+	\end{center}
+\end{adjustwidth}
 
 \end{document}
