@@ -48,7 +48,7 @@
             </div>
             <div class="col-xs-12 col-md-8 col-lg-8">
               <div id="aduracion">
-                <h4>Duracion: {{allInfo.identificacion.duracion}}</h4>
+                <h4>Duración: {{allInfo.identificacion.duracion}}</h4>
               </div>
               <div id="aanio">
                 <h4>Año: {{allInfo.identificacion.fecha}}</h4>
@@ -67,7 +67,7 @@
         <hr>
           <div class= "row">
             <div id="aboton">      
-              <button type="button" ng-click="hideInfos()" class="btn btn-primary btn-lg btn-block">Ver mas</button>
+              <button type="button" ng-click="hideInfos()" class="btn btn-primary btn-lg btn-block">Ver más <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
             </div>
             <div ng-show="hideInfo" class="contenedorInfo">
               <!-- Nav tabs -->
@@ -81,6 +81,7 @@
                 <li role="presentation"><a class="etiqueta" href="#descripcion" aria-controls="descripcion" role="tab" data-toggle="tab">Descripción</a></li>
               </ul>
               <hr style="margin-top: 0%;">
+              <center><h4><strong>{{allInfo.identificacion.titulo_propio}}</strong></h4></center>
               <!-- Tab panes -->
               <div class="tab-content">
                 <div class="tab-pane active" id="identificacion">
@@ -173,6 +174,11 @@
         $('#myTab').click(function(e){
           e.preventDefault();
           $(this).tab('show');
+        });
+
+        // Esconde el botón "Ver más" al dar clic
+        $('#aboton').click(function(){
+          $(this).hide();
         });
     });
 </script>
