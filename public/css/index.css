@@ -98,7 +98,7 @@ html{
 #decadas{
 	background-color: transparent;
 	font-family: 'Cantora One', sans-serif;
-	color: white;
+	color: #f0fff0;
 }
 
 .container-flud{
@@ -177,7 +177,7 @@ html{
 }
 
 .etiqueta{
-	color: white;
+	color: #f0fff0;
 }
 
 #aboton{
@@ -237,7 +237,7 @@ html{
 }
 
 #texto{
-	color: white;
+	color: #f0fff0;
 }
 
 #load{
@@ -255,14 +255,13 @@ html{
 
 .adminUser{
 	background: rgba(0,0,0,.4);
-	color: white;
+	color: #f0fff0;
 }
 
 .text-rigth{
-	white-space: nowrap;
   	overflow: hidden;
   	width: 180px;
-  	color: white;
+  	color: #f0fff0;
   	font-size: 15px;
   	font-weight: bold;
 }
@@ -285,7 +284,8 @@ html{
 
 .textoA{
 	margin-top: -6%;
-	color: rgba(255,255,255,.6);
+	/*color: rgba(255,255,255,.6);*/
+	color: #f0fff0;
 }
 .audiovisualTable{
 	table-layout: fixed;
@@ -294,4 +294,15 @@ html{
 	border-top: 1px solid rgba(255,255,255,0.2);
 	overflow: auto;
 	word-wrap: break-word;
+}
+
+#iconoTrailer{
+	color:#f0fff0;
+	font-size: 28px;
+	margin-top: 12%;
+	margin-left: 95%;
+}
+
+#iconoTrailer:hover{
+	color: black;
 }
