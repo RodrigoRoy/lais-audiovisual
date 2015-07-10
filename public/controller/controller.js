@@ -362,6 +362,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 
 	// Obtener toda la información de un audiovisual particular. Recibe el código de identificación
 	$scope.getAllInfo = function(codigoId){
+		$scope.hideInfo = false; //Inicializar el botón de ver más para que siempre este visible
 		console.log("codigo: " + codigoId);
 		$http.get('php/manejoBD.php?action=obtenerXAreas&id=' + codigoId).
     	success(function(data) {
@@ -407,7 +408,9 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	}
     }
 
-    $scope.hideInfo = false;
+    $scope.hideInfo = false; //Banderá para enconder el botón de ver más y la información de cada registro
+
+    //Función que ocula la información de un registro
     $scope.hideInfos = function(){
     	$scope.hideInfo = !$scope.hideInfo;
     }
