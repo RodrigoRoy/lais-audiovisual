@@ -400,6 +400,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		});
     }
 
+    //Función que manda una confimación para eliminar un registro audiovisual
     $scope.confirmacion = function(){
     	var c = confirm("¿Seguro que deseas borrar el archivo audiovisual?" + "\n" + $scope.allInfo.identificacion.codigo_de_referencia);
     	if(c == true){
@@ -410,7 +411,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	}
     }
 
-    $scope.hideInfo = false; //Banderá para enconder el botón de ver más y la información de cada registro
+    $scope.hideInfo = false; //Banderá para esconder la información de cada registro
 
     //Función que ocula la información de un registro
     $scope.hideInfos = function(){
@@ -626,11 +627,11 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 
 //Controlador que verifica el login y logout 
 lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $location, $window){
-	$scope.permiso = 0;
-	$scope.errores = false;
-	$scope.sesion = $cookieStore.get('sesion');
-	$scope.user = $cookieStore.get('nombre');
-	$scope.permiso = $cookieStore.get('permiso');
+	$scope.permiso = 0; //Variable que guarda el permiso de cada usuario
+	$scope.errores = false; //Variable para mostrar erros de iniciar sesión con los usuarios
+	$scope.sesion = $cookieStore.get('sesion'); //Cookie para recodar la sesión del usuario
+	$scope.user = $cookieStore.get('nombre'); //Cookie para recordar el nombre del usuario
+	$scope.permiso = $cookieStore.get('permiso'); //Cookie para recordar el permiso del usuario
 	//console.log("Inicio:" + $scope.sesion);
 	
 	//Funcion que verifica el login con username y password mandandolos a la base de datos
@@ -645,12 +646,12 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 			}).success(function(data,status,headers,config){
 				console.log("Se mandaron los datos");
 				if($scope.usuario == data.Username && $scope.pass == data.Password){
-					$cookieStore.put('sesion','true');
-					$cookieStore.put('nombre',data.Username);
-					$cookieStore.put('permiso',data.Privilegio);
-					$scope.sesion = $cookieStore.get('sesion');
-					$scope.user = $cookieStore.get('nombre');
-					$scope.permiso = $cookieStore.get('permiso');
+					$cookieStore.put('sesion','true'); //Iniciamos el Cookie de iniciar sesion a true
+					$cookieStore.put('nombre',data.Username); //Iniciamos el Cookie con el nombre de usuario que recibimos en la petición de la base de datos
+					$cookieStore.put('permiso',data.Privilegio); //Iniciamos el Cookie de permiso con base a los privilegios que tiene el usuario
+					$scope.sesion = $cookieStore.get('sesion'); //Obtenemos el cookie de iniciar sesion
+					$scope.user = $cookieStore.get('nombre'); //Obtenemos el cookie del nombre del usuario
+					$scope.permiso = $cookieStore.get('permiso'); //Obtenemos el cookie del permiso del susuario
 					$scope.agregar = true;
 					//console.log("En sesion\n"+ $scope.sesion);
 					//console.log($scope.permiso);
@@ -659,12 +660,13 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 					$window.location.reload(false);
 					//console.log("Usuario\n"+ $scope.usuario);
 					//$location.reload(true);
-				}else{
-					$cookieStore.remove('sesion');
-					$cookieStore.remove('nombre');
-					$cookieStore.remove('permiso');
-					$scope.sesion = false;
-					$scope.errores = true;
+				}else{ 
+					$cookieStore.remove('sesion'); //Removemos el cookie sesion del usuario
+					$cookieStore.remove('nombre'); //Removemos el cookie del nombre del usuario
+					$cookieStore.remove('permiso'); //Removemos el cookie del permiso del usuario
+					//Inicamos las variables para que se muestren los errores de iniciar sesion
+					$scope.sesion = false;  
+					$scope.errores = true; 
 					$scope.permiso = 0;
 					//console.log("Error de Sesion\n"+ $scope.sesion);
 					//console.log($scope.permiso);
@@ -679,6 +681,7 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 	}
 	//Función que hace el logout de un usuario
 	$scope.logout = function(){
+		//Removemos los cookies ya que ha cerrado sesion
 		$cookieStore.remove('sesion');
 		$cookieStore.remove('nombre');
 		$cookieStore.remove('permiso');
@@ -724,7 +727,7 @@ lais.controller('adminUserCtrl',function($scope,$http, $location){
 		$location.url('/inicio');
 	}
 	
-	$scope.nombreAuxiliar = '';
+	$scope.nombreAuxiliar = ''; //Guardar el nombre del usuario temporalmente
 	$scope.edit = false;
 	$scope.privilegios = { // Renombre de los permisos de usuario a un número (como en la base de datos)
 		"0": "Sin Permisos",
@@ -732,6 +735,7 @@ lais.controller('adminUserCtrl',function($scope,$http, $location){
 		"2": "Agregar y Editar",
 		"3": "Agregar, Editar y Eliminar"
 	};
+	//Variable que nos ayuda mostrar los errores de que se a duplicado un usuario al crear uno nuevo
 	$scope.errorDuplicadoLogin = false;
 
 	// $scope.datos contiene todos los usuarios (ver función getDatos)
