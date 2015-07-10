@@ -226,8 +226,10 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/inicio.html"
 		})
 		.when("/acercade",{
-			templateUrl: "templates/acerca_del_sitio.html"
-			
+			templateUrl: "templates/acerca_del_sitio.html"	
+		})
+		.when("/publicaciones_y_vínculos",{
+			templateUrl: "templates/publicaciones_y_vinculos.html"
 		})
 		.when("/decadas",{
 			templateUrl: "templates/archivos_audiovisuales.html",
