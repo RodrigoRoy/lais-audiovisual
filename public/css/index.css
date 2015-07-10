@@ -71,11 +71,10 @@ body{
 }
 
 .vista{
-	position: absolute;
-	width: 200px;
-	height: 200px;
+	display: inline-block;
+	width: 220px;
+	height: 220px;
 	margin-top: 10%;
-  	margin-left: 39%;
   	opacity: .7;
   	background-color: black;
   	border-radius: 7px;
@@ -357,4 +356,10 @@ body{
 #titulosAcerca{
 	margin-left: 5%;
 	color: #f0fff0;
+}
+
+
+#imgInicio{
+	width: 100%;
+	height: 100%;
 }
