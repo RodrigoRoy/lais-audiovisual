@@ -74,7 +74,7 @@ body{
 	position: absolute;
 	width: 200px;
 	height: 200px;
-	margin-top: 5%;
+	margin-top: 10%;
   	margin-left: 39%;
   	opacity: .7;
   	background-color: black;
@@ -265,8 +265,8 @@ body{
 }
 
 #logoLais{
-	height: 85%;
-	width: 86%;
+	height: 100%;
+	width: 100%;
 }
 
 .logo{
@@ -329,4 +329,32 @@ body{
 .titulosPV{
 	color: #f0fff0;
 
+}
+
+#secAcercaDe{
+	display: inline-block;
+	width: 90%;
+	height: auto;
+  	margin-left: 5%;
+  	opacity: .7;
+  	background-color: black;
+  	border-radius: 7px;
+   	color: #f0fff0;
+   	margin-bottom: 5%;
+}
+
+#logoLaisP{
+	width: 100px;
+	height: auto;
+	margin-left: 90%;
+}
+
+#textoAcercaDe{
+	font-size: 20px;
+	color: #f0fff0;
+}
+
+#titulosAcerca{
+	margin-left: 5%;
+	color: #f0fff0;
 }
