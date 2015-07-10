@@ -1,5 +1,5 @@
 // La dependencia ngFileUpload sirve para subir imagenes (https://github.com/danialfarid/ng-file-upload)
-var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload','infinite-scroll']);
+var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload','infinite-scroll', 'ui.bootstrap']);
 
 // Directiva para comprobar que dos inputs tengan el mismo valor (password).
 // http://blog.brunoscopelliti.com/angularjs-directive-to-check-that-passwords-match/
@@ -400,6 +400,25 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		});
     }
 
+    $scope.eliminaRegistro = function(id, titulo){
+    	/*var pass = prompt('¿Seguro que deseas borrar el registro "' + titulo + '"?\n\nIngresa tu contraseña para continuar:');
+    	if(pass !== null){
+    		if(pass === "")
+    			alert("La contraseña no debe ser vacia.");
+    		else{
+    			$http.post('php/manejoBD.php?action=getPassword',
+    			{
+    				'user': $scope.user
+    			}).
+		    	success(function(data){
+		    		console.log("Data: " + data);
+		    		console.log("Password: " + data.Password);
+		    		if(data.Password)
+		    	});
+    		}
+    	}*/
+    }
+
     //Función que manda una confimación para eliminar un registro audiovisual
     $scope.confirmacion = function(){
     	var c = confirm("¿Seguro que deseas borrar el archivo audiovisual?" + "\n" + $scope.allInfo.identificacion.codigo_de_referencia);
@@ -627,18 +646,15 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 
 //Controlador que verifica el login y logout 
 lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $location, $window){
-	$scope.permiso = 0; //Variable que guarda el permiso de cada usuario
+	//$scope.permiso = 0; //Variable que guarda el permiso de cada usuario
 	$scope.errores = false; //Variable para mostrar erros de iniciar sesión con los usuarios
 	$scope.sesion = $cookieStore.get('sesion'); //Cookie para recodar la sesión del usuario
 	$scope.user = $cookieStore.get('nombre'); //Cookie para recordar el nombre del usuario
 	$scope.permiso = $cookieStore.get('permiso'); //Cookie para recordar el permiso del usuario
-	//console.log("Inicio:" + $scope.sesion);
 	
 	//Funcion que verifica el login con username y password mandandolos a la base de datos
 	//mediante post
 	$scope.login= function(){
-		//console.log("Usuario: " + $scope.usuario);
-		//console.log("Pass: " + $scope.pass);
 		$http.post('php/manejoBD.php?action=login',
 			{
 				'Username' : $scope.usuario,
@@ -668,12 +684,8 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 					$scope.sesion = false;  
 					$scope.errores = true; 
 					$scope.permiso = 0;
-					//console.log("Error de Sesion\n"+ $scope.sesion);
-					//console.log($scope.permiso);
-					$scope.permiso = 0;
 					$scope.usuario = "";
 					$scope.pass = "";
-					//console.log("Usuario\n"+ $scope.usuario);
 				}
 			}).error(function(data){
 				console.log("ERROR");
@@ -689,11 +701,7 @@ lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $l
 		$scope.permiso = 0;
 		$scope.usuario = "";
 		$scope.pass = "";
-		//console.log("Cerrar Sesion\n" + $scope.sesion);
-		//console.log($scope.permiso);
-		//console.log("Usuario\n"+ $scope.user);
 		$location.url('/inicio');
-
 	}
 });
 
