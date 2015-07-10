@@ -33,9 +33,9 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h1 class="modal-title" id="gridSystemModalLabel">{{allInfo.identificacion.titulo_propio}} 
           <a ng-show="sesion" class="iconEdicion" href="" ng-click="editar(allInfo.identificacion.codigo_de_referencia)" >
-            <span class="glyphicon glyphicon-edit"></span>
+            <span class="glyphicon glyphicon-edit" href="" ng-click="confirmacion()"></span>
           </a>
-          <a ng-show="sesion" class="iconEdicion" href="" ng-click="confirmacion()">
+          <a ng-show="sesion" class="iconEdicion" href="">
             <span class="glyphicon glyphicon-remove-circle"></span>
           </a>
         </h1>

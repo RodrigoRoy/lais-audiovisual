@@ -28,6 +28,9 @@ switch ($_GET['action']) {
     case 'login':
         login();
         break;
+    case 'getPassword':
+        getPassword();
+        break;
     case 'mostrarDecadas':
         mostrarDecadas();
         break;
@@ -356,6 +359,20 @@ function getId($id){
 function login(){
     $datos = json_decode(file_get_contents("php://input"));
     $query = 'SELECT * FROM usuarios WHERE Username="'.$datos->Username.'" and Password="'.$datos->Password.'"';
+    $stmt = $GLOBALS['conn']->prepare($query);
+    $stmt->execute();
+    if($stmt->rowCount() == 1){
+        print_r(json_encode($stmt->fetch(PDO::FETCH_ASSOC)));
+    }else{
+        print_r(json_encode(array("Id"=>"-1")));
+    }
+}
+
+// Petición del password de un usuario
+function getPassword(){
+    $data = json_decode(file_get_contents("php://input"));
+    $user = $data->user;
+    $query = "SELECT Password FROM usuarios WHERE Username='$user'";
     $stmt = $GLOBALS['conn']->prepare($query);
     $stmt->execute();
     if($stmt->rowCount() == 1){
