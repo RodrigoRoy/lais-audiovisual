@@ -303,3 +303,30 @@ body{
 .titulos{
 	color: #f2f0a1;
 }
+
+.secPublicaciones{
+	width: 90%;
+	margin-left: 5%;
+	height: auto;
+  	opacity: .7;
+  	background-color: black;
+  	border-radius: 7px;
+  	display: inline-block;
+  	color: white;
+}
+
+.secVinculos{
+	display: inline-block;
+	width: 90%;
+	height: auto;
+  	margin-left: 5%;
+  	opacity: .7;
+  	background-color: black;
+  	border-radius: 7px;
+   	color: #f0fff0;
+}
+
+.titulosPV{
+	color: #f0fff0;
+
+}
