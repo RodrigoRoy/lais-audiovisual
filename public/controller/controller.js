@@ -369,6 +369,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		$http.get('php/manejoBD.php?action=obtenerXAreas&id=' + codigoId).
     	success(function(data) {
     		$scope.allInfo = data;
+    		console.log($scope.allInfo);
     	});
 	};
 

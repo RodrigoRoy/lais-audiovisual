@@ -155,7 +155,7 @@ SELECT codigo_de_referencia, titulo_propio, otros_colaboradores
 	ORDER BY codigo_de_referencia ASC;
 SELECT * 
 	FROM area_de_identificacion 
-	WHERE codigo_de_referencia LIKE 'MXIM-AV-1-6%';
+	WHERE codigo_de_referencia LIKE 'MXIM-AV-1-5%';
 
 # Permite borrar los registro de una década particular (en este caso la década 5)
 DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-7%';
