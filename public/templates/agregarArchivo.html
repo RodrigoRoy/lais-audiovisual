@@ -5,7 +5,7 @@
 		<div class="page-header">
 			<h1>Agregar registro</h1>
 		</div>
-		<form name="audForm" role="form" id="audiovisualForm" novalidate> <!-- Se omite action="another.php" para que la acción se ejecute en este documento -->
+		<form name="audForm" role="form" id="audiovisualForm" novalidate>
 			<!-- El código de identificación es el único campo no-editable -->
 			<div class="form-group">
 				<label for="codigo_de_referencia">Código de identificación:</label>
@@ -28,6 +28,7 @@
 			<div class="list-group">
 				<a href="" class="list-group-item">Área de identificación<span class="caret caretForm"></span></a>
 				<div class="panel-body collapse">
+					<!-- TITULO_PROPIO -->
 					<div class="form-group control-group">
 						<label for="titulo_propio">Título propio</label>
 						<input class="form-control" autofocus id="titulo_propio" name="titulo_propio" ng-model="titulo_propio" ng-maxlength="120">
@@ -39,6 +40,7 @@
 				            <strong>ERROR:</strong> El maximo de tu palabra es 120 caracteres
 				        </small>
 			        </div>
+			        <!-- TITULO_PARALELO -->
 					<div class="form-group control-group">
 						<label for="titulo_paralelo">Título paralelo</label>
 						<input class="form-control" id="titulo_paralelo" name="titulo_paralelo" ng-model="titulo_paralelo" ng-maxlength="120">
@@ -50,6 +52,7 @@
 				            <strong>ERROR:</strong> El maximo de tu palabra es 120 caracteres
 				        </small>
 			        </div>
+					<!-- TITULO_ATRIBUIDO -->
 					<div class="form-group control-group">
 						<label for="titulo_atribuido">Título atribuido</label>
 						<input class="form-control" id="titulo_atribuido" name="titulo_atribuido" ng-model="titulo_atribuido" ng-maxlength="120">
@@ -61,6 +64,7 @@
 				            <strong>ERROR:</strong> El maximo de tu palabra es 120 caracteres
 				        </small>
 			        </div>
+					<!-- TITULO_DE_SERIE -->
 					<div class="form-group">
 						<label for="titulo_de_serie">Título de la serie</label>
 						<input class="form-control" id="titulo_de_serie" name="titulo_de_serie" ng-model="titulo_de_serie" ng-maxlength="70">
@@ -72,6 +76,7 @@
 				            <strong>ERROR:</strong> El maximo de tu palabra es 70 caracteres
 				        </small>
 			        </div>
+					<!-- NUMERO_DE_PROGRAMA -->
 					<div class="form-group">
 						<label for="numero_de_programa">Número de programa</label>
 						<input class="form-control" id="numero_de_programa" name="numero_de_programa" ng-model="numero_de_programa" ng-maxlength="15">
@@ -83,6 +88,7 @@
 				            <strong>ERROR:</strong> El maximo de tu palabra es 15 caracteres
 				        </small>
 			        </div>
+			        <!-- PAIS -->
 					<div class="form-group">
 						<label for="pais">País</label>
 						<input class="form-control" id="pais" name="pais" ng-model="pais" ng-maxlength="30">
@@ -94,6 +100,7 @@
 				            <strong>ERROR:</strong> El maximo de tu palabra es 70 caracteres
 				        </small>
 			        </div>
+			        <!-- FECHA -->
 					<div class="form-group">
 						<label for="fecha">Fecha</label>
 						<input class="form-control" id="fecha" name="fecha" ng-model="fecha" ng-pattern="/^\d{4}( ?- ?\d{4})?$/">
@@ -105,6 +112,7 @@
 			            	<strong>ERROR:</strong> El formato debe ser similar a: 1970 ó 1948-1949
 			          	</small>
 			        </div>
+			        <!-- DURACION -->
 					<div class="form-group">
 						<label for="duracion">Duración</label>
 						<input class="form-control" id="duracion" name="duracion" ng-model="duracion" placeholder="Formato: MM'SS' (Ejemplo: 120', 38'60'', 49'')" ng-pattern="/(^\d{0,3}' ?[0-5]?\d''$)|(^\d{0,3}'$)|(^[0-5]?\d''$)/">
@@ -116,6 +124,7 @@
 			            	<strong>ERROR:</strong> Utiliza el símbolo de apóstrofe ( ' ) para indicar horas y minutos 
 			          	</small>
 			        </div>
+			        <!-- INVESTIGACION -->
 					<div class="form-group">
 						<label for="investigacion">Investigación</label>
 						<input class="form-control" id="investigacion" name="investigacion" ng-model="investigacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -130,6 +139,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- REALIZACION -->
 					<div class="form-group">
 						<label for="realizacion">Realización</label>
 						<input class="form-control" id="realizacion" name="realizacion" ng-model="realizacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -144,6 +154,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- DIRECCION -->
 					<div class="form-group">
 						<label for="direccion">Dirección</label>
 						<input class="form-control" id="direccion" name="direccion" ng-model="direccion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -158,6 +169,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- GUION -->
 					<div class="form-group">
 						<label for="guion">Guión</label>
 						<input class="form-control" id="guion" name="guion" ng-model="guion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -172,6 +184,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+					<!-- ADAPTACION -->
 					<div class="form-group">
 						<label for="adaptacion">Adaptación</label>
 						<input class="form-control" id="adaptacion" name="adaptacion" ng-model="adaptacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -186,6 +199,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+					<!-- IDEA_ORIGINAL -->
 					<div class="form-group">
 						<label for="idea_original">Idea original</label>
 						<input class="form-control" id="idea_original" name="idea_original" ng-model="idea_original" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -200,6 +214,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+					<!-- FOTOGRAFIA -->
 					<div class="form-group">
 						<label for="fotografia">Fotografía</label>
 						<input class="form-control" id="fotografia" name="fotografia" ng-model="fotografia" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -214,6 +229,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- FOTOGRAFIA_FIJA -->
 					<div class="form-group">
 						<label for="fotografia_fija">Fotografía fija</label>
 						<input class="form-control" id="fotografia_fija" name="fotografia_fija" ng-model="fotografia_fija" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -228,6 +244,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+					<!-- EDICION -->
 					<div class="form-group">
 						<label for="edicion">Edición</label>
 						<input class="form-control" id="edicion" name="edicion" ng-model="edicion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -242,6 +259,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- SONIDO_GRABACION -->
 					<div class="form-group">
 						<label for="sonido_grabacion">Grabación de sonido</label>
 						<input class="form-control" id="sonido_grabacion" name="sonido_grabacion" ng-model="sonido_grabacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -256,6 +274,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- SONIDO_EDICION -->
 					<div class="form-group">
 						<label for="sonido_edicion">Edición de sonido</label>
 						<input class="form-control" id="sonido_edicion" name="sonido_edicion" ng-model="sonido_edicion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -270,6 +289,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- MUSICA_ORIGINAL -->
 					<div class="form-group">
 						<label for="musica_original">Música original</label>
 						<input class="form-control" id="musica_original" name="musica_original" ng-model="musica_original" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -284,6 +304,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- MUSICALIZACION -->
 					<div class="form-group">
 						<label for="musicalizacion">Musicalización</label>
 						<input class="form-control" id="musicalizacion" name="musicalizacion" ng-model="musicalizacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -298,6 +319,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- VOCES -->
 					<div class="form-group">
 						<label for="voces">Voces</label>
 						<input class="form-control" id="voces" name="voces" ng-model="voces" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -312,6 +334,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- ACTORES -->
 					<div class="form-group">
 						<label for="actores">Actores</label>
 						<input class="form-control" id="actores" name="actores" ng-model="actores" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -326,6 +349,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- ANIMACION -->
 					<div class="form-group">
 						<label for="animacion">Animación</label>
 						<input class="form-control" id="animacion" name="animacion" ng-model="animacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -340,6 +364,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+			        <!-- OTROS_COLABORADORES -->
 					<div class="form-group">
 						<label for="otros_colaboradores">Otros colaboradores</label>
 						<input class="form-control" id="otros_colaboradores" name="otros_colaboradores" ng-model="otros_colaboradores" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">

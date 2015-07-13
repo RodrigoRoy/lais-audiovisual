@@ -9,8 +9,21 @@
 			<!-- El código de identificación es el único campo no-editable -->
 			<div class="form-group">
 				<label for="codigo_de_referencia">Código de identificación:</label>
-				<input class="form-control" name="codigo_de_referencia" ng-model="codigo_de_referencia" id="codigo_de_referencia" ng-maxlength="20" ng-pattern="/^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}$/" ng-disabled="true"> <!--readonly-->
+				<input class="form-control" name="codigo_de_referencia" ng-model="codigo_de_referencia" id="codigo_de_referencia" ng-maxlength="20" ng-pattern="/^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}$/"> <!--readonly-->
 			</div>
+			<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+			<div ng-cloak class="alert alert-danger" role="alert" 
+	          ng-show="(audForm.codigo_de_referencia.$dirty && audForm.codigo_de_referencia.$invalid)">
+	          <small class="error" ng-show="audForm.codigo_de_referencia.$error.required">
+	            <strong>ERROR:</strong> Se requiere el codigo de referencia
+	          </small>
+	          <small class="error" ng-show="audForm.codigo_de_referencia.$error.maxlength">
+	            <strong>ERROR:</strong> El maximo de tu palabra es 20 caracteres
+	          </small>
+	          <small class="error" ng-show="audForm.codigo_de_referencia.$error.pattern">
+	            <strong>ERROR:</strong> El formato debe ser similar a: MXIM-AV-1-8-1
+	          </small>
+	        </div>
 			<!-- Todos los campos input son por default texto: type="text" -->
 			<div class="list-group">
 				<a href="" class="list-group-item">Área de identificación<span class="caret caretForm"></span></a>
@@ -541,7 +554,7 @@
 			        </div>
 					<div class="form-group">
 						<label for="material_extra">Material extra</label>
-						<input class="form-control" id="material_extra" name="material_extra" ng-model="material_extra" ng-maxlength="30">
+						<input class="form-control" id="material_extra" name="material_extra" ng-model="material_extra" ng-maxlength="60">
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
 					<div class="alert alert-danger" role="alert" 
@@ -779,7 +792,7 @@
 					<p ng-show="imagen[0] != null">Nueva portada</p>
 			        <img height="128" ng-show="imagen[0] != null" ngf-src="imagen[0]" ngf-accept="'image/*'" class="thumb">
 			        <div class="form-group">
-						<label for="url">Página web</label>
+						<label for="url">Dirección URL externa</label>
 						<input class="form-control" id="url" name="url" ng-model="url" ng-maxlength="255" ng-pattern="/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/">
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
@@ -794,7 +807,13 @@
 			        </div>
 				</div>
 			</div>
-
+			<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+			<div class="alert alert-danger" role="alert" 
+	          	ng-show="errorDuplicado">
+	          	<small class="error" ng-show="errorDuplicado">
+	            	<strong>ERROR:</strong> El código de referencia está duplicado 
+	          	</small>
+	        </div>
 			<button type="submit" class="btn btn-primary btn-lg btn-block" ng-disabled="audForm.$invalid" ng-click="editar(imagen)">Editar registro</button>
 		</form>
 
@@ -870,6 +889,7 @@
 		<option value="Usos reservados para consulta in situ">
 	</datalist>
 </body>
+
 <!-- Script único auxiliar para el formulario -->
 <script src="js/form.js"></script>
 <!-- Parser para los campos de duracion, fuentes y recursos del formulario -->
