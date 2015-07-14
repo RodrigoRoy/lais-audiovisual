@@ -6,10 +6,10 @@
 			<h1>Agregar registro</h1>
 		</div>
 		<form name="audForm" role="form" id="audiovisualForm" novalidate>
-			<!-- El código de identificación es el único campo no-editable -->
+			<!-- El código de identificación es auto-asignado (mediante la función 'sugerencias' -->
 			<div class="form-group">
 				<label for="codigo_de_referencia">Código de identificación:</label>
-				<input class="form-control" name="codigo_de_referencia" ng-model="codigo_de_referencia" id="codigo_de_referencia" ng-maxlength="20" ng-pattern="/^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}$/" ng-disabled="{{codigoDecada}}" ng-blur="sugerencias()"> <!--readonly-->
+				<input class="form-control" name="codigo_de_referencia" ng-model="codigo_de_referencia" id="codigo_de_referencia" ng-maxlength="20" ng-pattern="/^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}$/" ng-blur="sugerencias()"> <!--readonly-->
 			</div>
 			<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
 			<div ng-cloak class="alert alert-danger" role="alert" 
@@ -115,13 +115,13 @@
 			        <!-- DURACION -->
 					<div class="form-group">
 						<label for="duracion">Duración</label>
-						<input class="form-control" id="duracion" name="duracion" ng-model="duracion" placeholder="Formato: MM'SS' (Ejemplo: 120', 38'60'', 49'')" ng-pattern="/(^\d{0,3}' ?[0-5]?\d''$)|(^\d{0,3}'$)|(^[0-5]?\d''$)/">
+						<input class="form-control" id="duracion" name="duracion" ng-model="duracion" placeholder="Ejemplo: 78'45'' ó 1:18:45" ng-pattern="/(^\d{0,3}' ?[0-5]?\d''$)|(^\d{0,3}'$)|(^[0-5]?\d''$)|(^\d{1,3} ?: ?\d{1,2} ?: ?\d{1,2}$)/">
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
 					<div class="alert alert-danger" role="alert" 
 			          	ng-show="audForm.duracion.$dirty && audForm.duracion.$invalid">
 			          	<small class="error" ng-show="audForm.duracion.$error.pattern">
-			            	<strong>ERROR:</strong> Utiliza el símbolo de apóstrofe ( ' ) para indicar horas y minutos 
+			            	<strong>ERROR:</strong> Utiliza el símbolo de apóstrofe (') para indicar horas y minutos. Indica horas, minutos y segundos si se utilizan dos puntos (:)
 			          	</small>
 			        </div>
 			        <!-- INVESTIGACION -->

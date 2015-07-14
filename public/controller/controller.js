@@ -1,6 +1,51 @@
 // La dependencia ngFileUpload sirve para subir imagenes (https://github.com/danialfarid/ng-file-upload)
 var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload','infinite-scroll', 'mgcrea.ngStrap']);
 
+lais.config(function ($routeProvider, $locationProvider){
+	$routeProvider
+		.when("/",{
+			templateUrl: "templates/inicio.html"
+		})
+		.when("/inicio",{
+			templateUrl: "templates/inicio.html"
+		})
+		.when("/acercade",{
+			templateUrl: "templates/acerca_del_sitio.html"	
+		})
+		.when("/publicaciones_y_vínculos",{
+			templateUrl: "templates/publicaciones_y_vinculos.html"
+		})
+		.when("/decadas",{
+			templateUrl: "templates/archivos_audiovisuales.html",
+			//controller: "conexionCtrl"
+			controller: "decadasCtrl"
+		})
+		.when("/decadas/:codigo",{
+			templateUrl: "templates/archivos_por_decadas.html",
+			controller: "muestraDecadaCtrl"
+		})
+		.when("/archivos/agregarArchivo",{
+			templateUrl: "templates/agregarArchivo.html",
+			controller: "agregarDatosCtrl"
+		})
+		.when("/archivos/editarArchivo/:id",{
+			templateUrl: "templates/editarArchivo.html",
+			controller: "edicionCtrl"
+		})
+		.when("/archivos/busqueda/:query",{
+			templateUrl: "templates/buscarRegistros.html",
+			//controller: "busquedaCtrl"
+			controller: "muestraDecadaCtrl"
+		})
+		.when("/administracion_usuarios",{
+			templateUrl: "templates/adminUsers.html",
+			controller: "adminUserCtrl"
+		})
+		.otherwise({
+			redirectTo: "/"
+		});
+});
+
 // Directiva para comprobar que dos inputs tengan el mismo valor (password).
 // http://blog.brunoscopelliti.com/angularjs-directive-to-check-that-passwords-match/
 lais.directive('pwCheck', function () {
@@ -48,74 +93,78 @@ lais.service('ParamService', function(){
 		return params[key];
 	};
 
+	// Limpia todos los campos del formulario y los encapsula en un arreglo asociativo para ser enviados a la base de datos
+	// Se eliminan espacios con trim() y se reemplazan multiples espacios por uno solo. La mayoría de los campos utilizan la función:
+	// trim().replace(/\s\s+/g, ' ') excepto para textos donde se desea mantener tabuladores o saltos de linea se utiliza la función:
+	// .trim().replace(/  /g, ' ') [http://stackoverflow.com/questions/1981349/regex-to-replace-multiple-spaces-with-a-single-space]
 	this.scopeData2object = function(scope){
 		return {
 			'codigo_de_referencia': (scope.codigo_de_referencia !== undefined) ? scope.codigo_de_referencia : "",
-			'titulo_propio' : (scope.titulo_propio !== undefined) ? scope.titulo_propio : "",
-			'titulo_paralelo': (scope.titulo_paralelo !== undefined) ? scope.titulo_paralelo : "",
-			'titulo_atribuido': (scope.titulo_atribuido !== undefined) ? scope.titulo_atribuido : "",
-			'titulo_de_serie': (scope.titulo_de_serie !== undefined) ? scope.titulo_de_serie : "",
-			'numero_de_programa': (scope.numero_de_programa !== undefined) ? scope.numero_de_programa : "",
-			'pais': (scope.pais !== undefined) ? scope.pais : "",
-			'fecha': (scope.fecha !== undefined) ? scope.fecha : "",
+			'titulo_propio' : (scope.titulo_propio !== undefined) ? scope.titulo_propio.trim().replace(/\s\s+/g, ' ') : "",
+			'titulo_paralelo': (scope.titulo_paralelo !== undefined) ? scope.titulo_paralelo.trim().replace(/\s\s+/g, ' ') : "",
+			'titulo_atribuido': (scope.titulo_atribuido !== undefined) ? scope.titulo_atribuido.trim().replace(/\s\s+/g, ' ') : "",
+			'titulo_de_serie': (scope.titulo_de_serie !== undefined) ? scope.titulo_de_serie.trim().replace(/\s\s+/g, ' ') : "",
+			'numero_de_programa': (scope.numero_de_programa !== undefined) ? scope.numero_de_programa.trim().replace(/\s\s+/g, ' ') : "",
+			'pais': (scope.pais !== undefined) ? scope.pais.trim().replace(/\s\s+/g, ' ') : "",
+			'fecha': (scope.fecha !== undefined) ? scope.fecha.trim().replace(/  +/g, ' ') : "", // TODO setFecha()?
 			'duracion': setDuracion(scope.duracion), // Parse desde filter.js
-			'investigacion': (scope.investigacion !== undefined) ? scope.investigacion : "",
-			'realizacion': (scope.realizacion !== undefined) ? scope.realizacion : "",
-			'direccion': (scope.direccion !== undefined) ? scope.direccion : "",
-			'guion': (scope.guion !== undefined) ? scope.guion : "",
-			'adaptacion': (scope.adaptacion !== undefined) ? scope.adaptacion : "",
-			'idea_original': (scope.idea_original !== undefined) ? scope.idea_original : "",
-			'fotografia': (scope.fotografia !== undefined) ? scope.fotografia : "",
-			'fotografia_fija': (scope.fotografia_fija !== undefined) ? scope.fotografia_fija : "",
-			'edicion': (scope.edicion !== undefined) ? scope.edicion : "",
-			'sonido_grabacion': (scope.sonido_grabacion !== undefined) ? scope.sonido_grabacion : "",
-			'sonido_edicion': (scope.sonido_edicion !== undefined) ? scope.sonido_edicion : "",
-			'musica_original': (scope.musica_original !== undefined) ? scope.musica_original : "",
-			'musicalizacion': (scope.musicalizacion !== undefined) ? scope.musicalizacion : "",
-			'voces': (scope.voces !== undefined) ? scope.voces : "",
-			'actores': (scope.actores !== undefined) ? scope.actores : "",
-			'animacion': (scope.animacion !== undefined) ? scope.animacion : "",
-			'otros_colaboradores': (scope.otros_colaboradores !== undefined) ? scope.otros_colaboradores : "",
-			'entidad_productora': (scope.entidad_productora !== undefined) ? scope.entidad_productora : "",
-			'productor': (scope.productor !== undefined) ? scope.productor : "",
-			'distribuidora': (scope.distribuidora !== undefined) ? scope.distribuidora : "",
-			'historia_institucional': (scope.historia_institucional !== undefined) ? scope.historia_institucional : "",
-			'resena_biografica': (scope.resena_biografica !== undefined) ? scope.resena_biografica : "",
-			'forma_de_ingreso': (scope.forma_de_ingreso !== undefined) ? scope.forma_de_ingreso : "",
-			'fecha_de_ingreso': (scope.fecha_de_ingreso !== undefined) ? scope.fecha_de_ingreso : "",
-			'sinopsis': (scope.sinopsis !== undefined) ? scope.sinopsis : "",
-			'descriptor_onomastico': (scope.descriptor_onomastico !== undefined) ? scope.descriptor_onomastico : "",
-			'descriptor_toponimico': (scope.descriptor_toponimico !== undefined) ? scope.descriptor_toponimico : "",
-			'descriptor_cronologico': (scope.descriptor_cronologico !== undefined) ? scope.descriptor_cronologico : "",
-			'tipo_de_produccion': (scope.tipo_de_produccion !== undefined) ? scope.tipo_de_produccion : "",
-			'genero': (scope.genero !== undefined) ? scope.genero : "",
+			'investigacion': (scope.investigacion !== undefined) ? scope.investigacion.trim().replace(/\s\s+/g, ' ') : "",
+			'realizacion': (scope.realizacion !== undefined) ? scope.realizacion.trim().replace(/\s\s+/g, ' ') : "",
+			'direccion': (scope.direccion !== undefined) ? scope.direccion.trim().replace(/\s\s+/g, ' ') : "",
+			'guion': (scope.guion !== undefined) ? scope.guion.trim().replace(/\s\s+/g, ' ') : "",
+			'adaptacion': (scope.adaptacion !== undefined) ? scope.adaptacion.trim().replace(/\s\s+/g, ' ') : "",
+			'idea_original': (scope.idea_original !== undefined) ? scope.idea_original.trim().replace(/\s\s+/g, ' ') : "",
+			'fotografia': (scope.fotografia !== undefined) ? scope.fotografia.trim().replace(/\s\s+/g, ' ') : "",
+			'fotografia_fija': (scope.fotografia_fija !== undefined) ? scope.fotografia_fija.trim().replace(/\s\s+/g, ' ') : "",
+			'edicion': (scope.edicion !== undefined) ? scope.edicion.trim().replace(/\s\s+/g, ' ') : "",
+			'sonido_grabacion': (scope.sonido_grabacion !== undefined) ? scope.sonido_grabacion.trim().replace(/\s\s+/g, ' ') : "",
+			'sonido_edicion': (scope.sonido_edicion !== undefined) ? scope.sonido_edicion.trim().replace(/\s\s+/g, ' ') : "",
+			'musica_original': (scope.musica_original !== undefined) ? scope.musica_original.trim().replace(/\s\s+/g, ' ') : "",
+			'musicalizacion': (scope.musicalizacion !== undefined) ? scope.musicalizacion.trim().replace(/\s\s+/g, ' ') : "",
+			'voces': (scope.voces !== undefined) ? scope.voces.trim().replace(/\s\s+/g, ' ') : "",
+			'actores': (scope.actores !== undefined) ? scope.actores.trim().replace(/\s\s+/g, ' ') : "",
+			'animacion': (scope.animacion !== undefined) ? scope.animacion.trim().replace(/\s\s+/g, ' ') : "",
+			'otros_colaboradores': (scope.otros_colaboradores !== undefined) ? scope.otros_colaboradores.trim().replace(/\s\s+/g, ' ') : "",
+			'entidad_productora': (scope.entidad_productora !== undefined) ? scope.entidad_productora.trim().replace(/\s\s+/g, ' ') : "",
+			'productor': (scope.productor !== undefined) ? scope.productor.trim().replace(/\s\s+/g, ' ') : "",
+			'distribuidora': (scope.distribuidora !== undefined) ? scope.distribuidora.trim().replace(/\s\s+/g, ' ') : "",
+			'historia_institucional': (scope.historia_institucional !== undefined) ? scope.historia_institucional.trim().replace(/  +/g, ' ') : "",
+			'resena_biografica': (scope.resena_biografica !== undefined) ? scope.resena_biografica.trim().replace(/  +/g, ' ') : "",
+			'forma_de_ingreso': (scope.forma_de_ingreso !== undefined) ? scope.forma_de_ingreso.trim().replace(/\s\s+/g, ' ') : "",
+			'fecha_de_ingreso': (scope.fecha_de_ingreso !== undefined) ? scope.fecha_de_ingreso.trim().replace(/  +/g, ' ') : "", // TODO setFechaIngreso()?
+			'sinopsis': (scope.sinopsis !== undefined) ? scope.sinopsis.trim().replace(/  +/g, ' ') : "",
+			'descriptor_onomastico': (scope.descriptor_onomastico !== undefined) ? scope.descriptor_onomastico.trim().replace(/  +/g, ' ') : "",
+			'descriptor_toponimico': (scope.descriptor_toponimico !== undefined) ? scope.descriptor_toponimico.trim().replace(/  +/g, ' ') : "",
+			'descriptor_cronologico': (scope.descriptor_cronologico !== undefined) ? scope.descriptor_cronologico.trim().replace(/  +/g, ' ') : "",
+			'tipo_de_produccion': (scope.tipo_de_produccion !== undefined) ? scope.tipo_de_produccion.trim().replace(/\s\s+/g, ' ') : "",
+			'genero': (scope.genero !== undefined) ? scope.genero.trim().replace(/\s\s+/g, ' ') : "",
 			'fuentes': setFuenteRecurso(scope.fuentes), // Parse desde filter.js
 			'recursos': setFuenteRecurso(scope.recursos), // Parse desde filter.js
-			'versiones': (scope.versiones !== undefined) ? scope.versiones : "",
-			'formato_original': (scope.formato_original !== undefined) ? scope.formato_original : "",
-			'material_extra': (scope.material_extra !== undefined) ? scope.material_extra : "",
-			'condiciones_de_acceso': (scope.condiciones_de_acceso !== undefined) ? scope.condiciones_de_acceso : "",
-			'existencia_y_localizacion_de_originales': (scope.existencia_y_localizacion_de_originales !== undefined) ? scope.existencia_y_localizacion_de_originales : "",
-			'idioma_original': (scope.idioma_original !== undefined) ? scope.idioma_original : "",
-			'doblajes_disponibles': (scope.doblajes_disponibles !== undefined) ? scope.doblajes_disponibles : "",
-			'subtitulajes': (scope.subtitulajes !== undefined) ? scope.subtitulajes : "",
-			'soporte': (scope.soporte !== undefined) ? scope.soporte : "",
-			'numero_copias': (scope.numero_copias !== undefined) ? scope.numero_copias : "",
-			'descripcion_fisica': (scope.descripcion_fisica !== undefined) ? scope.descripcion_fisica : "",
-			'color': (scope.color !== undefined) ? scope.color : "",
-			'audio': (scope.audio !== undefined) ? scope.audio : "",
-			'sistema_de_grabacion': (scope.sistema_de_grabacion !== undefined) ? scope.sistema_de_grabacion : "",
-			'region_dvd': (scope.region_dvd !== undefined) ? scope.region_dvd : "",
-			'requisitos_tecnicos': (scope.requisitos_tecnicos !== undefined) ? scope.requisitos_tecnicos : "",
-			'existencia_y_localizacion_de_copias': (scope.existencia_y_localizacion_de_copias !== undefined) ? scope.existencia_y_localizacion_de_copias : "",
-			'unidades_de_descripcion_relacionadas': (scope.unidades_de_descripcion_relacionadas !== undefined) ? scope.unidades_de_descripcion_relacionadas : "",
-			'documentos_asociados': (scope.documentos_asociados !== undefined) ? scope.documentos_asociados : "",
-			'area_de_notas': (scope.area_de_notas !== undefined) ? scope.area_de_notas : "",
-			'notas_del_archivero': (scope.notas_del_archivero !== undefined) ? scope.notas_del_archivero : "",
-			'datos_del_archivero': (scope.datos_del_archivero !== undefined) ? scope.datos_del_archivero : "",
-			'reglas_o_normas': (scope.reglas_o_normas !== undefined) ? scope.reglas_o_normas : "",
-			'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? scope.fecha_de_descripcion : "",
-			'url': (scope.url !== undefined) ? scope.url : ""
+			'versiones': (scope.versiones !== undefined) ? scope.versiones.trim().replace(/\s\s+/g, ' ') : "",
+			'formato_original': (scope.formato_original !== undefined) ? scope.formato_original.trim().replace(/\s\s+/g, ' ') : "",
+			'material_extra': (scope.material_extra !== undefined) ? scope.material_extra.trim().replace(/\s\s+/g, ' ') : "",
+			'condiciones_de_acceso': (scope.condiciones_de_acceso !== undefined) ? scope.condiciones_de_acceso.trim().replace(/\s\s+/g, ' ') : "",
+			'existencia_y_localizacion_de_originales': (scope.existencia_y_localizacion_de_originales !== undefined) ? scope.existencia_y_localizacion_de_originales.trim().replace(/  +/g, ' ').trim().replace(/\s\s+/g, ' ') : "",
+			'idioma_original': (scope.idioma_original !== undefined) ? scope.idioma_original.trim().replace(/\s\s+/g, ' ') : "",
+			'doblajes_disponibles': (scope.doblajes_disponibles !== undefined) ? scope.doblajes_disponibles.trim().replace(/\s\s+/g, ' ') : "",
+			'subtitulajes': (scope.subtitulajes !== undefined) ? scope.subtitulajes.trim().replace(/\s\s+/g, ' ') : "",
+			'soporte': (scope.soporte !== undefined) ? scope.soporte.trim().replace(/\s\s+/g, ' ') : "",
+			'numero_copias': (scope.numero_copias !== undefined) ? scope.numero_copias.trim().replace(/\s\s+/g, ' ') : "",
+			'descripcion_fisica': (scope.descripcion_fisica !== undefined) ? scope.descripcion_fisica.trim().replace(/  +/g, ' ') : "",
+			'color': (scope.color !== undefined) ? scope.color.trim().replace(/\s\s+/g, ' ') : "",
+			'audio': (scope.audio !== undefined) ? scope.audio.trim().replace(/\s\s+/g, ' ') : "",
+			'sistema_de_grabacion': (scope.sistema_de_grabacion !== undefined) ? scope.sistema_de_grabacion.trim().replace(/\s\s+/g, ' ') : "",
+			'region_dvd': (scope.region_dvd !== undefined) ? scope.region_dvd.trim().replace(/\s\s+/g, ' ') : "",
+			'requisitos_tecnicos': (scope.requisitos_tecnicos !== undefined) ? scope.requisitos_tecnicos.trim().replace(/\s\s+/g, ' ') : "",
+			'existencia_y_localizacion_de_copias': (scope.existencia_y_localizacion_de_copias !== undefined) ? scope.existencia_y_localizacion_de_copias.trim().replace(/\s\s+/g, ' ') : "",
+			'unidades_de_descripcion_relacionadas': (scope.unidades_de_descripcion_relacionadas !== undefined) ? scope.unidades_de_descripcion_relacionadas.trim().replace(/  +/g, ' ') : "",
+			'documentos_asociados': (scope.documentos_asociados !== undefined) ? scope.documentos_asociados.trim().replace(/  +/g, ' ') : "",
+			'area_de_notas': (scope.area_de_notas !== undefined) ? scope.area_de_notas.trim().replace(/  +/g, ' ') : "",
+			'notas_del_archivero': (scope.notas_del_archivero !== undefined) ? scope.notas_del_archivero.trim().replace(/  +/g, ' ') : "",
+			'datos_del_archivero': (scope.datos_del_archivero !== undefined) ? scope.datos_del_archivero.trim().replace(/\s\s+/g, ' ') : "",
+			'reglas_o_normas': (scope.reglas_o_normas !== undefined) ? scope.reglas_o_normas.trim().replace(/\s\s+/g, ' ') : "",
+			'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? scope.fecha_de_descripcion.trim().replace(/  +/g, ' ') : "", // TODO: setFechaDescripcion()?
+			'url': (scope.url !== undefined) ? scope.url.trim() : ""
 		}
 	}
 });
@@ -215,51 +264,6 @@ lais.service('DecadaService', function(){
 		'reglas_o_normas': 'Reglas o normas',
 		'fecha_de_descripcion': 'Fecha de descripción'
 	};
-});
-
-lais.config(function ($routeProvider, $locationProvider){
-	$routeProvider
-		.when("/",{
-			templateUrl: "templates/inicio.html"
-		})
-		.when("/inicio",{
-			templateUrl: "templates/inicio.html"
-		})
-		.when("/acercade",{
-			templateUrl: "templates/acerca_del_sitio.html"	
-		})
-		.when("/publicaciones_y_vínculos",{
-			templateUrl: "templates/publicaciones_y_vinculos.html"
-		})
-		.when("/decadas",{
-			templateUrl: "templates/archivos_audiovisuales.html",
-			//controller: "conexionCtrl"
-			controller: "decadasCtrl"
-		})
-		.when("/decadas/:codigo",{
-			templateUrl: "templates/archivos_por_decadas.html",
-			controller: "muestraDecadaCtrl"
-		})
-		.when("/archivos/agregarArchivo",{
-			templateUrl: "templates/agregarArchivo.html",
-			controller: "agregarDatosCtrl"
-		})
-		.when("/archivos/editarArchivo/:id",{
-			templateUrl: "templates/editarArchivo.html",
-			controller: "edicionCtrl"
-		})
-		.when("/archivos/busqueda/:query",{
-			templateUrl: "templates/buscarRegistros.html",
-			//controller: "busquedaCtrl"
-			controller: "muestraDecadaCtrl"
-		})
-		.when("/administracion_usuarios",{
-			templateUrl: "templates/adminUsers.html",
-			controller: "adminUserCtrl"
-		})
-		.otherwise({
-			redirectTo: "/"
-		});
 });
 
 //Controlador que muestra los datos en el html, con la conexion a la base de datos
@@ -365,13 +369,34 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	// Obtener toda la información de un audiovisual particular. Recibe el código de identificación
 	$scope.getAllInfo = function(codigoId){
 		$scope.hideInfo = false; //Inicializar el botón de ver más para que siempre este visible
-		console.log("codigo: " + codigoId);
+		//console.log("codigo: " + codigoId);
 		$http.get('php/manejoBD.php?action=obtenerXAreas&id=' + codigoId).
     	success(function(data) {
     		$scope.allInfo = data;
-    		console.log($scope.allInfo);
+    		// Limpiar algunos campos:
+    		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
+    		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
+
+    		console.log($scope.allInfo.identificacion.codigo_de_referencia);
+    		console.log("identificacion", $scope.isEmpty($scope.allInfo.identificacion));
+    		console.log("contexto", $scope.isEmpty($scope.allInfo.contexto));
+    		console.log("condiciones_de_acceso", $scope.isEmpty($scope.allInfo.condiciones_de_acceso));
+    		console.log("contenido_y_estructura", $scope.isEmpty($scope.allInfo.contenido_y_estructura));
+    		console.log("descripcion", $scope.isEmpty($scope.allInfo.descripcion));
+    		console.log("documentacion_asociada", $scope.isEmpty($scope.allInfo.documentacion_asociada));
+    		console.log("notas", $scope.isEmpty($scope.allInfo.notas));
+    		console.log("adicional", $scope.isEmpty($scope.allInfo.adicional));
     	});
 	};
+
+	// Determina si un area está vacia. Un área se considera vacía si todos sus campos contienen cadena vacía
+	$scope.isEmpty = function(area){
+		var rubro = "";
+    	for(rubro in area)
+    		if(area[rubro] !== '')
+    			return false;
+    	return true;
+	}
 
 	// Acción del icono para agregar un nuevo audiovisual
     $scope.agregarNuevo = function(decada){
@@ -484,7 +509,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 		$http.post('php/manejoBD.php?action=agregar', 
 			ParamService.scopeData2object($scope) // Encapsular todos los datos para el servidor
 		).success(function(data, status, headers, congif){
-			if(data.Status === undefined){ // Si hay algún error en la base de datos
+			if(data.Status !== 'Ok'){ // Si hay algún error en la base de datos
 				//alert("El archivo Audiovisual está duplicado");
 				$scope.errorDuplicado = true;
 				return;
