@@ -1,5 +1,5 @@
 // La dependencia ngFileUpload sirve para subir imagenes (https://github.com/danialfarid/ng-file-upload)
-var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload','infinite-scroll', 'ui.bootstrap']);
+var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload','infinite-scroll', 'mgcrea.ngStrap']);
 
 // Directiva para comprobar que dos inputs tengan el mismo valor (password).
 // http://blog.brunoscopelliti.com/angularjs-directive-to-check-that-passwords-match/
@@ -319,7 +319,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	$scope.archivos = []; // Todos los datos de los audiovisuales
 	$scope.busy = false;
 	var howMany = 18; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
-
+	$scope.errores = false; //Muetra el error de confirmación de contraseña para borrar un registro
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
 	$scope.firstLoad = function(){
@@ -386,6 +386,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		$location.url('/archivos/editarArchivo/' + id); // Redirigir a la página de edición
     }
 
+    
     // Acción del icono para eliminar/borrar
     $scope.eliminar = function(id){
     	$http.post('php/manejoBD.php?action=borrar',
@@ -420,15 +421,25 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	}*/
     }
 
-    //Función que manda una confimación para eliminar un registro audiovisual
-    $scope.confirmacion = function(){
-    	var c = confirm("¿Seguro que deseas borrar el archivo audiovisual?" + "\n" + $scope.allInfo.identificacion.codigo_de_referencia);
-    	if(c == true){
-    		console.log("Id: " + $scope.allInfo.identificacion.codigo_de_referencia);
-    		$scope.eliminar($scope.allInfo.identificacion.codigo_de_referencia);
-    	}else{
-    		
-    	}
+    //Función que confirma la eliminación de un registro mediante un password
+    $scope.confirmar = function(usuario, pass){
+    	//console.log("Confirmación : " + usuario);
+    	//console.log("PassConfirmacion: " + pass);
+    	$scope.errores = false;
+    	$http.post('php/manejoBD.php?action=getPassword',{
+    		'Username' : usuario
+    	}).success(function(data){
+    		//console.log("Exito. :" + usuario);
+    		//console.log("PassBase:" + data.Password + "\n PassConfirmacion: " + pass);
+    		if(data.Password === pass){ //Verifica las contraseñas
+    			//console.log("Verificado de pass");
+    			$scope.eliminar($scope.allInfo.identificacion.codigo_de_referencia);
+    		}else{
+    			//console.log("error de verificacion");
+    			$scope.errores = true;
+    		}
+    	});
+		
     }
 
     $scope.hideInfo = false; //Banderá para esconder la información de cada registro
