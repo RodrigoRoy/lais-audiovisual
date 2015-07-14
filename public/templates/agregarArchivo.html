@@ -385,6 +385,7 @@
 			<div class="list-group">
 				<a href="" class="list-group-item">Área de contexto<span class="caret caretForm"></span></a>
 				<div class="panel-body collapse">
+					<!-- ENTIDAD_PRODUCTORA -->
 					<div class="form-group">
 						<label for="entidad_productora">Entidad productora</label>
 						<input class="form-control" id="entidad_productora" name="entidad_productora" ng-model="entidad_productora" ng-maxlength="250" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -399,6 +400,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+					<!-- PRODUCTOR -->
 					<div class="form-group">
 						<label for="productor">Productor</label>
 						<input class="form-control" id="productor" name="productor" ng-model="productor" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -413,6 +415,7 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+					<!-- DISTRIBUIDORA -->
 					<div class="form-group">
 						<label for="distribuidora">Distribuidora</label>
 						<input class="form-control" id="distribuidora" name="distribuidora" ng-model="distribuidora" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
@@ -427,14 +430,17 @@
 			            	<strong>ERROR:</strong> Solo se permiten nombres válidos (separados por comas en caso de ser varios)
 			          	</small>
 			        </div>
+					<!-- HISTORIA_INSTITUCIONAL -->
 					<div class="form-group">
 						<label for="historia_institucional">Historia institucional</label>
 						<textarea class="form-control" rows="4" id="historia_institucional" name="historia_institucional" ng-model="historia_institucional"></textarea>
 					</div>
+					<!-- RESENA_BIOGRAFICA -->
 					<div class="form-group">
 						<label for="resena_biografica">Reseña biográfica</label>
 						<textarea class="form-control" rows="4" id="resena_biografica" name="resena_biografica" ng-model="resena_biografica"></textarea>
 					</div>
+					<!-- FORMA_DE_INGRESO -->
 					<div class="form-group">
 						<label for="forma_de_ingreso">Forma de ingreso</label>
 						<input class="form-control" id="forma_de_ingreso" name="forma_de_ingreso" ng-model="forma_de_ingreso" list="formaDeIngreso" ng-maxlength="35">
@@ -446,9 +452,10 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 35 caracteres
 			          	</small>
 			        </div>
+					<!-- FECHA_DE_INGRESO -->
 					<div class="form-group">
 						<label for="fecha_de_ingreso">Fecha de ingreso</label>
-						<input class="form-control" id="fecha_de_ingreso" name="fecha_de_ingreso" ng-model="fecha_de_ingreso" ng-maxlength="12" ng-pattern="/^([0-3]?\d ?\/ ?[01]?\d ?\/ ?)?\d{4}/$/">
+						<input class="form-control" id="fecha_de_ingreso" name="fecha_de_ingreso" ng-model="fecha_de_ingreso" ng-maxlength="12" ng-pattern="/^([0-3]?\d ?\/ ?[01]?\d ?\/ ?)?\d{4}$/">
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
 					<div class="alert alert-danger" role="alert" 
@@ -466,22 +473,27 @@
 			<div class="list-group">
 				<a href="" class="list-group-item">Área de contenido y estructura<span class="caret caretForm"></span></a>
 				<div class="panel-body collapse">
+					<!-- SINOPSIS -->
 					<div class="form-group">
 						<label for="sinopsis">Sinopsis</label>
 						<textarea class="form-control" rows="4" id="sinopsis" name="sinopsis" ng-model="sinopsis"></textarea>
 					</div>
+					<!-- DESCRIPTOR_ONOMASTICO -->
 					<div class="form-group">
 						<label for="descriptor_onomastico">Descriptor onomástico</label>
 						<input class="form-control" id="descriptor_onomastico" name="descriptor_onomastico" ng-model="descriptor_onomastico">
 					</div>
+					<!-- DESCRIPTOR_TOPONIMICO -->
 					<div class="form-group">
 						<label for="descriptor_toponimico">Descriptor toponímico</label>
 						<textarea class="form-control" rows="2" id="descriptor_toponimico" name="descriptor_toponimico" ng-model="descriptor_toponimico"></textarea>
 					</div>
+					<!-- DESCRIPTOR_CRONOLOGICO -->
 					<div class="form-group">
 						<label for="descriptor_cronologico">Descriptor cronológico</label>
 						<input class="form-control" id="descriptor_cronologico" name="descriptor_cronologico" ng-model="descriptor_cronologico">
 					</div>
+					<!-- TIPO_DE_PRODUCCION -->
 					<div class="form-group">
 						<label for="tipo_de_produccion">Tipo de producción</label>
 						<input class="form-control" id="tipo_de_produccion" name="tipo_de_produccion" ng-model="tipo_de_produccion" list="tipoDeProduccion" ng-maxlength="31">
@@ -493,6 +505,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 31 caracteres
 			          	</small>
 			        </div>
+					<!-- GENERO -->
 					<div class="form-group">
 						<label for="genero">Género</label>
 						<input class="form-control" id="genero" name="genero" ng-model="genero" ng-maxlength="30">
@@ -504,6 +517,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 30 caracteres
 			          	</small>
 			        </div>
+					<!-- FUENTES -->
 					<div class="form-group">
 						<label for="fuentes">Fuentes</label>
 						<select class="form-control select-toggle" id="fuentes" name="fuentes" ng-model="fuentes" size="12" multiple>
@@ -532,6 +546,7 @@
 							<option  value="Registros videográficos">Registros videográficos</option>
 						</select>
 					</div>
+					<!-- RECURSOS -->
 					<div class="form-group">
 						<label for="recursos">Recursos</label>
 						<select class="form-control select-toggle" id="recursos" name="recursos" ng-model="recursos" size="12" multiple>
@@ -555,6 +570,7 @@
 							<option value="Interactividad">Interactividad</option>
 						</select>
 					</div>
+					<!-- VERSIONES -->
 					<div class="form-group">
 						<label for="versiones">Versiones</label>
 						<input class="form-control" id="versiones" name="versiones" ng-model="versiones" ng-maxlength="45">
@@ -566,6 +582,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 45 caracteres
 			          	</small>
 			        </div>
+					<!-- FORMATO_ORIGINAL -->
 					<div class="form-group">
 						<label for="formato_original">Formato original</label>
 						<input class="form-control" id="formato_original" name="formato_original" ng-model="formato_original" ng-maxlength="25">
@@ -577,15 +594,16 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 25 caracteres
 			          	</small>
 			        </div>
+					<!-- MATERIAL_EXTRA -->
 					<div class="form-group">
 						<label for="material_extra">Material extra</label>
-						<input class="form-control" id="material_extra" name="material_extra" ng-model="material_extra" ng-maxlength="30">
+						<input class="form-control" id="material_extra" name="material_extra" ng-model="material_extra" ng-maxlength="60">
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
 					<div class="alert alert-danger" role="alert" 
 			          	ng-show="audForm.material_extra.$dirty && audForm.material_extra.$invalid">
 			          	<small class="error" ng-show="audForm.material_extra.$error.maxlength">
-			            	<strong>ERROR:</strong> El maximo de tu palabra es 30 caracteres
+			            	<strong>ERROR:</strong> El maximo de tu palabra es 60 caracteres
 			          	</small>
 			        </div>
 				</div>
@@ -594,6 +612,7 @@
 			<div class="list-group">
 				<a href="" class="list-group-item">Área de condiciones de acceso<span class="caret caretForm"></span></a>
 				<div class="panel-body collapse">
+					<!-- CONDICIONES_DE_ACCESO -->
 					<div class="form-group">
 						<label for="condiciones_de_acceso">Condiciones de acceso</label>
 						<input class="form-control" id="condiciones_de_acceso" name="condiciones_de_acceso" ng-model="condiciones_de_acceso" list="condicionesDeAcceso" ng-maxlength="37">
@@ -605,10 +624,12 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 37 caracteres
 			          	</small>
 			        </div>
+					<!-- EXISTENCIA_Y_LOCALIZACION_DE_ORIGINALES -->
 					<div class="form-group">
 						<label for="existencia_y_localizacion_de_originales">Existencia y localizacion de originales</label>
 						<textarea class="form-control" rows="2" id="existencia_y_localizacion_de_originales" name="existencia_y_localizacion_de_originales" ng-model="existencia_y_localizacion_de_originales"></textarea>
 					</div>
+					<!-- IDIOMA_ORIGINAL -->
 					<div class="form-group">
 						<label for="idioma_original">Idioma original</label>
 						<input class="form-control" id="idioma_original" name="idioma_original" ng-model="idioma_original" ng-maxlength="40">
@@ -620,6 +641,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 40 caracteres
 			          	</small>
 			        </div>
+					<!-- DOBLAJES_DISPONIBLES -->
 					<div class="form-group">
 						<label for="doblajes_disponibles">Doblajes disponibles</label>
 						<input class="form-control" id="doblajes_disponibles" name="doblajes_disponibles" ng-model="doblajes_disponibles" ng-maxlength="40">
@@ -631,6 +653,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 40 caracteres
 			          	</small>
 			        </div>
+					<!-- SUBTITULAJES -->
 					<div class="form-group">
 						<label for="subtitulajes">Subtitulajes disponibles</label>
 						<input class="form-control" id="subtitulajes" name="subtitulajes" ng-model="subtitulajes" maxlength="40">
@@ -642,28 +665,31 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 40 caracteres
 			          	</small>
 			        </div>
+					<!-- SOPORTE -->
 					<div class="form-group">
 						<label for="soporte">Soporte</label>
-						<input class="form-control" id="soporte" name="soporte" ng-model="soporte" ng-maxlength="40">
+						<input class="form-control" id="soporte" name="soporte" ng-model="soporte" ng-maxlength="25">
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
 					<div class="alert alert-danger" role="alert" 
 			          	ng-show="audForm.soporte.$dirty && audForm.soporte.$invalid">
 			          	<small class="error" ng-show="audForm.soporte.$error.maxlength">
-			            	<strong>ERROR:</strong> El maximo de tu palabra es 40 caracteres
+			            	<strong>ERROR:</strong> El maximo de tu palabra es 25 caracteres
 			          	</small>
 			        </div>
+					<!-- NUMERO_COPIAS -->
 					<div class="form-group">
 						<label for="numero_copias">Número de copias</label>
-						<input class="form-control" id="numero_copias" name="numero_copias" ng-model="numero_copias" ng-maxlength="40">
+						<input class="form-control" id="numero_copias" name="numero_copias" ng-model="numero_copias" ng-maxlength="20">
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
 					<div class="alert alert-danger" role="alert" 
 			          	ng-show="audForm.numero_copias.$dirty && audForm.numero_copias.$invalid">
 			          	<small class="error" ng-show="audForm.numero_copias.$error.maxlength">
-			            	<strong>ERROR:</strong> El maximo de tu palabra es 40 caracteres
+			            	<strong>ERROR:</strong> El maximo de tu palabra es 20 caracteres
 			          	</small>
 			        </div>
+					<!-- DESCRIPCION_FISICA -->
 					<div class="form-group">
 						<label for="descripcion_fisica">Descripción física</label>
 						<textarea class="form-control" rows="2" id="descripcion_fisica" name="descripcion_fisica" ng-model="descripcion_fisica" ng-maxlength="60"></textarea>
@@ -675,6 +701,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 60 caracteres
 			          	</small>
 			        </div>
+					<!-- COLOR -->
 					<div class="form-group">
 						<label for="color">Color</label>
 						<input class="form-control" id="color" name="color" ng-model="color" ng-maxlength="80">
@@ -686,6 +713,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 80 caracteres
 			          	</small>
 			        </div>
+					<!-- AUDIO -->
 					<div class="form-group">
 						<label for="audio">Audio</label>
 						<input class="form-control" id="audio" name="audio" ng-model="audio" ng-maxlength="30">
@@ -697,6 +725,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 30 caracteres
 			          	</small>
 			        </div>
+					<!-- SISTEMA_DE_GRABACION -->
 					<div class="form-group">
 						<label for="sistema_de_grabacion">Sistema de grabación</label>
 						<input class="form-control" id="sistema_de_grabacion" name="sistema_de_grabacion" ng-model="sistema_de_grabacion" ng-maxlength="10">
@@ -708,6 +737,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 10 caracteres
 			          	</small>
 			        </div>
+					<!-- REGION_DVD -->
 					<div class="form-group">
 						<label for="region_dvd">Región del DVD</label>
 						<input class="form-control" id="region_dvd" name="region_dvd" ng-model="region_dvd" ng-maxlength="20">
@@ -719,6 +749,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 20 caracteres
 			          	</small>
 			        </div>
+					<!-- REQUISITOS_TECNICOS -->
 					<div class="form-group">
 						<label for="requisitos_tecnicos">Requisitos técnicos</label>
 						<input class="form-control" id="requisitos_tecnicos" name="requisitos_tecnicos" ng-model="requisitos_tecnicos" ng-maxlength="40">
@@ -736,14 +767,17 @@
 			<div class="list-group">
 				<a href="" class="list-group-item">Área de documentación asociada<span class="caret caretForm"></span></a>
 				<div class="panel-body collapse">
+					<!-- EXISTENCIA_Y_LOCALIZACION_DE_COPIAS -->
 					<div class="form-group">
 						<label for="existencia_y_localizacion_de_copias">Existencia y localización de copias</label>
 						<input class="form-control" id="existencia_y_localizacion_de_copias" name="existencia_y_localizacion_de_copias" ng-model="existencia_y_localizacion_de_copias">
 					</div>
+					<!-- UNIDADES_DE_DESCRIPCION_RELACIONADAS -->
 					<div class="form-group">
 						<label for="unidades_de_descripcion_relacionadas">Unidades de descripción relacionadas</label>
 						<textarea class="form-control" rows="2" id="unidades_de_descripcion_relacionadas" name="unidades_de_descripcion_relacionadas" ng-model="unidades_de_descripcion_relacionadas"></textarea>
 					</div>
+					<!-- DOCUMENTOS_ASOCIADOS -->
 					<div class="form-group">
 						<label for="documentos_asociados">Documentos asociados</label>
 						<textarea class="form-control" rows="2" id="documentos_asociados" name="documentos_asociados" ng-model="documentos_asociados"></textarea>
@@ -754,6 +788,7 @@
 			<div class="list-group">
 				<a href="" class="list-group-item">Área de notas<span class="caret caretForm"></span></a>
 				<div class="panel-body collapse">
+					<!-- AREA_DE_NOTAS -->
 					<div class="form-group">
 						<label for="area_de_notas">Área de notas</label>
 						<textarea class="form-control" rows="4" id="area_de_notas" name="area_de_notas" ng-model="area_de_notas"></textarea>
@@ -764,6 +799,7 @@
 			<div class="list-group">
 				<a href="" class="list-group-item">Área de descripción<span class="caret caretForm"></span></a>
 				<div class="panel-body collapse">
+					<!-- NOTAS_DEL_ARCHIVERO -->
 					<div class="form-group">
 						<label for="notas_del_archivero">Notas del archivero</label>
 						<textarea class="form-control" rows="2" id="notas_del_archivero" name="notas_del_archivero" ng-model="notas_del_archivero" ng-maxlength="75"></textarea>
@@ -775,6 +811,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 75 caracteres
 			          	</small>
 			        </div>
+					<!-- DATOS_DEL_ARCHIVERO -->
 					<div class="form-group">
 						<label for="datos_del_archivero">Datos del archivero</label>
 						<input class="form-control" id="datos_del_archivero" name="datos_del_archivero" ng-model="datos_del_archivero" ng-maxlength="60">
@@ -786,6 +823,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 60 caracteres
 			          	</small>
 			        </div>
+					<!-- REGLAS_O_NORMAS -->
 					<div class="form-group">
 						<label for="reglas_o_normas">Reglas o normas</label>
 						<input class="form-control" id="reglas_o_normas" name="reglas_o_normas" ng-model="reglas_o_normas" ng-maxlength="31">
@@ -797,6 +835,7 @@
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 31 caracteres
 			          	</small>
 			        </div>
+					<!-- FECHA_DE_DESCRIPCION -->
 					<div class="form-group">
 						<label for="fecha_de_descripcion">Fecha de descripción</label>
 						<input class="form-control" id="fecha_de_descripcion" name="fecha_de_descripcion" ng-model="fecha_de_descripcion" type="date">
@@ -807,15 +846,16 @@
 			<div class="list-group">
 				<a href="" class="list-group-item">Información adicional<span class="caret caretForm"></span></a>
 				<div class="panel-body collapse">
+					<!-- IMAGEN -->
 					<div class="form-group">
 						<label for="imagen">Portada</label>
-						<!--<input class="form-control" id="imagen" name="imagen" ng-model="imagen" ng-maxlength="255">-->
 						<input type="file" id="imagen" ngf-select ng-model="imagen" accept="image/*" ngf-max-size='2097152' name="file" class="ng-pristine ng-valid ng-scope">
 					</div>
-					<!--<p ng-show="imagen[0] != null">Previsualización de portada:</p>-->
+					<!--Previsualización de portada-->
 			        <img height="128" ng-show="imagen[0] != null" ngf-src="imagen[0]" ngf-accept="'image/*'" class="thumb">
+			        <!-- URL -->
 			        <div class="form-group">
-						<label for="url">Dirección URL externa</label>
+						<label for="url">Dirección URL:</label>
 						<input class="form-control" id="url" name="url" ng-model="url" ng-maxlength="255" ng-pattern="/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/">
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
