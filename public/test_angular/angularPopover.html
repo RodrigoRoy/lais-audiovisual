@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <title>2-way binding popover</title>
+    </head>
+        <body>
+        <div ng-app="myApp" ng-controller="defaultCtrl" style="margin: 100px 100px">
+            <button type="button" class="btn btn-lg btn-danger" data-unique="1" data-auto-close="1" data-placement="rigth" data-content-template="popover-tmpl.html" data-title="Title Two" bs-popover>
+                Change name
+            </button>
+            {{ name }}
+            <script type="text/ng-template" id="popover-tmpl.html">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Contraseña</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" ng-model="confirmacionPass">
+                    </div>
+                    <button type="submit" class="btn btn-default">Iniciar</button>
+                </form>
+            </script>
+        </div>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.5/angular-strap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.5/angular-strap.tpl.min.js"></script>
+
+        <script type="text/javascript">
+            var app = angular.module("myApp", ['mgcrea.ngStrap']);
+            app.controller("defaultCtrl", ["$scope", function($scope) {
+                $scope.name = 'Roman';
+            }]);
+        </script>
+    </body>
+</html>

@@ -371,7 +371,7 @@ function login(){
 // Petición del password de un usuario
 function getPassword(){
     $data = json_decode(file_get_contents("php://input"));
-    $user = $data->user;
+    $user = $data->Username;
     $query = "SELECT Password FROM usuarios WHERE Username='$user'";
     $stmt = $GLOBALS['conn']->prepare($query);
     $stmt->execute();
