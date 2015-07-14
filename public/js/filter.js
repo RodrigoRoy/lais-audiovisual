@@ -8,8 +8,14 @@
 	Devuelve una cadena en formato estándar de mySQL.
 */
 function setDuracion(duracion){
+	var matches; // Contenedor de los emparejamientos de una expresión regular
+
+	// Si la cadena ya está en formato correcto
+	if((matches = /^\d{1,3} ?: ?\d{1,2} ?: ?\d{1,2}$/.exec(duracion)) !== null){
+		return duracion;
+	}
+
 	// Verificar el caso cuando solo son segundos (15'')
-	var matches;
 	if((matches = /^([0-5]?\d) ?''$/.exec(duracion)) !== null) {
 		return matches[1];
 	}
@@ -44,7 +50,7 @@ function setDuracion(duracion){
 	Devuelve una cadena de texto con la duración en formato de minutos y segundos.
 */
 function getDuracion(duracion){
-	var matches;
+	var matches; // Contenedor de los emparejamientos de una expresión regular
 	if((matches = /^(\d{1,3}):(\d{2}):(\d{2})$/.exec(duracion)) !== null){
 		var horas = parseInt(matches[1]);
 		var minutos = parseInt(matches[2]);
@@ -72,6 +78,23 @@ function getDuracion(duracion){
 	}
 	// Si la sintaxís de la duración es inválida devuelve la cadena vacia
 	return '';
+}
+
+/*
+	Verifica que la fecha de descripción dada no sea nula.
+	El formato de la fecha esperada es: AAAA-MM-DD
+	Solamente es una fecha inválida el valor: 0000-00-00
+*/
+function getFechaDescripcion(fecha){
+	/*var matches; // Contenedor de los emparejamientos de una expresión regular
+	if((matches = /^(\d{4})-(\d{2})-(\d{2})$/.exec(fecha)) !== null){
+		if((matches[1] === '0000') && (matches[2] === '00') && (matches[3] === '00'))
+			return '';
+	}*/
+	if(fecha === '0000-00-00')
+		return '';
+	else
+		return fecha;
 }
 
 /*

@@ -115,13 +115,13 @@
 			        <!-- DURACION -->
 					<div class="form-group">
 						<label for="duracion">Duración</label>
-						<input class="form-control" id="duracion" name="duracion" ng-model="duracion" placeholder="Formato: MM'SS' (Ejemplo: 120', 38'60'', 49'')" ng-pattern="/(^\d{0,3}' ?[0-5]?\d''$)|(^\d{0,3}'$)|(^[0-5]?\d''$)/">
+						<input class="form-control" id="duracion" name="duracion" ng-model="duracion" placeholder="Ejemplo: 78'45'' ó 1:18:45" ng-pattern="/(^\d{0,3}' ?[0-5]?\d''$)|(^\d{0,3}'$)|(^[0-5]?\d''$)|(^\d{1,3} ?: ?\d{1,2} ?: ?\d{1,2}$)/">
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
 					<div class="alert alert-danger" role="alert" 
 			          	ng-show="audForm.duracion.$dirty && audForm.duracion.$invalid">
 			          	<small class="error" ng-show="audForm.duracion.$error.pattern">
-			            	<strong>ERROR:</strong> Utiliza el símbolo de apóstrofe ( ' ) para indicar horas y minutos 
+			            	<strong>ERROR:</strong> Utiliza el símbolo de apóstrofe (') para indicar horas y minutos. Indica horas, minutos y segundos si se utilizan dos puntos (:)
 			          	</small>
 			        </div>
 			        <!-- INVESTIGACION -->
@@ -871,13 +871,13 @@
 				</div>
 			</div>
 			<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
-			<div class="alert alert-danger" role="alert" 
+			<!--<div class="alert alert-danger" role="alert" 
 	          	ng-show="errorDuplicado">
 	          	<small class="error" ng-show="errorDuplicado">
 	            	<strong>ERROR:</strong> El código de referencia está duplicado 
 	          	</small>
-	        </div>
-			<button type="submit" class="btn btn-primary btn-lg btn-block" ng-disabled="audForm.$invalid" ng-click="envia(imagen)">Editar registro</button>
+	        </div>-->
+			<button type="submit" class="btn btn-primary btn-lg btn-block" ng-disabled="audForm.$invalid" ng-click="editar(imagen)">Editar registro</button>
 		</form>
 
 	</div>
