@@ -50,7 +50,7 @@
                         <input type="password" class="form-control" id="pass" name="pass" placeholder="Password" data-ng-model="pass">
                     </div>
                     <!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
-                      <div class="alert alert-danger" role="alert" ng-model="errores" style="height="20px" ng-show="errores">
+                      <div class="alert alert-danger" role="alert" ng-model="errores" style="height=20px" ng-show="errores">
                           <small class="errorConfirmacion" ng-show="errores">
                               <strong>ERROR:</strong>Contraseña invalida!
                           </small>
@@ -107,7 +107,7 @@
                   <div class="tab-pane active" id="identificacion">
                     <table class="table audiovisualTable">
                       <tbody>
-                        <tr ng-repeat="key in notSort(allInfo.identificacion)" ng-show="{{allInfo.identificacion[key] != ''}}">
+                        <tr ng-repeat="key in notSort(allInfo.identificacion)" ng-show="allInfo.identificacion[key] != ''">
                           <td class="col-xs-2 col-xs-2 col-md-2 col-lg-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
                           <td class="col-xs-10 col-xs-10 col-md-10 col-lg-10 col-lg-10">{{allInfo.identificacion[key]}}</td>
                         </tr>
@@ -117,7 +117,7 @@
                   <div role="tabpanel" class="tab-pane" id="contexto">
                     <table class="table audiovisualTable">
                       <tbody>
-                        <tr ng-repeat="key in notSort(allInfo.contexto)" ng-show="{{allInfo.contexto[key] != ''}}">
+                        <tr ng-repeat="key in notSort(allInfo.contexto)" ng-show="allInfo.contexto[key] != ''">
                           <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
                           <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.contexto[key]}}</td>
                         </tr>
@@ -127,7 +127,7 @@
                   <div role="tabpanel" class="tab-pane" id="contenido_y_estructura">
                     <table class="table audiovisualTable">
                       <tbody>
-                        <tr ng-repeat="key in notSort(allInfo.contenido_y_estructura)" ng-show="{{allInfo.contenido_y_estructura[key] != ''}}">
+                        <tr ng-repeat="key in notSort(allInfo.contenido_y_estructura)" ng-show="allInfo.contenido_y_estructura[key] != ''">
                           <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
                           <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.contenido_y_estructura[key]}}</td>
                         </tr>
@@ -137,7 +137,7 @@
                   <div role="tabpanel" class="tab-pane" id="condiciones_de_acceso">
                     <table class="table audiovisualTable">
                       <tbody>
-                        <tr ng-repeat="key in notSort(allInfo.condiciones_de_acceso)" ng-show="{{allInfo.condiciones_de_acceso[key] != ''}}">
+                        <tr ng-repeat="key in notSort(allInfo.condiciones_de_acceso)" ng-show="allInfo.condiciones_de_acceso[key] != ''">
                           <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
                           <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.condiciones_de_acceso[key]}}</td>
                         </tr>
@@ -147,7 +147,7 @@
                   <div role="tabpanel" class="tab-pane" id="documentacion_asociada">
                      <table class="table audiovisualTable">
                       <tbody>
-                        <tr ng-repeat="key in notSort(allInfo.documentacion_asociada)" ng-show="{{allInfo.documentacion_asociada[key] != ''}}">
+                        <tr ng-repeat="key in notSort(allInfo.documentacion_asociada)" ng-show="allInfo.documentacion_asociada[key] != ''">
                           <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
                           <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.documentacion_asociada[key]}}</td>
                         </tr>
@@ -160,7 +160,7 @@
                   <div role="tabpanel" class="tab-pane" id="descripcion">
                     <table class="table audiovisualTable">
                       <tbody>
-                        <tr ng-repeat="key in notSort(allInfo.descripcion)" ng-show="{{allInfo.descripcion[key] != ''}}">
+                        <tr ng-repeat="key in notSort(allInfo.descripcion)" ng-show="allInfo.descripcion[key] != ''">
                           <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
                           <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.descripcion[key]}}</td>
                         </tr>
