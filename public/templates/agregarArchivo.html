@@ -856,7 +856,7 @@
 			        <!-- URL -->
 			        <div class="form-group">
 						<label for="url">Dirección URL:</label>
-						<input class="form-control" id="url" name="url" ng-model="url" ng-maxlength="255" ng-pattern="/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/">
+						<input type="url" class="form-control" id="url" name="url" ng-model="url" ng-maxlength="255">
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
 					<div class="alert alert-danger" role="alert" 
@@ -864,7 +864,7 @@
 			          	<small class="error" ng-show="audForm.url.$error.maxlength">
 			            	<strong>ERROR:</strong> El maximo de tu palabra es 255 caracteres
 			          	</small>
-			          	<small class="error" ng-show="audForm.url.$error.pattern">
+			          	<small class="error" ng-show="audForm.url.$error.url">
 			            	<strong>ERROR:</strong> Solo se permiten URL o direcciones de internet válidas
 			          	</small>
 			        </div>
