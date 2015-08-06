@@ -344,8 +344,15 @@ body{
 
 #logoLaisP{
 	width: 100px;
+	height: 100px;
+	margin-bottom: 10px;
+	/*
 	height: auto;
-	margin-left: 90%;
+	margin-left: 90%;*/
+}
+
+#logoLaisM{
+	width: 100px;
 }
 
 #textoAcercaDe{
