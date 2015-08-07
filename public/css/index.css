@@ -380,3 +380,16 @@ body{
 	position: absolute;
 	margin-top: -4px;
 }
+
+#seccionFiltrado{
+	margin-left:5.8%;
+	width: 88.5%;
+	height: auto;
+}
+
+#tituloFiltro{
+	margin-left:5.8%;
+	color: #f0fff0;
+	font-size: 20px;
+	font-style: bold;
+}

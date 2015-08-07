@@ -1,5 +1,5 @@
 // La dependencia ngFileUpload sirve para subir imagenes (https://github.com/danialfarid/ng-file-upload)
-var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload','infinite-scroll', 'mgcrea.ngStrap']);
+var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload','infinite-scroll', 'mgcrea.ngStrap', 'isteven-multi-select']);
 
 lais.config(function ($routeProvider, $locationProvider){
 	$routeProvider
@@ -471,6 +471,15 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     		return [];
     	return Object.keys(obj);
     }
+
+    //Objeto mostrar los objetos multiselect para filtar la busqueda
+    $scope.modernBrowsers = [
+	    { name: "Opera",              maker: "(Opera Software)",        ticked: true  },
+	    { name: "Internet Explorer",  maker: "(Microsoft)",             ticked: false },
+	    { name: "Firefox",            maker: "(Mozilla Foundation)",    ticked: true  },
+	    { name: "Safari",             maker: "(Apple)",                 ticked: false },
+	    { name: "Chrome",             maker: "(Google)",                ticked: true  }
+	]; 
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html

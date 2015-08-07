@@ -8,6 +8,9 @@
           <h2 style="margin-left:4.6%;">Resultados de la búsqueda <em>"{{query}}"</em></h2>
         </div>
       </div>
+      <h2 id="tituloFiltro">Búsqueda por: </h2>
+      <div id="seccionFiltrado" isteven-multi-select input-model="colores" output-model="outputColores" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal">
+      </div>
     </div>
     <div id="seccionPortadas" infinite-scroll="firstQueryLoad()" infinite-scroll-disabled='busy'>
     <!--<div id="seccionPortadas">-->
