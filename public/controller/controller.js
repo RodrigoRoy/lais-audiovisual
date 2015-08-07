@@ -496,6 +496,12 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	    { name: "Chrome",ticked: false}
 	];
 
+	$scope.outputBrowsers = [
+  		{ 	name: "Opera", 	ticked: true 	}
+  		{ 	name: "Firefox", 	ticked: true 	}
+  		{ 	name: "Chrome", 	ticked: true 	}
+	]; 
+
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
