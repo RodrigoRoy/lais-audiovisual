@@ -15,8 +15,10 @@
         <center><h2 style="color:white" ng-show="archivos.length == 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
         <a ng-repeat="archivo in archivos" data-toggle="modal" href="" data-target="#modalInfo" class="portadas">
           <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
-          <p class="text-rigth" >
-              {{archivo.titulo_propio}}<br>
+          <p class="text-rigth">
+              {{(archivo.titulo_propio.length > 40) ? (archivo.titulo_propio.substring(0,40) + "...."):(archivo.titulo_propio)}}
+              <br>
+              <br ng-show="archivo.titulo_propio.length < 25">
               <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
           </p>
         </a>
@@ -66,8 +68,8 @@
           </div>
           <hr>
             <div class= "row">
-              <div id="aboton">      
-                <button type="button" ng-click="hideInfos()" class="btn btn-primary btn-lg btn-block">Ver mas</button>
+              <div id="aboton" ng-show="!hideInfo">      
+                <button type="button" ng-click="hideInfos()" class="btn btn-primary btn-lg btn-block">Ver más <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
               </div>
               <div ng-show="hideInfo" class="contenedorInfo">
                 <!-- Nav tabs -->
