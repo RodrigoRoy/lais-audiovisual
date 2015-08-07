@@ -488,13 +488,14 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     }
 
     //Objeto mostrar los objetos multiselect para filtar la busqueda
-    $scope.modernBrowsers = [
-	    { name: "Opera",              maker: "(Opera Software)",        ticked: true  },
-	    { name: "Internet Explorer",  maker: "(Microsoft)",             ticked: false },
-	    { name: "Firefox",            maker: "(Mozilla Foundation)",    ticked: true  },
-	    { name: "Safari",             maker: "(Apple)",                 ticked: false },
-	    { name: "Chrome",             maker: "(Google)",                ticked: true  }
-	]; 
+    $scope.outputQuery = [
+	    { name: "Opera", ticked: true},
+	    { name: "Internet Explorer",ticked: false},
+	    { name: "Firefox",ticked: true},
+	    { name: "Safari",ticked: false},
+	    { name: "Chrome",ticked: false}
+	];
+
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
