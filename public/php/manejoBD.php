@@ -16,6 +16,9 @@ switch ($_GET['action']) {
     case 'busqueda': // Versión actuliazada del caso 'buscar'
         busqueda($_GET['query'],$_GET['howMany'],$_GET['offset']);
         break;
+    case 'busqueda2': // Versión actuliazada del caso 'busqueda'
+        busqueda2($_GET['query'],$_GET['howMany'],$_GET['offset']);
+        break;
     case 'obtener':
         getId($_GET['id']);
         break;
@@ -578,7 +581,7 @@ function firstGet($codigo, $howMany, $offset){
     }
 }
 
-// Busqueda en toda la base de datos a partir de una frase o palabra (parámetro $query)
+// Búsqueda en toda la base de datos a partir de una frase o palabra (parámetro $query)
 // Devuelve solamente la cantidad de elementos deseada (parámetro $howMany)
 // a partir del índice indicado (parámetro $offset)
 // OPTIMIZABLE:
@@ -613,6 +616,58 @@ function busqueda($query, $howMany, $offset){
     }
     if (!empty($registros)) { // Solamente mostrar resultados cuando la búsqueda no es vacia
         print_r(json_encode($registros));
+    }
+}
+
+// Función de comparación para ordenar por fecha
+function cmpFecha($item1, $item2){
+    return $item1['fecha'] - $item2['fecha'];
+}
+
+// Búsqueda que incluye el rubro en donde se encontró la coincidencia
+function busqueda2($query, $howMany, $offset){
+    $arrayQuery = explode(' ', $query); // Descomponer el texto de búsqueda en palabras individuales
+    if(sizeof($arrayQuery) > 1)
+        array_push($arrayQuery, $query);
+    $totalResults = array(); // Arreglo para almacenar los códigos de los registros con ocurrencias de las palabras
+    $tablas = array('area_de_identificacion', 'area_de_contexto', 'area_de_contenido_y_estructura', 'area_de_condiciones_de_acceso', 'area_de_documentacion_asociada', 'area_de_notas', 'area_de_descripcion', 'informacion_adicional');
+    $columnas = getAllColumnNames($tablas); // Todos los nombres (strings) de columnas
+
+    // Se obtendrán los códigos y los rubros donde hay coincidencias en la búsqueda:
+    foreach ($arrayQuery as $query) { // Para cada palabra individual del query original
+        foreach ($columnas as $columna) { // Buscar en cada columna de toda la base
+            $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion NATURAL JOIN informacion_adicional WHERE " . $columna . " LIKE '%" . $query . "%' ORDER BY fecha ASC";
+            $stmt = $GLOBALS['conn']->prepare($select);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+            while($row = $stmt->fetch()){ // Para cada resultado de la consulta (cada codigo_de_referencia)
+                $codigo_de_referencia = $row['codigo_de_referencia'];
+                if(array_key_exists($codigo_de_referencia, $totalResults)) // Si ya había coincidencia con este registro
+                    if(array_key_exists($query, $totalResults[$codigo_de_referencia])) // Y si es la misma palabra de la búsqueda
+                        array_push($totalResults[$codigo_de_referencia][$query], $columna); // Entonces se agrega el campo o rubor donde hay coincidencia
+                    else
+                        $totalResults[$codigo_de_referencia][$query] = array($columna); // Si no, se agrega la palabra (query) y el campo donde hay coincidencia
+                else
+                    $totalResults[$codigo_de_referencia] = array($query=>array($columna)); // En otro caso, es la primera coincidencia y se guarda la palabra y el rubro
+            }
+        }
+    }
+    // Falta completar los resultados obtenidos con la información necesaria para la vista (titulo, pais, fehca, duración, imagen)
+    $registros = array(); // Registros de la base de datos con coincidencias de palabras buscadas
+    foreach($totalResults as $codigo => $querys) {
+        $select = "SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia='" . $codigo . "'"; // $clave || $totalResults[$i]
+        $stmt = $GLOBALS['conn']->prepare($select);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+        if($stmt->rowCount() != 0){ // Evitar agregar valores inexistentes (false) al arreglo final de resultados
+            $results = $stmt->fetch();
+            $results['rubros'] = $totalResults[$codigo]; // Agregamos los rubros con coincidencias encontrados previamente
+            array_push($registros, $results); // Agregamos al arreglo final
+        }
+    }
+    if (!empty($registros)) { // Solamente mostrar resultados cuando la búsqueda no es vacia
+        usort($registros, "cmpFecha"); // Ordenar por fecha
+        print_r(json_encode($registros)); 
     }
 }
 

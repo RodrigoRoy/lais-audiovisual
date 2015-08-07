@@ -159,3 +159,14 @@ SELECT *
 
 # Permite borrar los registro de una década particular (en este caso la década 5)
 DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-7%';
+
+SELECT codigo_de_referencia, titulo_propio 
+	FROM area_de_identificacion 
+		NATURAL JOIN area_de_contexto 
+		NATURAL JOIN area_de_contenido_y_estructura 
+		NATURAL JOIN area_de_condiciones_de_acceso 
+		NATURAL JOIN area_de_documentacion_asociada 
+		NATURAL JOIN area_de_notas 
+		NATURAL JOIN area_de_descripcion
+		NATURAL JOIN informacion_adicional 
+	WHERE titulo_propio LIKE '%of the %';
