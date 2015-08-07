@@ -325,17 +325,27 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	$scope.busy = false;
 	var howMany = 18; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
 	$scope.errores = false; //Muetra el error de confirmación de contraseña para borrar un registro
-
 	if($scope.query){
 		$http.get('php/manejoBD.php?action=busqueda2&query='+$scope.query)
 			.success(function(data, status, headers, config) {
 				$scope.uniqueNames = data.splice(data.length-1, 1);
 				console.log('uniqueNames:', $scope.uniqueNames);
-				console.log('new Data:', data);
+				//console.log('new Data:', data);
 				$scope.archivos = data;
+				//Objeto mostrar los objetos multiselect para filtar la busqueda
+				$scope.inputQuery = [];
+				for (var unique in $scope.uniqueNames[0]) {
+					//console.log("Nombres: " + $scope.uniqueNames[i]);
+					$scope.inputQuery.push({name : DecadaService.encabezados[$scope.uniqueNames[0][unique]], ticked:true});
+					console.log($scope.inputQuery);
+				};
+				console.log($scope.inputQuery);
 			})
 	}
 	//console.log($scope.archivos);
+	$scope.mostrar = function(codigo_de_referencia){
+		var registro = $scope.archivos;
+    }
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
@@ -357,6 +367,8 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 				// called asynchronously if an error occurs or server returns response with an error status.
 			});
 	};
+
+
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas después de una búsqueda
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
@@ -398,18 +410,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			.success(function(data, status, headers, config) {
 				$scope.archivos = data;
 			})
-	};
-
-	$scope.uniqueNames = function(){
-		var resultSet = [];
-		for(var i in archivos){
-			for(var j in archivos[i].rubros){
-				for(var k = 0; k < archivos[i].rubros.length; i++){
-					//if(archivos[i].rubros[k])
-					console.log(archivos[i].rubros[k]);
-				}
-			}
-		}
 	};
 
 	// Determina si un area está vacia. Un área se considera vacía si todos sus campos contienen cadena vacía
@@ -504,19 +504,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	return Object.keys(obj);
     }
 
-    //Objeto mostrar los objetos multiselect para filtar la busqueda
-    $scope.inputQuery = [
-	    { name: "Opera", ticked: true},
-	    { name: "Internet Explorer",ticked: false},
-	    { name: "Firefox",ticked: true},
-	    { name: "Safari",ticked: false},
-	    { name: "Chrome",ticked: false}
-	];
 
-	for (var i = 0; i < $scope.inputQuery.length; i++) {
-		console.log("Nombre: " + $scope.inputQuery[i].name);
-		console.log("Ticked: " + $scope.inputQuery[i].ticked);
-	};
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
