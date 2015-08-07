@@ -497,8 +497,8 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	];
 
 	$scope.outputBrowsers = [
-  		{ 	name: "Opera", 	ticked: true 	}
-  		{ 	name: "Firefox", 	ticked: true 	}
+  		{ 	name: "Opera", 	ticked: true 	},
+  		{ 	name: "Firefox", 	ticked: true 	},
   		{ 	name: "Chrome", 	ticked: true 	}
 	]; 
 
