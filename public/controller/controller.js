@@ -320,10 +320,22 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	$scope.query = $routeParams.query; // Query de búsqueda en la barra de navegación
 	$scope.allDecades = DecadaService.allDecades;
 	$scope.encabezados = DecadaService.encabezados;
-	$scope.archivos = []; // Todos los datos de los audiovisuales
+	$scope.archivos = []; // Los registros por décadas (incluyen titulo, fecha, duracion, imagen)
+	$scope.allInfo = []; // Toda la información del registro seleccionado (se inicializa más adelante)
 	$scope.busy = false;
 	var howMany = 18; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
 	$scope.errores = false; //Muetra el error de confirmación de contraseña para borrar un registro
+
+	if($scope.query){
+		$http.get('php/manejoBD.php?action=busqueda2&query='+$scope.query)
+			.success(function(data, status, headers, config) {
+				$scope.uniqueNames = data.splice(data.length-1, 1);
+				console.log('uniqueNames:', $scope.uniqueNames);
+				console.log('new Data:', data);
+				$scope.archivos = data;
+			})
+	}
+	//console.log($scope.archivos);
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
@@ -381,15 +393,24 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	});
 	};
 
-	$scope.getResults = function(){
+	$scope.getQueryResults = function(){
 		$http.get('php/manejoBD.php?action=busqueda2&query='+$routeParams.query)
 			.success(function(data, status, headers, config) {
 				$scope.archivos = data;
 			})
-			/*.error(function(data, status, headers, config) {
-				// called asynchronously if an error occurs or server returns response with an error status.
-			});*/
-	}
+	};
+
+	$scope.uniqueNames = function(){
+		var resultSet = [];
+		for(var i in archivos){
+			for(var j in archivos[i].rubros){
+				for(var k = 0; k < archivos[i].rubros.length; i++){
+					//if(archivos[i].rubros[k])
+					console.log(archivos[i].rubros[k]);
+				}
+			}
+		}
+	};
 
 	// Determina si un area está vacia. Un área se considera vacía si todos sus campos contienen cadena vacía
 	$scope.isEmpty = function(area){

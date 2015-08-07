@@ -5,6 +5,23 @@ crudApp.controller('mainCtrl', function ($scope,$http) {
 	$scope.nombreAuxiliar = '';
 	$scope.edit = false; 
 
+	/* // isteven-multi-select
+	$scope.colores = [
+		{name: "Rojo", ticked: true},
+		{name: "Verde", ticked: true},
+		{name: "Azul", ticked: true},
+		{name: "Blanco", ticked: false},
+		{name: "Negro", ticked: true}
+	];
+	// No es estrictamente necesario ocuparlo
+	$scope.outputColores = [
+		{name: "Rojo", ticked: true},
+		{name: "Verde", ticked: true},
+		{name: "Azul", ticked: true},
+		{name: "Blanco", ticked: false},
+		{name: "Negro", ticked: true}
+	];*/
+
 	getDatos();
 
 	$scope.enviar = function(){
