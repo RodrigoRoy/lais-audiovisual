@@ -9,10 +9,11 @@
         </div>
       </div>
       <h2 id="tituloFiltro">Búsqueda por: </h2>
-      <div id="seccionFiltrado" isteven-multi-select input-model="outputQuery" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal">
+      <div id="seccionFiltrado" isteven-multi-select input-model="outputQuery" output-model="foo" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal">
       </div>
     </div>
-    <div id="seccionPortadas" infinite-scroll="firstQueryLoad()" infinite-scroll-disabled='busy'>
+    <!--<div id="seccionPortadas" infinite-scroll="firstQueryLoad()" infinite-scroll-disabled='busy'>-->
+    <div id="seccionPortadas">
     <!--<div id="seccionPortadas">-->
       <div id="audiovisual">
         <center><h2 style="color:white" ng-show="archivos.length == 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
@@ -26,9 +27,9 @@
           </p>
         </a>
       </div>
-      <div id="load" ng-cloak ng-show="!busy && (archivos.length > 5)">
+      <!--<div id="load" ng-cloak ng-show="!busy && (archivos.length > 5)">
         <img id="imgLoad" src="imgs/loading.gif">
-      </div>
+      </div>-->
     </div>
   </div>
 

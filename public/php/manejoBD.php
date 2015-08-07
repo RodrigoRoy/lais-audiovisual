@@ -17,7 +17,7 @@ switch ($_GET['action']) {
         busqueda($_GET['query'],$_GET['howMany'],$_GET['offset']);
         break;
     case 'busqueda2': // Versión actuliazada del caso 'busqueda'
-        busqueda2($_GET['query'],$_GET['howMany'],$_GET['offset']);
+        busqueda2($_GET['query']);
         break;
     case 'obtener':
         getId($_GET['id']);
@@ -614,6 +614,9 @@ function busqueda($query, $howMany, $offset){
             }
         }
     }
+
+
+
     if (!empty($registros)) { // Solamente mostrar resultados cuando la búsqueda no es vacia
         print_r(json_encode($registros));
     }
@@ -665,9 +668,18 @@ function busqueda2($query){
             array_push($registros, $results); // Agregamos al arreglo final
         }
     }
+
+    $uniqueNames = array();
+    foreach ($totalResults as $registro) 
+        foreach ($registro as $rubro) {
+            $uniqueNames = array_merge($uniqueNames, $rubro);
+            $uniqueNames = array_unique($uniqueNames);
+        }
+
     if (!empty($registros)) { // Solamente mostrar resultados cuando la búsqueda no es vacia
         usort($registros, "cmpFecha"); // Ordenar por fecha
-        print_r(json_encode($registros)); 
+        array_push($registros, $uniqueNames);
+        print_r(json_encode($registros));
     }
 }
 
