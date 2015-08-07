@@ -625,7 +625,7 @@ function cmpFecha($item1, $item2){
 }
 
 // Búsqueda que incluye el rubro en donde se encontró la coincidencia
-function busqueda2($query, $howMany, $offset){
+function busqueda2($query){
     $arrayQuery = explode(' ', $query); // Descomponer el texto de búsqueda en palabras individuales
     if(sizeof($arrayQuery) > 1)
         array_push($arrayQuery, $query);

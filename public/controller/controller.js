@@ -170,7 +170,7 @@ lais.service('ParamService', function(){
 });
 
 // Servicio que permite hacer un parse de décadas y encabezados de cada rubro
-lais.service('DecadaService', function(){
+lais.service('DecadaService', function($http){
 	this.allDecades = {
 		'1':"1890-1899",
 		'2':"1900-1909",
@@ -264,6 +264,16 @@ lais.service('DecadaService', function(){
 		'reglas_o_normas': 'Reglas o normas',
 		'fecha_de_descripcion': 'Fecha de descripción'
 	};
+
+	this.getResults = function(query){
+		$http.get('php/manejoBD.php?action=busqueda2&query='+query)
+			.success(function(data, status, headers, config) {
+				return data;
+			})
+			/*.error(function(data, status, headers, config) {
+				// called asynchronously if an error occurs or server returns response with an error status.
+			});*/
+	}
 });
 
 //Controlador que muestra los datos en el html, con la conexion a la base de datos
@@ -324,6 +334,11 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	$scope.busy = false;
 	var howMany = 18; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
 	$scope.errores = false; //Muetra el error de confirmación de contraseña para borrar un registro
+	
+	console.log($scope.query);
+	//if($scope.query)
+		//$scope.archivos = DecadaService.getResults();
+
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
 	$scope.firstLoad = function(){
