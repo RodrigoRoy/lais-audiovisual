@@ -505,7 +505,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     }
 
     //Objeto mostrar los objetos multiselect para filtar la busqueda
-    $scope.outputQuery = [
+    $scope.inputQuery = [
 	    { name: "Opera", ticked: true},
 	    { name: "Internet Explorer",ticked: false},
 	    { name: "Firefox",ticked: true},
@@ -513,7 +513,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	    { name: "Chrome",ticked: false}
 	];
 
-	$scope.outputBrowsers = [
+	$scope.outputQuery = [
   		{ 	name: "Opera", 	ticked: true 	},
   		{ 	name: "Firefox", 	ticked: true 	},
   		{ 	name: "Chrome", 	ticked: true 	}
