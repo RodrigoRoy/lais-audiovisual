@@ -492,12 +492,10 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	    { name: "Chrome",ticked: false}
 	];
 
-	$scope.outputQuery = [
-  		{ 	name: "Opera", 	ticked: true 	},
-  		{ 	name: "Firefox", 	ticked: true 	},
-  		{ 	name: "Chrome", 	ticked: true 	}
-	]; 
-
+	for (var i = 0; i < $scope.inputQuery.length; i++) {
+		console.log("Nombre: " + $scope.inputQuery[i].name);
+		console.log("Ticked: " + $scope.inputQuery[i].ticked);
+	};
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
