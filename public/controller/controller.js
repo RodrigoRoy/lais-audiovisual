@@ -328,23 +328,40 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	if($scope.query){
 		$http.get('php/manejoBD.php?action=busqueda2&query='+$scope.query)
 			.success(function(data, status, headers, config) {
-				$scope.uniqueNames = data.splice(data.length-1, 1);
+				$scope.uniqueNames = data.uniqueNames;
 				console.log('uniqueNames:', $scope.uniqueNames);
 				//console.log('new Data:', data);
 				$scope.archivos = data;
 				//Objeto mostrar los objetos multiselect para filtar la busqueda
 				$scope.inputQuery = [];
-				for (var unique in $scope.uniqueNames[0]) {
+				delete $scope.archivos.uniqueNames; //Borramos uniquenames de data para solo obtener los registros
+				for (var unique in $scope.uniqueNames) {
 					//console.log("Nombres: " + $scope.uniqueNames[i]);
-					$scope.inputQuery.push({name : DecadaService.encabezados[$scope.uniqueNames[0][unique]], ticked:true});
-					console.log($scope.inputQuery);
+					$scope.inputQuery.push({name : DecadaService.encabezados[$scope.uniqueNames[unique]], ticked:true});
+					//console.log($scope.inputQuery);
 				};
-				console.log($scope.inputQuery);
 			})
 	}
 	//console.log($scope.archivos);
 	$scope.mostrar = function(codigo_de_referencia){
-		var registro = $scope.archivos;
+		var registro = $scope.archivos[codigo_de_referencia];
+		//console.log("Registro: ", registro);
+		//console.log("Registro" ,registro.rubros["paris"][0]);
+		//console.log("inputQuery",$scope.inputQuery);
+		for(var palabra in registro.rubros){
+			for(var rubro in registro.rubros[palabra]){
+				for(var nombre in $scope.inputQuery){
+					var input = $scope.inputQuery[nombre].name;
+					var rubroRegistro = DecadaService.encabezados[registro.rubros[palabra][rubro]];
+					
+					if(input === rubroRegistro){
+						return true;
+					}	
+				}
+				//console.log("rubro",registro.rubros[palabra][rubro]);
+			}
+		}
+		return false;
     }
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
