@@ -325,44 +325,75 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	$scope.busy = false;
 	var howMany = 18; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
 	$scope.errores = false; //Muetra el error de confirmación de contraseña para borrar un registro
+	//$scope.uniqueName son todos los rubros que coinciden con la búsqueda
+	
+	// En caso de que sea una búsqueda se obtienen todos los registros que coincidan con el query
 	if($scope.query){
 		$http.get('php/manejoBD.php?action=busqueda2&query='+$scope.query)
 			.success(function(data, status, headers, config) {
 				$scope.uniqueNames = data.uniqueNames;
-				console.log('uniqueNames:', $scope.uniqueNames);
-				//console.log('new Data:', data);
 				$scope.archivos = data;
-				//Objeto mostrar los objetos multiselect para filtar la busqueda
-				$scope.inputQuery = [];
-				delete $scope.archivos.uniqueNames; //Borramos uniquenames de data para solo obtener los registros
-				for (var unique in $scope.uniqueNames) {
-					//console.log("Nombres: " + $scope.uniqueNames[i]);
-					$scope.inputQuery.push({name : DecadaService.encabezados[$scope.uniqueNames[unique]], ticked:true});
-					//console.log($scope.inputQuery);
-				};
-			})
+				for(var key in $scope.archivos) // A todos los archivos se les agrega la propiedad "show"
+					$scope.archivos[key]['show'] = true; // Esto permite filtrar resultados de manera inmediata
+				$scope.inputQuery = []; // Objeto para mostrar los objetos multiselect para filtar la busqueda
+				delete $scope.archivos.uniqueNames; //Borramos la propiedad "uniquenames" de "data" para solo tener los registros en $scope.archivos
+				if($scope.uniqueNames)
+					$scope.uniqueNames.sort(); // Ordena alfabeticamente los rubros del multiselect
+				for (var i in $scope.uniqueNames){
+					$scope.inputQuery.push({name: DecadaService.encabezados[$scope.uniqueNames[i]], ticked:true});
+				}
+			});
 	}
-	//console.log($scope.archivos);
+	
+	// Función que actualiza la propiedad "show" del arreglo $scope.archivos que contiene los registros de la búsqueda que se muestran
+	// Verifica los rubros de cada registro y los compara con $scope.outputQuery (que es un multiselect para filtrar resultados)
+	$scope.updateVisibility = function(){
+		for(var key in $scope.archivos){
+			var rubrosList = $scope.getRubros(key); // Arreglo que solo contiene los rubros (sin repeticiones)
+			for(var i in rubrosList)
+				for(var j in $scope.outputQuery)
+					if($scope.outputQuery[j]['name'] === rubrosList[i]){ // Si aparece el rubro del registro en outputQuery
+						$scope.archivos[key]['show'] = true;
+						break; // Para evitar reasignar a falso si el siguiente rubro no está contenido
+					}else{
+						$scope.archivos[key]['show'] = false;
+					}
+		}
+	};
+
+	// Auxiliar que devuelve un arreglo de los rubros (campos) donde un registro tuvo coincidencias de búsqueda (sin repeticiones).
+	// Evita lidiar con arreglos anidados dentro de $scope.archivos (para el caso de la propiedad "rubros")
+	$scope.getRubros = function(codigo_de_referencia){
+		var uniqueRubros = [];
+		var registro = $scope.archivos[codigo_de_referencia];
+		for(var palabra in registro.rubros)
+			for(var rubro in registro.rubros[palabra]){
+				var nombreRubro = DecadaService.encabezados[registro.rubros[palabra][rubro]];
+				if(!(uniqueRubros.indexOf(nombreRubro) > -1)) // Si no está contenido se agrega (esto evita repeticiones)
+					uniqueRubros.push(nombreRubro);
+			}
+		return uniqueRubros;
+	};
+	
+	/*
+	// Indica si el registro cuyo parametro es el código de referencia debe mostrarse
+	// DEPRECATED: No es conveniente usar una función porque solamente se ejecuta una vez en la directiva "ng-show" de la vista.
+	// En su lugar se emplea la función updateVisibility dentro de los callback del multiselect.
 	$scope.mostrar = function(codigo_de_referencia){
 		var registro = $scope.archivos[codigo_de_referencia];
-		//console.log("Registro: ", registro);
-		//console.log("Registro" ,registro.rubros["paris"][0]);
-		//console.log("inputQuery",$scope.inputQuery);
 		for(var palabra in registro.rubros){
 			for(var rubro in registro.rubros[palabra]){
 				for(var nombre in $scope.inputQuery){
 					var input = $scope.inputQuery[nombre].name;
 					var rubroRegistro = DecadaService.encabezados[registro.rubros[palabra][rubro]];
-					
 					if(input === rubroRegistro){
 						return true;
 					}	
 				}
-				//console.log("rubro",registro.rubros[palabra][rubro]);
 			}
 		}
 		return false;
-    }
+    }*/
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
@@ -384,8 +415,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 				// called asynchronously if an error occurs or server returns response with an error status.
 			});
 	};
-
-
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas después de una búsqueda
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
@@ -467,37 +496,13 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		});
     }
 
-    $scope.eliminaRegistro = function(id, titulo){
-    	/*var pass = prompt('¿Seguro que deseas borrar el registro "' + titulo + '"?\n\nIngresa tu contraseña para continuar:');
-    	if(pass !== null){
-    		if(pass === "")
-    			alert("La contraseña no debe ser vacia.");
-    		else{
-    			$http.post('php/manejoBD.php?action=getPassword',
-    			{
-    				'user': $scope.user
-    			}).
-		    	success(function(data){
-		    		console.log("Data: " + data);
-		    		console.log("Password: " + data.Password);
-		    		if(data.Password)
-		    	});
-    		}
-    	}*/
-    }
-
     //Función que confirma la eliminación de un registro mediante un password
     $scope.confirmar = function(usuario, pass){
-    	//console.log("Confirmación : " + usuario);
-    	//console.log("PassConfirmacion: " + pass);
     	$scope.errores = false;
     	$http.post('php/manejoBD.php?action=getPassword',{
     		'Username' : usuario
     	}).success(function(data){
-    		//console.log("Exito. :" + usuario);
-    		//console.log("PassBase:" + data.Password + "\n PassConfirmacion: " + pass);
     		if(data.Password === pass){ //Verifica las contraseñas
-    			//console.log("Verificado de pass");
     			$scope.eliminar($scope.allInfo.identificacion.codigo_de_referencia);
     		}else{
     			//console.log("error de verificacion");
@@ -520,8 +525,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     		return [];
     	return Object.keys(obj);
     }
-
-
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
