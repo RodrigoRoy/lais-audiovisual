@@ -8,13 +8,15 @@
           <h2 style="margin-left:4.6%;">Resultados de la búsqueda <em>"{{query}}"</em></h2>
         </div>
       </div>
-      <h2 id="tituloFiltro">Búsqueda por: </h2>
-      <div id="seccionFiltrado" isteven-multi-select input-model="inputQuery" output-model="outputQuery"  button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="all none reset" on-item-click="updateVisibility()" on-select-all="updateVisibility()" on-select-none="updateVisibility()" on-reset="updateVisibility()"></div>
+      <div ng-show="archivos.length != 0">
+        <h2 id="tituloFiltro">Filtrar por:</h2>
+        <div id="seccionFiltrado" isteven-multi-select input-model="inputQuery" output-model="outputQuery"  button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="all none reset" on-item-click="updateVisibility()" on-select-all="updateVisibility()" on-select-none="updateVisibility()" on-reset="updateVisibility()"></div>
+      </div>
+      <center><h2 style="color:white" ng-show="archivos.length == 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
     <!--<div id="seccionPortadas" infinite-scroll="firstQueryLoad()" infinite-scroll-disabled='busy'>-->
     <div id="seccionPortadas">
     <!--<div id="seccionPortadas">-->
       <div id="audiovisual">
-        <center><h2 style="color:white" ng-show="archivos.length == 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
         <a ng-repeat="archivo in archivos" data-toggle="modal" href="" data-target="#modalInfo" class="portadas">
           <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
           <p class="text-rigth">
@@ -22,7 +24,8 @@
               <br>
               <br ng-show="archivo.titulo_propio.length < 25">
               <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
-              <p class="textoA"><small>{{archivo.show}}</small></p>
+              <h5 ng-repeat="rubro in getRubros(archivo.codigo_de_referencia)"><span class="label label-primary">{{rubro}}</span> </h5>
+              <p class="textoA"><small>{{archivo.show}}</small></p><!-- Propiedad "show" depende de multiselect -->
           </p>
         </a>
       </div>
@@ -49,23 +52,33 @@
         </div>
         <div class="modal-body">
           <div class="container-fluid">
-            <div class="row">  
+            <div class="row">
               <div class="col-md-4" >
                 <img src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}" class="img-responsive">
               </div>
               <div class="col-md-8">
                 <div id="aduracion">
-                  <h4>Duracion: {{allInfo.identificacion.duracion}}</h4>
+                  <h4>Duración: {{allInfo.identificacion.duracion}}</h4>
                 </div>
                 <div id="aanio">
                   <h4>Año: {{allInfo.identificacion.fecha}}</h4>
                 </div>
                 <div id="tsinopsis">
-                  <h2>Sinopsis</h2>
+                  <h2>Sinópsis</h2>
                 </div>
                 <div id="asinopsis">
                   {{allInfo.contenido_y_estructura.sinopsis}}
-                </div>     
+                </div>
+                <div>
+                  Búsqueda <br>
+                  <div ng-repeat="(keyword, rubros) in archivos[allInfo.identificacion.codigo_de_referencia]['rubros']">
+                    <span class="label label-primary">{{keyword}}</span> aparece en:
+                    <div ng-repeat="rubro in rubros" style="margin-left:2em">
+                      <span class="label label-success">{{encabezados[rubro]}}</span> 
+                    </div>
+                    <br> 
+                  </div>
+                </div>
               </div> 
             </div>
           </div>

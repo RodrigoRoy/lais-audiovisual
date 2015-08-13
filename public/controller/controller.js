@@ -34,6 +34,7 @@ lais.config(function ($routeProvider, $locationProvider){
 		})
 		.when("/archivos/busqueda/:query",{
 			templateUrl: "templates/buscarRegistros.html",
+			//templateUrl: "templates/busqueda.html",
 			//controller: "busquedaCtrl"
 			controller: "muestraDecadaCtrl"
 		})

@@ -624,7 +624,7 @@ function busqueda($query, $howMany, $offset){
 
 // Función de comparación para ordenar por fecha
 function cmpFecha($item1, $item2){
-    return $item1['fecha'] - $item2['fecha'];
+    return $item2['fecha'] - $item1['fecha'];
 }
 
 // Búsqueda que incluye el rubro en donde se encontró la coincidencia
@@ -666,15 +666,16 @@ function busqueda2($query){
             $results = $stmt->fetch();
             $results['rubros'] = $totalResults[$codigo]; // Agregamos los rubros con coincidencias encontrados previamente
             //array_push($registros, $results); // Agregamos al arreglo final
-            $registros[$results['codigo_de_referencia']] = $results;
+            $registros[$results['codigo_de_referencia']] = $results; // Agregar con codigo_de_referencia como llave del objeto/arreglo asociativo
         }
     }
 
-    $uniqueNames = array();
-    foreach ($totalResults as $registro) 
+    // Incluir la propiedad "uniqueNames" a los registros encontrados
+    $uniqueNames = array(); // Permite agregar únicamente los nombres de los campos/rubros con coincidencias (ayuda al multiselect de la vista para hacer filtros)
+    foreach ($totalResults as $registro)
         foreach ($registro as $rubro) {
             $uniqueNames = array_merge($uniqueNames, $rubro);
-            $uniqueNames = array_unique($uniqueNames);
+            $uniqueNames = array_unique($uniqueNames); // Evitar repetidos
         }
 
     if (!empty($registros)) { // Solamente mostrar resultados cuando la búsqueda no es vacia
