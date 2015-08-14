@@ -72,7 +72,7 @@
                 </div>
                 <div>
                   Búsqueda <br>
-                  <div ng-repeat="(keyword, rubros) in archivos[allInfo.identificacion.codigo_de_referencia]['rubros']">
+                  <div ng-repeat="(keyword, rubros) in findRubros(allInfo.identificacion.codigo_de_referencia)">
                     <span class="label label-primary">{{keyword}}</span> aparece en:
                     <div ng-repeat="rubro in rubros" style="margin-left:2em">
                       <span class="label label-success">{{encabezados[rubro]}}</span> 

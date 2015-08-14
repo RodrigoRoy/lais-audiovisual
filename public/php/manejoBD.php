@@ -669,7 +669,7 @@ function busqueda2($query){
             //$registros[$results['codigo_de_referencia']] = $results; // Agregar con codigo_de_referencia como llave del objeto/arreglo asociativo
         }
     }
-
+    
     // Incluir la propiedad "uniqueNames" a los registros encontrados
     $uniqueNames = array(); // Permite agregar únicamente los nombres de los campos/rubros con coincidencias (ayuda al multiselect de la vista para hacer filtros)
     foreach ($totalResults as $registro)
@@ -677,6 +677,7 @@ function busqueda2($query){
             $uniqueNames = array_merge($uniqueNames, $rubro);
             $uniqueNames = array_unique($uniqueNames); // Evitar repetidos
         }
+    sort($uniqueNames); // Ordena alfabeticamente los rubros
 
     if (!empty($registros)) { // Solamente mostrar resultados cuando la búsqueda no es vacia
         usort($registros, "cmpFecha"); // Ordenar por fecha
