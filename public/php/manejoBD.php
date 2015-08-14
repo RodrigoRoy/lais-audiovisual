@@ -665,8 +665,8 @@ function busqueda2($query){
         if($stmt->rowCount() != 0){ // Evitar agregar valores inexistentes (false) al arreglo final de resultados
             $results = $stmt->fetch();
             $results['rubros'] = $totalResults[$codigo]; // Agregamos los rubros con coincidencias encontrados previamente
-            //array_push($registros, $results); // Agregamos al arreglo final
-            $registros[$results['codigo_de_referencia']] = $results; // Agregar con codigo_de_referencia como llave del objeto/arreglo asociativo
+            array_push($registros, $results); // Agregamos al arreglo final
+            //$registros[$results['codigo_de_referencia']] = $results; // Agregar con codigo_de_referencia como llave del objeto/arreglo asociativo
         }
     }
 
@@ -679,9 +679,9 @@ function busqueda2($query){
         }
 
     if (!empty($registros)) { // Solamente mostrar resultados cuando la búsqueda no es vacia
-        uasort($registros, "cmpFecha"); // Ordenar por fecha
-        //array_push($registros, $uniqueNames);
-        $registros['uniqueNames'] = $uniqueNames;
+        usort($registros, "cmpFecha"); // Ordenar por fecha
+        array_push($registros, $uniqueNames);
+        //$registros['uniqueNames'] = $uniqueNames;
         print_r(json_encode($registros));
     }
 }

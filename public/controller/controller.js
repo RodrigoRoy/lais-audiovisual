@@ -333,10 +333,9 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	if($scope.query){
 		$http.get('php/manejoBD.php?action=busqueda2&query='+$scope.query)
 			.success(function(data, status, headers, config) {
-				$scope.uniqueNames = data.uniqueNames;
-				console.log('uniqueNames', $scope.uniquenames);
+				$scope.uniqueNames = data.splice(data.length-1, 1)[0];
+				console.log('uniqueNames', $scope.uniqueNames);
 				$scope.archivos = data;
-				delete $scope.archivos.uniqueNames; //Borramos la propiedad "uniquenames" de "data" para solo tener los registros en $scope.archivos
 				for(var key in $scope.archivos) // A todos los archivos se les agrega la propiedad "show"
 					$scope.archivos[key]['show'] = true; // Esto permite filtrar resultados de manera inmediata
 				$scope.inputQuery = []; // Objeto para mostrar los objetos multiselect para filtar la busqueda
@@ -345,10 +344,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 				for (var i in $scope.uniqueNames){
 					$scope.inputQuery.push({name: DecadaService.encabezados[$scope.uniqueNames[i]], ticked:true});
 				}
-
-				for(var key in $scope.archivos){
-					console.log($scope.sortByFecha($scope.archivos[key]), $scope.archivos[key]['titulo_propio']);
-				}
 			});
 	}
 	
@@ -356,7 +351,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	// Verifica los rubros de cada registro y los compara con $scope.outputQuery (que es un multiselect para filtrar resultados)
 	$scope.updateVisibility = function(){
 		for(var key in $scope.archivos){
-			var rubrosList = $scope.getRubros(key); // Arreglo que solo contiene los rubros (sin repeticiones)
+			var rubrosList = $scope.getRubros($scope.archivos[key]); // Arreglo que solo contiene los rubros (sin repeticiones)
 			for(var i in rubrosList)
 				for(var j in $scope.outputQuery)
 					if($scope.outputQuery[j]['name'] === rubrosList[i]){ // Si aparece el rubro del registro en outputQuery
@@ -366,17 +361,16 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 						$scope.archivos[key]['show'] = false;
 					}
 		}
-		for(var i in $scope.archivos){
-			console.log($scope.archivos[i].show, $scope.archivos[i].titulo_propio);
-		}
 	};
 
+	// Oculta todos los archivos en la vista
 	$scope.updateNone = function(){
 		for(var key in $scope.archivos){
 			$scope.archivos[key].show = false;
 		}
 	};
 
+	// Muestra todos los archivos en la vista
 	$scope.updateAll = function(){
 		for(var key in $scope.archivos){
 			$scope.archivos[key].show = true;
@@ -385,9 +379,9 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 
 	// Auxiliar que devuelve un arreglo de los rubros (campos) donde un registro tuvo coincidencias de búsqueda (sin repeticiones).
 	// Evita lidiar con arreglos anidados dentro de $scope.archivos (para el caso de la propiedad "rubros")
-	$scope.getRubros = function(codigo_de_referencia){
+	$scope.getRubros = function(registro){
 		var uniqueRubros = [];
-		var registro = $scope.archivos[codigo_de_referencia];
+		//var registro = $scope.archivos[codigo_de_referencia];
 		for(var palabra in registro.rubros)
 			for(var rubro in registro.rubros[palabra]){
 				var nombreRubro = DecadaService.encabezados[registro.rubros[palabra][rubro]];
