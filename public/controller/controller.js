@@ -334,7 +334,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		$http.get('php/manejoBD.php?action=busqueda2&query='+$scope.query)
 			.success(function(data, status, headers, config) {
 				$scope.uniqueNames = data.splice(data.length-1, 1)[0];
-				console.log('uniqueNames', $scope.uniqueNames);
 				$scope.archivos = data;
 				for(var key in $scope.archivos) // A todos los archivos se les agrega la propiedad "show"
 					$scope.archivos[key]['show'] = true; // Esto permite filtrar resultados de manera inmediata
