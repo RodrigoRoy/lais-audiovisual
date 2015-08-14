@@ -118,6 +118,24 @@ body{
   height: 250px;
 }
 
+.portadasBusqueda{
+	padding: 10px 10px 10px 15px;
+	/*
+  	background-repeat: no-repeat;
+  	background-color: rgba(0,0,0,.7);
+  	border-radius: 2%;
+  	*/
+  	display: inline-block;
+  	margin:1%;
+}
+
+.portadasBusqueda img {
+  width: 176px;
+  height: 250px;
+}
+
+
+
 .portadasDecadas{
 	padding: 10px 10px 10px 15px;
   	display: inline-block;

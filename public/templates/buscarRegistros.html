@@ -17,16 +17,18 @@
     <div id="seccionPortadas">
     <!--<div id="seccionPortadas">-->
       <div id="audiovisual">
-        <a ng-repeat="archivo in archivos | orderBy:'+fecha'" data-toggle="modal" href="" data-target="#modalInfo" class="portadas" ng-show="archivo.show">
-          <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
+        <a ng-repeat="archivo in archivos | orderBy : '+fecha'" data-toggle="modal" href="" data-target="#modalInfo" class="portadasBusqueda" ng-show="archivo.show">
+          <img data-trigger="hover" data-title="Aparece en:" data-content-template="popover-info.html" data-placement="top" bs-popover ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.JPG')}}">
           <p class="text-rigth">
               {{(archivo.titulo_propio.length > 40) ? (archivo.titulo_propio.substring(0,40) + "...."):(archivo.titulo_propio)}}
               <br>
               <br ng-show="archivo.titulo_propio.length < 25">
               <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
-              <h5 ng-repeat="rubro in getRubros(archivo)"><span class="label label-primary">{{rubro}}</span> </h5>
           </p>
         </a>
+        <script type="text/ng-template" id="popover-info.html">
+          <h5 ng-repeat="rubro in getRubros(archivo.codigo_de_referencia)"><span class="label label-primary">{{rubro}}</span> </h5>        
+        </script>
       </div>
       <!--<div id="load" ng-cloak ng-show="!busy && (archivos.length > 5)">
         <img id="imgLoad" src="imgs/loading.gif">
