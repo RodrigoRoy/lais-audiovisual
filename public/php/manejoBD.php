@@ -469,7 +469,7 @@ function buscar($query){
 
 //Funcion que muestra las caratulas de las decadas existentes en la base de datos
 function mostrarDecadas(){
-    $select = "SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decadas FROM area_de_identificacion ORDER BY decadas ASC";
+    $select = "SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decadas FROM area_de_identificacion ORDER BY decadas DESC";
     $stmt = $GLOBALS['conn']->prepare($select);
     $stmt->execute();
     //$stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)

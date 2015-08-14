@@ -296,13 +296,14 @@ lais.controller('conexionCtrl', function($scope, $http, $location){
 
 //Controlador que muestra todas las decadas existentes
 lais.controller('decadasCtrl',function($scope, $location, $http, DecadaService,$cookieStore, agregarNuevoAll){
+	$scope.allDecades = DecadaService.allDecades;
+
 	//Eliminar el cookie del codigo de decadas
 	$cookieStore.remove('decada');
-	//Utiizó para que el modal se quitará cuando un susario le da un botón de regresar a la página
+	//Utiizó para que el modal se quitará cuando un usuario le da un botón de regresar a la página
 	$('#modalInfo').modal('hide'); // Ocultar modal
 	$('body').removeClass('modal-open'); // Eliminar del DOM
 	$('.modal-backdrop').remove();
-	$scope.allDecades = DecadaService.allDecades;
 	$http.get('php/manejoBD.php?action=mostrarDecadas').
 	success(function(data){
 		$scope.decadas = data;
@@ -333,15 +334,20 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		$http.get('php/manejoBD.php?action=busqueda2&query='+$scope.query)
 			.success(function(data, status, headers, config) {
 				$scope.uniqueNames = data.uniqueNames;
+				console.log('uniqueNames', $scope.uniquenames);
 				$scope.archivos = data;
+				delete $scope.archivos.uniqueNames; //Borramos la propiedad "uniquenames" de "data" para solo tener los registros en $scope.archivos
 				for(var key in $scope.archivos) // A todos los archivos se les agrega la propiedad "show"
 					$scope.archivos[key]['show'] = true; // Esto permite filtrar resultados de manera inmediata
 				$scope.inputQuery = []; // Objeto para mostrar los objetos multiselect para filtar la busqueda
-				delete $scope.archivos.uniqueNames; //Borramos la propiedad "uniquenames" de "data" para solo tener los registros en $scope.archivos
 				if($scope.uniqueNames)
 					$scope.uniqueNames.sort(); // Ordena alfabeticamente los rubros del multiselect
 				for (var i in $scope.uniqueNames){
 					$scope.inputQuery.push({name: DecadaService.encabezados[$scope.uniqueNames[i]], ticked:true});
+				}
+
+				for(var key in $scope.archivos){
+					console.log($scope.sortByFecha($scope.archivos[key]), $scope.archivos[key]['titulo_propio']);
 				}
 			});
 	}
@@ -359,6 +365,21 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 					}else{
 						$scope.archivos[key]['show'] = false;
 					}
+		}
+		for(var i in $scope.archivos){
+			console.log($scope.archivos[i].show, $scope.archivos[i].titulo_propio);
+		}
+	};
+
+	$scope.updateNone = function(){
+		for(var key in $scope.archivos){
+			$scope.archivos[key].show = false;
+		}
+	};
+
+	$scope.updateAll = function(){
+		for(var key in $scope.archivos){
+			$scope.archivos[key].show = true;
 		}
 	};
 
@@ -452,12 +473,16 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	});
 	};
 
-	$scope.getQueryResults = function(){
+	$scope.sortByFecha = function(registro){
+		return parseInt(registro.fecha);
+	};
+
+	/*$scope.getQueryResults = function(){
 		$http.get('php/manejoBD.php?action=busqueda2&query='+$routeParams.query)
 			.success(function(data, status, headers, config) {
 				$scope.archivos = data;
 			})
-	};
+	};*/
 
 	// Determina si un area está vacia. Un área se considera vacía si todos sus campos contienen cadena vacía
 	$scope.isEmpty = function(area){
