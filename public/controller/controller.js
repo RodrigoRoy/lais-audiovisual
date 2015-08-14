@@ -339,8 +339,8 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 				for(var key in $scope.archivos) // A todos los archivos se les agrega la propiedad "show"
 					$scope.archivos[key]['show'] = true; // Esto permite filtrar resultados de manera inmediata
 				$scope.inputQuery = []; // Objeto para mostrar los objetos multiselect para filtar la busqueda
-				if($scope.uniqueNames)
-					$scope.uniqueNames.sort(); // Ordena alfabeticamente los rubros del multiselect
+				//if($scope.uniqueNames)
+					//$scope.uniqueNames.sort(); // Ordena alfabeticamente los rubros del multiselect
 				for (var i in $scope.uniqueNames){
 					$scope.inputQuery.push({name: DecadaService.encabezados[$scope.uniqueNames[i]], ticked:true});
 				}
@@ -390,26 +390,14 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			}
 		return uniqueRubros;
 	};
-	
-	/*
-	// Indica si el registro cuyo parametro es el código de referencia debe mostrarse
-	// DEPRECATED: No es conveniente usar una función porque solamente se ejecuta una vez en la directiva "ng-show" de la vista.
-	// En su lugar se emplea la función updateVisibility dentro de los callback del multiselect.
-	$scope.mostrar = function(codigo_de_referencia){
-		var registro = $scope.archivos[codigo_de_referencia];
-		for(var palabra in registro.rubros){
-			for(var rubro in registro.rubros[palabra]){
-				for(var nombre in $scope.inputQuery){
-					var input = $scope.inputQuery[nombre].name;
-					var rubroRegistro = DecadaService.encabezados[registro.rubros[palabra][rubro]];
-					if(input === rubroRegistro){
-						return true;
-					}	
-				}
-			}
-		}
-		return false;
-    }*/
+
+	// Busca el registro con codigo de referencia dado como parámetro y devuelve el arreglo "rubros" asociado a ese registro
+	$scope.findRubros = function(codigo_de_referencia){
+		for(var i in $scope.archivos)
+			if($scope.archivos[i].codigo_de_referencia === codigo_de_referencia)
+				return $scope.archivos[i].rubros;
+
+	};
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
