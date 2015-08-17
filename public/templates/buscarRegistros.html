@@ -11,7 +11,7 @@
       <div ng-show="archivos.length != 0">
         <h2 id="tituloFiltro">Filtrar por:</h2>
         <div id="seccionFiltrado" isteven-multi-select input-model="inputQuery" output-model="outputQuery"  button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="all none reset" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
-        <h3 style="color:#f0fff0" ng-show="outputQuery.length">Ordenar por: <a href="" ng-click="order('fecha')">Fecha</a> <a href="" ng-click="order('titulo_propio')">Título</a></h3>
+        <h3 class="tituloOrdenar" style="color:#f0fff0" ng-show="outputQuery.length"><strong>Ordenar por:</strong> <a class="linkOrdena" href="" ng-click="order('fecha')">Fecha</a> <a class="linkOrdena" href="" ng-click="order('titulo_propio')">Título</a></h3>
       </div>
       <center><h2 style="color:white" ng-show="archivos.length === 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
     <!--<div id="seccionPortadas" infinite-scroll="firstQueryLoad()" infinite-scroll-disabled='busy'>-->

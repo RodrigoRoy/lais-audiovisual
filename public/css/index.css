@@ -411,3 +411,12 @@ body{
 	font-size: 20px;
 	font-style: bold;
 }
+.tituloOrdenar{
+	margin-left: 5.8%;
+	color: white;
+}
+
+.linkOrdena{
+	color:white;
+	font-style: bold;
+}
