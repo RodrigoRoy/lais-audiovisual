@@ -328,6 +328,8 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	var howMany = 18; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
 	$scope.errores = false; //Muetra el error de confirmación de contraseña para borrar un registro
 	//$scope.uniqueName son todos los rubros que coinciden con la búsqueda
+	$scope.predicate = 'fecha'; // Predicado o propiedad que se utilizará para el ordenamiento
+	$scope.reverse = 'true'; // Orden descendente (true) o ascendente (false) de los registros
 	
 	// En caso de que sea una búsqueda se obtienen todos los registros que coincidan con el query
 	if($scope.query){
@@ -349,17 +351,38 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	// Función que actualiza la propiedad "show" del arreglo $scope.archivos que contiene los registros de la búsqueda que se muestran
 	// Verifica los rubros de cada registro y los compara con $scope.outputQuery (que es un multiselect para filtrar resultados)
 	$scope.updateVisibility = function(){
+		// Para el caso en que se da clic hasta quitar todos los filtros del multiselect (sin usar "Select None")
+		if($scope.outputQuery.length === 0){
+			$scope.updateNone();
+			return;
+		}
+
 		for(var key in $scope.archivos){
 			var rubrosList = $scope.getRubros($scope.archivos[key]); // Arreglo que solo contiene los rubros (sin repeticiones)
+			loop:
 			for(var i in rubrosList)
 				for(var j in $scope.outputQuery)
 					if($scope.outputQuery[j]['name'] === rubrosList[i]){ // Si aparece el rubro del registro en outputQuery
 						$scope.archivos[key]['show'] = true;
-						break; // Para evitar reasignar a falso si el siguiente rubro no está contenido
+						break loop; // Para evitar reasignar a falso si el siguiente rubro no está contenido
 					}else{
 						$scope.archivos[key]['show'] = false;
 					}
 		}
+	};
+
+	// Auxiliar que devuelve un arreglo de los rubros (campos) donde un registro tuvo coincidencias de búsqueda (sin repeticiones).
+	// Evita lidiar con arreglos anidados dentro de $scope.archivos (para el caso de la propiedad "rubros")
+	$scope.getRubros = function(registro){
+		var uniqueRubros = [];
+		//var registro = $scope.archivos[codigo_de_referencia];
+		for(var palabra in registro.rubros)
+			for(var rubro in registro.rubros[palabra]){
+				var nombreRubro = DecadaService.encabezados[registro.rubros[palabra][rubro]];
+				if(!(uniqueRubros.indexOf(nombreRubro) > -1)) // Si no está contenido se agrega (esto evita repeticiones)
+					uniqueRubros.push(nombreRubro);
+			}
+		return uniqueRubros;
 	};
 
 	// Oculta todos los archivos en la vista
@@ -376,18 +399,11 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		}
 	};
 
-	// Auxiliar que devuelve un arreglo de los rubros (campos) donde un registro tuvo coincidencias de búsqueda (sin repeticiones).
-	// Evita lidiar con arreglos anidados dentro de $scope.archivos (para el caso de la propiedad "rubros")
-	$scope.getRubros = function(registro){
-		var uniqueRubros = [];
-		//var registro = $scope.archivos[codigo_de_referencia];
-		for(var palabra in registro.rubros)
-			for(var rubro in registro.rubros[palabra]){
-				var nombreRubro = DecadaService.encabezados[registro.rubros[palabra][rubro]];
-				if(!(uniqueRubros.indexOf(nombreRubro) > -1)) // Si no está contenido se agrega (esto evita repeticiones)
-					uniqueRubros.push(nombreRubro);
-			}
-		return uniqueRubros;
+	// Recibe el nombre de la propiedad o predicado que se utilizará para el ordenamiento de los registros (por ejemplo: 'fecha')
+	// Revierte el orden ascendente/descendente en caso de ser la misma propiedad o predicado (uso con la directiva orderBy).
+	$scope.order = function(predicate){
+		$scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : true;
+        $scope.predicate = predicate;
 	};
 
 	// Busca el registro con codigo de referencia dado como parámetro y devuelve el arreglo "rubros" asociado a ese registro

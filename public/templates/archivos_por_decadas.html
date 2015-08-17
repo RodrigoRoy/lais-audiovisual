@@ -37,17 +37,17 @@
             <a ng-show="sesion" class="iconEdicion" href="" ng-click="editar(allInfo.identificacion.codigo_de_referencia)" >
               <span class="glyphicon glyphicon-edit"></span>
             </a>
-            <a type="button" data-unique="1" data-auto-close="1" data-placement="right" data-content-template="popover-tmpl.html" data-title="Borrar" bs-popover ng-show="sesion" class="iconEdicion" href="">
+            <a type="button" data-unique="1" data-auto-close="1" data-placement="right" data-content-template="popover-tmpl.html" data-title="Eliminar registro" bs-popover ng-show="sesion" class="iconEdicion" href="">
               <span class="glyphicon glyphicon-remove-circle"></span>
             </a>
             <script type="text/ng-template" id="popover-tmpl.html">
               <form>
                     <div class="form-group">
-                        ¿Seguro que deseas borrar el registro {{allInfo.identificacion.codigo_de_referencia}}?
+                        ¿Seguro que deseas borrar el registro "{{allInfo.identificacion.titulo_propio}}"?
                         <br>
                         <br>
-                        <label for="exampleInputPassword1">Contraseña</label>
-                        <input type="password" class="form-control" id="pass" name="pass" placeholder="Password" data-ng-model="pass">
+                        <label for="exampleInputPassword1">Confirmar contraseña</label>
+                        <input type="password" class="form-control" id="pass" name="pass" data-ng-model="pass">
                     </div>
                     <!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
                       <div class="alert alert-danger" role="alert" ng-model="errores" style="height=20px" ng-show="errores">
@@ -55,7 +55,7 @@
                               <strong>ERROR:</strong>Contraseña invalida!
                           </small>
                       </div>
-                    <button type="submit" ng-click="confirmar(user,pass)" class="btn btn-default">Borrar</button>
+                    <button type="submit" ng-click="confirmar(user,pass)" class="btn btn-danger">Eliminar</button>
                 </form>
             </script>
           </h1>

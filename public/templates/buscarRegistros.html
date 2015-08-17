@@ -11,13 +11,14 @@
       <div ng-show="archivos.length != 0">
         <h2 id="tituloFiltro">Filtrar por:</h2>
         <div id="seccionFiltrado" isteven-multi-select input-model="inputQuery" output-model="outputQuery"  button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="all none reset" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
+        <h3 style="color:#f0fff0" ng-show="outputQuery.length">Ordenar por: <a href="" ng-click="order('fecha')">Fecha</a> <a href="" ng-click="order('titulo_propio')">Título</a></h3>
       </div>
       <center><h2 style="color:white" ng-show="archivos.length === 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
     <!--<div id="seccionPortadas" infinite-scroll="firstQueryLoad()" infinite-scroll-disabled='busy'>-->
     <div id="seccionPortadas">
     <!--<div id="seccionPortadas">-->
       <div id="audiovisual">
-        <a ng-repeat="archivo in archivos | orderBy : '+fecha'" data-toggle="modal" href="" data-target="#modalInfo" class="portadasBusqueda" ng-show="archivo.show">
+        <a ng-repeat="archivo in archivos | orderBy:predicate:reverse" data-toggle="modal" href="" data-target="#modalInfo" class="portadasBusqueda" ng-show="archivo.show">
           <img data-trigger="hover" data-title="Aparece en:" data-content-template="popover-info.html" data-placement="top" bs-popover ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.png')}}">
           <p class="text-rigth">
               {{(archivo.titulo_propio.length > 40) ? (archivo.titulo_propio.substring(0,40) + "...."):(archivo.titulo_propio)}}
@@ -46,9 +47,27 @@
             <a ng-show="sesion" class="iconEdicion" href="" ng-click="editar(allInfo.identificacion.codigo_de_referencia)" >
               <span class="glyphicon glyphicon-edit"></span>
             </a>
-            <a ng-show="sesion" class="iconEdicion" href="" ng-click="confirmacion()">
+            <a type="button" data-unique="1" data-auto-close="1" data-placement="right" data-content-template="popover-tmpl.html" data-title="Eliminar registro" bs-popover ng-show="sesion" class="iconEdicion" href="">
               <span class="glyphicon glyphicon-remove-circle"></span>
             </a>
+            <script type="text/ng-template" id="popover-tmpl.html">
+              <form>
+                    <div class="form-group">
+                        ¿Seguro que deseas borrar el registro "{{allInfo.identificacion.titulo_propio}}"?
+                        <br>
+                        <br>
+                        <label for="exampleInputPassword1">Confirmar contraseña</label>
+                        <input type="password" class="form-control" id="pass" name="pass" data-ng-model="pass">
+                    </div>
+                    <!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+                      <div class="alert alert-danger" role="alert" ng-model="errores" style="height=20px" ng-show="errores">
+                          <small class="errorConfirmacion" ng-show="errores">
+                              <strong>ERROR:</strong>Contraseña invalida!
+                          </small>
+                      </div>
+                    <button type="submit" ng-click="confirmar(user,pass)" class="btn btn-danger">Eliminar</button>
+                </form>
+            </script>
           </h1>
         </div>
         <div class="modal-body">
@@ -69,7 +88,10 @@
                 </div>
                 <div id="asinopsis">
                   {{allInfo.contenido_y_estructura.sinopsis}}
+                  <p ng-show="allInfo.contenido_y_estructura.sinopsis === ''"><em>Por el momento no hay sinópsis disponible.</em></p>
                 </div>
+                {{allInfo.adicional.url}}
+                <a href=""><span id="iconoTrailer" class="glyphicon glyphicon-facetime-video"></span></a>
                 <div>
                   Búsqueda <br>
                   <div ng-repeat="(keyword, rubros) in findRubros(allInfo.identificacion.codigo_de_referencia)">
