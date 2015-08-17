@@ -420,3 +420,11 @@ body{
 	color:white;
 	font-style: bold;
 }
+
+h3 a:hover{
+	color: #f0fff0;
+}
+
+h3 a:focus{
+	color: #f0fff0;
+}
