@@ -78,6 +78,7 @@
                 </div>
                 <div id="asinopsis">
                   {{allInfo.contenido_y_estructura.sinopsis}}
+                  <p ng-show="allInfo.contenido_y_estructura.sinopsis === ''"><em>Por el momento no hay sinópsis disponible.</em></p>
                 </div>
                 {{allInfo.adicional.url}}
                 <a href=""><span id="iconoTrailer" class="glyphicon glyphicon-facetime-video"></span></a>
