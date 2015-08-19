@@ -428,3 +428,8 @@ h3 a:hover{
 h3 a:focus{
 	color: #f0fff0;
 }
+
+/* Resaltador de keywords en búsquedas*/
+.highlight { 
+	background-color: rgba(6, 50, 91,0.7); 
+}

@@ -347,7 +347,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 				}
 			});
 	}
-	
+
 	// Función que actualiza la propiedad "show" del arreglo $scope.archivos que contiene los registros de la búsqueda que se muestran
 	// Verifica los rubros de cada registro y los compara con $scope.outputQuery (que es un multiselect para filtrar resultados)
 	$scope.updateVisibility = function(){
@@ -412,6 +412,12 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			if($scope.archivos[i].codigo_de_referencia === codigo_de_referencia)
 				return $scope.archivos[i].rubros;
 
+	};
+
+	// Resalta la cadena de texto dada como parámetro dentro del modal que contiene toda la información del registro audiovisual
+	$scope.highlight = function(query){
+		$("#modalInfo").removeHighlight();
+		$("#modalInfo").highlight(query, true);
 	};
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
