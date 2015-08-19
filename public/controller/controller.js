@@ -107,7 +107,7 @@ lais.service('ParamService', function(){
 			'titulo_de_serie': (scope.titulo_de_serie !== undefined) ? scope.titulo_de_serie.trim().replace(/\s\s+/g, ' ') : "",
 			'numero_de_programa': (scope.numero_de_programa !== undefined) ? scope.numero_de_programa.trim().replace(/\s\s+/g, ' ') : "",
 			'pais': (scope.pais !== undefined) ? scope.pais.trim().replace(/\s\s+/g, ' ') : "",
-			'fecha': (scope.fecha !== undefined) ? scope.fecha.trim().replace(/  +/g, ' ') : "", // TODO setFecha()?
+			'fecha': (scope.fecha !== undefined) ? scope.fecha.trim().replace(/  +/g, '') : "", // TODO setFecha()?
 			'duracion': setDuracion(scope.duracion), // Parse desde filter.js
 			'investigacion': (scope.investigacion !== undefined) ? scope.investigacion.trim().replace(/\s\s+/g, ' ') : "",
 			'realizacion': (scope.realizacion !== undefined) ? scope.realizacion.trim().replace(/\s\s+/g, ' ') : "",
@@ -333,15 +333,18 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	
 	// En caso de que sea una búsqueda se obtienen todos los registros que coincidan con el query
 	if($scope.query){
-		$http.get('php/manejoBD.php?action=busqueda2&query='+$scope.query)
+		$http.get('php/manejoBD.php?action=busqueda2&query='+$scope.query+'&permiso='+$scope.permiso)
 			.success(function(data, status, headers, config) {
-				$scope.uniqueNames = data.splice(data.length-1, 1)[0];
+				if(data)
+					$scope.uniqueNames = data.splice(data.length-1, 1)[0]; // Los rubros siempre vienen al final de "data"
 				$scope.archivos = data;
-				for(var key in $scope.archivos) // A todos los archivos se les agrega la propiedad "show"
-					$scope.archivos[key]['show'] = true; // Esto permite filtrar resultados de manera inmediata
+				for(var i in $scope.archivos){ // A todos los archivos se les agrega la propiedad "show"
+					$scope.archivos[i]['show'] = true; // Esto permite filtrar resultados de manera inmediata
+					// Y eliminar espacios en blanco para un correcto comportamiento en ordenamiento:
+					$scope.archivos[i]['fecha'] = $scope.archivos[i]['fecha'].trim().replace(/  */g, '');
+					$scope.archivos[i]['titulo_propio'] = $scope.archivos[i]['titulo_propio'].trim();
+				}
 				$scope.inputQuery = []; // Objeto para mostrar los objetos multiselect para filtar la busqueda
-				//if($scope.uniqueNames)
-					//$scope.uniqueNames.sort(); // Ordena alfabeticamente los rubros del multiselect
 				for (var i in $scope.uniqueNames){
 					$scope.inputQuery.push({name: DecadaService.encabezados[$scope.uniqueNames[i]], ticked:true});
 				}
@@ -557,7 +560,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
-lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, ParamService,$cookieStore){
+lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, ParamService, $cookieStore){
 	// Impide acceso no autorizado en la página
 	if(!$scope.sesion && !$scope.permiso >= 1){
 		console.log('No hay permisos suficientes para estar en esta página');

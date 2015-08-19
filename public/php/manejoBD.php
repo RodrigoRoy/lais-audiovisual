@@ -17,7 +17,7 @@ switch ($_GET['action']) {
         busqueda($_GET['query'],$_GET['howMany'],$_GET['offset']);
         break;
     case 'busqueda2': // Versión actuliazada del caso 'busqueda'
-        busqueda2($_GET['query']);
+        busqueda2($_GET['query'], $_GET['permiso']);
         break;
     case 'obtener':
         getId($_GET['id']);
@@ -628,18 +628,23 @@ function cmpFecha($item1, $item2){
 }
 
 // Búsqueda que incluye el rubro en donde se encontró la coincidencia
-function busqueda2($query){
+// El parámetro $permiso se utiliza para restringir la búsqueda dentro del area_de_decripcion
+function busqueda2($query, $permiso){
     $arrayQuery = explode(' ', $query); // Descomponer el texto de búsqueda en palabras individuales
     if(sizeof($arrayQuery) > 1)
         array_push($arrayQuery, $query);
     $totalResults = array(); // Arreglo para almacenar los códigos de los registros con ocurrencias de las palabras
-    $tablas = array('area_de_identificacion', 'area_de_contexto', 'area_de_contenido_y_estructura', 'area_de_condiciones_de_acceso', 'area_de_documentacion_asociada', 'area_de_notas', 'area_de_descripcion', 'informacion_adicional');
+    $tablas = array('area_de_identificacion', 'area_de_contexto', 'area_de_contenido_y_estructura', 'area_de_condiciones_de_acceso', 'area_de_documentacion_asociada', 'area_de_notas', 'area_de_descripcion');
+    if ($permiso == 0) // Si la consulta no tiene permisos suficientes, no buscar dentro del area_de_descripcion
+        array_pop($tablas);
     $columnas = getAllColumnNames($tablas); // Todos los nombres (strings) de columnas
 
     // Se obtendrán los códigos y los rubros donde hay coincidencias en la búsqueda:
     foreach ($arrayQuery as $query) { // Para cada palabra individual del query original
         foreach ($columnas as $columna) { // Buscar en cada columna de toda la base
-            $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion NATURAL JOIN informacion_adicional WHERE " . $columna . " LIKE '%" . $query . "%' ORDER BY fecha ASC";
+            $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion WHERE " . $columna . " LIKE '%" . $query . "%' ORDER BY fecha ASC";
+            if ($permiso == 0) // Si la consulta no tiene permisos suficientes, no buscar dentro del area_de_descripcion
+                $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas WHERE " . $columna . " LIKE '%" . $query . "%' ORDER BY fecha ASC";
             $stmt = $GLOBALS['conn']->prepare($select);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
