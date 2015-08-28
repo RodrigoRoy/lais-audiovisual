@@ -109,7 +109,8 @@ lais.service('ParamService', function(){
 			'pais': (scope.pais !== undefined) ? scope.pais.trim().replace(/\s\s+/g, ' ') : "",
 			'fecha': (scope.fecha !== undefined) ? scope.fecha.trim().replace(/  +/g, '') : "", // TODO setFecha()?
 			'duracion': setDuracion(scope.duracion), // Parse desde filter.js
-			'investigacion': (scope.investigacion !== undefined) ? scope.investigacion.trim().replace(/\s\s+/g, ' ') : "",
+			//'investigacion': (scope.investigacion !== undefined) ? scope.investigacion.trim().replace(/\s\s+/g, ' ') : "",
+			'investigacion': this.array2string(scope.investigacion),
 			'realizacion': (scope.realizacion !== undefined) ? scope.realizacion.trim().replace(/\s\s+/g, ' ') : "",
 			'direccion': (scope.direccion !== undefined) ? scope.direccion.trim().replace(/\s\s+/g, ' ') : "",
 			'guion': (scope.guion !== undefined) ? scope.guion.trim().replace(/\s\s+/g, ' ') : "",
@@ -164,10 +165,23 @@ lais.service('ParamService', function(){
 			'notas_del_archivero': (scope.notas_del_archivero !== undefined) ? scope.notas_del_archivero.trim().replace(/  +/g, ' ') : "",
 			'datos_del_archivero': (scope.datos_del_archivero !== undefined) ? scope.datos_del_archivero.trim().replace(/\s\s+/g, ' ') : "",
 			'reglas_o_normas': (scope.reglas_o_normas !== undefined) ? scope.reglas_o_normas.trim().replace(/\s\s+/g, ' ') : "",
-			'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? scope.fecha_de_descripcion.trim().replace(/  +/g, ' ') : "", // TODO: setFechaDescripcion()?
+			//'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? scope.fecha_de_descripcion.trim().replace(/  +/g, ' ') : "", // TODO: setFechaDescripcion()?
+			'fecha_de_descripcion': (scope.fecha_de_descripcion !== null) ? scope.fecha_de_descripcion : "",
 			'url': (scope.url !== undefined) ? scope.url.trim() : ""
 		}
 	}
+
+	this.array2string = function(scopeVarArray){
+		var onlyNames = [];
+		for(var i in scopeVarArray){
+			scopeVarArray[i]['nombre'] = (scopeVarArray[i]['nombre'] !== undefined) ? scopeVarArray[i]['nombre'].trim().replace(/\s\s+/g, ' ') : "";
+			onlyNames.push(scopeVarArray[i]['nombre']);
+		}
+		var text = onlyNames.join().replace(/,,+/g, ','); // Reemplaza multiples comas
+		text = (text.charAt(0) === ',') ? text.substring(1) : text; // Elimina coma al inicio en caso de haber
+		text = (text.charAt(text.length-1) === ',') ? text.substring(0, text.length-2) : text; // Elimina coma al final en cabo de haber
+		return text; 
+	};
 });
 
 // Servicio que permite hacer un parse de décadas y encabezados de cada rubro
@@ -567,7 +581,36 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 		$location.url('/decadas/');
 	}
 
-	$scope.errorDuplicado = false;
+	$scope.investigacion = [{nombre:""}];
+	//$scope.realizacion = [{nombre:""}];
+	/*$scope.direccion = [{nombre:""}];
+	$scope.guion = [{nombre:""}];
+	$scope.adaptacion = [{nombre:""}];
+	$scope.idea_original = [{nombre:""}];
+	$scope.fotografia = [{nombre:""}];
+	$scope.fotografia_fija = [{nombre:""}];
+	$scope.edicion = [{nombre:""}];
+	$scope.sonido_grabacion = [{nombre:""}];
+	$scope.sonido_edicion = [{nombre:""}];
+	$scope.musica_original = [{nombre:""}];
+	$scope.musicalizacion = [{nombre:""}];
+	$scope.voces = [{nombre:""}];
+	$scope.actores = [{nombre:""}];
+	$scope.animacion = [{nombre:""}];
+	$scope.otros_colaboradores = [{nombre:""}];
+	*/
+	//$scope.errorDuplicado = false; // DEPRECATED. La función sugerencias() impide repetidos.
+
+	$scope.agregar = function(scopeVar){
+		//console.log("length", scopeVar.length);
+		scopeVar.push({
+			nombre: ""
+		});
+	};
+
+	$scope.eliminar = function(scopeVar){
+		scopeVar.pop();
+	};
 
 	// Establece el código de referencia con numeración consecutiva
 	//$scope.codigoDecada = ParamService.get("codigoDecada"); // Recuperar la década

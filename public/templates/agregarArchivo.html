@@ -101,17 +101,20 @@
 				        </small>
 			        </div>
 			        <!-- FECHA -->
-					<div class="form-group">
-						<label for="fecha">Fecha</label>
-						<input class="form-control" id="fecha" name="fecha" ng-model="fecha" ng-pattern="/^\d{4}( ?- ?\d{4})?$/">
+					<div class="form-group" ng-class="{'has-error': audForm.fecha.$dirty && audForm.fecha.$invalid}">
+						<label class="control-label" for="fecha">Fecha</label>
+						<input class="form-control" id="fecha" name="fecha" ng-model="fecha" ng-pattern="/^\d{4}( ?- ?\d{4})?$/" aria-describedby="help-fecha">
+						<div class="alert alert-danger" role="alert" ng-show="audForm.fecha.$dirty && audForm.fecha.$invalid">
+							<small id="help-fecha" ng-show="audForm.fecha.$error.pattern"><strong>ERROR:</strong> El formato debe ser similar a: 1970 ó 1948-1949</small> <!--class="help-block"-->
+						</div>
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
-					<div class="alert alert-danger" role="alert" 
+					<!--<div class="alert alert-danger" role="alert" 
 			          	ng-show="audForm.fecha.$dirty && audForm.fecha.$invalid">
 			          	<small class="error" ng-show="audForm.fecha.$error.pattern">
 			            	<strong>ERROR:</strong> El formato debe ser similar a: 1970 ó 1948-1949
 			          	</small>
-			        </div>
+			        </div>-->
 			        <!-- DURACION -->
 					<div class="form-group">
 						<label for="duracion">Duración</label>
@@ -127,7 +130,9 @@
 			        <!-- INVESTIGACION -->
 					<div class="form-group">
 						<label for="investigacion">Investigación</label>
-						<input class="form-control" id="investigacion" name="investigacion" ng-model="investigacion" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+						<input ng-repeat="persona in investigacion" class="form-control" id="investigacion" name="investigacion" ng-model="persona.nombre" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+						<button class="btn btn-default btn-xs" ng-click="agregar(investigacion)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+						<button class="btn btn-default btn-xs" ng-click="eliminar(investigacion)" ng-show="investigacion.length > 1"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
 					</div>
 					<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
 					<div class="alert alert-danger" role="alert" 
