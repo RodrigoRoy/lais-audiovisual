@@ -1,0 +1,110 @@
+<!--<link rel="stylesheet" type="text/css" href="css/background.css" />-->
+
+<style>
+	body {
+    	background-color: white;
+	}
+</style>
+
+<body>
+	<br>
+	<div class="container-fluid">
+		<div class="page-header">
+			<h1>Agregar registro</h1>
+		</div>
+		
+		<div>
+			<form name="audiovisualForm" role="form" novalidate>
+				<!-- Nav tabs -->
+				<ul class="nav nav-pills nav-justified" role="tablist">
+					<li role="presentation" class="active"><a data-target="#identificacion" aria-controls="identificacion" role="tab" data-toggle="pill">Identificación</a></li>
+					<li role="presentation"><a data-target="#contexto" aria-controls="contexto" role="tab" data-toggle="pill">Contexto</a></li>
+					<li role="presentation"><a data-target="#contenido" aria-controls="contenido" role="tab" data-toggle="pill">Contenido y estructura</a></li>
+					<li role="presentation"><a data-target="#condiciones" aria-controls="condiciones" role="tab" data-toggle="pill">Condiciones de Acceso</a></li>
+					<li role="presentation"><a data-target="#documentacion" aria-controls="documentacion" role="tab" data-toggle="pill">Documentación asociada</a></li>
+					<li role="presentation"><a data-target="#notas" aria-controls="notas" role="tab" data-toggle="pill">Notas</a></li>
+					<li role="presentation"><a data-target="#descripcion" aria-controls="descripcion" role="tab" data-toggle="pill">Descripción</a></li>
+					<li role="presentation"><a data-target="#adicional" aria-controls="adicional" role="tab" data-toggle="pill">Información adicional</a></li>
+				</ul>
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<!-- AREA DE INDENTIFICACION -->
+					<div role="tabpanel" class="tab-pane fade in active" id="identificacion">
+						<!-- CODIGO_DE_REFERENCIA -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.codigo_de_referencia.$dirty && audiovisualForm.codigo_de_referencia.$invalid}">
+							<label class="control-label" for="codigo_de_referencia">Código de identificación:</label>
+							<input class="form-control" name="codigo_de_referencia" ng-model="codigo_de_referencia" id="codigo_de_referencia" ng-maxlength="20" ng-pattern="/^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}$/" ng-blur="sugerencias()">
+							<div class="alert alert-danger" role="alert" ng-show="audiovisualForm.codigo_de_referencia.$dirty && audiovisualForm.codigo_de_referencia.$invalid">
+								<small id="help-codigo_de_referencia" ng-show="audiovisualForm.codigo_de_referencia.$error.pattern">El formato debe ser similar a: MXIM-AV-1-8-1 </small>
+								<small id="help-codigo_de_referencia" ng-show="audiovisualForm.codigo_de_referencia.$error.maxlength">El maximo de tu palabra es 20 caracteres. </small>
+							</div>
+						</div>
+						<!-- TITULO_PROPIO -->
+						<div class="form-group control-group" ng-class="{'has-error': audiovisualForm.titulo_propio.$dirty && audiovisualForm.titulo_propio.$invalid}">
+							<label class="control-label" for="titulo_propio">Título propio</label>
+							<input class="form-control" autofocus id="titulo_propio" name="titulo_propio" ng-model="titulo_propio" ng-maxlength="120">
+							<div class="alert alert-danger" role="alert" ng-show="audiovisualForm.titulo_propio.$dirty && audiovisualForm.titulo_propio.$invalid">
+						        <small class="error" ng-show="audiovisualForm.titulo_propio.$error.maxlength">El maximo de tu palabra es 120 caracteres. </small>
+					        </div>
+						</div>
+						<!-- TITULO_PARALELO -->
+						<div class="form-group" ng-class="{'has-error: audiovisualForm.titulo_paralelo.$dirty && audiovisualForm.titulo_paralelo.$invalid'}">
+							<label class="control-label" for="titulo_paralelo">Título paralelo</label>
+							<input class="form-control" id="titulo_paralelo" name="titulo_paralelo" ng-model="titulo_paralelo" ng-maxlength="120">
+							<div class="alert alert-danger" role="alert" ng-show="audiovisualForm.titulo_paralelo.$dirty && audiovisualForm.titulo_paralelo.$invalid">
+								<small class="error" ng-show="audiovisualForm.titulo_paralelo.$error.maxlength">El maximo de tu palabra es 120 caracteres. </small>
+					        </div>
+						</div>
+						<!-- TITULO_ATRIBUIDO -->
+						<div class="form-group" ng-class="{'has-error: audiovisualForm.titulo_atribuido.$dirty && audiovisualForm.titulo_atribuido.$invalid'}">
+							<label class="control-label" for="titulo_atribuido">Título atribuido</label>
+							<input class="form-control" id="titulo_atribuido" name="titulo_atribuido" ng-model="titulo_atribuido" ng-maxlength="120">
+						</div>
+						<!-- TITULO_DE_SERIE -->
+						<div class="form-group" ng-class="{'has-error: audiovisualForm.titulo_de_serie.$dirty && audiovisualForm.titulo_de_serie.$invalid'}">
+							<label class="control-label" for="titulo_de_serie">Título de la serie</label>
+							<input class="form-control" id="titulo_de_serie" name="titulo_de_serie" ng-model="titulo_de_serie" ng-maxlength="70">
+						</div>
+						<!-- NUMERO_DE_PROGRAMA -->
+						<div class="form-group" ng-class="{'has-error: audiovisualForm.numero_de_programa.$dirty && audiovisualForm.numero_de_programa.$invalid'}">
+							<label class="control-label" for="numero_de_programa">Número de programa</label>
+							<input class="form-control" id="numero_de_programa" name="numero_de_programa" ng-model="numero_de_programa" ng-maxlength="15">
+						</div>
+						<!-- PAIS -->
+						<div class="form-group" ng-class="{'has-error: audiovisualForm.pais.$dirty && audiovisualForm.pais.$invalid'}">
+							<label class="control-label" for="pais">País</label>
+							<input class="form-control" id="pais" name="pais" ng-model="pais" ng-maxlength="30">
+						</div>
+						<!-- INVESTIGACION -->
+						<!--<div class="form-group" ng-class="{'has-error': audiovisualForm.investigacion.$dirty && audiovisualForm.investigacion.$invalid}">
+							<label class="control-label" for="investigacion">Investigación</label>
+							<input ng-repeat="persona in investigacion" class="form-control" id="investigacion" name="investigacion" ng-model="persona.nombre" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
+							<button class="btn btn-default btn-xs" ng-click="agregar(investigacion)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+							<button class="btn btn-default btn-xs" ng-click="eliminar(investigacion)" ng-show="investigacion.length > 1"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+							<div class="alert alert-danger" role="alert" ng-show="audiovisualForm.investigacion.$dirty && audiovisualForm.investigacion.$invalid">
+					          	<small id="help-investigacion" ng-show="audiovisualForm.investigacion.$error.maxlength">El maximo de tu palabra es 160 caracteres. </small>
+					          	<small id="help-investigacion" class="error" ng-show="audiovisualForm.investigacion.$error.pattern">Solo se permiten nombres válidos. </small>
+					        </div>
+					        <br>{{investigacion}}
+						</div>-->
+					</div>
+
+					<div role="tabpanel" class="tab-pane fade" id="contexto">Hello contexto</div>
+					<div role="tabpanel" class="tab-pane fade" id="contenido">Hello contenido</div>
+					<div role="tabpanel" class="tab-pane fade" id="condiciones">Hello condiciones</div>
+					<div role="tabpanel" class="tab-pane fade" id="documentacion">Hello documentacion</div>
+					<div role="tabpanel" class="tab-pane fade" id="notas">Hello notas</div>
+					<div role="tabpanel" class="tab-pane fade" id="descripcion">Hello descripción</div>
+					<div role="tabpanel" class="tab-pane fade" id="adicional">Hello información adicional</div>
+				</div>
+			</form>
+		</div>
+
+	</div>
+	
+</body>
+
+<!-- Script único auxiliar para el formulario -->
+<script src="js/form.js"></script>
+<!-- Parser para los campos de duracion, fuentes y recursos del formulario -->
+<script src="js/filter.js"></script>
