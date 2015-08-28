@@ -94,7 +94,7 @@ $(document).ready(function(){
 function agregaIconoAyuda(){
 	// Textos auxiliares para crear el icono de ayuda junto al elemento 'popover' de Bootstrap
 	var popoverTextInit = '<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="';
-	var popoverTextLast = '"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a> ';
+	var popoverTextLast = '"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a> ';
 
 	for(var key in dataContent){
 		var element = "#" + key;
@@ -150,19 +150,3 @@ function multiSelect(){
 	    });
 	});
 };
-
-/**
-function desabilitarEnvio(){
-	$('#audiovisualForm').validator().on('submit', function (e) {
-	  if (e.isDefaultPrevented()) {
-	  	console.log("Invalid form");
-	    $('#submitButton').attr('ng-disabled', 'true');
-	  } else {
-	  	console.log("Valid form");
-	    $('#submitButton').attr('ng-disabled', 'false');
-	  }
-	});
-};
-*/
-// NOTA: Validación del formulario válido (validator.js)
-	
