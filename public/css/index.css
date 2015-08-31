@@ -433,3 +433,21 @@ h3 a:focus{
 .highlight { 
 	background-color: rgba(6, 50, 91,0.7); 
 }
+
+/*Resaltar el tache del modal para mostrar información de cada archivo*/
+.cross{
+	margin-right: -33px;
+}
+
+.crossImg{
+	width: 50%;
+}
+
+.modal-header .close {
+    margin-top: -18px;
+}
+
+.close{
+	margin-right: -79px;
+	opacity: 1.0;
+}
