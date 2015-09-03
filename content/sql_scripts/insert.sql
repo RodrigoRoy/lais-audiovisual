@@ -14,7 +14,7 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década4\ (
 	INTO TABLE area_de_identificacion
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-	LINES TERMINATED BY '\r\n' # Debido a la manipulación con Python3
+	LINES TERMINATED BY '\n'
 	IGNORE 3 LINES;
 
 # Cargar datos desde archivo csv para la tabla area_de_contexto
@@ -71,14 +71,14 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década4\ (
 	IGNORE 3 LINES
 	(codigo_de_referencia, @tituloIgnorado, notas_del_archivero, datos_del_archivero, reglas_o_normas, fecha_de_descripcion);
 
-# Agregar los códigos de referencia desde el archivo de Notas (el resto se inicializa vacio)
-LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década4\ (1920)\ Notas.csv'
+# Cargar datos desde archivo csv para la tabla 'informacion_adicional'
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década4\ (1920)\ Portadas.csv'
 	INTO TABLE informacion_adicional
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 	LINES TERMINATED BY '\n'
 	IGNORE 3 LINES
-	(codigo_de_referencia, @tituloIgnorado, @notasIgnoradas);
+	(codigo_de_referencia, @tituloIgnorado, url, imagen);
 
 #################### DECADA 5 (1930) ####################
 
@@ -86,7 +86,7 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década5\ (
 	INTO TABLE area_de_identificacion
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-	LINES TERMINATED BY '\r\n'
+	LINES TERMINATED BY '\n'
 	IGNORE 3 LINES;
 
 LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década5\ (1930)\ Contexto.csv'
@@ -137,13 +137,13 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década5\ (
 	IGNORE 3 LINES
 	(codigo_de_referencia, @tituloIgnorado, notas_del_archivero, datos_del_archivero, reglas_o_normas, fecha_de_descripcion);
 
-LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década5\ (1930)\ Notas.csv'
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década5\ (1930)\ Portadas.csv'
 	INTO TABLE informacion_adicional
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 	LINES TERMINATED BY '\n'
 	IGNORE 3 LINES
-	(codigo_de_referencia, @tituloIgnorado, @notasIgnoradas);
+	(codigo_de_referencia, @tituloIgnorado, url, imagen);
 
 #################### DECADA 6 (1940) ####################
 
@@ -151,7 +151,7 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década6\ (
 	INTO TABLE area_de_identificacion
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-	LINES TERMINATED BY '\r\n'
+	LINES TERMINATED BY '\n'
 	IGNORE 3 LINES;
 
 LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década6\ (1940)\ Contexto.csv'
@@ -202,13 +202,13 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década6\ (
 	IGNORE 3 LINES
 	(codigo_de_referencia, @tituloIgnorado, notas_del_archivero, datos_del_archivero, reglas_o_normas, fecha_de_descripcion);
 
-LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década6\ (1940)\ Notas.csv'
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década6\ (1940)\ Portadas.csv'
 	INTO TABLE informacion_adicional
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 	LINES TERMINATED BY '\n'
 	IGNORE 3 LINES
-	(codigo_de_referencia, @tituloIgnorado, @notasIgnoradas);
+	(codigo_de_referencia, @tituloIgnorado, url, imagen);
 
 #################### DECADA 7 (1950) ####################
 
@@ -216,7 +216,7 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década7\ (
 	INTO TABLE area_de_identificacion
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-	LINES TERMINATED BY '\r\n'
+	LINES TERMINATED BY '\n'
 	IGNORE 3 LINES;
 
 LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década7\ (1950)\ Contexto.csv'
@@ -267,13 +267,13 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década7\ (
 	IGNORE 3 LINES
 	(codigo_de_referencia, @tituloIgnorado, notas_del_archivero, datos_del_archivero, reglas_o_normas, fecha_de_descripcion);
 
-LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década7\ (1950)\ Notas.csv'
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década7\ (1950)\ Portadas.csv'
 	INTO TABLE informacion_adicional
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 	LINES TERMINATED BY '\n'
 	IGNORE 3 LINES
-	(codigo_de_referencia, @tituloIgnorado, @notasIgnoradas);
+	(codigo_de_referencia, @tituloIgnorado, url, imagen);
 
 #################### DECADA 8 (1960) ####################
 
