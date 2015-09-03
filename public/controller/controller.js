@@ -25,7 +25,7 @@ lais.config(function ($routeProvider, $locationProvider){
 			controller: "muestraDecadaCtrl"
 		})
 		.when("/archivos/agregarArchivo",{
-			templateUrl: "templates/agregarArchivo2.html",
+			templateUrl: "templates/agregarArchivo.html",
 			controller: "agregarDatosCtrl"
 		})
 		.when("/archivos/editarArchivo/:id",{
@@ -277,7 +277,9 @@ lais.service('DecadaService', function($http){
 		'notas_del_archivero': 'Notas del archivero',
 		'datos_del_archivero': 'Datos del archivero',
 		'reglas_o_normas': 'Reglas o normas',
-		'fecha_de_descripcion': 'Fecha de descripción'
+		'fecha_de_descripcion': 'Fecha de descripción',
+		'imagen': 'Imagen',
+		'url': 'URL'
 	};
 });
 
@@ -351,6 +353,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	//$scope.uniqueName son todos los rubros que coinciden con la búsqueda
 	$scope.predicate = 'fecha'; // Predicado o propiedad que se utilizará para el ordenamiento
 	$scope.reverse = 'true'; // Orden descendente (true) o ascendente (false) de los registros
+	//$scope.columns = 6;
 	
 	// En caso de que sea una búsqueda se obtienen todos los registros que coincidan con el query
 	if($scope.query){
@@ -370,7 +373,22 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 					$scope.inputQuery.push({name: DecadaService.encabezados[$scope.uniqueNames[i]], ticked:true});
 				}
 			});
-	}
+	}/*else{
+		$http.get('php/manejoBD.php?action=getDecada&decada='+$routeParams.codigo).
+			success(function(data, status, headers, config) {
+				//$scope.archivos = data;
+				console.log("data:", data);
+				var repeats = Math.ceil(data.length / $scope.columns);
+				console.log("repeats:", repeats);
+				for(var i=0; i < repeats; i++){
+					$scope.archivos.push(data.splice(0, $scope.columns));
+				}
+				console.log("archivos:", $scope.archivos);
+			}).
+			error(function(data, status, headers, config) {
+				// called asynchronously if an error occurs or server returns response with an error status.
+			});
+	}*/
 
 	// Función que actualiza la propiedad "show" del arreglo $scope.archivos que contiene los registros de la búsqueda que se muestran
 	// Verifica los rubros de cada registro y los compara con $scope.outputQuery (que es un multiselect para filtrar resultados)
@@ -476,6 +494,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			success(function(data, status, headers, config) {
 				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
 					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
+					console.log("archivos", $scope.archivos);
 				}
 				$scope.busy = false; // En este momento ya NO estamos "ocupados"
 				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
