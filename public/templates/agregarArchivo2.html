@@ -1,7 +1,7 @@
-<!--<link rel="stylesheet" type="text/css" href="css/background.css" />-->
+<link rel="stylesheet" type="text/css" href="css/background.css" />
 <style>
 	body {
-    	background-color: white;
+    	/*background-color: white;*/
 	}
 	/*Efecto de transición para los mensajes de error*/
 	.alert{
@@ -17,7 +17,7 @@
 
 <body>
 	<br>
-	<div class="container-fluid">
+	<div class="container-fluid" id="formulario"> <!--id="formulario"-->
 		<div class="page-header">
 			<h1>Agregar registro audiovisual</h1>
 		</div>
@@ -32,15 +32,15 @@
 				<small ng-message="pattern">El formato de este campo es incorrecto.</small>
 			</script>
 
-			<form name="audiovisualForm" role="form" novalidate>
+			<form name="audiovisualForm" id="audiovisualForm" role="form" novalidate> <!--id="audiovisualForm"-->
 				<!-- Nav tabs -->
 				<ul class="nav nav-pills nav-justified" role="tablist">
-					<li role="presentation" class="active"><a data-target="#identificacion" aria-controls="identificacion" role="tab" data-toggle="pill">Identificación</a></li>
-					<li role="presentation"><a data-target="#contexto" aria-controls="contexto" role="tab" data-toggle="pill">Contexto</a></li>
-					<li role="presentation"><a data-target="#contenido" aria-controls="contenido" role="tab" data-toggle="pill">Contenido y estructura</a></li>
-					<li role="presentation"><a data-target="#condiciones" aria-controls="condiciones" role="tab" data-toggle="pill">Condiciones de Acceso</a></li>
-					<li role="presentation"><a data-target="#documentacion" aria-controls="documentacion" role="tab" data-toggle="pill">Documentación asociada y notas</a></li>
-					<li role="presentation"><a data-target="#descripcion" aria-controls="descripcion" role="tab" data-toggle="pill">Descripción e información adicional</a></li>
+					<li role="presentation" class="active"><a data-target="#identificacion" aria-controls="identificacion" role="tab" data-toggle="pill" href="">Identificación</a></li>
+					<li role="presentation"><a data-target="#contexto" aria-controls="contexto" role="tab" data-toggle="pill" href="">Contexto</a></li>
+					<li role="presentation"><a data-target="#contenido" aria-controls="contenido" role="tab" data-toggle="pill" href="">Contenido y estructura</a></li>
+					<li role="presentation"><a data-target="#condiciones" aria-controls="condiciones" role="tab" data-toggle="pill" href="">Condiciones de Acceso</a></li>
+					<li role="presentation"><a data-target="#documentacion" aria-controls="documentacion" role="tab" data-toggle="pill" href="">Documentación asociada y notas</a></li>
+					<li role="presentation"><a data-target="#descripcion" aria-controls="descripcion" role="tab" data-toggle="pill" href="">Descripción e información adicional</a></li>
 				</ul>
 				<!-- Tab panes -->
 				<div class="tab-content">
