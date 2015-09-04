@@ -1,30 +1,46 @@
-<!--<link rel="stylesheet" type="text/css" href="css/background.css" />-->
-
+<link rel="stylesheet" type="text/css" href="css/background.css" />
 <style>
 	body {
-    	background-color: white;
+    	/*background-color: white;*/
+	}
+	/*Efecto de transición para los mensajes de error*/
+	.alert{
+		transition:0.5s linear all;
+	}
+	.alert.ng-active {
+		opacity:1;
+	}
+	.alert.ng-inactive {
+		opacity:0;
 	}
 </style>
 
 <body>
 	<br>
-	<div class="container-fluid">
+	<div class="container-fluid" id="formulario"> <!--id="formulario"-->
 		<div class="page-header">
-			<h1>Agregar registro</h1>
+			<h1>Agregar registro audiovisual</h1>
 		</div>
 		
 		<div>
-			<form name="audiovisualForm" role="form" novalidate>
+			<!--Script para mostrar mensajes de error en los campos del formulario-->
+			<script type="text/ng-template" id="error-messages">
+				<small ng-message="required">Este campo es obligatorio.</small>
+				<small ng-message="maxlength">La información excede el límite de longitud permitido.</small>
+				<small ng-message="date">La fecha es incorrecta.</small>
+				<small ng-message="url">Se requiere la dirección completa de internet (comúnmente iniciando con "http://").</small>
+				<small ng-message="pattern">El formato de este campo es incorrecto.</small>
+			</script>
+
+			<form name="audiovisualForm" id="audiovisualForm" role="form" novalidate> <!--id="audiovisualForm"-->
 				<!-- Nav tabs -->
 				<ul class="nav nav-pills nav-justified" role="tablist">
-					<li role="presentation" class="active"><a data-target="#identificacion" aria-controls="identificacion" role="tab" data-toggle="pill">Identificación</a></li>
-					<li role="presentation"><a data-target="#contexto" aria-controls="contexto" role="tab" data-toggle="pill">Contexto</a></li>
-					<li role="presentation"><a data-target="#contenido" aria-controls="contenido" role="tab" data-toggle="pill">Contenido y estructura</a></li>
-					<li role="presentation"><a data-target="#condiciones" aria-controls="condiciones" role="tab" data-toggle="pill">Condiciones de Acceso</a></li>
-					<li role="presentation"><a data-target="#documentacion" aria-controls="documentacion" role="tab" data-toggle="pill">Documentación asociada</a></li>
-					<li role="presentation"><a data-target="#notas" aria-controls="notas" role="tab" data-toggle="pill">Notas</a></li>
-					<li role="presentation"><a data-target="#descripcion" aria-controls="descripcion" role="tab" data-toggle="pill">Descripción</a></li>
-					<li role="presentation"><a data-target="#adicional" aria-controls="adicional" role="tab" data-toggle="pill">Información adicional</a></li>
+					<li role="presentation" class="active"><a data-target="#identificacion" aria-controls="identificacion" role="tab" data-toggle="pill" href="">Identificación</a></li>
+					<li role="presentation"><a data-target="#contexto" aria-controls="contexto" role="tab" data-toggle="pill" href="">Contexto</a></li>
+					<li role="presentation"><a data-target="#contenido" aria-controls="contenido" role="tab" data-toggle="pill" href="">Contenido y estructura</a></li>
+					<li role="presentation"><a data-target="#condiciones" aria-controls="condiciones" role="tab" data-toggle="pill" href="">Condiciones de Acceso</a></li>
+					<li role="presentation"><a data-target="#documentacion" aria-controls="documentacion" role="tab" data-toggle="pill" href="">Documentación asociada y notas</a></li>
+					<li role="presentation"><a data-target="#descripcion" aria-controls="descripcion" role="tab" data-toggle="pill" href="">Descripción e información adicional</a></li>
 				</ul>
 				<!-- Tab panes -->
 				<div class="tab-content">
@@ -34,74 +50,529 @@
 						<div class="form-group" ng-class="{'has-error': audiovisualForm.codigo_de_referencia.$dirty && audiovisualForm.codigo_de_referencia.$invalid}">
 							<label class="control-label" for="codigo_de_referencia">Código de identificación:</label>
 							<input class="form-control" name="codigo_de_referencia" ng-model="codigo_de_referencia" id="codigo_de_referencia" ng-maxlength="20" ng-pattern="/^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}$/" ng-blur="sugerencias()">
-							<div class="alert alert-danger" role="alert" ng-show="audiovisualForm.codigo_de_referencia.$dirty && audiovisualForm.codigo_de_referencia.$invalid">
-								<small id="help-codigo_de_referencia" ng-show="audiovisualForm.codigo_de_referencia.$error.pattern">El formato debe ser similar a: MXIM-AV-1-8-1 </small>
-								<small id="help-codigo_de_referencia" ng-show="audiovisualForm.codigo_de_referencia.$error.maxlength">El maximo de tu palabra es 20 caracteres. </small>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.codigo_de_referencia.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.codigo_de_referencia.$dirty && audiovisualForm.codigo_de_referencia.$invalid">
+								<small ng-message="pattern">El formato debe ser similar a: MXIM-AV-1-8-1</small>
 							</div>
 						</div>
 						<!-- TITULO_PROPIO -->
 						<div class="form-group control-group" ng-class="{'has-error': audiovisualForm.titulo_propio.$dirty && audiovisualForm.titulo_propio.$invalid}">
 							<label class="control-label" for="titulo_propio">Título propio</label>
 							<input class="form-control" autofocus id="titulo_propio" name="titulo_propio" ng-model="titulo_propio" ng-maxlength="120">
-							<div class="alert alert-danger" role="alert" ng-show="audiovisualForm.titulo_propio.$dirty && audiovisualForm.titulo_propio.$invalid">
-						        <small class="error" ng-show="audiovisualForm.titulo_propio.$error.maxlength">El maximo de tu palabra es 120 caracteres. </small>
-					        </div>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.titulo_propio.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.titulo_propio.$dirty && audiovisualForm.titulo_propio.$invalid"></div>
 						</div>
 						<!-- TITULO_PARALELO -->
-						<div class="form-group" ng-class="{'has-error: audiovisualForm.titulo_paralelo.$dirty && audiovisualForm.titulo_paralelo.$invalid'}">
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.titulo_paralelo.$dirty && audiovisualForm.titulo_paralelo.$invalid}">
 							<label class="control-label" for="titulo_paralelo">Título paralelo</label>
 							<input class="form-control" id="titulo_paralelo" name="titulo_paralelo" ng-model="titulo_paralelo" ng-maxlength="120">
-							<div class="alert alert-danger" role="alert" ng-show="audiovisualForm.titulo_paralelo.$dirty && audiovisualForm.titulo_paralelo.$invalid">
-								<small class="error" ng-show="audiovisualForm.titulo_paralelo.$error.maxlength">El maximo de tu palabra es 120 caracteres. </small>
-					        </div>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.titulo_paralelo.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.titulo_paralelo.$dirty && audiovisualForm.titulo_paralelo.$invalid"></div>
 						</div>
 						<!-- TITULO_ATRIBUIDO -->
-						<div class="form-group" ng-class="{'has-error: audiovisualForm.titulo_atribuido.$dirty && audiovisualForm.titulo_atribuido.$invalid'}">
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.titulo_atribuido.$dirty && audiovisualForm.titulo_atribuido.$invalid}">
 							<label class="control-label" for="titulo_atribuido">Título atribuido</label>
 							<input class="form-control" id="titulo_atribuido" name="titulo_atribuido" ng-model="titulo_atribuido" ng-maxlength="120">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.titulo_atribuido.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.titulo_atribuido.$dirty && audiovisualForm.titulo_atribuido.$invalid"></div>
 						</div>
 						<!-- TITULO_DE_SERIE -->
-						<div class="form-group" ng-class="{'has-error: audiovisualForm.titulo_de_serie.$dirty && audiovisualForm.titulo_de_serie.$invalid'}">
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.titulo_de_serie.$dirty && audiovisualForm.titulo_de_serie.$invalid}">
 							<label class="control-label" for="titulo_de_serie">Título de la serie</label>
 							<input class="form-control" id="titulo_de_serie" name="titulo_de_serie" ng-model="titulo_de_serie" ng-maxlength="70">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.titulo_de_serie.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.titulo_de_serie.$dirty && audiovisualForm.titulo_de_serie.$invalid"></div>
 						</div>
 						<!-- NUMERO_DE_PROGRAMA -->
-						<div class="form-group" ng-class="{'has-error: audiovisualForm.numero_de_programa.$dirty && audiovisualForm.numero_de_programa.$invalid'}">
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.numero_de_programa.$dirty && audiovisualForm.numero_de_programa.$invalid}">
 							<label class="control-label" for="numero_de_programa">Número de programa</label>
 							<input class="form-control" id="numero_de_programa" name="numero_de_programa" ng-model="numero_de_programa" ng-maxlength="15">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.numero_de_programa.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.numero_de_programa.$dirty && audiovisualForm.numero_de_programa.$invalid"></div>
 						</div>
 						<!-- PAIS -->
-						<div class="form-group" ng-class="{'has-error: audiovisualForm.pais.$dirty && audiovisualForm.pais.$invalid'}">
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.pais.$dirty && audiovisualForm.pais.$invalid}">
 							<label class="control-label" for="pais">País</label>
 							<input class="form-control" id="pais" name="pais" ng-model="pais" ng-maxlength="30">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.pais.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.pais.$dirty && audiovisualForm.pais.$invalid"></div>
+						</div>
+						<!-- FECHA -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.fecha.$dirty && audiovisualForm.fecha.$invalid}">
+							<label class="control-label" for="fecha">Fecha</label>
+							<input class="form-control" id="fecha" name="fecha" ng-model="fecha" ng-pattern="/^\d{4}( ?- ?\d{4})?$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.fecha.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.fecha.$dirty && audiovisualForm.fecha.$invalid">
+								<small ng-message="pattern">El formato debe ser similar a: 1970 ó 1948-1949</small>
+							</div>
 						</div>
 						<!-- INVESTIGACION -->
-						<!--<div class="form-group" ng-class="{'has-error': audiovisualForm.investigacion.$dirty && audiovisualForm.investigacion.$invalid}">
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.investigacion.$dirty && audiovisualForm.investigacion.$invalid}">
 							<label class="control-label" for="investigacion">Investigación</label>
-							<input ng-repeat="persona in investigacion" class="form-control" id="investigacion" name="investigacion" ng-model="persona.nombre" ng-maxlength="160" ng-pattern="/^[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+(,[ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇ\w\s-'.:()\/]+)*$/">
-							<button class="btn btn-default btn-xs" ng-click="agregar(investigacion)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-							<button class="btn btn-default btn-xs" ng-click="eliminar(investigacion)" ng-show="investigacion.length > 1"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-							<div class="alert alert-danger" role="alert" ng-show="audiovisualForm.investigacion.$dirty && audiovisualForm.investigacion.$invalid">
-					          	<small id="help-investigacion" ng-show="audiovisualForm.investigacion.$error.maxlength">El maximo de tu palabra es 160 caracteres. </small>
-					          	<small id="help-investigacion" class="error" ng-show="audiovisualForm.investigacion.$error.pattern">Solo se permiten nombres válidos. </small>
+							<input class="form-control" id="investigacion" name="investigacion" ng-model="investigacion" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.investigacion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.investigacion.$dirty && audiovisualForm.investigacion.$invalid">
+								<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+							</div>
+						</div>
+
+						<!-- REALIZACION -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.realizacion.$dirty && audiovisualForm.realizacion.$invalid}">
+							<label class="control-label" for="realizacion">Realización</label>
+							<input class="form-control" id="realizacion" name="realizacion" ng-model="realizacion" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.realizacion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.realizacion.$dirty && audiovisualForm.realizacion.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
 					        </div>
-					        <br>{{investigacion}}
-						</div>-->
+						</div>
+				        <!-- DIRECCION -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.direccion.$dirty && audiovisualForm.direccion.$invalid}">
+							<label class="control-label" for="direccion">Dirección</label>
+							<input class="form-control" id="direccion" name="direccion" ng-model="direccion" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.direccion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.direccion.$dirty && audiovisualForm.direccion.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+				        <!-- GUION -->
+				        <div class="form-group" ng-class="{'has-error': audiovisualForm.guion.$dirty && audiovisualForm.guion.$invalid}">
+							<label class="control-label" for="guion">Guión</label>
+							<input class="form-control" id="guion" name="guion" ng-model="guion" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.guion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.guion.$dirty && audiovisualForm.guion.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+						<!-- ADAPTACION -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.adaptacion.$dirty && audiovisualForm.adaptacion.$invalid}">
+							<label class="control-label" for="adaptacion">Adaptación</label>
+							<input class="form-control" id="adaptacion" name="adaptacion" ng-model="adaptacion" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.adaptacion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.adaptacion.$dirty && audiovisualForm.adaptacion.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+						<!-- IDEA_ORIGINAL -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.idea_original.$dirty && audiovisualForm.idea_original.$invalid}">
+							<label class="control-label" for="idea_original">Idea original</label>
+							<input class="form-control" id="idea_original" name="idea_original" ng-model="idea_original" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.idea_original.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.idea_original.$dirty && audiovisualForm.idea_original.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+						<!-- FOTOGRAFIA -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.fotografia.$dirty && audiovisualForm.fotografia.$invalid}">
+							<label class="control-label" for="fotografia">Fotografía</label>
+							<input class="form-control" id="fotografia" name="fotografia" ng-model="fotografia" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.fotografia.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.fotografia.$dirty && audiovisualForm.fotografia.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+				        <!-- FOTOGRAFIA_FIJA -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.fotografia_fija.$dirty && audiovisualForm.fotografia_fija.$invalid}">
+							<label class="control-label" for="fotografia_fija">Fotografía fija</label>
+							<input class="form-control" id="fotografia_fija" name="fotografia_fija" ng-model="fotografia_fija" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.fotografia_fija.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.fotografia_fija.$dirty && audiovisualForm.fotografia_fija.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+						<!-- EDICION -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.edicion.$dirty && audiovisualForm.edicion.$invalid}">
+							<label class="control-label" for="edicion">Edición</label>
+							<input class="form-control" id="edicion" name="edicion" ng-model="edicion" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.edicion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.edicion.$dirty && audiovisualForm.edicion.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+				        <!-- SONIDO_GRABACION -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.sonido_grabacion.$dirty && audiovisualForm.sonido_grabacion.$invalid}">
+							<label class="control-label" for="sonido_grabacion">Grabación de sonido</label>
+							<input class="form-control" id="sonido_grabacion" name="sonido_grabacion" ng-model="sonido_grabacion" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.sonido_grabacion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.sonido_grabacion.$dirty && audiovisualForm.sonido_grabacion.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+				        <!-- SONIDO_EDICION -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.sonido_edicion.$dirty && audiovisualForm.sonido_edicion.$invalid}">
+							<label class="control-label" for="sonido_edicion">Edición de sonido</label>
+							<input class="form-control" id="sonido_edicion" name="sonido_edicion" ng-model="sonido_edicion" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.sonido_edicion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.sonido_edicion.$dirty && audiovisualForm.sonido_edicion.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+				        <!-- MUSICA_ORIGINAL -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.musica_original.$dirty && audiovisualForm.musica_original.$invalid}">
+							<label class="control-label" for="musica_original">Música original</label>
+							<input class="form-control" id="musica_original" name="musica_original" ng-model="musica_original" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.musica_original.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.musica_original.$dirty && audiovisualForm.musica_original.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+				        <!-- MUSICALIZACION -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.musicalizacion.$dirty && audiovisualForm.musicalizacion.$invalid}">
+							<label class="control-label" for="musicalizacion">Musicalización</label>
+							<input class="form-control" id="musicalizacion" name="musicalizacion" ng-model="musicalizacion" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.musicalizacion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.musicalizacion.$dirty && audiovisualForm.musicalizacion.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+				        <!-- VOCES -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.voces.$dirty && audiovisualForm.voces.$invalid}">
+							<label class="control-label" for="voces">Voces</label>
+							<input class="form-control" id="voces" name="voces" ng-model="voces" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.voces.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.voces.$dirty && audiovisualForm.voces.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+				        <!-- ACTORES -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.actores.$dirty && audiovisualForm.actores.$invalid}">
+							<label class="control-label" for="actores">Actores</label>
+							<input class="form-control" id="actores" name="actores" ng-model="actores" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.actores.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.actores.$dirty && audiovisualForm.actores.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+				        <!-- ANIMACION -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.animacion.$dirty && audiovisualForm.animacion.$invalid}">
+							<label class="control-label" for="animacion">Animación</label>
+							<input class="form-control" id="animacion" name="animacion" ng-model="animacion" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.animacion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.animacion.$dirty && audiovisualForm.animacion.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+					    </div>
+				        <!-- OTROS_COLABORADORES -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.otros_colaboradores.$dirty && audiovisualForm.otros_colaboradores.$invalid}">
+							<label class="control-label" for="otros_colaboradores">Otros colaboradores</label>
+							<input class="form-control" id="otros_colaboradores" name="otros_colaboradores" ng-model="otros_colaboradores" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.otros_colaboradores.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.otros_colaboradores.$dirty && audiovisualForm.otros_colaboradores.$invalid">
+					          	<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+					        </div>
+						</div>
 					</div>
 
-					<div role="tabpanel" class="tab-pane fade" id="contexto">Hello contexto</div>
-					<div role="tabpanel" class="tab-pane fade" id="contenido">Hello contenido</div>
-					<div role="tabpanel" class="tab-pane fade" id="condiciones">Hello condiciones</div>
-					<div role="tabpanel" class="tab-pane fade" id="documentacion">Hello documentacion</div>
-					<div role="tabpanel" class="tab-pane fade" id="notas">Hello notas</div>
-					<div role="tabpanel" class="tab-pane fade" id="descripcion">Hello descripción</div>
-					<div role="tabpanel" class="tab-pane fade" id="adicional">Hello información adicional</div>
+					<!-- AREA DE CONTEXTO -->
+					<div role="tabpanel" class="tab-pane fade" id="contexto">
+						<!-- ENTIDAD_PRODUCTORA -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.entidad_productora.$dirty && audiovisualForm.entidad_productora.$invalid}">
+							<label class="control-label" for="entidad_productora">Entidad productora</label>
+							<input class="form-control" id="entidad_productora" name="entidad_productora" ng-model="entidad_productora" ng-maxlength="250" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.entidad_productora.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.entidad_productora.$dirty && audiovisualForm.entidad_productora.$invalid">
+								<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+							</div>
+				        </div>
+						<!-- PRODUCTOR -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.productor.$dirty && audiovisualForm.productor.$invalid}">
+							<label class="control-label" for="productor">Productor</label>
+							<input class="form-control" id="productor" name="productor" ng-model="productor" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.productor.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.productor.$dirty && audiovisualForm.productor.$invalid">
+								<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+							</div>
+				        </div>
+						<!-- DISTRIBUIDORA -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.distribuidora.$dirty && audiovisualForm.distribuidora.$invalid}">
+							<label class="control-label" for="distribuidora">Distribuidora</label>
+							<input class="form-control" id="distribuidora" name="distribuidora" ng-model="distribuidora" ng-maxlength="160" ng-pattern="/^[^\d\¡\!\¿\?\#\$\%\&\=\\\+\-\*\/\[\]\{\}\~\^\¬\|\°\@]+$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.distribuidora.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.distribuidora.$dirty && audiovisualForm.distribuidora.$invalid">
+								<small ng-message="pattern">Solo se permiten nombres válidos (sin números ni caracteres especiales) y separados por comas en caso de ser varios.</small>
+							</div>
+				        </div>
+						<!-- HISTORIA_INSTITUCIONAL -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.historia_institucional.$dirty && audiovisualForm.historia_institucional.$invalid}">
+							<label class="control-label" for="historia_institucional">Historia institucional</label>
+							<textarea class="form-control" rows="4" id="historia_institucional" name="historia_institucional" ng-model="historia_institucional"></textarea>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.historia_institucional.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.historia_institucional.$dirty && audiovisualForm.historia_institucional.$invalid"></div>
+						</div>
+						<!-- RESENA_BIOGRAFICA -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.resena_biografica.$dirty && audiovisualForm.resena_biografica.$invalid}">
+							<label class="control-label" for="resena_biografica">Reseña biográfica</label>
+							<textarea class="form-control" rows="4" id="resena_biografica" name="resena_biografica" ng-model="resena_biografica"></textarea>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.resena_biografica.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.resena_biografica.$dirty && audiovisualForm.resena_biografica.$invalid"></div>
+						</div>
+						<!-- FORMA_DE_INGRESO -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.forma_de_ingreso.$dirty && audiovisualForm.forma_de_ingreso.$invalid}">
+							<label class="control-label" for="forma_de_ingreso">Forma de ingreso</label>
+							<input class="form-control" id="forma_de_ingreso" name="forma_de_ingreso" ng-model="forma_de_ingreso" list="formaDeIngreso" ng-maxlength="35">
+							<datalist id="formaDeIngreso">
+								<option value="Compra">
+								<option value="Donación">
+								<option value="Producción propia">
+							</datalist>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.forma_de_ingreso.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.forma_de_ingreso.$dirty && audiovisualForm.forma_de_ingreso.$invalid"></div>
+						</div>
+						<!-- FECHA_DE_INGRESO -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.fecha_de_ingreso.$dirty && audiovisualForm.fecha_de_ingreso.$invalid}">
+							<label class="control-label" for="fecha_de_ingreso">Fecha de ingreso</label>
+							<input class="form-control" id="fecha_de_ingreso" name="fecha_de_ingreso" ng-model="fecha_de_ingreso" ng-maxlength="12" ng-pattern="/^([0-3]?\d ?\/ ?[01]?\d ?\/ ?)?\d{4}$/">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.fecha_de_ingreso.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.fecha_de_ingreso.$dirty && audiovisualForm.fecha_de_ingreso.$invalid">
+								<small ng-message="pattern">Incluye el año de ingreso o la fecha completa separada por guiones (Ej: 15/3/1991)</small>
+							</div>
+						</div>
+					</div>
+
+					<!-- AREA DE CONTENIDO -->
+					<div role="tabpanel" class="tab-pane fade" id="contenido">
+						<!-- SINOPSIS -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.sinopsis.$dirty && audiovisualForm.sinopsis.$invalid}">
+							<label class="control-label" for="sinopsis">Sinopsis</label>
+							<textarea class="form-control" rows="4" id="sinopsis" name="sinopsis" ng-model="sinopsis"></textarea>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.sinopsis.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.sinopsis.$dirty && audiovisualForm.sinopsis.$invalid"></div>
+						</div>
+						<!-- DESCRIPTOR_ONOMASTICO -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.descriptor_onomastico.$dirty && audiovisualForm.descriptor_onomastico.$invalid}">
+							<label class="control-label" for="descriptor_onomastico">Descriptor onomástico</label>
+							<input class="form-control" id="descriptor_onomastico" name="descriptor_onomastico" ng-model="descriptor_onomastico">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.descriptor_onomastico.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.descriptor_onomastico.$dirty && audiovisualForm.descriptor_onomastico.$invalid"></div>
+						</div>
+						<!-- DESCRIPTOR_TOPONIMICO -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.descriptor_toponimico.$dirty && audiovisualForm.descriptor_toponimico.$invalid}">
+							<label class="control-label" for="descriptor_toponimico">Descriptor toponímico</label>
+							<textarea class="form-control" rows="2" id="descriptor_toponimico" name="descriptor_toponimico" ng-model="descriptor_toponimico"></textarea>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.descriptor_toponimico.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.descriptor_toponimico.$dirty && audiovisualForm.descriptor_toponimico.$invalid"></div>
+						</div>
+						<!-- DESCRIPTOR_CRONOLOGICO -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.descriptor_cronologico.$dirty && audiovisualForm.descriptor_cronologico.$invalid}">
+							<label class="control-label" for="descriptor_cronologico">Descriptor cronológico</label>
+							<input class="form-control" id="descriptor_cronologico" name="descriptor_cronologico" ng-model="descriptor_cronologico">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.descriptor_cronologico.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.descriptor_cronologico.$dirty && audiovisualForm.descriptor_cronologico.$invalid"></div>
+						</div>
+						<!-- TIPO_DE_PRODUCCION -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.tipo_de_produccion.$dirty && audiovisualForm.tipo_de_produccion.$invalid}">
+							<label class="control-label" for="tipo_de_produccion">Tipo de producción</label>
+							<input class="form-control" id="tipo_de_produccion" name="tipo_de_produccion" ng-model="tipo_de_produccion" list="tipoDeProduccion" ng-maxlength="31">
+							<datalist id="tipoDeProduccion">
+								<option value="Película de ficción">
+								<option value="Película documental">
+								<option value="Programa de televisión">
+								<option value="Trailer">
+								<option value="Publicidad">
+								<option value="Propaganda">
+								<option value="Registros fílmicos">
+								<option value="Registros en video">
+								<option value="Extractos de otras producciones">
+							</datalist>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.tipo_de_produccion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.tipo_de_produccion.$dirty && audiovisualForm.tipo_de_produccion.$invalid"></div>
+						</div>
+						<!-- GENERO -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.genero.$dirty && audiovisualForm.genero.$invalid}">
+							<label class="control-label" for="genero">Género</label>
+							<input class="form-control" id="genero" name="genero" ng-model="genero" ng-maxlength="30">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.genero.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.genero.$dirty && audiovisualForm.genero.$invalid"></div>
+						</div>
+						<!-- FUENTES -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.fuentes.$dirty && audiovisualForm.fuentes.$invalid}">
+							<label class="control-label" for="fuentes">Fuentes</label>
+							<select class="form-control select-toggle" id="fuentes" name="fuentes" ng-model="fuentes" size="24" multiple>
+								<option  value="Entrevistas">Entrevistas</option>
+								<option  value="Grabación de campo">Grabación de campo</option>
+								<option  value="Ficción">Ficción</option>
+								<option  value="Documental">Documental</option>
+								<option  value="Registros fílmicos">Registros fílmicos</option>
+								<option  value="Fotogafía">Fotografía</option>
+								<option  value="Pintura">Pintura</option>
+								<option  value="Grabados">Grabados</option>
+								<option  value="Hemerografía">Hemerografía</option>
+								<option  value="Cartografía">Cartografía</option>
+								<option  value="Testimonios orales">Testimonios orales</option>
+								<option  value="Testimonios video orales">Testimonios video orales</option>
+								<option  value="Noticieros fílmicos">Noticieros fílmicos</option>
+								<option  value="Programas de TV">Programas de TV</option>
+								<option  value="Publicidad">Publicidad</option>
+								<option  value="Videoclips">Videoclips</option>
+								<option  value="Dibujo">Dibujo</option>
+								<option  value="Multimedia">Multimedia</option>
+								<option  value="Registros fonográficos">Registros fonográficos</option>
+								<option  value="Música de época">Música de época</option>
+								<option  value="Documentos">Documentos</option>
+								<option  value="Animación">Animación</option>
+								<option  value="Registros radiofónicos">Registros radiofónicos</option>
+								<option  value="Registros videográficos">Registros videográficos</option>
+							</select>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.fuentes.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.fuentes.$dirty && audiovisualForm.fuentes.$invalid"></div>
+						</div>
+						<!-- RECURSOS -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.recursos.$dirty && audiovisualForm.recursos.$invalid}">
+							<label class="control-label" for="recursos">Recursos</label>
+							<select class="form-control select-toggle" id="recursos" name="recursos" ng-model="recursos" size="10" multiple>
+								<option value="Puesta en escena">Puesta en escena</option>
+								<option value="Animación">Animación</option>
+								<option value="Incidentales">Incidentales</option>
+								<option value="Narración en off">Narración en off</option>
+								<option value="Conducción">Conducción</option>
+								<option value="Intertítulos">Intertítulos</option>
+								<option value="Interactividad">Interactividad</option>
+								<option value="Música">Música</option>
+								<option value="Otros elementos gráficos">Otros elementos gráficos</option>
+								<option value="Otros elementos audiovisuales">Otros elementos audiovisuales</option>
+							</select>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.recursos.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.recursos.$dirty && audiovisualForm.recursos.$invalid"></div>
+						</div>
+						<!-- VERSIONES -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.versiones.$dirty && audiovisualForm.versiones.$invalid}">
+							<label class="control-label" for="versiones">Versiones</label>
+							<input class="form-control" id="versiones" name="versiones" ng-model="versiones" ng-maxlength="45">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.versiones.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.versiones.$dirty && audiovisualForm.versiones.$invalid"></div>
+						</div>
+						<!-- FORMATO_ORIGINAL -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.formato_original.$dirty && audiovisualForm.formato_original.$invalid}">
+							<label class="control-label" for="formato_original">Formato original</label>
+							<input class="form-control" id="formato_original" name="formato_original" ng-model="formato_original" ng-maxlength="25">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.formato_original.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.formato_original.$dirty && audiovisualForm.formato_original.$invalid"></div>
+						</div>
+						<!-- MATERIAL_EXTRA -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.material_extra.$dirty && audiovisualForm.material_extra.$invalid}">
+							<label class="control-label" for="material_extra">Material extra</label>
+							<input class="form-control" id="material_extra" name="material_extra" ng-model="material_extra" ng-maxlength="60">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.material_extra.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.material_extra.$dirty && audiovisualForm.material_extra.$invalid"></div>
+						</div>
+					</div>
+
+					<!-- AREA DE CONTENIDO Y ESTRUCTURA -->
+					<div role="tabpanel" class="tab-pane fade" id="condiciones">
+						<!-- CONDICIONES_DE_ACCESO -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.condiciones_de_acceso.$dirty && audiovisualForm.condiciones_de_acceso.$invalid}">
+							<label class="control-label" for="condiciones_de_acceso">Condiciones de acceso</label>
+							<input class="form-control" id="condiciones_de_acceso" name="condiciones_de_acceso" ng-model="condiciones_de_acceso" list="condicionesDeAcceso" ng-maxlength="37">
+							<datalist id="condicionesDeAcceso">
+								<option value="Usos no lucrativos">
+								<option value="Usos reservados para consulta in situ">
+							</datalist>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.condiciones_de_acceso.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.condiciones_de_acceso.$dirty && audiovisualForm.condiciones_de_acceso.$invalid"></div>
+						</div>
+						<!-- EXISTENCIA_Y_LOCALIZACION_DE_ORIGINALES -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.existencia_y_localizacion_de_originales.$dirty && audiovisualForm.existencia_y_localizacion_de_originales.$invalid}">
+							<label class="control-label" for="existencia_y_localizacion_de_originales">Existencia y localizacion de originales</label>
+							<textarea class="form-control" rows="2" id="existencia_y_localizacion_de_originales" name="existencia_y_localizacion_de_originales" ng-model="existencia_y_localizacion_de_originales"></textarea>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.existencia_y_localizacion_de_originales.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.existencia_y_localizacion_de_originales.$dirty && audiovisualForm.existencia_y_localizacion_de_originales.$invalid"></div>
+						</div>
+						<!-- IDIOMA_ORIGINAL -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.idioma_original.$dirty && audiovisualForm.idioma_original.$invalid}">
+							<label class="control-label" for="idioma_original">Idioma original</label>
+							<input class="form-control" id="idioma_original" name="idioma_original" ng-model="idioma_original" ng-maxlength="40">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.idioma_original.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.idioma_original.$dirty && audiovisualForm.idioma_original.$invalid"></div>
+						</div>
+						<!-- DOBLAJES_DISPONIBLES -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.doblajes_disponibles.$dirty && audiovisualForm.doblajes_disponibles.$invalid}">
+							<label class="control-label" for="doblajes_disponibles">Doblajes disponibles</label>
+							<input class="form-control" id="doblajes_disponibles" name="doblajes_disponibles" ng-model="doblajes_disponibles" ng-maxlength="40">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.doblajes_disponibles.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.doblajes_disponibles.$dirty && audiovisualForm.doblajes_disponibles.$invalid"></div>
+						</div>
+						<!-- SUBTITULAJES -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.subtitulajes.$dirty && audiovisualForm.subtitulajes.$invalid}">
+							<label class="control-label" for="subtitulajes">Subtitulajes disponibles</label>
+							<input class="form-control" id="subtitulajes" name="subtitulajes" ng-model="subtitulajes" maxlength="40">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.subtitulajes.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.subtitulajes.$dirty && audiovisualForm.subtitulajes.$invalid"></div>
+						</div>
+						<!-- SOPORTE -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.soporte.$dirty && audiovisualForm.soporte.$invalid}">
+							<label class="control-label" for="soporte">Soporte</label>
+							<input class="form-control" id="soporte" name="soporte" ng-model="soporte" ng-maxlength="25">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.soporte.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.soporte.$dirty && audiovisualForm.soporte.$invalid"></div>
+						</div>
+						<!-- NUMERO_COPIAS -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.numero_copias.$dirty && audiovisualForm.numero_copias.$invalid}">
+							<label class="control-label" for="numero_copias">Número de copias</label>
+							<input class="form-control" id="numero_copias" name="numero_copias" ng-model="numero_copias" ng-maxlength="20">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.numero_copias.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.numero_copias.$dirty && audiovisualForm.numero_copias.$invalid"></div>
+						</div>
+						<!-- DESCRIPCION_FISICA -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.descripcion_fisica.$dirty && audiovisualForm.descripcion_fisica.$invalid}">
+							<label class="control-label" for="descripcion_fisica">Descripción física</label>
+							<textarea class="form-control" rows="2" id="descripcion_fisica" name="descripcion_fisica" ng-model="descripcion_fisica" ng-maxlength="60"></textarea>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.descripcion_fisica.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.descripcion_fisica.$dirty && audiovisualForm.descripcion_fisica.$invalid"></div>
+						</div>
+						<!-- COLOR -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.color.$dirty && audiovisualForm.color.$invalid}">
+							<label class="control-label" for="color">Color</label>
+							<input class="form-control" id="color" name="color" ng-model="color" ng-maxlength="80">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.color.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.color.$dirty && audiovisualForm.color.$invalid"></div>
+						</div>
+						<!-- AUDIO -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.audio.$dirty && audiovisualForm.audio.$invalid}">
+							<label class="control-label" for="audio">Audio</label>
+							<input class="form-control" id="audio" name="audio" ng-model="audio" ng-maxlength="30">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.audio.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.audio.$dirty && audiovisualForm.audio.$invalid"></div>
+						</div>
+						<!-- SISTEMA_DE_GRABACION -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.sistema_de_grabacion.$dirty && audiovisualForm.sistema_de_grabacion.$invalid}">
+							<label class="control-label" for="sistema_de_grabacion">Sistema de grabación</label>
+							<input class="form-control" id="sistema_de_grabacion" name="sistema_de_grabacion" ng-model="sistema_de_grabacion" ng-maxlength="10">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.sistema_de_grabacion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.sistema_de_grabacion.$dirty && audiovisualForm.sistema_de_grabacion.$invalid"></div>
+						</div>
+						<!-- REGION_DVD -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.region_dvd.$dirty && audiovisualForm.region_dvd.$invalid}">
+							<label class="control-label" for="region_dvd">Región del DVD</label>
+							<input class="form-control" id="region_dvd" name="region_dvd" ng-model="region_dvd" ng-maxlength="20">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.region_dvd.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.region_dvd.$dirty && audiovisualForm.region_dvd.$invalid"></div>
+						</div>
+						<!-- REQUISITOS_TECNICOS -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.requisitos_tecnicos.$dirty && audiovisualForm.requisitos_tecnicos.$invalid}">
+							<label class="control-label" for="requisitos_tecnicos">Requisitos técnicos</label>
+							<input class="form-control" id="requisitos_tecnicos" name="requisitos_tecnicos" ng-model="requisitos_tecnicos" ng-maxlength="40">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.requisitos_tecnicos.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.requisitos_tecnicos.$dirty && audiovisualForm.requisitos_tecnicos.$invalid"></div>
+						</div>
+					</div>
+
+					<!-- DOCUMENTACION ASOCIADA Y NOTAS -->
+					<div role="tabpanel" class="tab-pane fade" id="documentacion">
+						<!-- EXISTENCIA_Y_LOCALIZACION_DE_COPIAS -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.existencia_y_localizacion_de_copias.$dirty && audiovisualForm.existencia_y_localizacion_de_copias.$invalid}">
+							<label class="control-label" for="existencia_y_localizacion_de_copias">Existencia y localización de copias</label>
+							<input class="form-control" id="existencia_y_localizacion_de_copias" name="existencia_y_localizacion_de_copias" ng-model="existencia_y_localizacion_de_copias">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.existencia_y_localizacion_de_copias.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.existencia_y_localizacion_de_copias.$dirty && audiovisualForm.existencia_y_localizacion_de_copias.$invalid"></div>
+						</div>
+						<!-- UNIDADES_DE_DESCRIPCION_RELACIONADAS -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.unidades_de_descripcion_relacionadas.$dirty && audiovisualForm.unidades_de_descripcion_relacionadas.$invalid}">
+							<label class="control-label" for="unidades_de_descripcion_relacionadas">Unidades de descripción relacionadas</label>
+							<textarea class="form-control" rows="2" id="unidades_de_descripcion_relacionadas" name="unidades_de_descripcion_relacionadas" ng-model="unidades_de_descripcion_relacionadas"></textarea>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.unidades_de_descripcion_relacionadas.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.unidades_de_descripcion_relacionadas.$dirty && audiovisualForm.unidades_de_descripcion_relacionadas.$invalid"></div>
+						</div>
+						<!-- DOCUMENTOS_ASOCIADOS -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.documentos_asociados.$dirty && audiovisualForm.documentos_asociados.$invalid}">
+							<label class="control-label" for="documentos_asociados">Documentos asociados</label>
+							<textarea class="form-control" rows="2" id="documentos_asociados" name="documentos_asociados" ng-model="documentos_asociados"></textarea>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.documentos_asociados.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.documentos_asociados.$dirty && audiovisualForm.documentos_asociados.$invalid"></div>
+						</div>
+						<!-- AREA_DE_NOTAS -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.area_de_notas.$dirty && audiovisualForm.area_de_notas.$invalid}">
+							<label class="control-label" for="area_de_notas">Área de notas</label>
+							<textarea class="form-control" rows="4" id="area_de_notas" name="area_de_notas" ng-model="area_de_notas"></textarea>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.area_de_notas.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.area_de_notas.$dirty && audiovisualForm.area_de_notas.$invalid"></div>
+						</div>
+					</div>
+
+					<!-- AREA DE DESCRIPCION E INFORMACION ADICIONAL -->
+					<div role="tabpanel" class="tab-pane fade" id="descripcion">
+						<!-- NOTAS_DEL_ARCHIVERO -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.notas_del_archivero.$dirty && audiovisualForm.notas_del_archivero.$invalid}">
+							<label class="control-label" for="notas_del_archivero">Notas del archivero</label>
+							<textarea class="form-control" rows="2" id="notas_del_archivero" name="notas_del_archivero" ng-model="notas_del_archivero" ng-maxlength="75"></textarea>
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.notas_del_archivero.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.notas_del_archivero.$dirty && audiovisualForm.notas_del_archivero.$invalid"></div>
+						</div>
+						<!-- DATOS_DEL_ARCHIVERO -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.datos_del_archivero.$dirty && audiovisualForm.datos_del_archivero.$invalid}">
+							<label class="control-label" for="datos_del_archivero">Datos del archivero</label>
+							<input class="form-control" id="datos_del_archivero" name="datos_del_archivero" ng-model="datos_del_archivero" ng-maxlength="60">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.datos_del_archivero.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.datos_del_archivero.$dirty && audiovisualForm.datos_del_archivero.$invalid"></div>
+						</div>
+						<!-- REGLAS_O_NORMAS -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.reglas_o_normas.$dirty && audiovisualForm.reglas_o_normas.$invalid}">
+							<label class="control-label" for="reglas_o_normas">Reglas o normas</label>
+							<input class="form-control" id="reglas_o_normas" name="reglas_o_normas" ng-model="reglas_o_normas" ng-maxlength="31">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.reglas_o_normas.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.reglas_o_normas.$dirty && audiovisualForm.reglas_o_normas.$invalid"></div>
+						</div>
+						<!-- FECHA_DE_DESCRIPCION -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.fecha_de_descripcion.$dirty && audiovisualForm.fecha_de_descripcion.$invalid}">
+							<label class="control-label" for="fecha_de_descripcion">Fecha de descripción</label>
+							<input class="form-control" id="fecha_de_descripcion" name="fecha_de_descripcion" ng-model="fecha_de_descripcion" type="date">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.fecha_de_descripcion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.fecha_de_descripcion.$dirty && audiovisualForm.fecha_de_descripcion.$invalid"></div>
+						</div>
+						<!-- IMAGEN -->
+						<div class="form-group" ng-class="{'has-error': audiovisualForm.imagen.$dirty && audiovisualForm.imagen.$invalid}">
+							<label class="control-label" for="imagen">Portada</label>
+							<input type="file" id="imagen" ngf-select ng-model="imagen" accept="image/*" ngf-max-size='2097152' name="file" class="ng-pristine ng-valid ng-scope">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.imagen.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.imagen.$dirty && audiovisualForm.imagen.$invalid"></div>
+							<!--Previsualización de portada-->
+				        	<img height="128" ng-show="imagen[0] != null" ngf-src="imagen[0]" ngf-accept="'image/*'" class="thumb">
+						</div>
+				        <!-- URL -->
+				        <div class="form-group" ng-class="{'has-error': audiovisualForm.url.$dirty && audiovisualForm.url.$invalid}">
+							<label class="control-label" for="url">Dirección URL:</label>
+							<input type="url" class="form-control" id="url" name="url" ng-model="url" ng-maxlength="255">
+							<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.url.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.url.$dirty && audiovisualForm.url.$invalid"></div>
+						</div>
+					</div>
 				</div>
+				<button type="submit" class="btn btn-primary btn-lg btn-block" ng-disabled="audiovisualForm.$invalid" ng-click="envia(imagen)">Finalizar y agregar registro</button>
 			</form>
 		</div>
-
 	</div>
-	
 </body>
 
 <!-- Script único auxiliar para el formulario -->

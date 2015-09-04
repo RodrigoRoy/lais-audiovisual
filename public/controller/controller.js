@@ -1,5 +1,5 @@
 // La dependencia ngFileUpload sirve para subir imagenes (https://github.com/danialfarid/ng-file-upload)
-var lais = angular.module('lais',['ngRoute','ngCookies', 'ngFileUpload','infinite-scroll', 'mgcrea.ngStrap', 'isteven-multi-select']);
+var lais = angular.module('lais',['ngRoute','ngCookies', 'ngMessages', 'ngAnimate', 'ngFileUpload','infinite-scroll', 'mgcrea.ngStrap', 'isteven-multi-select']);
 
 lais.config(function ($routeProvider, $locationProvider){
 	$routeProvider
@@ -25,7 +25,7 @@ lais.config(function ($routeProvider, $locationProvider){
 			controller: "muestraDecadaCtrl"
 		})
 		.when("/archivos/agregarArchivo",{
-			templateUrl: "templates/agregarArchivo.html",
+			templateUrl: "templates/agregarArchivo2.html",
 			controller: "agregarDatosCtrl"
 		})
 		.when("/archivos/editarArchivo/:id",{
@@ -109,8 +109,8 @@ lais.service('ParamService', function(){
 			'pais': (scope.pais !== undefined) ? scope.pais.trim().replace(/\s\s+/g, ' ') : "",
 			'fecha': (scope.fecha !== undefined) ? scope.fecha.trim().replace(/  +/g, '') : "", // TODO setFecha()?
 			'duracion': setDuracion(scope.duracion), // Parse desde filter.js
-			//'investigacion': (scope.investigacion !== undefined) ? scope.investigacion.trim().replace(/\s\s+/g, ' ') : "",
-			'investigacion': this.array2string(scope.investigacion),
+			'investigacion': (scope.investigacion !== undefined) ? scope.investigacion.trim().replace(/\s\s+/g, ' ') : "",
+			//'investigacion': this.array2string(scope.investigacion),
 			'realizacion': (scope.realizacion !== undefined) ? scope.realizacion.trim().replace(/\s\s+/g, ' ') : "",
 			'direccion': (scope.direccion !== undefined) ? scope.direccion.trim().replace(/\s\s+/g, ' ') : "",
 			'guion': (scope.guion !== undefined) ? scope.guion.trim().replace(/\s\s+/g, ' ') : "",
@@ -277,7 +277,9 @@ lais.service('DecadaService', function($http){
 		'notas_del_archivero': 'Notas del archivero',
 		'datos_del_archivero': 'Datos del archivero',
 		'reglas_o_normas': 'Reglas o normas',
-		'fecha_de_descripcion': 'Fecha de descripción'
+		'fecha_de_descripcion': 'Fecha de descripción',
+		'imagen': 'Imagen',
+		'url': 'URL'
 	};
 });
 
@@ -309,23 +311,30 @@ lais.controller('conexionCtrl', function($scope, $http, $location){
 });
 
 //Controlador que muestra todas las decadas existentes
-lais.controller('decadasCtrl',function($scope, $location, $http, DecadaService,$cookieStore, agregarNuevoAll){
+lais.controller('decadasCtrl',function($scope, $location, $http, $cookieStore, DecadaService){
 	$scope.allDecades = DecadaService.allDecades;
 
 	//Eliminar el cookie del codigo de decadas
 	$cookieStore.remove('decada');
-	//Utiizó para que el modal se quitará cuando un usuario le da un botón de regresar a la página
+	
+	//Utiizó para que el modal se quitara cuando un usuario le da un botón de regresar a la página
 	$('#modalInfo').modal('hide'); // Ocultar modal
 	$('body').removeClass('modal-open'); // Eliminar del DOM
 	$('.modal-backdrop').remove();
+
 	$http.get('php/manejoBD.php?action=mostrarDecadas').
 	success(function(data){
 		$scope.decadas = data;
 	});
 
 	// Acción del icono para agregar un nuevo audiovisual
-    $scope.agregarNuevo = function(decada){
-    	agregarNuevoAll.agregarNew(decada);
+    $scope.agregarNuevo = function(){
+    	// Construir string que corresponde a la siguiente década (suponiendo consecutividad)
+    	var matches = /(.*-)(\d)/g.exec($scope.decadas[0]); // Separar el último dígito (la década) con expresion regular
+    	var numeracion = parseInt(matches[2]) + 1;
+    	var decada = matches[1] + numeracion; // Nuevo string con década siguiente (+1)
+    	$cookieStore.put('decada', decada); // Almacena el código de década
+		$location.url('/archivos/agregarArchivo/'); // Ir a la página "Agregar audiovisual"
     }
 });
 
@@ -344,6 +353,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	//$scope.uniqueName son todos los rubros que coinciden con la búsqueda
 	$scope.predicate = 'fecha'; // Predicado o propiedad que se utilizará para el ordenamiento
 	$scope.reverse = 'true'; // Orden descendente (true) o ascendente (false) de los registros
+	//$scope.columns = 6;
 	
 	// En caso de que sea una búsqueda se obtienen todos los registros que coincidan con el query
 	if($scope.query){
@@ -363,7 +373,22 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 					$scope.inputQuery.push({name: DecadaService.encabezados[$scope.uniqueNames[i]], ticked:true});
 				}
 			});
-	}
+	}/*else{
+		$http.get('php/manejoBD.php?action=getDecada&decada='+$routeParams.codigo).
+			success(function(data, status, headers, config) {
+				//$scope.archivos = data;
+				console.log("data:", data);
+				var repeats = Math.ceil(data.length / $scope.columns);
+				console.log("repeats:", repeats);
+				for(var i=0; i < repeats; i++){
+					$scope.archivos.push(data.splice(0, $scope.columns));
+				}
+				console.log("archivos:", $scope.archivos);
+			}).
+			error(function(data, status, headers, config) {
+				// called asynchronously if an error occurs or server returns response with an error status.
+			});
+	}*/
 
 	// Función que actualiza la propiedad "show" del arreglo $scope.archivos que contiene los registros de la búsqueda que se muestran
 	// Verifica los rubros de cada registro y los compara con $scope.outputQuery (que es un multiselect para filtrar resultados)
@@ -469,6 +494,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			success(function(data, status, headers, config) {
 				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
 					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
+					console.log("archivos", $scope.archivos);
 				}
 				$scope.busy = false; // En este momento ya NO estamos "ocupados"
 				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
@@ -581,7 +607,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 		$location.url('/decadas/');
 	}
 
-	$scope.investigacion = [{nombre:""}];
+	//$scope.investigacion = [{nombre:""}];
 	//$scope.realizacion = [{nombre:""}];
 	/*$scope.direccion = [{nombre:""}];
 	$scope.guion = [{nombre:""}];
@@ -601,7 +627,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 	*/
 	//$scope.errorDuplicado = false; // DEPRECATED. La función sugerencias() impide repetidos.
 
-	$scope.agregar = function(scopeVar){
+	/*$scope.agregar = function(scopeVar){
 		//console.log("length", scopeVar.length);
 		scopeVar.push({
 			nombre: ""
@@ -610,11 +636,12 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 
 	$scope.eliminar = function(scopeVar){
 		scopeVar.pop();
-	};
+	};*/
 
 	// Establece el código de referencia con numeración consecutiva
-	//$scope.codigoDecada = ParamService.get("codigoDecada"); // Recuperar la década
 	$scope.codigoDecada = $cookieStore.get('decada');
+	//console.log("codigoDecada:", $scope.codigoDecada);
+
 	$http.get('php/manejoBD.php?action=getIndice&decada=' + $scope.codigoDecada).
 	success(function(data, status, headers, config) {
 		$scope.codigo_de_referencia = $scope.codigoDecada + '-' + data;

@@ -46,6 +46,9 @@ switch ($_GET['action']) {
     case 'mostrarCaratulaScroll':
         mostrarCaratulaScroll($_GET['codigo'],$_GET['howMany'],$_GET['offset']);
         break;
+    case 'getDecada':
+        getDecada($_GET['decada']);
+        break;
     case 'firstGet':
         firstGet($_GET['codigo'],$_GET['howMany'],$_GET['offset']);
         break;
@@ -566,6 +569,18 @@ function mostrarCaratulaScroll($codigo,$howMany,$offset){
         $data = $stmt->fetchAll(PDO::FETCH_COLUMN,0);
         print_r(json_encode($data));
         //print_r($data);
+    }
+}
+
+# Obtener (todos) los datos básicos para mostrar audiovisuales por décadas: id, imagen, titulo, pais, fecha, duracion.
+function getDecada($codigoDecada){
+    $select = "SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia LIKE '%".$codigoDecada."%' ORDER BY fecha ASC";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+    if ($stmt->rowCount() != 0){
+        $data = $stmt->fetchAll(); // Obtener los datos
+        print_r(json_encode($data)); // Convertir a json y mostrar para poder rescatar los datos desde otro script
     }
 }
 

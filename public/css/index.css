@@ -179,11 +179,11 @@ body{
 }
 
 .contenedorInfo{
-	margin-left: 5%;
-	width: 90%;
+	/*margin-left: 5%;
+	width: 90%;*/
 	background-color: rgba(6, 63, 91,0.4);
 	border-radius: 5px;
-	margin-bottom: 1%;
+	/*margin-bottom: 1%;*/
 }
 
 .etiqueta{
@@ -435,7 +435,7 @@ h3 a:focus{
 }
 
 /*Resaltar el tache del modal para mostrar información de cada archivo*/
-.cross{
+/*.cross{
 	margin-right: -33px;
 }
 
@@ -450,4 +450,4 @@ h3 a:focus{
 .close{
 	margin-right: -79px;
 	opacity: 1.0;
-}
+}*/
