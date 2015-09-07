@@ -457,6 +457,7 @@ h3 a:focus{
 	
 }
 
+/*Barra decorativa de cada seccion del navbar*/
 .barraDecorativa{
 	display:block;
 	width:calc(100% - 23px);
@@ -467,6 +468,7 @@ h3 a:focus{
 	bottom:5px;
 }
 
+/*Animación de cargar la barra en mozila*/
 @-moz-keyframes ul{
  	0% { 
     width:0;
@@ -476,6 +478,17 @@ h3 a:focus{
   }
 }
 
+/*Animación de cargar la barra en chrome*/
+@-webkit-keyframes ul{
+ 	0% { 
+    width:0;
+  }
+  100% { 
+    width:calc(100% - 30px);
+  }
+}
+
+/*Accion que hace la animacion aplicada a la barra con el span*/
 li a:hover span{
   animation: ul 0.2s ease-out;
   background: white;
