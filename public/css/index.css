@@ -66,10 +66,6 @@ body{
  	margin-top: 9px;
 }
 
-.navbar-fixed-top{
-	opacity: .9;
-}
-
 .vista{
 	display: inline-block;
 	width: 220px;
@@ -157,6 +153,18 @@ body{
 	margin-top: 10px;
 	*/
 	
+}
+
+/*
+*Cambiar de color de fondo del navegador de secciones
+*/	
+.navegador{
+	background-color: rgba(0,0,0,.7);
+}
+
+.navbar-brand > a{
+	color:white;
+	text-decoration: none;
 }
 
 
@@ -325,7 +333,7 @@ body{
 	width: 90%;
 	margin-left: 5%;
 	height: auto;
-  	opacity: .7;
+  	opacity: .7;	
   	background-color: black;
   	border-radius: 7px;
   	display: inline-block;
@@ -434,20 +442,42 @@ h3 a:focus{
 	background-color: rgba(6, 50, 91,0.7); 
 }
 
-/*Resaltar el tache del modal para mostrar información de cada archivo*/
-/*.cross{
-	margin-right: -33px;
+
+/*Color de las letras por default del navbar*/
+.colorLetrasNav{
+	background-color: transparent;
+	color:white;
 }
 
-.crossImg{
-	width: 50%;
+
+/*Hacer que cambie de color las secciones del navar en un focus y hover*/
+.nav > li > a:focus, .nav > li > a:hover{
+	background-color: transparent;
+	color: #0088CC;
+	
 }
 
-.modal-header .close {
-    margin-top: -6%;
+.barraDecorativa{
+	display:block;
+	width:calc(100% - 23px);
+	height:4px;
+	background:#0088CC;
+	position:absolute;
+	left:11px;
+	bottom:5px;
 }
 
-.close{
-	margin-right: -79px;
-	opacity: 1.0;
-}*/
+@-moz-keyframes ul{
+ 	0% { 
+    width:0;
+  }
+  100% { 
+    width:calc(100% - 30px);
+  }
+}
+
+li a:hover span{
+  animation: ul 0.2s ease-out;
+  background: white;
+}
+
