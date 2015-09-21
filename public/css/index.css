@@ -10,7 +10,7 @@ html{
 }
 
 body{
-	background-color: black;
+	/*background-color: black;*/
 }
 
 .botonUno {
@@ -89,11 +89,6 @@ body{
 	color: #f0fff0;
 }
 
-.container-flud{
-	width: 80%;
-	background-color: transparent;
-}
-
 .error{
 	color: red;
 }
@@ -159,7 +154,9 @@ body{
 *Cambiar de color de fondo del navegador de secciones
 */	
 .navegador{
-	background-color: rgba(0,0,0,.7);
+	background-color: transparent;
+	border-color: none;
+	color: white;
 }
 
 .navbar-brand > a{
@@ -325,47 +322,31 @@ body{
 	color: black;
 }
 
-.titulos{
-	color: #f2f0a1;
-}
 
-.secPublicaciones{
+.secTexto{
 	width: 90%;
 	margin-left: 5%;
-	height: auto;
-  	opacity: .7;	
-  	background-color: black;
+	height: auto;	
+  	background-color: rgba(0,0,0,.8);
   	border-radius: 7px;
   	display: inline-block;
   	color: white;
-}
-
-.secVinculos{
-	display: inline-block;
-	width: 90%;
-	height: auto;
-  	margin-left: 5%;
-  	opacity: .7;
-  	background-color: black;
-  	border-radius: 7px;
-   	color: #f0fff0;
-}
-
-.titulosPV{
+  	font-size: 20px;
 	color: #f0fff0;
-
 }
+
 
 #secAcercaDe{
 	display: inline-block;
 	width: 90%;
 	height: auto;
   	margin-left: 5%;
-  	opacity: .7;
-  	background-color: black;
+  	background-color: rgba(0,0,0,.8);
   	border-radius: 7px;
    	color: #f0fff0;
    	margin-bottom: 5%;
+   	font-size: 20px;
+	color: #f0fff0;
 }
 
 #logoLaisP{
@@ -381,12 +362,7 @@ body{
 	width: 100px;
 }
 
-#textoAcercaDe{
-	font-size: 20px;
-	color: #f0fff0;
-}
-
-#titulosAcerca{
+.titulos{
 	margin-left: 5%;
 	color: #f0fff0;
 }
@@ -451,10 +427,14 @@ h3 a:focus{
 
 
 /*Hacer que cambie de color las secciones del navar en un focus y hover*/
-.nav > li > a:focus, .nav > li > a:hover{
+.navbar-inverse .navbar-nav > li > a:focus, .navbar-inverse .navbar-nav > li > a:hover{
 	background-color: transparent;
 	color: #0088CC;
-	
+}
+
+/*Cambiar el color de las letras de cada sección en el navbar*/
+.navbar-inverse .navbar-nav > li > a{
+	color: white;
 }
 
 /*Barra decorativa de cada seccion del navbar*/
@@ -474,7 +454,7 @@ h3 a:focus{
     width:0;
   }
   100% { 
-    width:calc(100% - 30px);
+    width:calc(100% - 23px);
   }
 }
 
@@ -484,13 +464,17 @@ h3 a:focus{
     width:0;
   }
   100% { 
-    width:calc(100% - 30px);
+    width:calc(100% - 23px);
   }
 }
 
 /*Accion que hace la animacion aplicada a la barra con el span*/
 li a:hover span{
-  animation: ul 0.2s ease-out;
+  animation: ul 0.3s ease-out;
   background: white;
 }
 
+/* Cuando el navegador se cambia a un estado para movile*/
+.navbarMobile{
+	background-color: rgba(0,0,0,.8);
+}
