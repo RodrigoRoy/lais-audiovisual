@@ -16,7 +16,7 @@
           <p class="text-rigth" >
               {{(archivo.titulo_propio.length > 40) ? (archivo.titulo_propio.substring(0,40) + "...."):(archivo.titulo_propio)}}
               <br>
-              <br ng-show="archivo.titulo_propio.length < 25">
+              <br ng-show="archivo.titulo_propio.length <= 25">
               <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
           </p>
         </a>
@@ -115,6 +115,7 @@
                         </tbody>
                       </table>
                     </div>
+                    <!-- AREA DE CONTEXTO -->
                     <div role="tabpanel" class="tab-pane fade" id="contexto">
                       <table class="table table-condensed">
                         <tbody>
@@ -125,6 +126,7 @@
                         </tbody>
                       </table>
                     </div>
+                    <!-- AREA DE CONTENIDO -->
                     <div role="tabpanel" class="tab-pane fade" id="contenido">
                       <table class="table table-condensed">
                         <tbody>
@@ -135,6 +137,7 @@
                         </tbody>
                       </table>
                     </div>
+                    <!-- AREA DE CONDICIONES DE ACCESO -->
                     <div role="tabpanel" class="tab-pane fade" id="condiciones">
                       <table class="table table-condensed">
                         <tbody>
@@ -145,6 +148,7 @@
                         </tbody>
                       </table>
                     </div>
+                    <!-- AREA DE DOCUMENTACION ASOCIADA Y NOTAS -->
                     <div role="tabpanel" class="tab-pane fade" id="documentacion">
                       <table class="table table-condensed">
                         <tbody>
@@ -159,6 +163,7 @@
                         </tbody>
                       </table>
                     </div>
+                    <!-- AREA DE DESCRIPCION E INFORMACION ADICIONAL -->
                     <div role="tabpanel" class="tab-pane fade" id="descripcion">
                       <table class="table table-condensed">
                         <tbody>
@@ -182,7 +187,7 @@
         </div> <!--modal-body-->
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar y regresar </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
         </div>
 
       </div>
