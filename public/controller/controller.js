@@ -490,6 +490,44 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	    $scope.highlight(keyword); // Resaltar la keyword correspondiente dentro del texto
 	};
 
+	$scope.savePDF = function(){
+		var doc = new jsPDF();
+		doc.setFontSize(12);
+		doc.setFontType("bold");
+
+		var count = 0;
+		var rubros = $scope.notSort($scope.allInfo.identificacion);
+		for(var i in rubros){
+			//console.log($scope.encabezados[rubros[i]]);
+			doc.text(20, 20 + (10*count), $scope.encabezados[rubros[i]]);
+			count += 1;
+		}
+		// for(var key in $scope.notSort($scope.allInfo.identificacion)){
+		// 	doc.text(20, 20 + (10*count), $scope.encabezados[key]);	 // TODO: undefined problem		
+		// 	count += 1;
+		// }
+
+		// doc.setFont("helvetica");
+		// doc.setFontType("bold");
+		// doc.text(20, 20, 'Hello world!');
+
+		// doc.setFont("courier");
+		// doc.setFontType("normal");
+		// doc.text(20, 30, 'This is client-side Javascript, pumping out a PDF.');
+
+		// Optional - set properties on the document
+		doc.setProperties({
+			title: 'Título de audiovisual',
+			subject: 'Ficha de registro audiovisual',
+			author: 'LAIS',
+			keywords: 'archivo, audiovisual, lais, mora, etc',
+			creator: 'LAIS'
+		});
+		
+		// Save the PDF
+		doc.save('RegistroAudiovisual.pdf');
+	};
+
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
 	$scope.firstLoad = function(){
