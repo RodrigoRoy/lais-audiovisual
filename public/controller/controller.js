@@ -353,7 +353,15 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	//$scope.uniqueName son todos los rubros que coinciden con la búsqueda
 	$scope.predicate = 'fecha'; // Predicado o propiedad que se utilizará para el ordenamiento
 	$scope.reverse = 'true'; // Orden descendente (true) o ascendente (false) de los registros
-	//$scope.columns = 6;
+	// Arreglo auxiliar agrupado por areas para mostrar correctamente keywords dentro de la tabla de información completa (ver función focus())
+	var areas = {
+    	'identificacion': ['codigo_de_referencia', 'titulo_propio', 'titulo_paralelo', 'titulo_atribuido', 'titulo_de_serie', 'numero_de_programa', 'pais', 'fecha', 'duracion', 'investigacion', 'realizacion', 'direccion', 'guion', 'adaptacion', 'idea_original', 'fotografia', 'fotografia_fija', 'edicion', 'sonido_grabacion', 'sonido_edicion', 'musica_original', 'musicalizacion', 'voces', 'actores', 'animacion', 'otros_colaboradores'],
+    	'contexto': ['entidad_productora', 'productor', 'distribuidora', 'historia_institucional', 'resena_biografica', 'forma_de_ingreso', 'fecha_de_ingreso'],
+    	'contenido': ['sinopsis', 'descriptor_onomastico', 'descriptor_toponimico', 'descriptor_cronologico', 'tipo_de_produccion', 'genero', 'fuentes', 'recursos', 'versiones', 'formato_original', 'material_extra'],
+    	'condiciones': ['condiciones_de_acceso', 'existencia_y_localizacion_de_originales', 'idioma_original', 'doblajes_disponibles', 'subtitulajes', 'soporte', 'numero_copias', 'descripcion_fisica', 'color', 'audio', 'sistema_de_grabacion', 'region_dvd', 'requisitos_tecnicos'],
+    	'documentacion': ['existencia_y_localizacion_de_copias', 'unidades_de_descripcion_relacionadas', 'documentos_asociados', 'area_de_notas'],
+    	'descripcion': ['notas_del_archivero', 'datos_del_archivero', 'reglas_o_normas', 'fecha_de_descripcion', 'imagen', 'url']
+    }
 	
 	// En caso de que sea una búsqueda se obtienen todos los registros que coincidan con el query
 	if($scope.query){
@@ -462,6 +470,64 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		$("#modalInfo").highlight(query, true);
 	};
 
+	// Auxiliar para determinar el área de un rubro (util al auto-mostrar la pestaña donde aparece la keyword)
+	// Utiliza la variable "areas" que contiene el agrupamiento de todos los campos
+	$scope.searchArea = function(rubro){
+		for(var key in areas){
+			for(var i in areas[key]){
+				if(areas[key][i] === rubro){
+					return key;
+				}
+			}
+		}
+	};
+
+	// Mostrar tab relacionada con el keyword de la búsqueda
+	$scope.focus = function(keyword, rubro){
+		var area = $scope.searchArea(rubro); // Determinar el área (id de la pestaña/nav-pill/nav-tab)
+		$scope.hideInfo = true; // Mostrar modal si está oculto
+	    $('.nav-pills a[data-target="#' + area + '"]').tab('show'); // Mostrar pestaña (nav-pill/nav-tab)
+	    $scope.highlight(keyword); // Resaltar la keyword correspondiente dentro del texto
+	};
+
+	$scope.savePDF = function(){
+		var doc = new jsPDF();
+		doc.setFontSize(12);
+		doc.setFontType("bold");
+
+		var count = 0;
+		var rubros = $scope.notSort($scope.allInfo.identificacion);
+		for(var i in rubros){
+			//console.log($scope.encabezados[rubros[i]]);
+			doc.text(20, 20 + (10*count), $scope.encabezados[rubros[i]]);
+			count += 1;
+		}
+		// for(var key in $scope.notSort($scope.allInfo.identificacion)){
+		// 	doc.text(20, 20 + (10*count), $scope.encabezados[key]);	 // TODO: undefined problem		
+		// 	count += 1;
+		// }
+
+		// doc.setFont("helvetica");
+		// doc.setFontType("bold");
+		// doc.text(20, 20, 'Hello world!');
+
+		// doc.setFont("courier");
+		// doc.setFontType("normal");
+		// doc.text(20, 30, 'This is client-side Javascript, pumping out a PDF.');
+
+		// Optional - set properties on the document
+		doc.setProperties({
+			title: 'Título de audiovisual',
+			subject: 'Ficha de registro audiovisual',
+			author: 'LAIS',
+			keywords: 'archivo, audiovisual, lais, mora, etc',
+			creator: 'LAIS'
+		});
+		
+		// Save the PDF
+		doc.save('RegistroAudiovisual.pdf');
+	};
+
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
 	$scope.firstLoad = function(){
@@ -518,17 +584,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     		//console.log("allInfo: ", data); // Debug
     	});
 	};
-
-	$scope.sortByFecha = function(registro){
-		return parseInt(registro.fecha);
-	};
-
-	/*$scope.getQueryResults = function(){
-		$http.get('php/manejoBD.php?action=busqueda2&query='+$routeParams.query)
-			.success(function(data, status, headers, config) {
-				$scope.archivos = data;
-			})
-	};*/
 
 	// Determina si un area está vacia. Un área se considera vacía si todos sus campos contienen cadena vacía
 	$scope.isEmpty = function(area){

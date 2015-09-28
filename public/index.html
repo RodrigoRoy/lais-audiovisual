@@ -1,150 +1,157 @@
 <!DOCTYPE html>
-	<html>
-		<head>
-			<meta charset="UTF-8">
-			<!-- Font Family Google -->
-    		<link href='http://fonts.googleapis.com/css?family=Cantora+One' rel='stylesheet' type='text/css'>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- Font Family Google -->
+		<link href='http://fonts.googleapis.com/css?family=Cantora+One' rel='stylesheet' type='text/css'>
 
-			<!-- Latest compiled and minified CSS (Bootstrap)-->
-    		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    		<link rel="stylesheet" href="css/index.css">
+		<!-- Latest compiled and minified CSS (Bootstrap)-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/index.css">
 
-		</head>
-		<body ng-app="lais" ng-controller="datosAutentificacion" ng-model="sesion">
-			<nav class="navbar-inverse navbar-fixed-top navegador">
-				<div class="container-fluid">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<div class="navbar-header">
-						<a class="navbar-brand">
-					        <div class="logo">
-					        	<img class="img-responsive" src="imgs/moraEscalado.png">
-					    	</div>
-					    </a>
-					    <a class="navbar-brand">
-					        <div class="logo">
-					        	<img id="logoLais" class="img-responsive" src="imgs/laisEscalado.png">
-					        </div>
-					    </a>
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						<span class="sr-only"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						</button>
-					</div>
+	</head>
+	<body ng-app="lais" ng-controller="datosAutentificacion" ng-model="sesion">
+		<nav class="navbar-inverse navbar-fixed-top navegador">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<a class="navbar-brand">
+				        <div class="logo">
+				        	<img class="img-responsive" src="imgs/moraEscalado.png">
+				    	</div>
+				    </a>
+				    <a class="navbar-brand">
+				        <div class="logo">
+				        	<img id="logoLais" class="img-responsive" src="imgs/laisEscalado.png">
+				        </div>
+				    </a>
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+				</div>
 
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
-							<ul class="nav navbar-nav">
-								<li><a class="colorLetrasNav" href="#inicio">Inicio<span class="barraDecorativa"></span></a></li>
-								<li><a class="colorLetrasNav" href="#acercade">Acerca del sitio<span class="barraDecorativa"></span></a></li>
-								<li><a class="colorLetrasNav" href="#publicaciones_y_vínculos">Publicaciones y vínculos<span class="barraDecorativa"></span></a></li>
-							</ul>
-						
-							<ul class="nav navbar-nav navbar-right">
-								<li ng-cloak>
-									<a ng-show="!sesion" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"class="btn btn-link colorLetrasNav"> Iniciar Sesión </a>
-								</li>
-								<li ng-show="sesion" class="dropdown">
-							        <a href="" class="dropdown-toggle colorLetrasNav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user}}  <span class="caret"></span></a>
-							        <ul class="dropdown-menu">
-							            <li ng-show="permiso > 2"><a class="colorLetrasNav" href="#administracion_usuarios">Administración</a></li>
-							            <li ng-show="permiso > 2" role="separator" class="divider"></li>
-							            <li ><a class="colorLetrasNav" ng-click="logout()" href="">Cerrar Sesión</a></li>
-							        </ul>
-							    </li>
-							</ul>
-							<form class="navbar-form navbar-right" role="search" ng-controller="busquedaFormCtrl">
-								<div class="form-group input-group">
-						  			<input type="text" class="form-control" placeholder="Búsqueda" ng-model="query">
-						  			<span class="input-group-btn">
-						  				<button type="submit" class="btn btn-default" ng-click="busqueda(query)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-						  			</span>
-								</div>
-						<!--<button type="submit" class="btn btn-default" ng-click="busqueda(query)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>-->
-							</form>
-							<ul class="nav navbar-nav navbar-right">
-								<li><a class="colorLetrasNav" href="#decadas">Acervo<span class="barraDecorativa"></span></a></li>
-							</ul>
-					</div><!-- /.navbar-collapse -->
-				</div><!-- /.container-fluid -->
-			</nav>
-			<div id="content" ><div ng-view onload="noBack()" onpageshow="if (event.persisted) noBack()" ></div></div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li><a class="colorLetrasNav" href="#inicio">Inicio<span class="barraDecorativa"></span></a></li>
+							<li><a class="colorLetrasNav" href="#acercade">Acerca del sitio<span class="barraDecorativa"></span></a></li>
+							<li><a class="colorLetrasNav" href="#publicaciones_y_vínculos">Publicaciones y vínculos<span class="barraDecorativa"></span></a></li>
+						</ul>
+					
+						<ul class="nav navbar-nav navbar-right">
+							<li ng-cloak>
+								<a ng-show="!sesion" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"class="btn btn-link colorLetrasNav"> Iniciar Sesión </a>
+							</li>
+							<li ng-show="sesion" class="dropdown">
+						        <a href="" class="dropdown-toggle colorLetrasNav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user}}  <span class="caret"></span></a>
+						        <ul class="dropdown-menu">
+						            <li ng-show="permiso > 2"><a class="colorLetrasNav" href="#administracion_usuarios">Administración</a></li>
+						            <li ng-show="permiso > 2" role="separator" class="divider"></li>
+						            <li ><a class="colorLetrasNav" ng-click="logout()" href="">Cerrar Sesión</a></li>
+						        </ul>
+						    </li>
+						</ul>
+						<form class="navbar-form navbar-right" role="search" ng-controller="busquedaFormCtrl">
+							<div class="form-group input-group">
+					  			<input type="text" class="form-control" placeholder="Búsqueda" ng-model="query">
+					  			<span class="input-group-btn">
+					  				<button type="submit" class="btn btn-default" ng-click="busqueda(query)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+					  			</span>
+							</div>
+					<!--<button type="submit" class="btn btn-default" ng-click="busqueda(query)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>-->
+						</form>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a class="colorLetrasNav" href="#decadas">Acervo<span class="barraDecorativa"></span></a></li>
+						</ul>
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container-fluid -->
+		</nav>
+		<div id="content" ><div ng-view onload="noBack()" onpageshow="if (event.persisted) noBack()" ></div></div>
 
-			<!--Modal para Iniciar sesion-->
-			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	          <div class="modal-dialog">
-	            <div class="modal-content" style="background-color: rgba(38, 105, 138,0.9); color:white">
-	              <div class="modal-header">
-	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	                <h4 class="modal-title" id="exampleModalLabel">Autentificación LAIS</h4>
-	              </div>
-	              <div class="modal-body">
-	                <form methos="POST">
-	                      <div class="form-group">
-	                        <label for="recipient-name" class="control-label" >Usuario</label>
-	                        <input type="text" class="form-control" id="recipient-name" ng-model="usuario">
-	                      </div>
-	                      <div class="form-group">
-	                        <label for="message-text" class="control-label" >Contraseña</label>
-	                        <input type="password" class="form-control" id="recipient-name" ng-model="pass">
-	                      </div>
-	                    <!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
-	                    <div class="alert alert-danger" role="alert" ng-model="errores" ng-show="errores">
-	                        <small class="error" ng-show="errores">
-	                            <strong>ERROR:</strong> Usuario o Contraseña invalida!
-	                        </small>
-	                    </div>
-	                </form>
-	              </div>
-	              <div class="modal-footer">
-	                <button type="button" class="btn btn-primary" ng-click="login()">Iniciar Sesion</button>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-    		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>	
-    		
-    		<!-- Latest compiled and minified JavaScript (Bootstrap)-->
-    		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<!--Modal para Iniciar sesion-->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content" style="background-color: rgba(38, 105, 138,0.9); color:white">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Autentificación LAIS</h4>
+              </div>
+              <div class="modal-body">
+                <form methos="POST">
+                      <div class="form-group">
+                        <label for="recipient-name" class="control-label" >Usuario</label>
+                        <input type="text" class="form-control" id="recipient-name" ng-model="usuario">
+                      </div>
+                      <div class="form-group">
+                        <label for="message-text" class="control-label" >Contraseña</label>
+                        <input type="password" class="form-control" id="recipient-name" ng-model="pass">
+                      </div>
+                    <!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
+                    <div class="alert alert-danger" role="alert" ng-model="errores" ng-show="errores">
+                        <small class="error" ng-show="errores">
+                            <strong>ERROR:</strong> Usuario o Contraseña invalida!
+                        </small>
+                    </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="login()">Iniciar Sesion</button>
+              </div>
+            </div>
+          </div>
+        </div>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>	
+		
+		<!-- Latest compiled and minified JavaScript (Bootstrap)-->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-    		<!--Estilo de multiselect-->
-    		<link rel="stylesheet" href="controller/AngularMultiselect/isteven-multi-select.css">
+		<!--Estilo de multiselect-->
+		<link rel="stylesheet" href="controller/AngularMultiselect/isteven-multi-select.css">
 
-    		<!-- AngularJS-->
-    		<script data-require="angular.js@1.3.17" data-semver="1.3.17" src="https://code.angularjs.org/1.3.17/angular.js"></script>
-    		<!-- Para rutear las vistas AngularJS-->
-    		<script src="https://code.angularjs.org/1.3.17/angular-route.js"></script>
-    		<!-- Permite reusar mensajes en formularios -->
-    		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular-messages.js"></script>
-    		<!-- Animaciones de Angular -->
-    		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular-animate.js"></script>
-    		<!-- Cookies de AngularJS-->
-    		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular-cookies.js"></script>
+		<!-- AngularJS-->
+		<script data-require="angular.js@1.3.17" data-semver="1.3.17" src="https://code.angularjs.org/1.3.17/angular.js"></script>
+		<!-- Para rutear las vistas AngularJS-->
+		<script src="https://code.angularjs.org/1.3.17/angular-route.js"></script>
+		<!-- Permite reusar mensajes en formularios -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular-messages.js"></script>
+		<!-- Animaciones de Angular -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular-animate.js"></script>
+		<!-- Cookies de AngularJS-->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular-cookies.js"></script>
 
-    		<!-- AngugularStrap para popover-->
-    		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.5/angular-strap.min.js"></script>
-        	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.5/angular-strap.tpl.min.js"></script>
+		<!-- AngugularStrap para popover-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.5/angular-strap.min.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.5/angular-strap.tpl.min.js"></script>
 
-    		<!--Script Controlador -->
-    		<script src="controller/ng-infinite-scroll.js"></script>
-    		<script src="controller/AngularMultiselect/isteven-multi-select.js"></script>
-    		<script src="controller/controller.js"></script>
-    		
+		<!--Script Controlador -->
+		<script src="controller/ng-infinite-scroll.js"></script>
+		<script src="controller/AngularMultiselect/isteven-multi-select.js"></script>
+		<script src="controller/controller.js"></script>
+		
 
-    		<!-- Componente adicional de Angular para subir archivos (imágenes) -->
-			<script src="js/ng-file-upload-shim.min.js"></script>
-			<script src="js/ng-file-upload.min.js"></script>
-			<!-- Resaltador de palabras para las búsquedas (http://frightanic.com/projects/jquery-highlight) -->
-			<script src="js/jquery-highlight1.js"></script>
-			<script type="text/javascript" src="js/animacion.js"></script>
-    		<script type="text/javascript">
-	        $(document).ready(function(){
-	            $('#exampleModal').on('shown.bs.modal', function () {
-	                $('#exampleModal').focus();
-	            });
-	        });
-    		</script>
-		</body>
-	</html>
+
+		<!-- Componente adicional de Angular para subir archivos (imágenes) -->
+		<script src="js/ng-file-upload-shim.min.js"></script>
+		<script src="js/ng-file-upload.min.js"></script>
+		<!-- Resaltador de palabras para las búsquedas (http://frightanic.com/projects/jquery-highlight) -->
+		<script src="js/jquery-highlight1.js"></script>
+		<script type="text/javascript" src="js/animacion.js"></script>
+		
+
+		<script type="text/javascript">
+        
+        $(document).ready(function(){
+            $('#exampleModal').on('shown.bs.modal', function () {
+                $('#exampleModal').focus();
+            });
+        });
+		</script>
+	</body>
+</html>
