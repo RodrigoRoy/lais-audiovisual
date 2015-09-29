@@ -82,6 +82,17 @@ $(document).ready(function(){
 	clicSecciones();
 	//agregaDivErrores();
 	//multiSelect();
+		//Iniciar el navbar
+	$( ".navegador" ).css( "background-color", "transparent");
+	var scroll_pos = 0;
+    $(document).scroll(function() { 
+        scroll_pos = $(this).scrollTop();
+        if(scroll_pos > 200) {
+            $(".navegador").css("background-color", "rgba(0,0,0,.8)");
+        }else{
+        	$( ".navegador" ).css( "background-color", "transparent");
+        }
+    });
 });
 
 
