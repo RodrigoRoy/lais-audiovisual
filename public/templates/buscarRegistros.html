@@ -1,9 +1,10 @@
 <link rel="stylesheet" type="text/css" href="css/background.css" />
 <style>
-h2 {
+.titularResultados {
   color: white;
+  margin-left:4.6%;
 }
-h3 {
+.tituloOrdenar {
   color:#f0fff0;
 }
 .modal-content{
@@ -28,7 +29,7 @@ h3 {
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12">
         <div id="decadas">
-          <h2 style="margin-left:4.6%;" ng-click="highlight()">Resultados de la búsqueda <em>"{{query}}"</em></h2>
+          <h2 class="titularResultados" ng-click="highlight()">Resultados de la búsqueda <em>"{{query}}"</em></h2>
         </div>
       </div>
       <div ng-show="archivos.length != 0">
