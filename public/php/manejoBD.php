@@ -678,7 +678,7 @@ function busqueda2($query, $permiso){
     // Falta completar los resultados obtenidos con la información necesaria para la vista (titulo, pais, fehca, duración, imagen)
     $registros = array(); // Registros de la base de datos con coincidencias de palabras buscadas
     foreach($totalResults as $codigo => $querys) {
-        $select = "SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia='" . $codigo . "'"; // $clave || $totalResults[$i]
+        $select = "SELECT codigo_de_referencia, titulo_propio, titulo_paralelo, fecha, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia='" . $codigo . "'"; // $clave || $totalResults[$i]
         $stmt = $GLOBALS['conn']->prepare($select);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)

@@ -552,11 +552,21 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		});;
 	};
 
+	// Toma los textos de algunos campos (sinopsis) y cambia las url por enlaces
 	$scope.hideURL = function(){
 		var pattern = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g;
 		var newText = '<a href="$&" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>';
 		//$scope.allInfo.contenido_y_estructura.sinopsis = $scope.allInfo.contenido_y_estructura.sinopsis === undefined ? "" : $scope.allInfo.contenido_y_estructura.sinopsis.replace(pattern, newText);
 		$scope.allInfo.contenido_y_estructura.sinopsis = $scope.allInfo.contenido_y_estructura.sinopsis.replace(pattern, newText);
+	}
+
+	// Dada la información del archivo (pasado como parámetro) devuelve el titulo paralelo en cado de haberlo, en caso contrario devuelve el titulo propio.
+	// Acorta el texto y agrega "..." para adecuarlo a la vista en cuadrícula de la colección.
+	$scope.tituloApropiado = function(archivo){
+		if (archivo.titulo_paralelo !== '')
+			return (archivo.titulo_paralelo.length > 40) ? (archivo.titulo_paralelo.substring(0,40) + "...."):(archivo.titulo_paralelo);
+		else
+			return (archivo.titulo_propio.length > 40) ? (archivo.titulo_propio.substring(0,40) + "...."):(archivo.titulo_propio);
 	}
 
 	// Determina si un area está vacia. Un área se considera vacía si todos sus campos contienen cadena vacía
