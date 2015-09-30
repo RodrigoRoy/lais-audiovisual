@@ -7,6 +7,10 @@
 .tituloOrdenar {
   color:#f0fff0;
 }
+.titularModalContent{
+  font-weight: bold;
+  font-size: 1.17em;
+}
 .modal-content{
   background-color: rgba(25, 45, 59, 0.95);
   color: #C2C2C2;
@@ -103,13 +107,12 @@
                 <img src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas/sin_imagen.png')}}" class="img-responsive">
               </div>
               <div class="col-xs-12 col-md-8 col-lg-8">
-                <h4>Año: {{allInfo.identificacion.fecha}}</h4>
-                <h4>Sinópsis</h4>
-                {{allInfo.contenido_y_estructura.sinopsis}}
-                <p ng-show="allInfo.contenido_y_estructura.sinopsis === ''"><em>Por el momento no hay sinópsis disponible.</em></p>
-                <h4>Duración: {{allInfo.identificacion.duracion}}</h4>
+                <p><span class="titularModalContent">Sinópsis</span></p>
+                <p ng-bind-html="allInfo.contenido_y_estructura.sinopsis"></p>
+                <p ng-show="allInfo.contenido_y_estructura.sinopsis === ''"><em>Pendiente.</em></p>
+                <p><span class="titularModalContent">Año</span> {{allInfo.identificacion.fecha}} <span class="titularModalContent" style="margin-left: 1em;">Duración</span> {{allInfo.identificacion.duracion}}</p>
+                <p ng-show="allInfo.identificacion.realizacion !== ''"><span class="titularModalContent">Realizador</span> {{allInfo.identificacion.realizacion}}</p>
                 <p class="text-right" ng-show="allInfo.adicional.url !== ''">
-                  <!-- <button type="button" class="btn btn-default btn-lg" ng-click="window.location.href = allInfo.adicional.url"></button> -->
                   <a class="btn btn-default" href="{{allInfo.adicional.url}}" role="button">
                     Video <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>
                   </a>

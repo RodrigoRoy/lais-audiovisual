@@ -1,5 +1,5 @@
 // La dependencia ngFileUpload sirve para subir imagenes (https://github.com/danialfarid/ng-file-upload)
-var lais = angular.module('lais',['ngRoute','ngCookies', 'ngMessages', 'ngAnimate', 'ngFileUpload','infinite-scroll', 'mgcrea.ngStrap', 'isteven-multi-select']);
+var lais = angular.module('lais',['ngRoute','ngCookies', 'ngMessages', 'ngAnimate', 'ngSanitize', 'ngFileUpload','infinite-scroll', 'mgcrea.ngStrap', 'isteven-multi-select']);
 
 lais.config(function ($routeProvider, $locationProvider){
 	$routeProvider
@@ -362,7 +362,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	'documentacion': ['existencia_y_localizacion_de_copias', 'unidades_de_descripcion_relacionadas', 'documentos_asociados', 'area_de_notas'],
     	'descripcion': ['notas_del_archivero', 'datos_del_archivero', 'reglas_o_normas', 'fecha_de_descripcion', 'imagen', 'url']
     }
-	
+
 	// En caso de que sea una búsqueda se obtienen todos los registros que coincidan con el query
 	if($scope.query){
 		$http.get('php/manejoBD.php?action=busqueda2&query='+$scope.query+'&permiso='+$scope.permiso)
@@ -490,44 +490,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	    $scope.highlight(keyword); // Resaltar la keyword correspondiente dentro del texto
 	};
 
-	$scope.savePDF = function(){
-		var doc = new jsPDF();
-		doc.setFontSize(12);
-		doc.setFontType("bold");
-
-		var count = 0;
-		var rubros = $scope.notSort($scope.allInfo.identificacion);
-		for(var i in rubros){
-			//console.log($scope.encabezados[rubros[i]]);
-			doc.text(20, 20 + (10*count), $scope.encabezados[rubros[i]]);
-			count += 1;
-		}
-		// for(var key in $scope.notSort($scope.allInfo.identificacion)){
-		// 	doc.text(20, 20 + (10*count), $scope.encabezados[key]);	 // TODO: undefined problem		
-		// 	count += 1;
-		// }
-
-		// doc.setFont("helvetica");
-		// doc.setFontType("bold");
-		// doc.text(20, 20, 'Hello world!');
-
-		// doc.setFont("courier");
-		// doc.setFontType("normal");
-		// doc.text(20, 30, 'This is client-side Javascript, pumping out a PDF.');
-
-		// Optional - set properties on the document
-		doc.setProperties({
-			title: 'Título de audiovisual',
-			subject: 'Ficha de registro audiovisual',
-			author: 'LAIS',
-			keywords: 'archivo, audiovisual, lais, mora, etc',
-			creator: 'LAIS'
-		});
-		
-		// Save the PDF
-		doc.save('RegistroAudiovisual.pdf');
-	};
-
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
 	$scope.firstLoad = function(){
@@ -582,8 +544,20 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
     		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
     		//console.log("allInfo: ", data); // Debug
-    	});
+    		$scope.hideURL(); // Cambia URLs por enlaces
+    	}).
+    	error(function(data, status, headers, config) {
+			// called asynchronously if an error occurs or server returns response with an error status.
+			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa tu conexión a internet.");
+		});;
 	};
+
+	$scope.hideURL = function(){
+		var pattern = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g;
+		var newText = '<a href="$&" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>';
+		//$scope.allInfo.contenido_y_estructura.sinopsis = $scope.allInfo.contenido_y_estructura.sinopsis === undefined ? "" : $scope.allInfo.contenido_y_estructura.sinopsis.replace(pattern, newText);
+		$scope.allInfo.contenido_y_estructura.sinopsis = $scope.allInfo.contenido_y_estructura.sinopsis.replace(pattern, newText);
+	}
 
 	// Determina si un area está vacia. Un área se considera vacía si todos sus campos contienen cadena vacía
 	$scope.isEmpty = function(area){
