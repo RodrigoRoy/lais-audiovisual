@@ -33,12 +33,12 @@
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12">
         <div id="decadas">
-          <h2 class="titularResultados" ng-click="highlight()">Resultados de la búsqueda <em>"{{query}}"</em></h2>
+          <h2 class="titularResultados">Resultados de la búsqueda <em>"{{query}}"</em> <small>({{archivos.length}} resultados, {{visibles}} visibles)</small></h2>
         </div>
       </div>
       <div ng-show="archivos.length != 0">
         <h2 id="tituloFiltro">Filtrar por:</h2>
-        <div id="seccionFiltrado" isteven-multi-select input-model="inputQuery" output-model="outputQuery"  button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="all none reset" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
+        <div id="seccionFiltrado" isteven-multi-select input-model="inputQuery" output-model="outputQuery" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="all none reset" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
         <h3 class="tituloOrdenar" ng-show="outputQuery.length"><strong>Ordenar por:</strong> <a class="linkOrdena" href="" ng-click="order('fecha')">Fecha</a> <a class="linkOrdena" href="" ng-click="order('titulo_propio')">Título</a></h3>
       </div>
       <center><h2 ng-show="archivos.length === 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>

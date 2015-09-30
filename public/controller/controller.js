@@ -362,6 +362,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	'documentacion': ['existencia_y_localizacion_de_copias', 'unidades_de_descripcion_relacionadas', 'documentos_asociados', 'area_de_notas'],
     	'descripcion': ['notas_del_archivero', 'datos_del_archivero', 'reglas_o_normas', 'fecha_de_descripcion', 'imagen', 'url']
     }
+    $scope.visibles = $scope.archivos.length; // Cantidad de documentales visibles (útil al filtrarlos en búsquedas)
 
 	// En caso de que sea una búsqueda se obtienen todos los registros que coincidan con el query
 	if($scope.query){
@@ -370,6 +371,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 				if(data)
 					$scope.uniqueNames = data.splice(data.length-1, 1)[0]; // Los rubros siempre vienen al final de "data"
 				$scope.archivos = data;
+				$scope.visibles = $scope.archivos.length;
 				for(var i in $scope.archivos){ // A todos los archivos se les agrega la propiedad "show"
 					$scope.archivos[i]['show'] = true; // Esto permite filtrar resultados de manera inmediata
 					// Y eliminar espacios en blanco para un correcto comportamiento en ordenamiento:
@@ -407,6 +409,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			return;
 		}
 
+		var contador = 0;
 		for(var key in $scope.archivos){
 			var rubrosList = $scope.getRubros($scope.archivos[key]); // Arreglo que solo contiene los rubros (sin repeticiones)
 			loop:
@@ -414,11 +417,13 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 				for(var j in $scope.outputQuery)
 					if($scope.outputQuery[j]['name'] === rubrosList[i]){ // Si aparece el rubro del registro en outputQuery
 						$scope.archivos[key]['show'] = true;
+						contador++;
 						break loop; // Para evitar reasignar a falso si el siguiente rubro no está contenido
 					}else{
 						$scope.archivos[key]['show'] = false;
 					}
 		}
+		$scope.visibles = contador;
 	};
 
 	// Auxiliar que devuelve un arreglo de los rubros (campos) donde un registro tuvo coincidencias de búsqueda (sin repeticiones).
@@ -440,6 +445,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		for(var key in $scope.archivos){
 			$scope.archivos[key].show = false;
 		}
+		$scope.visibles = 0;
 	};
 
 	// Muestra todos los archivos en la vista
@@ -447,6 +453,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		for(var key in $scope.archivos){
 			$scope.archivos[key].show = true;
 		}
+		$scope.visibles = $scope.archivos.length;
 	};
 
 	// Recibe el nombre de la propiedad o predicado que se utilizará para el ordenamiento de los registros (por ejemplo: 'fecha')
@@ -554,6 +561,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 
 	// Toma los textos de algunos campos (sinopsis) y cambia las url por enlaces
 	$scope.hideURL = function(){
+		// Expresión regular para URLs: http://stackoverflow.com/questions/161738/what-is-the-best-regular-expression-to-check-if-a-string-is-a-valid-url
 		var pattern = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g;
 		var newText = '<a href="$&" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>';
 		//$scope.allInfo.contenido_y_estructura.sinopsis = $scope.allInfo.contenido_y_estructura.sinopsis === undefined ? "" : $scope.allInfo.contenido_y_estructura.sinopsis.replace(pattern, newText);
