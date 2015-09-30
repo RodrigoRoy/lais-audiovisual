@@ -46,9 +46,9 @@
               </div>
               <div class="col-xs-12 col-md-8 col-lg-8">
                 <h4>Año: <small>{{allInfo.identificacion.fecha}}</small></h4>
-                <h4>Sinópsis</h4>
+                <h4>Sinopsis</h4>
                 {{allInfo.contenido_y_estructura.sinopsis}}
-                <p ng-show="allInfo.contenido_y_estructura.sinopsis === ''"><em>Por el momento no hay sinópsis disponible.</em></p>
+                <p ng-show="allInfo.contenido_y_estructura.sinopsis === ''"><em>Por el momento no hay sinopsis disponible.</em></p>
                 <h4>Duración: <small>{{allInfo.identificacion.duracion}}</small></h4>
                 <p class="text-right" ng-show="allInfo.adicional.url !== ''">
                   <!-- <button type="button" class="btn btn-default btn-lg" ng-click="window.location.href = allInfo.adicional.url"></button> -->

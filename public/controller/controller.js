@@ -246,7 +246,7 @@ lais.service('DecadaService', function($http){
 		'resena_biografica': 'Reseña biográfica',
 		'forma_de_ingreso': 'Forma de ingreso',
 		'fecha_de_ingreso': 'Fecha de ingreso',
-		'sinopsis': 'Sinópsis',
+		'sinopsis': 'Sinopsis',
 		'descriptor_onomastico': 'Descriptor onomástico',
 		'descriptor_toponimico': 'Descriptor toponímico',
 		'descriptor_cronologico': 'Descriptor cronológico',

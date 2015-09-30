@@ -107,7 +107,7 @@
                 <img src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas/sin_imagen.png')}}" class="img-responsive">
               </div>
               <div class="col-xs-12 col-md-8 col-lg-8">
-                <p><span class="titularModalContent">Sinópsis</span></p>
+                <p><span class="titularModalContent">Sinopsis</span></p>
                 <p ng-bind-html="allInfo.contenido_y_estructura.sinopsis"></p>
                 <p ng-show="allInfo.contenido_y_estructura.sinopsis === ''"><em>Pendiente.</em></p>
                 <p><span class="titularModalContent">Año</span> {{allInfo.identificacion.fecha}} <span class="titularModalContent" style="margin-left: 1em;">Duración</span> {{allInfo.identificacion.duracion}}</p>
