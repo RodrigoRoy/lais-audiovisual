@@ -550,8 +550,9 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     		// Limpiar algunos campos:
     		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
     		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
-    		//console.log("allInfo: ", data); // Debug
     		$scope.hideURL(); // Cambia URLs por enlaces
+    		//console.log("image data: ", document.getElementById("imgPortada"));
+    		getImgSize('imgs/Portadas/' + $scope.allInfo.adicional.imagen); // Llamada asincrona para obtener el ancho y largo original ($scope.imgActualWidth, $scope.imgActualHeight)
     	}).
     	error(function(data, status, headers, config) {
 			// called asynchronously if an error occurs or server returns response with an error status.
@@ -576,6 +577,156 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		else
 			return (archivo.titulo_propio.length > 40) ? (archivo.titulo_propio.substring(0,40) + "...."):(archivo.titulo_propio);
 	}
+
+	$scope.openPDF = function(){
+		// var docDefinition = {content: 'This is an sample PDF printed with pdfMake'};
+		var docDefinition = {
+			footer: function(currentPage, pageCount) { 
+				//return {text: currentPage.toString() + ' de ' + pageCount, alignment: 'right'};
+				return {
+					style: 'table',
+					table: {
+						widths: [28, '*', 50, 28],
+						body: [
+							[
+								'',
+								{text: 'Laboratorio Audiovisual de Investigación Social. Instituto Mora.', fontSize: 10, italics: true, alignment: 'left'},
+								{text: currentPage.toString() + ' de ' + pageCount, italics: true, alignment: 'right'},
+								''
+							]
+						]
+					},
+					layout: 'noBorders'
+				}
+			},
+			header: {text: '"' + $scope.allInfo.identificacion.titulo_propio + '"', fontSize: 10, italics: true, alignment: 'right', margin: [25,25,50,50]},
+			content: [
+				{text: 'Ficha de catalogación', style: 'header'},
+				{
+					text: [
+						'Documentación de la colección de materiales audiovisuales del Laboratorio Audiovisual de Investigación Social para el material "',
+						{text: $scope.allInfo.identificacion.titulo_propio, italics: true, bold: true},
+						'".'
+					]
+				},
+				$scope.title2pdfmake($scope.allInfo.identificacion, 'Área de identificación'),
+				$scope.array2pdfmake($scope.allInfo.identificacion),
+				$scope.title2pdfmake($scope.allInfo.contexto, 'Área de contexto'),
+				$scope.array2pdfmake($scope.allInfo.contexto),
+				$scope.title2pdfmake($scope.allInfo.contenido_y_estructura, 'Área de contenido y estructura'),
+				$scope.array2pdfmake($scope.allInfo.contenido_y_estructura),
+				$scope.title2pdfmake($scope.allInfo.condiciones_de_acceso, 'Área de condiciones de acceso'),
+				$scope.array2pdfmake($scope.allInfo.condiciones_de_acceso),
+				$scope.title2pdfmake($scope.allInfo.documentacion_asociada, 'Área de documentación asociada'),
+				$scope.array2pdfmake($scope.allInfo.documentacion_asociada),
+				$scope.title2pdfmake($scope.allInfo.notas, 'Área de notas'),
+				$scope.array2pdfmake($scope.allInfo.notas),
+				(function(){
+					return ($scope.allInfo.adicional.imagen === '') ? "" : {text: 'Portada', style: 'subheader'}
+				})(),
+				(function(){
+					return ($scope.allInfo.adicional.imagen === '') ? "" : {image: getBase64Image(document.getElementById("imgPortada")), width: 150 }
+				})()
+				// {
+				// 	image: getBase64Image(document.getElementById("imgPortada")),
+				// 	width: 150
+				// }
+			],
+			styles: {
+				header: {
+					fontSize: 22,
+					bold: true,
+					margin: [0, 0, 0, 10]
+				},
+				subheader: {
+					fontSize: 16,
+					bold: true,
+					margin: [0, 10, 0, 5]
+				},
+				table: {
+					margin: [0, 5, 0, 15]
+				}
+			}
+		};
+
+		// open the PDF in a new window
+		pdfMake.createPdf(docDefinition).open();
+	};
+
+	// Convierte una imagen a base64. El parámetro se espera ser del tipo: document.getElementById("id-img-tag")
+	function getBase64Image(img) {
+		// Create an empty canvas element
+		var canvas = document.createElement("canvas");
+		canvas.width = $scope.imgActualWidth;
+		canvas.height = $scope.imgActualHeight;
+
+		// Copy the image contents to the canvas
+		var ctx = canvas.getContext("2d");
+		ctx.drawImage(img, 0, 0);
+
+		// Get the data-URL formatted image
+		// Firefox supports PNG and JPEG. You could check img.src to
+		// guess the original format, but be aware the using "image/jpg"
+		// will re-encode the image.
+		var dataURL = canvas.toDataURL("image/jpeg");
+
+		return dataURL;
+		//return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+	}
+
+	// Llamada asincrona para obtener el tamaño original de una imagen.
+	// El ancho y largo se almacenan en $scope.imgActualWidth y $scope.imgActualHeight, respectivamente.
+	function getImgSize(imgSrc) {
+		var newImg = new Image();
+
+		newImg.onload = function() {
+		  var height = newImg.height;
+		  var width = newImg.width;
+		  //console.log('The image size is '+width+'*'+height);
+		  $scope.imgActualWidth = width;
+		  $scope.imgActualHeight = height;
+		}
+
+		newImg.src = imgSrc; // this must be done AFTER setting onload
+	}
+
+	// Agrega un título (en formato de pdfmake.js) si el área dada como parámetro no está vacia
+	$scope.title2pdfmake = function(area, readableTitle){
+		if(!$scope.isEmpty(area))
+			return {
+				text: readableTitle,
+				style: 'subheader'
+			}
+		return '';
+	};
+
+	// Agrega el contenido del área como tabla (en formato de pdfmake.js) si el área dada como parámetro no está vacia
+	$scope.array2pdfmake = function(area){
+		if(!$scope.isEmpty(area))
+			return {
+				style: 'table',
+				table: {
+					widths: [100, '*'],
+					body: $scope.content2pdfmake(area)
+				},
+				layout: {
+					hLineWidth: function(i, node) {return (i === 0 || i === node.table.body.length) ? 0 : 1; },
+					vLineWidth: function(i, node) {return 0; },
+					hLineColor: function(i, node) {return 'gray'; },
+					vLineColor: function(i, node) {return (i === 0 || i === node.table.widths.length) ? 'black' : 'gray'; }
+				}
+			};
+		return '';
+	};
+
+	// Auxiliar para imprimir cada campo de un área dada (se utiliza en array2pdfmake())
+	$scope.content2pdfmake = function(area){
+		var parsed = [];
+		for(var key in area)
+			if(area[key] !== '')
+				parsed.push([$scope.encabezados[key], area[key]]);
+		return parsed;
+	};
 
 	// Determina si un area está vacia. Un área se considera vacía si todos sus campos contienen cadena vacía
 	$scope.isEmpty = function(area){
