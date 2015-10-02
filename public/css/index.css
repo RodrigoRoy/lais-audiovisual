@@ -462,7 +462,7 @@ h3 a:focus{
 }
 
 /*Animación de cargar la barra en chrome*/
-@-webkit-keyframes ul{
+@-webkit-keyframes section{
  	0% { 
     width:0;
   }
@@ -470,6 +470,7 @@ h3 a:focus{
     width:calc(100% - 23px);
   }
 }
+
 
 /*Accion que hace la animacion aplicada a la barra con el span*/
 li a:hover span{
