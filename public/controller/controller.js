@@ -574,8 +574,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	$scope.tituloApropiado = function(archivo){
 		if (archivo.titulo_paralelo !== '')
 			return (archivo.titulo_paralelo.length > 40) ? (archivo.titulo_paralelo.substring(0,40) + "...."):(archivo.titulo_paralelo);
-		else
-			return (archivo.titulo_propio.length > 40) ? (archivo.titulo_propio.substring(0,40) + "...."):(archivo.titulo_propio);
+		return (archivo.titulo_propio.length > 40) ? (archivo.titulo_propio.substring(0,40) + "...."):(archivo.titulo_propio);
 	}
 
 	$scope.openPDF = function(){
