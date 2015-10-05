@@ -25,7 +25,7 @@ lais.config(function ($routeProvider, $locationProvider){
 			controller: "muestraDecadaCtrl"
 		})
 		.when("/archivos/agregarArchivo",{
-			templateUrl: "templates/agregarArchivo2.html",
+			templateUrl: "templates/agregarArchivo.html",
 			controller: "agregarDatosCtrl"
 		})
 		.when("/archivos/editarArchivo/:id",{
