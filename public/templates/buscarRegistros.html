@@ -162,7 +162,7 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.identificacion)" ng-show="allInfo.identificacion[key] != ''">
                             <td class="col-xs-2 col-xs-2 col-md-2 col-lg-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-xs-10 col-md-10 col-lg-10 col-lg-10">{{allInfo.identificacion[key]}}</td>
+                            <td class="col-xs-10 col-xs-10 col-md-10 col-lg-10 col-lg-10"><span ng-bind-html="allInfo.identificacion[key]"></span></td>
                           </tr>
                         </tbody>
                       </table>
@@ -173,7 +173,7 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.contexto)" ng-show="allInfo.contexto[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.contexto[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.contexto[key]"></span></td>
                           </tr>
                         </tbody>
                       </table>
@@ -184,7 +184,7 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.contenido_y_estructura)" ng-show="allInfo.contenido_y_estructura[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.contenido_y_estructura[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.contenido_y_estructura[key]"></span></td>
                           </tr>
                         </tbody>
                       </table>
@@ -195,7 +195,7 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.condiciones_de_acceso)" ng-show="allInfo.condiciones_de_acceso[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.condiciones_de_acceso[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.condiciones_de_acceso[key]"></span></td>
                           </tr>
                         </tbody>
                       </table>
@@ -206,11 +206,11 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.documentacion_asociada)" ng-show="allInfo.documentacion_asociada[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.documentacion_asociada[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.documentacion_asociada[key]"></span></td>
                           </tr>
                           <tr ng-repeat="key in notSort(allInfo.notas)" ng-show="allInfo.notas[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.notas[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.notas[key]"></span></td>
                           </tr>
                         </tbody>
                       </table>
@@ -221,11 +221,11 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.descripcion)" ng-show="allInfo.descripcion[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.descripcion[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfoCopy.descripcion[key]}}</td><!--No se cambian las URL-->
                           </tr>
                           <tr ng-repeat="key in notSort(allInfo.adicional)" ng-show="allInfo.adicional[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.adicional[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfoCopy.adicional[key]}}</td><!--No se cambian las URL-->
                           </tr>
                         </tbody>
                       </table>

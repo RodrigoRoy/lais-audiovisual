@@ -383,22 +383,70 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 					$scope.inputQuery.push({name: DecadaService.encabezados[$scope.uniqueNames[i]], ticked:true});
 				}
 			});
-	}/*else{
-		$http.get('php/manejoBD.php?action=getDecada&decada='+$routeParams.codigo).
+	}
+
+	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
+	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
+	$scope.firstLoad = function(){
+		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
+			return;
+		$scope.busy = true; // En estos momentos estamos "ocupados" obteniendo datos de la base
+		$http.get('php/manejoBD.php?action=firstGet&codigo='+$routeParams.codigo+"&howMany="+howMany+"&offset="+$scope.archivos.length).
 			success(function(data, status, headers, config) {
-				//$scope.archivos = data;
-				console.log("data:", data);
-				var repeats = Math.ceil(data.length / $scope.columns);
-				console.log("repeats:", repeats);
-				for(var i=0; i < repeats; i++){
-					$scope.archivos.push(data.splice(0, $scope.columns));
+				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
+					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
+					//console.log("Imgen: " + data[av].imagen);
 				}
-				console.log("archivos:", $scope.archivos);
+				$scope.busy = false; // En este momento ya NO estamos "ocupados"
+				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
+					$scope.busy = true;
 			}).
 			error(function(data, status, headers, config) {
 				// called asynchronously if an error occurs or server returns response with an error status.
 			});
-	}*/
+	};
+
+	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas después de una búsqueda
+	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
+	// (Esta función es una copia de firstLoad())
+	$scope.firstQueryLoad = function(){
+		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
+			return;
+		$scope.busy = true; // En estos momentos estamos "ocupados" obteniendo datos de la base
+		$http.get('php/manejoBD.php?action=busqueda&query='+$routeParams.query+"&howMany="+howMany+"&offset="+$scope.archivos.length).
+			success(function(data, status, headers, config) {
+				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
+					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
+					console.log("archivos", $scope.archivos);
+				}
+				$scope.busy = false; // En este momento ya NO estamos "ocupados"
+				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
+					$scope.busy = true;
+			}).
+			error(function(data, status, headers, config) {
+				// called asynchronously if an error occurs or server returns response with an error status.
+			});
+	};
+
+	// Obtener toda la información de un audiovisual particular. Recibe el código de identificación
+	$scope.getAllInfo = function(codigoId){
+		$scope.hideInfo = false; //Inicializar el botón de ver más para que siempre este visible
+		//console.log("codigo: " + codigoId);
+		$http.get('php/manejoBD.php?action=obtenerXAreas&id=' + codigoId).
+    	success(function(data) {
+    		$scope.allInfo = data;
+    		// Limpiar algunos campos:
+    		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
+    		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
+    		$scope.hideURL(); // Cambia URLs por enlaces
+    		//console.log("image data: ", document.getElementById("imgPortada"));
+    		getImgSize('imgs/Portadas/' + $scope.allInfo.adicional.imagen); // Llamada asincrona para obtener el ancho y largo original ($scope.imgActualWidth, $scope.imgActualHeight)
+    	}).
+    	error(function(data, status, headers, config) {
+			// called asynchronously if an error occurs or server returns response with an error status.
+			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa tu conexión a internet.");
+		});;
+	};
 
 	// Función que actualiza la propiedad "show" del arreglo $scope.archivos que contiene los registros de la búsqueda que se muestran
 	// Verifica los rubros de cada registro y los compara con $scope.outputQuery (que es un multiselect para filtrar resultados)
@@ -497,77 +545,33 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	    $scope.highlight(keyword); // Resaltar la keyword correspondiente dentro del texto
 	};
 
-	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas en el template.
-	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
-	$scope.firstLoad = function(){
-		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
-			return;
-		$scope.busy = true; // En estos momentos estamos "ocupados" obteniendo datos de la base
-		$http.get('php/manejoBD.php?action=firstGet&codigo='+$routeParams.codigo+"&howMany="+howMany+"&offset="+$scope.archivos.length).
-			success(function(data, status, headers, config) {
-				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
-					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
-					//console.log("Imgen: " + data[av].imagen);
-				}
-				$scope.busy = false; // En este momento ya NO estamos "ocupados"
-				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
-					$scope.busy = true;
-			}).
-			error(function(data, status, headers, config) {
-				// called asynchronously if an error occurs or server returns response with an error status.
-			});
-	};
-
-	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas después de una búsqueda
-	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
-	// (Esta función es una copia de firstLoad())
-	$scope.firstQueryLoad = function(){
-		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
-			return;
-		$scope.busy = true; // En estos momentos estamos "ocupados" obteniendo datos de la base
-		$http.get('php/manejoBD.php?action=busqueda&query='+$routeParams.query+"&howMany="+howMany+"&offset="+$scope.archivos.length).
-			success(function(data, status, headers, config) {
-				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
-					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
-					console.log("archivos", $scope.archivos);
-				}
-				$scope.busy = false; // En este momento ya NO estamos "ocupados"
-				if (data.length == 0) // Excepto si ya no hay datos que obtener de la base
-					$scope.busy = true;
-			}).
-			error(function(data, status, headers, config) {
-				// called asynchronously if an error occurs or server returns response with an error status.
-			});
-	};
-
-	// Obtener toda la información de un audiovisual particular. Recibe el código de identificación
-	$scope.getAllInfo = function(codigoId){
-		$scope.hideInfo = false; //Inicializar el botón de ver más para que siempre este visible
-		//console.log("codigo: " + codigoId);
-		$http.get('php/manejoBD.php?action=obtenerXAreas&id=' + codigoId).
-    	success(function(data) {
-    		$scope.allInfo = data;
-    		// Limpiar algunos campos:
-    		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
-    		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
-    		$scope.hideURL(); // Cambia URLs por enlaces
-    		//console.log("image data: ", document.getElementById("imgPortada"));
-    		getImgSize('imgs/Portadas/' + $scope.allInfo.adicional.imagen); // Llamada asincrona para obtener el ancho y largo original ($scope.imgActualWidth, $scope.imgActualHeight)
-    	}).
-    	error(function(data, status, headers, config) {
-			// called asynchronously if an error occurs or server returns response with an error status.
-			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa tu conexión a internet.");
-		});;
-	};
-
 	// Toma los textos de algunos campos (sinopsis) y cambia las url por enlaces
 	$scope.hideURL = function(){
 		// Expresión regular para URLs: http://stackoverflow.com/questions/161738/what-is-the-best-regular-expression-to-check-if-a-string-is-a-valid-url
 		var pattern = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g;
 		var newText = '<a href="$&" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>';
-		//$scope.allInfo.contenido_y_estructura.sinopsis = $scope.allInfo.contenido_y_estructura.sinopsis === undefined ? "" : $scope.allInfo.contenido_y_estructura.sinopsis.replace(pattern, newText);
-		$scope.allInfo.contenido_y_estructura.sinopsis = $scope.allInfo.contenido_y_estructura.sinopsis.replace(pattern, newText);
+		//$scope.sinopsis_original = $scope.allInfo.contenido_y_estructura.sinopsis; // Copia del original (útil para imprimir en pdf)
+		//$scope.allInfo.contenido_y_estructura.sinopsis = $scope.allInfo.contenido_y_estructura.sinopsis.replace(pattern, newText);
+		$scope.allInfoCopy = [];
+		for(var area in $scope.allInfo){
+			$scope.allInfoCopy[area] = [];
+			for(var campo in $scope.allInfo[area]){
+				$scope.allInfoCopy[area][campo] = $scope.allInfo[area][campo];
+				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(pattern, newText);
+			}
+		}
 	}
+
+	// function copyAllInfo(){
+	// 	var copy = [];
+	// 	for(var area in $scope.allInfo){
+	// 		copy[area] = [];
+	// 		for(var campo in $scope.allInfo[]){
+	// 			copy[area][campo] = $scope.allInfo[area][campo];
+	// 		}
+	// 	}
+	// 	return copy;
+	// }
 
 	// Dada la información del archivo (pasado como parámetro) devuelve el titulo paralelo en cado de haberlo, en caso contrario devuelve el titulo propio.
 	// Acorta el texto y agrega "..." para adecuarlo a la vista en cuadrícula de la colección.
@@ -598,38 +602,34 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 					layout: 'noBorders'
 				}
 			},
-			header: {text: '"' + $scope.allInfo.identificacion.titulo_propio + '"', fontSize: 10, italics: true, alignment: 'right', margin: [25,25,50,50]},
+			header: {text: '"' + $scope.allInfoCopy.identificacion.titulo_propio + '"', fontSize: 10, italics: true, alignment: 'right', margin: [25,25,50,50]},
 			content: [
 				{text: 'Ficha de catalogación', style: 'header'},
 				{
 					text: [
 						'Documentación de la colección de materiales audiovisuales del Laboratorio Audiovisual de Investigación Social para el material "',
-						{text: $scope.allInfo.identificacion.titulo_propio, italics: true, bold: true},
+						{text: $scope.allInfoCopy.identificacion.titulo_propio, italics: true, bold: true},
 						'".'
 					]
 				},
-				$scope.title2pdfmake($scope.allInfo.identificacion, 'Área de identificación'),
-				$scope.array2pdfmake($scope.allInfo.identificacion),
-				$scope.title2pdfmake($scope.allInfo.contexto, 'Área de contexto'),
-				$scope.array2pdfmake($scope.allInfo.contexto),
-				$scope.title2pdfmake($scope.allInfo.contenido_y_estructura, 'Área de contenido y estructura'),
-				$scope.array2pdfmake($scope.allInfo.contenido_y_estructura),
-				$scope.title2pdfmake($scope.allInfo.condiciones_de_acceso, 'Área de condiciones de acceso'),
-				$scope.array2pdfmake($scope.allInfo.condiciones_de_acceso),
-				$scope.title2pdfmake($scope.allInfo.documentacion_asociada, 'Área de documentación asociada'),
-				$scope.array2pdfmake($scope.allInfo.documentacion_asociada),
-				$scope.title2pdfmake($scope.allInfo.notas, 'Área de notas'),
-				$scope.array2pdfmake($scope.allInfo.notas),
+				$scope.title2pdfmake($scope.allInfoCopy.identificacion, 'Área de identificación'),
+				$scope.array2pdfmake($scope.allInfoCopy.identificacion),
+				$scope.title2pdfmake($scope.allInfoCopy.contexto, 'Área de contexto'),
+				$scope.array2pdfmake($scope.allInfoCopy.contexto),
+				$scope.title2pdfmake($scope.allInfoCopy.contenido_y_estructura, 'Área de contenido y estructura'),
+				$scope.array2pdfmake($scope.allInfoCopy.contenido_y_estructura),
+				$scope.title2pdfmake($scope.allInfoCopy.condiciones_de_acceso, 'Área de condiciones de acceso'),
+				$scope.array2pdfmake($scope.allInfoCopy.condiciones_de_acceso),
+				$scope.title2pdfmake($scope.allInfoCopy.documentacion_asociada, 'Área de documentación asociada'),
+				$scope.array2pdfmake($scope.allInfoCopy.documentacion_asociada),
+				$scope.title2pdfmake($scope.allInfoCopy.notas, 'Área de notas'),
+				$scope.array2pdfmake($scope.allInfoCopy.notas),
 				(function(){
-					return ($scope.allInfo.adicional.imagen === '') ? "" : {text: 'Portada', style: 'subheader'}
+					return ($scope.allInfoCopy.adicional.imagen === '') ? "" : {text: 'Portada', style: 'subheader'}
 				})(),
 				(function(){
-					return ($scope.allInfo.adicional.imagen === '') ? "" : {image: getBase64Image(document.getElementById("imgPortada")), width: 150 }
+					return ($scope.allInfoCopy.adicional.imagen === '') ? "" : {image: getBase64Image(document.getElementById("imgPortada")), width: 150 }
 				})()
-				// {
-				// 	image: getBase64Image(document.getElementById("imgPortada")),
-				// 	width: 150
-				// }
 			],
 			styles: {
 				header: {
@@ -647,7 +647,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 				}
 			}
 		};
-
 		// open the PDF in a new window
 		pdfMake.createPdf(docDefinition).open();
 	};
