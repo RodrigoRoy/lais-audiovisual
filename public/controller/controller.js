@@ -562,23 +562,23 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		}
 	}
 
-	// function copyAllInfo(){
-	// 	var copy = [];
-	// 	for(var area in $scope.allInfo){
-	// 		copy[area] = [];
-	// 		for(var campo in $scope.allInfo[]){
-	// 			copy[area][campo] = $scope.allInfo[area][campo];
-	// 		}
-	// 	}
-	// 	return copy;
-	// }
-
 	// Dada la información del archivo (pasado como parámetro) devuelve el titulo paralelo en cado de haberlo, en caso contrario devuelve el titulo propio.
 	// Acorta el texto y agrega "..." para adecuarlo a la vista en cuadrícula de la colección.
 	$scope.tituloApropiado = function(archivo){
-		if (archivo.titulo_paralelo !== '')
-			return (archivo.titulo_paralelo.length > 40) ? (archivo.titulo_paralelo.substring(0,40) + "...."):(archivo.titulo_paralelo);
-		return (archivo.titulo_propio.length > 40) ? (archivo.titulo_propio.substring(0,40) + "...."):(archivo.titulo_propio);
+		var maxLength = 40; // Longitud máxima permitida (para la vista)
+		// Prioridad por mostrar títulos parentizados en titulo_propio
+		if((matches = /\((.*)\)$/.exec(archivo.titulo_propio.trim())) !== null)
+			return (matches[1].length > maxLength) ? (matches[1].substring(0,maxLength) + "...") : (matches[1]);
+		// De no ser el caso, prioridad a titulo_paralelo
+		if (archivo.titulo_paralelo !== ''){
+			var titulos = archivo.titulo_paralelo.split(","); // Puede haber varios títulos paralelos (separados por coma)
+			if (titulos.length > 1) // De ser así, tomar solamente el primero
+				return (titulos[0].trim().length > maxLength) ? (titulos[0].trim().substring(0,maxLength) + "...") : (titulos[0].trim());
+			// En caso contrario, tomar todo el titulo_paralelo
+			return (archivo.titulo_paralelo.length > maxLength) ? (archivo.titulo_paralelo.substring(0,maxLength) + "...") : (archivo.titulo_paralelo);
+		}
+		// En otro caso, solo existe titulo_propio
+		return (archivo.titulo_propio.length > maxLength) ? (archivo.titulo_propio.substring(0,maxLength) + "...") : (archivo.titulo_propio);
 	}
 
 	$scope.openPDF = function(){
