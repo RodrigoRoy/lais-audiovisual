@@ -462,7 +462,7 @@ h3 a:focus{
 }
 
 /*Animación de cargar la barra en chrome*/
-@-webkit-keyframes section{
+@-webkit-keyframes ul{
  	0% { 
     width:0;
   }
