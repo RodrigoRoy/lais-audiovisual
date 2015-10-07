@@ -33,7 +33,9 @@ DROP TABLE area_de_descripcion;
 DROP TABLE informacion_adicional;
 DROP TABLE area_de_identificacion; # Debido a que codigo_de_referencia es PK, se elimina al final
 DROP TABLE usuarios;
-DROP VIEW decada1920, audiovisual; # Borar vistas
+# Borrar toda la base de datos
+DROP DATABASE IF EXISTS Coleccion_Archivistica;
+
 # Mostrar todos los registros de todas las tablas
 SELECT *
 	FROM area_de_identificacion 
@@ -44,6 +46,18 @@ SELECT *
 		NATURAL JOIN area_de_notas
 		NATURAL JOIN area_de_descripcion
 		NATURAL JOIN informacion_adicional;
+
+# Selección completa de información de una década
+SELECT *
+	FROM area_de_identificacion 
+		NATURAL JOIN area_de_contexto 
+		NATURAL JOIN area_de_contenido_y_estructura
+		NATURAL JOIN area_de_condiciones_de_acceso
+		NATURAL JOIN area_de_documentacion_asociada
+		NATURAL JOIN area_de_notas
+        NATURAL JOIN area_de_descripcion
+		NATURAL JOIN informacion_adicional
+	WHERE codigo_de_referencia LIKE 'MXIM-AV-1-9%';
 
 # Mostrar algunos renglones de la tabla
 SELECT codigo_de_referencia,titulo_propio, duracion FROM area_de_identificacion 
@@ -132,7 +146,7 @@ SELECT codigo_de_referencia, titulo_propio, pais, fecha, duracion, imagen
 	FROM area_de_identificacion
 		NATURAL JOIN informacion_adicional
 	WHERE codigo_de_referencia LIKE '%MXIM-AV-1-4%'
-	ORDER BY fecha ASC
+	ORDER BY fecha DESC
 	LIMIT 0,10; # offset, row_count
 
 # Borrar pruebas
@@ -160,13 +174,29 @@ SELECT *
 # Permite borrar los registro de una década particular (en este caso la década 5)
 DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-7%';
 
-SELECT codigo_de_referencia, titulo_propio 
+# Todos los materiales audiovisuales sin sinopsis
+SELECT codigo_de_referencia, titulo_propio, sinopsis
+	FROM area_de_identificacion 
+		NATURAL JOIN area_de_contenido_y_estructura
+	WHERE sinopsis = '';
+    
+# Todos los materiales audiovisuales que incluyen URL en la sinopsis
+SELECT codigo_de_referencia, titulo_propio, sinopsis
+	FROM area_de_identificacion 
+		NATURAL JOIN area_de_contenido_y_estructura 
+	WHERE sinopsis LIKE '%http%';
+    
+# Materiales sin portada
+SELECT codigo_de_referencia, titulo_propio
 	FROM area_de_identificacion 
 		NATURAL JOIN area_de_contexto 
-		NATURAL JOIN area_de_contenido_y_estructura 
-		NATURAL JOIN area_de_condiciones_de_acceso 
-		NATURAL JOIN area_de_documentacion_asociada 
-		NATURAL JOIN area_de_notas 
+		NATURAL JOIN area_de_contenido_y_estructura
+		NATURAL JOIN area_de_condiciones_de_acceso
+		NATURAL JOIN area_de_documentacion_asociada
+		NATURAL JOIN area_de_notas
 		NATURAL JOIN area_de_descripcion
-		NATURAL JOIN informacion_adicional 
-	WHERE titulo_propio LIKE '%of the %';
+		NATURAL JOIN informacion_adicional
+	WHERE imagen = '';
+
+# Borrar una década
+DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-9%';

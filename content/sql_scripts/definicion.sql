@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS area_de_contenido_y_estructura(
 	genero VARCHAR(30) DEFAULT '',
 	fuentes VARCHAR(170) DEFAULT '',
 	recursos VARCHAR(170) DEFAULT '',
-	versiones VARCHAR(45) DEFAULT '',
+	versiones VARCHAR(150) DEFAULT '',
 	formato_original VARCHAR(25) DEFAULT '',
 	material_extra VARCHAR(60) DEFAULT ''
 );
@@ -147,8 +147,8 @@ ALTER TABLE area_de_notas ADD CONSTRAINT codigoNotasFK
 # AREA DE DESCRIPCION
 CREATE TABLE IF NOT EXISTS area_de_descripcion(
 	codigo_de_referencia VARCHAR(20) NOT NULL,
-	notas_del_archivero VARCHAR(75) DEFAULT '',
-	datos_del_archivero VARCHAR(60) DEFAULT '',
+	notas_del_archivero TEXT,
+	datos_del_archivero VARCHAR(120) DEFAULT '',
 	reglas_o_normas VARCHAR(31) DEFAULT '',
 	fecha_de_descripcion DATE
 );
@@ -181,9 +181,16 @@ CREATE TABLE `usuarios` (
 );
 
 #Insertar usuarios registrados a la tabla 'usuarios'
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Sergio",0);
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Rodrigo",3);
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Sergio",3);
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Lourdes",3);
 INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Carlos",3);
 INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Felipe",3);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Lourdes",3);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Rodrigo",3);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Usuario1",1);
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Penélope",0);
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Verónica",0);
+INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Foo",2);
+# Clave de los privilegios:
+# 0 = None
+# 1 = Add
+# 2 = Add, edit
+# 3 = Add, edit, delete
