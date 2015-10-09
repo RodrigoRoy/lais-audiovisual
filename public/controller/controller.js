@@ -348,7 +348,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	$scope.archivos = []; // Los registros por décadas (incluyen titulo, fecha, duracion, imagen)
 	$scope.allInfo = []; // Toda la información del registro seleccionado (se inicializa más adelante)
 	$scope.busy = false;
-	var howMany = 18; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
+	var howMany = 32; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
 	$scope.errores = false; //Muetra el error de confirmación de contraseña para borrar un registro
 	//$scope.uniqueName son todos los rubros que coinciden con la búsqueda
 	$scope.predicate = 'fecha'; // Predicado o propiedad que se utilizará para el ordenamiento
@@ -445,7 +445,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	error(function(data, status, headers, config) {
 			// called asynchronously if an error occurs or server returns response with an error status.
 			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa tu conexión a internet.");
-		});;
+		});
 	};
 
 	// Función que actualiza la propiedad "show" del arreglo $scope.archivos que contiene los registros de la búsqueda que se muestran
@@ -1101,10 +1101,14 @@ lais.controller('busquedaFormCtrl',function($scope, $location){
 // (Actualmente ya no se ocupa)
 lais.controller('busquedaCtrl',function($scope, $http, $routeParams, $location){
 	$scope.query = $routeParams.query; // Obtener query desde la barra de dirección
-	$http.get('php/manejoBD.php?action=buscar&query=' + $routeParams.query).
-    success(function(data) {
-        $scope.datos = data; // Resultados de la búsqueda
-    });
+	$http.get('php/manejoBD.php?action=buscar&query=' + $routeParams.query)
+	    .success(function(data) {
+	        $scope.datos = data; // Resultados de la búsqueda
+	    })
+	    .error(function(data, status, headers, config) {
+			// called asynchronously if an error occurs or server returns response with an error status.
+			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa tu conexión a internet.");
+		});
 });
 
 //Administración de usuarios

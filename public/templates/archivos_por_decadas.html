@@ -1,7 +1,52 @@
 <link rel="stylesheet" type="text/css" href="css/background.css" />
+<style>
+.btn-detalles{
+  background-color: #254559;
+  border-color: #112432;
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    color: #fff;
+    background-color: #112332;
+}
+.nav-pills>li>a:hover{
+  background-color: #324250;
+}
+.titularResultados {
+  color: white;
+  margin-left:4.6%;
+}
+.tituloOrdenar {
+  color:#f0fff0;
+}
+.titularModalContent{
+  font-weight: bold;
+  font-size: 1.17em;
+}
+.modal-content{
+  background-color: rgba(25, 45, 59, 0.95);
+  color: #C2C2C2;
+}
+.contenedorInfo {
+  background-color: rgba(42, 59, 71, 0.6);
+}
+.spanRubro {
+  background-color: #0D1F2B;
+  color: #C2C2C2;
+}
+.nav-pills li a{
+  color: #C2C2C2;
+}
+
+.tituloPrincipal{
+  width:175px; 
+  height:40px; 
+  background-color:white;
+}
+</style>
+
 <body>
   <br><br><br>
-  <div class="container-fluid">
+  <div class="container-fluid"> <!-- ng-init="firstQueryLoad()" -->
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12">
         <div id="decadas">
@@ -11,12 +56,12 @@
     </div>
     <div id="seccionPortadas" infinite-scroll="firstLoad()" infinite-scroll-disabled='busy' infinite-scroll-distance="4">
       <div id="audiovisual">
-        <a ng-repeat="archivo in archivos | orderBy:'-fecha'" data-toggle="modal" href="" data-target="#modalInfo" data-whatever="@mdo" class="portadas">
-          <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen.png')}}">
-          <p class="text-rigth" >
-              {{(archivo.titulo_propio.length > 40) ? (archivo.titulo_propio.substring(0,40) + "...."):(archivo.titulo_propio)}}
+        <a ng-repeat="archivo in archivos | orderBy:'-fecha'" data-toggle="modal" href="" data-target="#modalInfo" class="portadas">
+          <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen_3.jpg')}}">
+          <p class="text-rigth">
+              {{tituloApropiado(archivo)}}
               <br>
-              <br ng-show="archivo.titulo_propio.length <= 25">
+              <br ng-show="tituloApropiado(archivo).length <= 25">
               <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
           </p>
         </a>
@@ -27,10 +72,10 @@
     </div>
   </div>
 
-  <!-- Modal -->
+  <!--Modal que muestra la información de los audiovisuales -->
   <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content" style="background-color: rgba(38, 105, 138,0.9); color:white">
+      <div class="modal-content">
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -66,20 +111,18 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-xs-12 col-md-4 col-lg-4">
-                <img src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas/sin_imagen.png')}}" class="img-responsive">
+                <img src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas/sin_imagen_3.jpg')}}" class="img-responsive" id="imgPortada">
               </div>
               <div class="col-xs-12 col-md-8 col-lg-8">
-                <h4>Año: {{allInfo.identificacion.fecha}}</h4>
-                <h4>Sinopsis</h4>
-                {{allInfo.contenido_y_estructura.sinopsis}}
-                <p ng-show="allInfo.contenido_y_estructura.sinopsis === ''"><em>Por el momento no hay sinopsis disponible.</em></p>
-                <h4>Duración: {{allInfo.identificacion.duracion}}</h4>
+                <p><span class="titularModalContent">Sinopsis</span></p>
+                <p ng-bind-html="allInfo.contenido_y_estructura.sinopsis"></p>
+                <p ng-show="allInfo.contenido_y_estructura.sinopsis === ''"><em>Pendiente.</em></p>
+                <p><span class="titularModalContent">Año</span> {{allInfo.identificacion.fecha}} <span class="titularModalContent" style="margin-left: 1em;">Duración</span> {{allInfo.identificacion.duracion}}</p>
+                <p ng-show="allInfo.identificacion.realizacion !== ''"><span class="titularModalContent">Realizador</span> {{allInfo.identificacion.realizacion}}</p>
                 <p class="text-right" ng-show="allInfo.adicional.url !== ''">
-                  <!-- <button type="button" class="btn btn-default btn-lg" ng-click="window.location.href = allInfo.adicional.url"></button> -->
-                  <a class="btn btn-default" href="{{allInfo.adicional.url}}" role="button">
+                  <a class="btn btn-default" href="{{allInfoCopy.adicional.url}}" role="button">
                     Video <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>
                   </a>
-                  <!-- {{allInfo.adicional.url}} -->
                 </p>
               </div> 
             </div>
@@ -88,12 +131,12 @@
               <div class="col-xs-12 col-md-12 col-lg-12">
                 
                 <!-- BOTÓN PARA MOSTRAR DETALLES -->
-                <button type="button" ng-show="!hideInfo" ng-click="hideInfos()" class="btn btn-primary btn-lg btn-block">Ver más <span class="glyphicon glyphicon-menu-down"></span></button>
+                <button type="button" ng-show="!hideInfo" ng-click="hideInfos()" class="btn btn-primary btn-lg btn-block btn-detalles">Ver más <span class="glyphicon glyphicon-menu-down"></span></button>
                 
                 <!-- DETALLES DEL AUDIOVISUAL -->
                 <div ng-show="hideInfo" class="contenedorInfo">
                   <!-- Nav tabs -->
-                  <ul class="nav nav-pills nav-justified" role="tablist">
+                  <ul class="nav nav-pills nav-justified" role="tablist" id="myTabs">
                     <li ng-show="!isEmpty(allInfo.identificacion)" role="presentation" class="active"><a data-target="#identificacion" aria-controls="identificacion" role="tab" data-toggle="pill" href="">Identificación</a></li>
                     <li ng-show="!isEmpty(allInfo.contexto)" role="presentation"><a data-target="#contexto" aria-controls="contexto" role="tab" data-toggle="pill" href="">Contexto</a></li>
                     <li ng-show="!isEmpty(allInfo.contenido_y_estructura)" role="presentation"><a data-target="#contenido" aria-controls="contenido" role="tab" data-toggle="pill" href="">Contenido y estructura</a></li>
@@ -110,7 +153,7 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.identificacion)" ng-show="allInfo.identificacion[key] != ''">
                             <td class="col-xs-2 col-xs-2 col-md-2 col-lg-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-xs-10 col-md-10 col-lg-10 col-lg-10">{{allInfo.identificacion[key]}}</td>
+                            <td class="col-xs-10 col-xs-10 col-md-10 col-lg-10 col-lg-10"><span ng-bind-html="allInfo.identificacion[key]"></span></td>
                           </tr>
                         </tbody>
                       </table>
@@ -121,7 +164,7 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.contexto)" ng-show="allInfo.contexto[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.contexto[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.contexto[key]"></span></td>
                           </tr>
                         </tbody>
                       </table>
@@ -132,7 +175,7 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.contenido_y_estructura)" ng-show="allInfo.contenido_y_estructura[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.contenido_y_estructura[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.contenido_y_estructura[key]"></span></td>
                           </tr>
                         </tbody>
                       </table>
@@ -143,7 +186,7 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.condiciones_de_acceso)" ng-show="allInfo.condiciones_de_acceso[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.condiciones_de_acceso[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.condiciones_de_acceso[key]"></span></td>
                           </tr>
                         </tbody>
                       </table>
@@ -154,11 +197,11 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.documentacion_asociada)" ng-show="allInfo.documentacion_asociada[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.documentacion_asociada[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.documentacion_asociada[key]"></span></td>
                           </tr>
                           <tr ng-repeat="key in notSort(allInfo.notas)" ng-show="allInfo.notas[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.notas[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.notas[key]"></span></td>
                           </tr>
                         </tbody>
                       </table>
@@ -169,11 +212,11 @@
                         <tbody>
                           <tr ng-repeat="key in notSort(allInfo.descripcion)" ng-show="allInfo.descripcion[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.descripcion[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfoCopy.descripcion[key]}}</td><!--No se cambian las URL-->
                           </tr>
                           <tr ng-repeat="key in notSort(allInfo.adicional)" ng-show="allInfo.adicional[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
-                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfo.adicional[key]}}</td>
+                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfoCopy.adicional[key]}}</td><!--No se cambian las URL-->
                           </tr>
                         </tbody>
                       </table>
@@ -187,7 +230,7 @@
         </div> <!--modal-body-->
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" ng-click="savePDF()">Guardar PDF</button>
+          <button type="button" class="btn btn-default" ng-click="openPDF()">Ver en PDF</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
         </div>
 
@@ -196,19 +239,14 @@
   </div>
 
   <div id="footer" ng-show="sesion">
-  	<a class='botonUno' ng-click="agregarNuevo(codigo)"> <!-- href="#/archivos/agregarArchivo" -->
-  		<span class="glyphicon glyphicon-plus" style="font-size: 38px;margin-top: 20%;margin-left: 25%; color:white"></span>
-  	</a>
+    <a class='botonUno' ng-click="agregarNuevo(codigo)"> <!-- href="#/archivos/agregarArchivo" -->
+      <span class="glyphicon glyphicon-plus" style="font-size: 38px;margin-top: 20%;margin-left: 25%; color:white"></span>
+    </a>
   </div>
 </body>
-
-
 <!--Togglable Tab para mostrar toda la información de cada audiovisual-->
-
 <script type="text/javascript">
     $(document).ready(function(){
-        //Iniciar el navbar
-        $(".navegador" ).css( "background-color", "transparent");
         $('#modalInfo').on('hidden.bs.modal', function () {
           
         });

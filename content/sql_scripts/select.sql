@@ -200,3 +200,28 @@ SELECT codigo_de_referencia, titulo_propio
 
 # Borrar una década
 DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-9%';
+
+# Orden descendente en datos de una década
+SELECT codigo_de_referencia, titulo_propio, titulo_paralelo, fecha, imagen
+	FROM area_de_identificacion
+		NATURAL JOIN informacion_adicional
+    WHERE codigo_de_referencia LIKE 'MXIM-AV-1-9%'
+    ORDER BY fecha DESC;
+
+# Limitar la cantidad de resultados (offset/apuntador y cantidad)
+SELECT codigo_de_referencia, titulo_propio, titulo_paralelo, fecha, imagen
+	FROM area_de_identificacion
+		NATURAL JOIN informacion_adicional
+    WHERE codigo_de_referencia LIKE 'MXIM-AV-1-9%'
+    ORDER BY fecha DESC
+    LIMIT 0,8;
+
+# Manera adecuada (subconsulta) de obtener de manera ordenada los primeros 32 audiovisuales de una década
+SELECT codigo_de_referencia, titulo_propio, titulo_paralelo, fecha, imagen
+	FROM (SELECT *
+		FROM area_de_identificacion
+			NATURAL JOIN informacion_adicional
+		WHERE codigo_de_referencia LIKE 'MXIM-AV-1-9%'
+		ORDER BY fecha DESC) AS ordered
+	#ORDER BY fecha DESC
+	LIMIT 0,32; # offset, row_count

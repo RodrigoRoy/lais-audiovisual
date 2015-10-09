@@ -24,7 +24,6 @@
                     echo "<br>";
                 }
             }
-            #print_r($files);
         ?>
     </div>
 
