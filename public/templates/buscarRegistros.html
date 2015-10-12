@@ -71,10 +71,10 @@
           <h3>Ordenar por:</h3>
           <div>
             <select id="ordenSelect" class="selectpicker" ng-model="ordenamiento" ng-change="parseOrdenamiento()">
-              <option value="fecha|true">Año (descendente)</option>
-              <option value="fecha|false">Año (ascendente)</option>
-              <option value="titulo_propio|true">Título (descendente)</option>
-              <option value="titulo_propio|false">Título (ascendente)</option>
+              <option value="fecha|true">Año (descendente)</option> <!-- data-icon="glyphicon-sort-by-order"> -->
+              <option value="fecha|false">Año (ascendente)</option> <!-- data-icon="glyphicon-sort-by-order-alt"> -->
+              <option value="titulo_propio|true">Título (descendente)</option> <!-- data-icon="glyphicon-sort-by-alphabet"> -->
+              <option value="titulo_propio|false">Título (ascendente)</option> <!-- data-icon="glyphicon-sort-by-alphabet-alt"> -->
             </select>
           </div>
         </div>
@@ -289,5 +289,6 @@
         });
 
         $('.selectpicker').selectpicker('show');
+        $('.selectpicker').selectpicker('refresh');
     });
 </script>
