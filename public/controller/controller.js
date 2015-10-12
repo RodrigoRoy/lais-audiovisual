@@ -488,6 +488,15 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		return uniqueRubros;
 	};
 
+	// isteven Multiselect transalation:
+	$scope.localLang = {
+		selectAll       : "Seleccionar todo",
+		selectNone      : "Seleccionar nada",
+		reset           : "Reset",
+		search          : "Búsqueda",
+		nothingSelected : "Nada está seleccionado"
+	}
+
 	// Oculta todos los archivos en la vista
 	$scope.updateNone = function(){
 		for(var key in $scope.archivos){
@@ -506,9 +515,18 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 
 	// Recibe el nombre de la propiedad o predicado que se utilizará para el ordenamiento de los registros (por ejemplo: 'fecha')
 	// Revierte el orden ascendente/descendente en caso de ser la misma propiedad o predicado (uso con la directiva orderBy).
-	$scope.order = function(predicate){
-		$scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : true;
-        $scope.predicate = predicate;
+	// $scope.order = function(predicate){
+	// 	$scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : true;
+ //        $scope.predicate = predicate;
+	// };
+
+	$scope.predicate = "fecha";
+	$scope.reverse = true;
+	$scope.parseOrdenamiento = function(){
+		var orden = $scope.ordenamiento.split("|");
+		$scope.predicate = orden[0];
+		$scope.reverse = (orden[1] === 'true');
+		//console.log("orden", orden, "predicate", $scope.predicate, "reverse", $scope.reverse);
 	};
 
 	// Busca el registro con codigo de referencia dado como parámetro y devuelve el arreglo "rubros" asociado a ese registro

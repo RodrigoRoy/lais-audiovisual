@@ -42,29 +42,50 @@
   height:40px; 
   background-color:white;
 }
+
+.search-options{
+  color: white;
+  padding-left: 6%;
+  padding-right: 6%;
+}
 </style>
 
 <body>
   <br><br><br>
-  <div class="container-fluid"> <!-- ng-init="firstQueryLoad()" -->
+  <div class="container-fluid">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12">
         <div id="decadas">
           <h2 class="titularResultados">Resultados de la búsqueda <em>"{{query}}"</em> <small>({{archivos.length}} resultados, {{visibles}} visibles)</small></h2>
         </div>
       </div>
-      <div ng-show="archivos.length != 0">
-        <h2 id="tituloFiltro">Filtrar por:</h2>
-        <div id="seccionFiltrado" isteven-multi-select input-model="inputQuery" output-model="outputQuery" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="all none reset" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
-        <h3 class="tituloOrdenar" ng-show="outputQuery.length"><strong>Ordenar por:</strong> <a class="linkOrdena" href="" ng-click="order('fecha')">Fecha</a> <a class="linkOrdena" href="" ng-click="order('titulo_propio')">Título</a></h3>
+
+      <!-- Filtrar y ordenar resultados -->
+      <div class="row search-options" ng-show="archivos.length != 0">
+        <div class="col-md-8">
+          <h3>Filtrar por:</h3>
+          <div isteven-multi-select input-model="inputQuery" output-model="outputQuery" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" max-height="250px" max-labels="10" helper-elements="all none" translation="localLang" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
+        </div>
+
+        <div class="col-md-4">
+          <h3>Ordenar por:</h3>
+          <div>
+            <select id="ordenSelect" class="selectpicker" ng-model="ordenamiento" ng-change="parseOrdenamiento()">
+              <option value="fecha|true">Año (descendente)</option>
+              <option value="fecha|false">Año (ascendente)</option>
+              <option value="titulo_propio|true">Título (descendente)</option>
+              <option value="titulo_propio|false">Título (ascendente)</option>
+            </select>
+          </div>
+        </div>
       </div>
+
       <center><h2 ng-show="archivos.length === 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
-    <!--<div id="seccionPortadas" infinite-scroll="firstQueryLoad()" infinite-scroll-disabled='busy'>-->
+    
     <div id="seccionPortadas">
-    <!--<div id="seccionPortadas">-->
       <div id="audiovisual">
-        <a ng-repeat="archivo in archivos | orderBy:predicate:reverse" data-toggle="modal" href="" data-target="#modalInfo" class="portadasBusqueda" ng-show="archivo.show">
-          <img data-trigger="hover" data-title="Aparece en:" data-content-template="popover-info.html" data-placement="top" bs-popover ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen_3.jpg')}}">
+        <a ng-repeat="archivo in archivos | orderBy:predicate:reverse" data-toggle="modal" href="" data-target="#modalInfo" class="portadas portadasBusqueda" ng-show="archivo.show">
+          <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen_3.jpg')}}"> <!-- data-trigger="hover" data-title="Aparece en:" data-content-template="popover-info.html" data-placement="top" bs-popover -->
           <p class="text-rigth">
               {{tituloApropiado(archivo)}}
               <br>
@@ -72,13 +93,10 @@
               <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
           </p>
         </a>
-        <script type="text/ng-template" id="popover-info.html">
+        <!--<script type="text/ng-template" id="popover-info.html">
           <h5 ng-repeat="rubro in getRubros(archivo)"><span class="label label-primary">{{rubro}}</span> </h5>        
-        </script>
+        </script>-->
       </div>
-      <!--<div id="load" ng-cloak ng-show="!busy && (archivos.length > 5)">
-        <img id="imgLoad" src="imgs/loading.gif">
-      </div>-->
     </div>
   </div>
 
@@ -269,5 +287,7 @@
           e.preventDefault();
           $(this).tab('show');
         });
+
+        $('.selectpicker').selectpicker('show');
     });
 </script>
