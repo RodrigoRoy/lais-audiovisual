@@ -482,3 +482,14 @@ li a:hover span{
 .navbarMobile{
 	background-color: rgba(0,0,0,.8);
 }
+
+/* Elemento fijo en la parte inferior derecha:
+  http://stackoverflow.com/questions/13217981/how-to-align-image-in-right-bottom-corner*/
+.bottom-right-fix{
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 1;
+  padding: 0px;
+  margin: 0px;
+}
