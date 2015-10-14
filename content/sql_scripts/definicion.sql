@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS area_de_identificacion(
 	musica_original VARCHAR(160) DEFAULT '',
 	musicalizacion VARCHAR(160) DEFAULT '',
 	voces VARCHAR(160) DEFAULT '',
-	actores VARCHAR(160) DEFAULT '',
+	actores VARCHAR(180) DEFAULT '',
 	animacion VARCHAR(160) DEFAULT '',
 	otros_colaboradores VARCHAR(160) DEFAULT ''
 
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS area_de_contenido_y_estructura(
 	recursos VARCHAR(170) DEFAULT '',
 	versiones VARCHAR(150) DEFAULT '',
 	formato_original VARCHAR(25) DEFAULT '',
-	material_extra VARCHAR(60) DEFAULT ''
+	material_extra VARCHAR(150) DEFAULT ''
 );
 # Agregar llave foranea (FK) para el codigo_de_referencia que ya existe en la tabla area_de_identificacion
 ALTER TABLE area_de_contenido_y_estructura ADD CONSTRAINT codigoContEstructFK
@@ -102,11 +102,11 @@ CREATE TABLE IF NOT EXISTS area_de_condiciones_de_acceso(
 	codigo_de_referencia VARCHAR(20) NOT NULL,
 	condiciones_de_acceso VARCHAR(37) DEFAULT '',
 	existencia_y_localizacion_de_originales TEXT,
-	idioma_original VARCHAR(40) DEFAULT '',
-	doblajes_disponibles VARCHAR(40) DEFAULT '',
-	subtitulajes VARCHAR(40) DEFAULT '',
+	idioma_original VARCHAR(80) DEFAULT '',
+	doblajes_disponibles VARCHAR(80) DEFAULT '',
+	subtitulajes VARCHAR(80) DEFAULT '',
 	soporte VARCHAR(25) DEFAULT '',
-	numero_copias VARCHAR(20) DEFAULT '',
+	numero_copias VARCHAR(40) DEFAULT '',
 	descripcion_fisica VARCHAR(60) DEFAULT '',
 	color VARCHAR(80) DEFAULT '',
 	audio VARCHAR(30) DEFAULT '',

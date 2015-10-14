@@ -118,7 +118,7 @@ setDuracion("180'59''")
 '''
 
 # Decadas/archivos a los que se les desea aplicar las modificaciones (parse)
-decadas = {4:"1920", 5:"1930", 6:"1940", 7:"1950", 8:"1960", 9:"1970"}
+decadas = {4:"1920", 5:"1930", 6:"1940", 7:"1950", 8:"1960", 9:"1970", 10:"1980"}
 #decadas = {8:"1960"}
 
 for llave in decadas.keys():
