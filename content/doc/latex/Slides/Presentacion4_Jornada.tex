@@ -51,21 +51,14 @@
 
 \frame{\titlepage} % Página inicial
 
-\section{Introducción}
-\begin{frame}
-	\frametitle{Introducción}
-	Jornada sobre Documental e Investigación.
-	
-	En el marco del Día Mundial del Patrimonio Audiovisual.
-\end{frame}
-
 \section{Colección documental del LAIS}
 \begin{frame}
 	\frametitle{El LAIS}
 	\framesubtitle{Colección documental del LAIS}
 	
 	El LAIS ha construido un acervo documental que se origina en 1993, año en que inicia la producción de su primer documental: \textit{Un pueblo en la memoria}.
-	
+
+	Para el LAIS es una tarea prioritaria el resguardo y documentación de materiales audiovisuales para quienes recurrimos a ellos con fines de investigación.
 	
 \end{frame}
 
@@ -74,7 +67,9 @@
 	\frametitle{Catalogación}
 	\framesubtitle{Acerca de ISAD(G)}
 	
+	¿Para qué catalogar?: Para preservar y \textbf{utilizar}.
 	
+	Por lo tanto se emplea la norma \textbf{ISAD(G)} (General International Standard Archival Description) como base para la catalogación, ya que es el estándar para registrar documentos de archivo.
 \end{frame}
 
 \section{Manual de Catalogación}
@@ -82,15 +77,27 @@
 	\frametitle{Manual de Catalogación}
 	\framesubtitle{Para el acervo documental en video del LAIS}
 	
+	Para el caso particular de la colección de documentales en video del LAIS, la norma ISAD(G) es adaptada y el resultado es el ``\textbf{Manual de Catalogación para Documentales en Video del LAIS}'' que contempla las siguientes áreas de descripción:
 	
+	\begin{enumerate}
+		\item Identificación
+		\item Contexto
+		\item Contenido y estructura
+		\item Condiciones de acceso y uso
+		\item Documentación asociada
+		\item Notas
+		\item Control de la descripción
+	\end{enumerate}
 \end{frame}
 
 \section{Situación y propuesta}
 \begin{frame}
 	\frametitle{Situación y Propuesta}
-	\framesubtitle{¿Para qué catalogar?}
+	\framesubtitle{Para poner en acceso la ficha de los documentales}
 	
+	Las fichas de documentación se tenían registradas en hojas de cálculo de Excel, de manera que la propuesta fue la siguiente:
 	
+	Hacer un sistema que administre y ponga en acceso estas fichas documentales; para lo cual se requiere crear una base de datos y una interfaz visual con la que los usuarios (los integrantes del LAIS y las personas interesadas en la ficha documental) puedan consultar dicha información.
 \end{frame}
 
 \section{Sistema}
@@ -100,7 +107,7 @@
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.7\textwidth]{EsquemaGeneral.png}
-		\caption{Esquema general del sistema de consulta}
+		\caption{Esquema general del sistema (aplicación web) para la catalogación y acceso de la colección de documentales del LAIS}
 		\label{fig:esquema_general}
 	\end{figure}
 \end{frame}
@@ -108,23 +115,13 @@
 \section{Requisitos}
 \begin{frame}
 	\frametitle{Requisitos a cumplir}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.6\textwidth]{CasosDeUso.png}
-		\caption{Diagrama de casos de uso}
-		\label{fig:caso_de_uso}
-	\end{figure}
-\end{frame}
-
-\section{Acerca del desarrollo de software}
-\begin{frame}
-	\frametitle{Desarrollo de software}
-	\framesubtitle{Consideraciones}
-	Para el tipo de sistema que se desarrolló se tomo en cuenta los siguientes aspectos:
+	
 	\begin{itemize}
-		\item Arquitectura Modelo-Vista-Controlador
-		\item Sistema Manejador de Contenido
-		\item Documentación asociada e ingeniería de software
+		\item Crear y poblar la base de datos con la información existente.
+		\item Permitir agregar, modificar y eliminar fichas de documentación.
+		\item Crear un sitio web (interfaz) eficiente y simple de usar.
+		\item Control de quién puede realizar cambios en el sistema.
+		\item Realizar búsquedas.
 	\end{itemize}
 \end{frame}
 
@@ -133,7 +130,12 @@
 	\frametitle{Demostración}
 	\framesubtitle{Primera versión del sistema}
 	
-	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\textwidth]{Sistema01.jpg}
+		\caption{Captura de pantalla del \href{http://201.148.84.214/lais-audiovisual/public}{sistema}, muestra la ficha de un documental}
+		\label{fig:sistema01}
+	\end{figure}
 \end{frame}
 
 \section{Diseño}
@@ -141,16 +143,24 @@
 	\frametitle{Acerca del diseño}
 	\framesubtitle{Elementos visuales y de interacción con el usuario}
 	
+	Un buen diseño de los elementos visuales ayuda a que los usuarios sepan usar el sistema de mejor manera. Por ejemplo:
 	
+	\begin{itemize}
+		\item Énfasis en lo visual (portadas).
+		\item De lo general a lo particular.
+		\item Pocos clics para navegar en la información.
+		\item Diseño responsivo.
+	\end{itemize}
 \end{frame}
 
 \section{Conclusión}
 \begin{frame}
 	\frametitle{Conclusiones}
 	\begin{itemize}
-		\item Se logró implementar satisfactoriamente la parte principal del sistema que cumple con la arquitectura MVC y permite la administración completa de archivos audiovisuales y usuarios.
-		\item Durante el desarrollo, siempre tener como objetivo la creación de un sistema capaz de organizarse y administrarse de manera simple por parte de los usuarios del LAIS sin la necesidad de intervención de los programadores.
-		\item Crear y mantener una base de datos estandarizada para reutilizar esa información mediante un manejo semántico de contenido (siguiente proyecto a desarrollar).
+		\item Mediante este sistema, incentivar la consulta de la ficha y los contenidos de los materiales audiovisuales para todas las personas interesadas.
+		\item Permitió una revisión y reflexión acerca de la forma de documentar.
+		\item El uso de software libre para dar soluciones a problemas de reguardo y documentación de materiales audiovisual.
+		\item La escalabilidad y futuro desarrollo del sistema.
 	\end{itemize}
 \end{frame}
 
