@@ -217,7 +217,7 @@ body{
 
 #formulario{
 	color: white;
-	background-color: rgba(0, 0, 0, 0.3);
+	/*background-color: rgba(0, 0, 0, 0.3);*/
 }
 
 .popover-content {
@@ -452,7 +452,7 @@ h3 a:focus{
 }
 
 /*Animación de cargar la barra en mozila*/
-@-moz-keyframes ul{
+@-moz-keyframes barrita{
  	0% { 
     width:0;
   }
@@ -462,7 +462,7 @@ h3 a:focus{
 }
 
 /*Animación de cargar la barra en chrome*/
-@-webkit-keyframes ul{
+@-webkit-keyframes barrita{
  	0% { 
     width:0;
   }
@@ -471,10 +471,21 @@ h3 a:focus{
   }
 }
 
+@keyframes barrita{
+ 	0% { 
+    width:0;
+  }
+  100% { 
+    width:calc(100% - 23px);
+  }
+}
 
 /*Accion que hace la animacion aplicada a la barra con el span*/
-li a:hover span{
-  animation: ul 0.3s ease-out;
+/*li a:hover span{*/
+.colorLetrasNav:hover .barraDecorativa{
+  animation: barrita 0.3s ease-out;
+  -webkit-animation: barrita 0.3s ease-out;
+  -moz-animation: barrita 0.3s ease-out;
   background: white;
 }
 
