@@ -339,20 +339,22 @@ lais.controller('decadasCtrl',function($scope, $location, $http, $cookieStore, D
 });
 
 //Controlador que mostrara los archivos audiovisuales con su portada por decadas
-lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http, $timeout, ParamService, DecadaService, agregarNuevoAll, $cookieStore){
-	//console.log("Parametro URL: "+ $routeParams.codigo);
+lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $http, $timeout, $cookieStore, ParamService, DecadaService, agregarNuevoAll){
+	// ########## PROPIEDADES DEL CONTROLADOR ##########
 	$scope.codigo = $routeParams.codigo; // Código de la década
 	$scope.query = $routeParams.query; // Query de búsqueda en la barra de navegación
 	$scope.allDecades = DecadaService.allDecades;
 	$scope.encabezados = DecadaService.encabezados;
 	$scope.archivos = []; // Los registros por décadas (incluyen titulo, fecha, duracion, imagen)
 	$scope.allInfo = []; // Toda la información del registro seleccionado (se inicializa más adelante)
+	$scope.allInfoCopy = []; // Copia de los datos originales (ver $scope.preprocesamientoUnidad())
 	$scope.busy = false;
 	var howMany = 32; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
 	$scope.errores = false; //Muetra el error de confirmación de contraseña para borrar un registro
 	//$scope.uniqueName son todos los rubros que coinciden con la búsqueda
 	$scope.predicate = 'fecha'; // Predicado o propiedad que se utilizará para el ordenamiento
 	$scope.reverse = 'true'; // Orden descendente (true) o ascendente (false) de los registros
+	$scope.hideInfo = false; //Banderá para esconder la información completa de cada registro
 	// Arreglo auxiliar agrupado por areas para mostrar correctamente keywords dentro de la tabla de información completa (ver función focus())
 	var areas = {
     	'identificacion': ['codigo_de_referencia', 'titulo_propio', 'titulo_paralelo', 'titulo_atribuido', 'titulo_de_serie', 'numero_de_programa', 'pais', 'fecha', 'duracion', 'investigacion', 'realizacion', 'direccion', 'guion', 'adaptacion', 'idea_original', 'fotografia', 'fotografia_fija', 'edicion', 'sonido_grabacion', 'sonido_edicion', 'musica_original', 'musicalizacion', 'voces', 'actores', 'animacion', 'otros_colaboradores'],
@@ -363,6 +365,10 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	'descripcion': ['notas_del_archivero', 'datos_del_archivero', 'reglas_o_normas', 'fecha_de_descripcion', 'imagen', 'url']
     }
     $scope.visibles = $scope.archivos.length; // Cantidad de documentales visibles (útil al filtrarlos en búsquedas)
+    $scope.predicate = "fecha"; // Ordenamiento por "fecha" (año)
+	$scope.reverse = true; // Orden ascendente/descendente del ordenamiento
+
+    // ########## CONEXIONES CON BASE DE DATOS ##########
 
 	// En caso de que sea una búsqueda se obtienen todos los registros que coincidan con el query
 	if($scope.query){
@@ -436,10 +442,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	success(function(data) {
     		$scope.allInfo = data;
     		// Limpiar algunos campos:
-    		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
-    		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
-    		$scope.hideURL(); // Cambia URLs por enlaces
-    		//console.log("image data: ", document.getElementById("imgPortada"));
+    		$scope.preprocesamientoUnidad();
     		getImgSize('imgs/Portadas/' + $scope.allInfo.adicional.imagen); // Llamada asincrona para obtener el ancho y largo original ($scope.imgActualWidth, $scope.imgActualHeight)
     	}).
     	error(function(data, status, headers, config) {
@@ -447,6 +450,8 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa tu conexión a internet.");
 		});
 	};
+
+	// ########## BUSQUEDAS, ORDENAMIENTO Y FILTRADO ##########
 
 	// Función que actualiza la propiedad "show" del arreglo $scope.archivos que contiene los registros de la búsqueda que se muestran
 	// Verifica los rubros de cada registro y los compara con $scope.outputQuery (que es un multiselect para filtrar resultados)
@@ -520,13 +525,11 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
  //        $scope.predicate = predicate;
 	// };
 
-	$scope.predicate = "fecha";
-	$scope.reverse = true;
+	// Parser del select "ordenSelect" en la vista. Determina el área de ordenamiento y el orden de los datos.
 	$scope.parseOrdenamiento = function(){
 		var orden = $scope.ordenamiento.split("|");
 		$scope.predicate = orden[0];
 		$scope.reverse = (orden[1] === 'true');
-		//console.log("orden", orden, "predicate", $scope.predicate, "reverse", $scope.reverse);
 	};
 
 	// Busca el registro con codigo de referencia dado como parámetro y devuelve el arreglo "rubros" asociado a ese registro
@@ -563,22 +566,30 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	    $scope.highlight(keyword); // Resaltar la keyword correspondiente dentro del texto
 	};
 
-	// Toma los textos de algunos campos (sinopsis) y cambia las url por enlaces
-	$scope.hideURL = function(){
-		// Expresión regular para URLs: http://stackoverflow.com/questions/161738/what-is-the-best-regular-expression-to-check-if-a-string-is-a-valid-url
-		var pattern = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g;
-		var newText = '<a href="$&" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>';
-		//$scope.sinopsis_original = $scope.allInfo.contenido_y_estructura.sinopsis; // Copia del original (útil para imprimir en pdf)
-		//$scope.allInfo.contenido_y_estructura.sinopsis = $scope.allInfo.contenido_y_estructura.sinopsis.replace(pattern, newText);
-		$scope.allInfoCopy = [];
+	// ########## FORMATO Y VISUALIZACIÓN DE LA INFORMACIÓN ##########
+
+	// Preprocesamiento de la información principal (mosaico de portadas)
+	$scope.preprocesamiento = function(){};
+
+	// Preprocesamiento de la información en todas las áreas de un audiovisual ($scope.allInfo)
+	$scope.preprocesamientoUnidad = function(){
+		// Cambios puntuales (específicos) y permanentes
+		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
+		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
+
+		$scope.allInfoCopy = []; // Vaciar la copia actual
 		for(var area in $scope.allInfo){
 			$scope.allInfoCopy[area] = [];
-			for(var campo in $scope.allInfo[area]){
+			for(var campo in $scope.allInfo[area]){ // Aplicar modificaciones
 				$scope.allInfoCopy[area][campo] = $scope.allInfo[area][campo];
-				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(pattern, newText);
+				// Cambia URL por un ícono con hipervínculo
+				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g,
+					'<a href="$&" target="_blank" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>');
+				// Cambiar "in situ" a itálicas
+				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/in situ/gi, '<em>$&</em>');
 			}
 		}
-	}
+	};
 
 	// Dada la información del archivo (pasado como parámetro) devuelve el titulo paralelo en cado de haberlo, en caso contrario devuelve el titulo propio.
 	// Acorta el texto y agrega "..." para adecuarlo a la vista en cuadrícula de la colección.
@@ -753,6 +764,8 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	return true;
 	}
 
+	// ########## ADMINISTRACIÓN DE LOS AUDIOVISUALES (AGREGAR, EDITAR, BORRAR) ##########
+
 	// Acción del icono para agregar un nuevo audiovisual
     $scope.agregarNuevo = function(decada){
     	agregarNuevoAll.agregarNew(decada);
@@ -798,8 +811,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		
     }
 
-    $scope.hideInfo = false; //Banderá para esconder la información de cada registro
-
     //Función que ocula la información de un registro
     $scope.hideInfos = function(){
     	$scope.hideInfo = !$scope.hideInfo;
@@ -839,7 +850,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 	$scope.animacion = [{nombre:""}];
 	$scope.otros_colaboradores = [{nombre:""}];
 	*/
-	//$scope.errorDuplicado = false; // DEPRECATED. La función sugerencias() impide repetidos.
+	//$scope.errorDuplicado = false; // DEPRECATED. La función sugerencias() ya impide repetidos.
 
 	/*$scope.agregar = function(scopeVar){
 		//console.log("length", scopeVar.length);
