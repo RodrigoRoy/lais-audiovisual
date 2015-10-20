@@ -367,6 +367,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
     $scope.visibles = $scope.archivos.length; // Cantidad de documentales visibles (útil al filtrarlos en búsquedas)
     $scope.predicate = "fecha"; // Ordenamiento por "fecha" (año)
 	$scope.reverse = true; // Orden ascendente/descendente del ordenamiento
+	var articulos = ["el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "al", "del"]; // Lista de artículos en español (útil para corregir los nombres)
 
     // ########## CONEXIONES CON BASE DE DATOS ##########
 
@@ -378,11 +379,13 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 					$scope.uniqueNames = data.splice(data.length-1, 1)[0]; // Los rubros siempre vienen al final de "data"
 				$scope.archivos = data;
 				$scope.visibles = $scope.archivos.length;
+				$scope.preprocesamiento(); // Limpia de espacios vacios los datos
+				console.log("archivos\n", $scope.archivos);
 				for(var i in $scope.archivos){ // A todos los archivos se les agrega la propiedad "show"
 					$scope.archivos[i]['show'] = true; // Esto permite filtrar resultados de manera inmediata
 					// Y eliminar espacios en blanco para un correcto comportamiento en ordenamiento:
-					$scope.archivos[i]['fecha'] = $scope.archivos[i]['fecha'].trim().replace(/  */g, '');
-					$scope.archivos[i]['titulo_propio'] = $scope.archivos[i]['titulo_propio'].trim();
+					//$scope.archivos[i]['fecha'] = $scope.archivos[i]['fecha'].trim().replace(/  */g, '');
+					//$scope.archivos[i]['titulo_propio'] = $scope.archivos[i]['titulo_propio'].trim();
 				}
 				$scope.inputQuery = []; // Objeto para mostrar los objetos multiselect para filtar la busqueda
 				for (var i in $scope.uniqueNames){
@@ -409,13 +412,14 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 			}).
 			error(function(data, status, headers, config) {
 				// called asynchronously if an error occurs or server returns response with an error status.
+				alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa tu conexión a internet.");
 			});
 	};
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas después de una búsqueda
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
 	// (Esta función es una copia de firstLoad())
-	$scope.firstQueryLoad = function(){
+	/*$scope.firstQueryLoad = function(){
 		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
 			return;
 		$scope.busy = true; // En estos momentos estamos "ocupados" obteniendo datos de la base
@@ -432,7 +436,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 			error(function(data, status, headers, config) {
 				// called asynchronously if an error occurs or server returns response with an error status.
 			});
-	};
+	};*/
 
 	// Obtener toda la información de un audiovisual particular. Recibe el código de identificación
 	$scope.getAllInfo = function(codigoId){
@@ -569,7 +573,16 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 	// ########## FORMATO Y VISUALIZACIÓN DE LA INFORMACIÓN ##########
 
 	// Preprocesamiento de la información principal (mosaico de portadas)
-	$scope.preprocesamiento = function(){};
+	$scope.preprocesamiento = function(){
+		for(var i in $scope.archivos){
+			// Y eliminar espacios en blanco para un correcto comportamiento en ordenamiento:
+			$scope.archivos[i]['fecha'] = $scope.archivos[i]['fecha'].trim().replace(/  */g, '');
+			$scope.archivos[i]['titulo_propio'] = $scope.archivos[i]['titulo_propio'].trim();
+			$scope.archivos[i]['titulo_paralelo'] = $scope.archivos[i]['titulo_paralelo'].trim();
+			$scope.archivos[i]['titulo_adecuado'] = $scope.tituloAdecuado($scope.archivos[i]);
+			$scope.archivos[i]['titulo_visible'] = $scope.tituloVisible($scope.archivos[i]['titulo_adecuado']);
+		}
+	};
 
 	// Preprocesamiento de la información en todas las áreas de un audiovisual ($scope.allInfo)
 	$scope.preprocesamientoUnidad = function(){
@@ -590,6 +603,36 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 			}
 		}
 	};
+
+	$scope.tituloAdecuado = function(archivo){
+		// Prioridad por mostrar títulos parentizados en titulo_propio
+		if((matches = /\((.*)\)$/.exec(archivo.titulo_propio.trim())) !== null)
+			return matches[1];
+		// De no ser el caso, prioridad a titulo_paralelo
+		if (archivo.titulo_paralelo !== ''){
+			var titulos = archivo.titulo_paralelo.split(","); // Puede haber varios títulos paralelos (separados por coma)
+			if (titulos.length > 1) // De ser así, tomar solamente el primero
+				return titulos[0].trim();
+			// En caso contrario, tomar todo el titulo_paralelo
+			return archivo.titulo_paralelo;
+		}
+		// En otro caso, solo existe titulo_propio
+		return archivo.titulo_propio;
+	}
+
+	$scope.tituloVisible = function(titulo){
+		var descomposicion = titulo.trim().split(" ");
+		for(var i in articulos){
+			if(articulos[i].indexOf(descomposicion[0].toLowerCase()) > -1){
+				descomposicion[descomposicion.length-1] = descomposicion[descomposicion.length-1] + ","
+				descomposicion[descomposicion.length] = descomposicion[0];
+				descomposicion[0] = ""
+				var newTitulo = descomposicion.join(' ').trim();
+				return newTitulo.charAt(0).toUpperCase() + newTitulo.slice(1);;
+			}
+		}
+		return titulo;
+	}
 
 	// Dada la información del archivo (pasado como parámetro) devuelve el titulo paralelo en cado de haberlo, en caso contrario devuelve el titulo propio.
 	// Acorta el texto y agrega "..." para adecuarlo a la vista en cuadrícula de la colección.
