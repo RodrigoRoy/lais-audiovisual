@@ -498,8 +498,8 @@ h3 a:focus{
   http://stackoverflow.com/questions/13217981/how-to-align-image-in-right-bottom-corner*/
 .bottom-right-fix{
   position: fixed;
-  bottom: 15px;
-  right: 15px;
+  bottom: 25px;
+  right: 20px;
   z-index: 1;
   padding: 0px;
   margin: 0px;

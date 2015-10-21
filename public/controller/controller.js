@@ -958,6 +958,11 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 		});
 	}
 
+	// Cancela el envio de datos al redirigir a la página /decadas
+	$scope.cancela = function(){
+		$location.url('/decadas/');
+	};
+
 	// Funciones auxiliares para subir archivos (imagenes)
 	$scope.$watch('files', function () {
         $scope.upload($scope.files);
@@ -1090,6 +1095,11 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 			console.log("Error de los datos: " + error);
 		});
 	}
+
+	// Cancela la edición al redirigir a la página /decadas
+	$scope.cancela = function(){
+		$location.url('/decadas/');
+	};
 
     // Componentes para subir archivos (imagenes)
 	$scope.$watch('files', function () {
