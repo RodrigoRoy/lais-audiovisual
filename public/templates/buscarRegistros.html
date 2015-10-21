@@ -29,9 +29,13 @@
 .contenedorInfo {
   background-color: rgba(42, 59, 71, 0.6);
 }
-.spanRubro {
+/*.spanRubro {
   background-color: #0D1F2B;
   color: #C2C2C2;
+}*/
+.busqueda-rubro{
+  margin-left: 3px;
+  margin-right: 3px;
 }
 .nav-pills li a{
   color: #C2C2C2;
@@ -152,17 +156,17 @@
                     Video <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>
                   </a>
                 </p>
-                <p>
-                  Resultados de la búsqueda: <br>
-                  <ul class="list-unstyled">
-                    <li ng-repeat="(keyword, rubros) in findRubros(allInfo.identificacion.codigo_de_referencia)"> <span class="label label-primary">{{keyword}}</span> <!-- ng-click="highlight(keyword)" -->
-                      <ul class="list-inline" style="margin-left:2em">
-                        <li ng-repeat="rubro in rubros"> <a href=""><span class="label label-primary spanRubro" ng-click="focus(keyword, rubro)">{{encabezados[rubro]}}</span></a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </p>
               </div> 
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-md-12 col-lg-12">
+                <p class="text-center">
+                  <strong>Resultados de la búsqueda</strong>
+                </p>
+                <p class="text-center" ng-repeat="(keyword, rubros) in findRubros(allInfo.identificacion.codigo_de_referencia)">
+                   <strong><em>{{keyword}}</em>:</strong> <button ng-repeat="rubro in rubros" class="btn btn-default btn-xs busqueda-rubro" ng-click="focus(keyword, rubro)">{{encabezados[rubro]}}</button>
+                 </p>
+              </div>
             </div>
             <br> <!--Espaciado para el botón-->
             <div class="row">

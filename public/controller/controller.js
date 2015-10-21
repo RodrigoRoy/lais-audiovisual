@@ -503,7 +503,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 	// isteven Multiselect transalation:
 	$scope.localLang = {
 		selectAll       : "Seleccionar todo",
-		selectNone      : "Seleccionar nada",
+		selectNone      : "Seleccionar ninguno",
 		reset           : "Reset",
 		search          : "Búsqueda",
 		nothingSelected : "Nada está seleccionado"
