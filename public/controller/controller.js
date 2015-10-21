@@ -676,7 +676,6 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 
 	// Crea un documento PDF con la biblioteca pdfmake(.min).js y al final se abre el PDF en el navegador
 	$scope.openPDF = function(){
-		// var docDefinition = {content: 'This is an sample PDF printed with pdfMake'};
 		var docDefinition = {
 			footer: function(currentPage, pageCount) { 
 				//return {text: currentPage.toString() + ' de ' + pageCount, alignment: 'right'};
