@@ -63,28 +63,29 @@
           <h2 class="titularResultados">Resultados de la búsqueda <em>"{{query}}"</em> <small>({{archivos.length}} resultados, {{visibles}} visibles)</small></h2>
         </div>
       </div>
+    </div>
 
-      <!-- Filtrar y ordenar resultados -->
-      <div class="row search-options" ng-show="archivos.length != 0">
-        <div class="col-md-8">
-          <h3><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filtrar por:</h3>
-          <div isteven-multi-select input-model="inputQuery" output-model="outputQuery" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" max-height="250px" max-labels="10" helper-elements="all none" translation="localLang" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
-        </div>
-
-        <div class="col-md-4">
-          <h3><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Ordenar por:</h3>
-          <div>
-            <select id="ordenSelect" class="selectpicker" ng-model="ordenamiento" ng-change="parseOrdenamiento()">
-              <option value="fecha|true" data-icon="glyphicon-sort-by-order-alt">Año (mayor a menor)</option>
-              <option value="fecha|false" data-icon="glyphicon-sort-by-order">Año (menor a mayor)</option>
-              <option value="titulo_visible|false" data-icon="glyphicon-sort-by-alphabet">Título (ascendente)</option>
-              <option value="titulo_visible|true" data-icon="glyphicon-sort-by-alphabet-alt">Título (descendente)</option>
-            </select>
-          </div>
-        </div>
+    <!-- Filtrar y ordenar resultados -->
+    <div class="row search-options" ng-show="archivos.length != 0">
+      <div class="col-md-8">
+        <h3><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filtrar por:</h3>
+        <div isteven-multi-select input-model="inputQuery" output-model="outputQuery" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" max-height="200px" max-labels="10" helper-elements="all none" translation="localLang" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
       </div>
 
-      <center><h2 ng-show="archivos.length === 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
+      <div class="col-md-4">
+        <h3><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Ordenar por:</h3>
+        <div>
+          <select id="ordenSelect" class="selectpicker" ng-model="ordenamiento" ng-change="parseOrdenamiento()">
+            <option value="fecha|true" data-icon="glyphicon-sort-by-order-alt">Año (mayor a menor)</option>
+            <option value="fecha|false" data-icon="glyphicon-sort-by-order">Año (menor a mayor)</option>
+            <option value="titulo_visible|false" data-icon="glyphicon-sort-by-alphabet">Título (ascendente)</option>
+            <option value="titulo_visible|true" data-icon="glyphicon-sort-by-alphabet-alt">Título (descendente)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <center><h2 ng-show="archivos.length === 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
     
     <div id="seccionPortadas">
       <div id="audiovisual">
@@ -152,7 +153,7 @@
                 <p><span class="titularModalContent">Año</span> {{allInfo.identificacion.fecha}} <span class="titularModalContent" style="margin-left: 1em;">Duración</span> {{allInfo.identificacion.duracion}}</p>
                 <p ng-show="allInfo.identificacion.realizacion !== ''"><span class="titularModalContent">Realizador</span> {{allInfo.identificacion.realizacion}}</p>
                 <p class="text-right" ng-show="allInfo.adicional.url !== ''">
-                  <a class="btn btn-default" href="{{allInfoCopy.adicional.url}}" role="button">
+                  <a class="btn btn-default" href="{{allInfoCopy.adicional.url}}" target="_blank" role="button">
                     Video <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>
                   </a>
                 </p>
