@@ -449,8 +449,6 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
     		// Limpiar algunos campos:
     		$scope.preprocesamientoUnidad();
     		getImgSize('imgs/Portadas/' + $scope.allInfo.adicional.imagen); // Llamada asincrona para obtener el ancho y largo original ($scope.imgActualWidth, $scope.imgActualHeight)
-    		console.log("allInfo\n", $scope.allInfo);
-    		console.log("allInfoCopy\n", $scope.allInfoCopy);
     	}).
     	error(function(data, status, headers, config) {
 			// called asynchronously if an error occurs or server returns response with an error status.
@@ -599,6 +597,8 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 			$scope.allInfoCopy[area] = [];
 			for(var campo in $scope.allInfo[area]){ // Aplicar modificaciones
 				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].trim().replace(/  */g, ' '); // Limpiar espacios vacios
+				$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].slice(-1) === '.') ? ($scope.allInfo[area][campo].slice(0, -1)) : ($scope.allInfo[area][campo]); // Eliminar punto al final
+				$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].length > 0) ? ($scope.allInfo[area][campo].charAt(0).toUpperCase() + $scope.allInfo[area][campo].slice(1)) : ($scope.allInfo[area][campo]); // Mayúscula la primera letra
 				$scope.allInfoCopy[area][campo] = $scope.allInfo[area][campo];
 				// Cambia URL por un ícono con hipervínculo
 				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g,
