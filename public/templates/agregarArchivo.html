@@ -356,50 +356,12 @@
 							<!-- FUENTES -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.fuentes.$dirty && audiovisualForm.fuentes.$invalid}">
 								<label class="control-label" for="fuentes">Fuentes</label>
-								<select class="form-control select-toggle" id="fuentes" name="fuentes" ng-model="fuentes" size="24" multiple>
-									<option  value="Entrevistas">Entrevistas</option>
-									<option  value="Grabación de campo">Grabación de campo</option>
-									<option  value="Ficción">Ficción</option>
-									<option  value="Documental">Documental</option>
-									<option  value="Registros fílmicos">Registros fílmicos</option>
-									<option  value="Fotogafía">Fotografía</option>
-									<option  value="Pintura">Pintura</option>
-									<option  value="Grabados">Grabados</option>
-									<option  value="Hemerografía">Hemerografía</option>
-									<option  value="Cartografía">Cartografía</option>
-									<option  value="Testimonios orales">Testimonios orales</option>
-									<option  value="Testimonios video orales">Testimonios video orales</option>
-									<option  value="Noticieros fílmicos">Noticieros fílmicos</option>
-									<option  value="Programas de TV">Programas de TV</option>
-									<option  value="Publicidad">Publicidad</option>
-									<option  value="Videoclips">Videoclips</option>
-									<option  value="Dibujo">Dibujo</option>
-									<option  value="Multimedia">Multimedia</option>
-									<option  value="Registros fonográficos">Registros fonográficos</option>
-									<option  value="Música de época">Música de época</option>
-									<option  value="Documentos">Documentos</option>
-									<option  value="Animación">Animación</option>
-									<option  value="Registros radiofónicos">Registros radiofónicos</option>
-									<option  value="Registros videográficos">Registros videográficos</option>
-								</select>
-								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.fuentes.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.fuentes.$dirty && audiovisualForm.fuentes.$invalid"></div>
+								<div isteven-multi-select input-model="inputFuentes" output-model="outputFuentes" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="" translation="localLang" on-close="createFuentes()" output-properties="name"></div>
 							</div>
 							<!-- RECURSOS -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.recursos.$dirty && audiovisualForm.recursos.$invalid}">
 								<label class="control-label" for="recursos">Recursos</label>
-								<select class="form-control select-toggle" id="recursos" name="recursos" ng-model="recursos" size="10" multiple>
-									<option value="Puesta en escena">Puesta en escena</option>
-									<option value="Animación">Animación</option>
-									<option value="Incidentales">Incidentales</option>
-									<option value="Narración en off">Narración en off</option>
-									<option value="Conducción">Conducción</option>
-									<option value="Intertítulos">Intertítulos</option>
-									<option value="Interactividad">Interactividad</option>
-									<option value="Música">Música</option>
-									<option value="Otros elementos gráficos">Otros elementos gráficos</option>
-									<option value="Otros elementos audiovisuales">Otros elementos audiovisuales</option>
-								</select>
-								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.recursos.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.recursos.$dirty && audiovisualForm.recursos.$invalid"></div>
+								<div isteven-multi-select input-model="inputRecursos" output-model="outputRecursos" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="" translation="localLang" on-close="createRecursos()" output-properties="name"></div>
 							</div>
 							<!-- VERSIONES -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.versiones.$dirty && audiovisualForm.versiones.$invalid}">

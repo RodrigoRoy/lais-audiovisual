@@ -140,8 +140,8 @@ lais.service('ParamService', function(){
 			'descriptor_cronologico': (scope.descriptor_cronologico !== undefined) ? scope.descriptor_cronologico.trim().replace(/  +/g, ' ') : "",
 			'tipo_de_produccion': (scope.tipo_de_produccion !== undefined) ? scope.tipo_de_produccion.trim().replace(/\s\s+/g, ' ') : "",
 			'genero': (scope.genero !== undefined) ? scope.genero.trim().replace(/\s\s+/g, ' ') : "",
-			'fuentes': setFuenteRecurso(scope.fuentes), // Parse desde filter.js
-			'recursos': setFuenteRecurso(scope.recursos), // Parse desde filter.js
+			'fuentes': scope.fuentes, // Parse desde filter.js "setFuenteRecurso()" sustituido por $scope.createFuentes()
+			'recursos': scope.recursos, // Parse desde filter.js  "setFuenteRecurso()" sustituido por $scope.createRecursos()
 			'versiones': (scope.versiones !== undefined) ? scope.versiones.trim().replace(/\s\s+/g, ' ') : "",
 			'formato_original': (scope.formato_original !== undefined) ? scope.formato_original.trim().replace(/\s\s+/g, ' ') : "",
 			'material_extra': (scope.material_extra !== undefined) ? scope.material_extra.trim().replace(/\s\s+/g, ' ') : "",
@@ -896,26 +896,76 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 		$location.url('/decadas/');
 	}
 
-	//$scope.investigacion = [{nombre:""}];
-	//$scope.realizacion = [{nombre:""}];
-	/*$scope.direccion = [{nombre:""}];
-	$scope.guion = [{nombre:""}];
-	$scope.adaptacion = [{nombre:""}];
-	$scope.idea_original = [{nombre:""}];
-	$scope.fotografia = [{nombre:""}];
-	$scope.fotografia_fija = [{nombre:""}];
-	$scope.edicion = [{nombre:""}];
-	$scope.sonido_grabacion = [{nombre:""}];
-	$scope.sonido_edicion = [{nombre:""}];
-	$scope.musica_original = [{nombre:""}];
-	$scope.musicalizacion = [{nombre:""}];
-	$scope.voces = [{nombre:""}];
-	$scope.actores = [{nombre:""}];
-	$scope.animacion = [{nombre:""}];
-	$scope.otros_colaboradores = [{nombre:""}];
-	*/
+	$scope.inputFuentes = [
+		{name: "Entrevistas", ticked: false},
+		{name: "Grabación de campo", ticked: false},
+		{name: "Ficción", ticked: false},
+		{name: "Documentales", ticked: false},
+		{name: "Registros fílmicos", ticked: false},
+		{name: "Fotografías", ticked: false},
+		{name: "Pinturas", ticked: false},
+		{name: "Grabados", ticked: false},
+		{name: "Hemerografía", ticked: false},
+		{name: "Cartografía", ticked: false},
+		{name: "Testimonios orales", ticked: false},
+		{name: "Testimonios videorales", ticked: false},
+		{name: "Noticieros fílmicos", ticked: false},
+		{name: "Programas de tv", ticked: false},
+		{name: "Publicidad", ticked: false},
+		{name: "Videoclips", ticked: false},
+		{name: "Dibujos", ticked: false},
+		{name: "Multimedia", ticked: false},
+		{name: "Música de época", ticked: false},
+		{name: "Documentos", ticked: false},
+		{name: "Registros fonográficos", ticked: false},
+		{name: "Registros videográficos", ticked: false}
+	];
+
+	$scope.inputRecursos = [
+		{name: "Puesta en escena", ticked: false},
+		{name: "Animación", ticked: false},
+		{name: "Incidentales", ticked: false},
+		{name: "Narración en off", ticked: false},
+		{name: "Conducción", ticked: false},
+		{name: "Intertítulos", ticked: false},
+		{name: "Interactividad", ticked: false},
+		{name: "Musicalización", ticked: false},
+		{name: "Gráficos", ticked: false},
+		{name: "Audiovisuales", ticked: false}
+	];
+
+	$scope.localLang = {
+		selectAll       : "Seleccionar todos",
+		selectNone      : "Seleccionar ninguno",
+		reset           : "Reset",
+		search          : "Busqueda",
+		nothingSelected : "Nada seleccionado aún"
+	};
+
+	$scope.createFuentes = function(){
+		$scope.fuentes = "";
+		for(var i in $scope.outputFuentes){
+			$scope.fuentes = $scope.fuentes + $scope.outputFuentes[i].name + ", ";
+		}
+		$scope.fuentes = $scope.fuentes.trim();
+		$scope.fuentes = ($scope.fuentes.length > 0 && $scope.fuentes.slice(-1) === ',') ? ($scope.fuentes.slice(0, -1)) : ($scope.fuentes); // Quitar "," final
+		console.log("fuentes: " + $scope.fuentes);
+	};
+
+	$scope.createRecursos = function(){
+		$scope.recursos = "";
+		for(var i in $scope.outputRecursos){
+			$scope.recursos = $scope.recursos + $scope.outputRecursos[i].name + ", ";
+		}
+		$scope.recursos = $scope.recursos.trim();
+		$scope.recursos = ($scope.recursos.length > 0 && $scope.recursos.slice(-1) === ',') ? ($scope.recursos.slice(0, -1)) : ($scope.recursos); // Quitar "," final
+		console.log("recursos: " + $scope.recursos);
+	};
+
 	//$scope.errorDuplicado = false; // DEPRECATED. La función sugerencias() ya impide repetidos.
 
+	//$scope.investigacion = [{nombre:""}];
+	//$scope.realizacion = [{nombre:""}];
 	/*$scope.agregar = function(scopeVar){
 		//console.log("length", scopeVar.length);
 		scopeVar.push({
