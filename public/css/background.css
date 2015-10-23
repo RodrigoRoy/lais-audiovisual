@@ -1,7 +1,8 @@
 body{
 	width: 100%;
 	height: auto;
-	background-image: url(../imgs/Foto_Acervo.jpg);
+	background-color: black;
+	background-image: url(../imgs/Foto_Acervo1.png);
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 100%;
