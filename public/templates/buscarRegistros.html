@@ -75,7 +75,7 @@
       <div class="col-md-4">
         <h3><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Ordenar por:</h3>
         <div>
-          <select id="ordenSelect" class="selectpicker" ng-model="ordenamiento" ng-change="parseOrdenamiento()">
+          <select class="selectpicker" ng-model="ordenamiento" ng-change="parseOrdenamiento()">
             <option value="fecha|true" data-icon="glyphicon-sort-by-order-alt">Año (mayor a menor)</option>
             <option value="fecha|false" data-icon="glyphicon-sort-by-order">Año (menor a mayor)</option>
             <option value="titulo_visible|false" data-icon="glyphicon-sort-by-alphabet">Título (ascendente)</option>
@@ -298,6 +298,7 @@
   </div>
 
 </body>
+
 <!--Togglable Tab para mostrar toda la información de cada audiovisual-->
 <script type="text/javascript">
     $(document).ready(function(){
@@ -309,7 +310,9 @@
           $(this).tab('show');
         });
 
-        $('.selectpicker').selectpicker('show');
-        $('.selectpicker').selectpicker('refresh');
+        // Habilita input selectpicker para ordenamiento
+        $('.selectpicker').selectpicker();
+        //$('.selectpicker').selectpicker('show');
+        //$('.selectpicker').selectpicker('refresh');
     });
 </script>
