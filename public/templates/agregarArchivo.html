@@ -354,14 +354,14 @@
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.genero.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.genero.$dirty && audiovisualForm.genero.$invalid"></div>
 							</div>
 							<!-- FUENTES -->
-							<div class="form-group" ng-class="{'has-error': audiovisualForm.fuentes.$dirty && audiovisualForm.fuentes.$invalid}">
+							<div class="form-group">
 								<label class="control-label" for="fuentes">Fuentes</label>
-								<div isteven-multi-select input-model="inputFuentes" output-model="outputFuentes" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="" translation="localLang" on-close="createFuentes()" output-properties="name"></div>
+								<div isteven-multi-select input-model="inputFuentes" output-model="outputFuentes" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="" translation="localLang" on-close="createFuentes()" output-properties="name" id="fuentes"></div>
 							</div>
 							<!-- RECURSOS -->
-							<div class="form-group" ng-class="{'has-error': audiovisualForm.recursos.$dirty && audiovisualForm.recursos.$invalid}">
+							<div class="form-group">
 								<label class="control-label" for="recursos">Recursos</label>
-								<div isteven-multi-select input-model="inputRecursos" output-model="outputRecursos" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="" translation="localLang" on-close="createRecursos()" output-properties="name"></div>
+								<div isteven-multi-select input-model="inputRecursos" output-model="outputRecursos" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="" translation="localLang" on-close="createRecursos()" output-properties="name" id="recursos"></div>
 							</div>
 							<!-- VERSIONES -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.versiones.$dirty && audiovisualForm.versiones.$invalid}">
