@@ -105,6 +105,8 @@ body{
   	*/
   	display: inline-block;
   	margin:1%;
+  	font-family: 'Anonymous Pro';
+  	font-size: 14px;
 }
 
 .portadas img {
@@ -280,7 +282,6 @@ body{
   	overflow: hidden;
   	width: 180px;
   	color: #f0fff0;
-  	font-size: 13px;
   	font-weight: bold;
 }
 
