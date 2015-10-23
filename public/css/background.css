@@ -5,6 +5,6 @@ body{
 	background-image: url(../imgs/Foto_Acervo1.png);
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: 100%;
+	background-size: cover;
 	background-attachment: fixed;
 }
