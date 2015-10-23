@@ -352,6 +352,7 @@ body{
    	margin-bottom: 5%;
    	font-size: 20px;
 	color: #f0fff0;
+	font-family: 'Open Sans', sans-serif;
 }
 
 #logoLaisP{
@@ -368,10 +369,13 @@ body{
 }
 
 .titulos{
-	margin-left: 5%;
 	color: #f0fff0;
+	font-family: 'Cantora One', sans-serif;
 }
 
+.tituSecciones{
+	font-family: 'Ubuntu', sans-serif;
+}
 
 #imgInicio{
 	width: 100%;
