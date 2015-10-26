@@ -1061,6 +1061,44 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		$location.url('/decadas/');
 	}
 
+	$scope.inputFuentes = [
+		{name: "Entrevistas", ticked: false},
+		{name: "Grabación de campo", ticked: false},
+		{name: "Ficción", ticked: false},
+		{name: "Documentales", ticked: false},
+		{name: "Registros fílmicos", ticked: false},
+		{name: "Fotografías", ticked: false},
+		{name: "Pinturas", ticked: false},
+		{name: "Grabados", ticked: false},
+		{name: "Hemerografía", ticked: false},
+		{name: "Cartografía", ticked: false},
+		{name: "Testimonios orales", ticked: false},
+		{name: "Testimonios videorales", ticked: false},
+		{name: "Noticieros fílmicos", ticked: false},
+		{name: "Programas de tv", ticked: false},
+		{name: "Publicidad", ticked: false},
+		{name: "Videoclips", ticked: false},
+		{name: "Dibujos", ticked: false},
+		{name: "Multimedia", ticked: false},
+		{name: "Música de época", ticked: false},
+		{name: "Documentos", ticked: false},
+		{name: "Registros fonográficos", ticked: false},
+		{name: "Registros videográficos", ticked: false}
+	];
+
+	$scope.inputRecursos = [
+		{name: "Puesta en escena", ticked: false},
+		{name: "Animación", ticked: false},
+		{name: "Incidentales", ticked: false},
+		{name: "Narración en off", ticked: false},
+		{name: "Conducción", ticked: false},
+		{name: "Intertítulos", ticked: false},
+		{name: "Interactividad", ticked: false},
+		{name: "Musicalización", ticked: false},
+		{name: "Gráficos", ticked: false},
+		{name: "Audiovisuales", ticked: false}
+	];
+
 	// Obtener todos los datos de cada campo desde la base
 	$http.get('php/manejoBD.php?action=obtener&id=' + $routeParams.id).
     success(function(data) {
@@ -1103,8 +1141,10 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		$scope.descriptor_cronologico = data.descriptor_cronologico;
 		$scope.tipo_de_produccion = data.tipo_de_produccion;
 		$scope.genero = data.genero;
-		$scope.fuentes = getFuenteRecurso(data.fuentes); // Parse desde filter.js
-		$scope.recursos = getFuenteRecurso(data.recursos); // Parse desde filter.js
+		//$scope.fuentes = $scope.getFuente(data.fuentes); //getFuenteRecurso(data.fuentes); // Parse desde filter.js
+		$scope.getFuente(data.fuentes); //getFuenteRecurso(data.fuentes); // Parse desde filter.js
+		//$scope.recursos = getFuenteRecurso(data.recursos); // Parse desde filter.js
+		$scope.getRecurso(data.recursos);
 		$scope.versiones = data.versiones;
 		$scope.formato_original = data.formato_original;
 		$scope.material_extra = data.material_extra;
@@ -1133,6 +1173,70 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		$scope.imagen_previa = data.imagen;
     });
     
+	$scope.localLang = {
+		selectAll       : "Seleccionar todos",
+		selectNone      : "Seleccionar ninguno",
+		reset           : "Reset",
+		search          : "Busqueda",
+		nothingSelected : "Nada seleccionado aún"
+	};
+
+	$scope.getFuente = function(fuenteString){
+		console.log("fuentes originales: ", fuenteString);
+		var fuentes = fuenteString;
+		fuentes = (fuentes === undefined) ? "" : fuentes.trim().replace(/  */g, ' ');
+		fuentes = (fuentes.slice(-1) === '.' || fuentes.slice(-1) === ',') ? (fuentes.slice(0, -1)) : (fuentes);
+		var fuentesArray = fuentes.split(",");
+		for(var i in fuentesArray){
+			var fuente = fuentesArray[i].trim().toLowerCase();
+			fuente = (fuente.length > 0) ? (fuente.charAt(0).toUpperCase() + fuente.slice(1)) : (fuente);
+			console.log(i, fuente);
+			for(var j in $scope.inputFuentes){
+				if($scope.inputFuentes[j].name.indexOf(fuente) > -1){ // Si es la misma fuente
+					$scope.inputFuentes[j].ticked = true;
+				}
+			}
+		}
+	};
+
+	$scope.getRecurso = function(recursoString){
+		console.log("recursos originales: ", recursoString);
+		var recursos = recursoString;
+		recursos = (recursos === undefined) ? "" : recursos.trim().replace(/  */g, ' ');
+		recursos = (recursos.slice(-1) === '.' || recursos.slice(-1) === ',') ? (recursos.slice(0, -1)) : (recursos);
+		var recursosArray = recursos.split(",");
+		for(var i in recursosArray){
+			var recurso = recursosArray[i].trim().toLowerCase();
+			recurso = (recurso.length > 0) ? (recurso.charAt(0).toUpperCase() + recurso.slice(1)) : (recurso);
+			console.log(i, recurso);
+			for(var j in $scope.inputRecursos){
+				if($scope.inputRecursos[j].name.indexOf(recurso) > -1){ // Si es la misma fuente
+					$scope.inputRecursos[j].ticked = true;
+				}
+			}
+		}
+	};
+
+	$scope.createFuentes = function(){
+		$scope.fuentes = "";
+		for(var i in $scope.outputFuentes){
+			$scope.fuentes = $scope.fuentes + $scope.outputFuentes[i].name + ", ";
+		}
+		$scope.fuentes = $scope.fuentes.trim();
+		$scope.fuentes = ($scope.fuentes.length > 0 && $scope.fuentes.slice(-1) === ',') ? ($scope.fuentes.slice(0, -1)) : ($scope.fuentes); // Quitar "," final
+		console.log("fuentes: " + $scope.fuentes);
+	};
+
+	$scope.createRecursos = function(){
+		$scope.recursos = "";
+		for(var i in $scope.outputRecursos){
+			$scope.recursos = $scope.recursos + $scope.outputRecursos[i].name + ", ";
+		}
+		$scope.recursos = $scope.recursos.trim();
+		$scope.recursos = ($scope.recursos.length > 0 && $scope.recursos.slice(-1) === ',') ? ($scope.recursos.slice(0, -1)) : ($scope.recursos); // Quitar "," final
+		console.log("recursos: " + $scope.recursos);
+	};
+
     // Acción del botón "Editar" del formulario
     $scope.editar = function(files){
 		$http.post('php/manejoBD.php?action=actualizar', 
