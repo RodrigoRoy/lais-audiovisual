@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS area_de_contenido_y_estructura(
 	descriptor_cronologico TEXT,
 	tipo_de_produccion VARCHAR(31) DEFAULT '',
 	genero VARCHAR(30) DEFAULT '',
-	fuentes VARCHAR(170) DEFAULT '',
-	recursos VARCHAR(170) DEFAULT '',
+	fuentes VARCHAR(350) DEFAULT '', # si se ocupan todos los tipos de fuentes
+	recursos VARCHAR(150) DEFAULT '', # si se ocupan todos los tipos de recursos
 	versiones VARCHAR(150) DEFAULT '',
 	formato_original VARCHAR(25) DEFAULT '',
 	material_extra VARCHAR(150) DEFAULT ''
