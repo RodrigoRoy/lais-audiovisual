@@ -361,8 +361,10 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
     	'contexto': ['entidad_productora', 'productor', 'distribuidora', 'historia_institucional', 'resena_biografica', 'forma_de_ingreso', 'fecha_de_ingreso'],
     	'contenido': ['sinopsis', 'descriptor_onomastico', 'descriptor_toponimico', 'descriptor_cronologico', 'tipo_de_produccion', 'genero', 'fuentes', 'recursos', 'versiones', 'formato_original', 'material_extra'],
     	'condiciones': ['condiciones_de_acceso', 'existencia_y_localizacion_de_originales', 'idioma_original', 'doblajes_disponibles', 'subtitulajes', 'soporte', 'numero_copias', 'descripcion_fisica', 'color', 'audio', 'sistema_de_grabacion', 'region_dvd', 'requisitos_tecnicos'],
-    	'documentacion': ['existencia_y_localizacion_de_copias', 'unidades_de_descripcion_relacionadas', 'documentos_asociados', 'area_de_notas'],
-    	'descripcion': ['notas_del_archivero', 'datos_del_archivero', 'reglas_o_normas', 'fecha_de_descripcion', 'imagen', 'url']
+    	'documentacion': ['existencia_y_localizacion_de_copias', 'unidades_de_descripcion_relacionadas', 'documentos_asociados'],
+    	'notas': ['area_de_notas'],
+    	'descripcion': ['notas_del_archivero', 'datos_del_archivero', 'reglas_o_normas', 'fecha_de_descripcion'],
+    	'adicional': ['imagen', 'url']
     }
     $scope.visibles = $scope.archivos.length; // Cantidad de documentales visibles (útil al filtrarlos en búsquedas)
     $scope.predicate = "fecha"; // Ordenamiento por "fecha" (año)
@@ -596,15 +598,19 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 		for(var area in $scope.allInfo){
 			$scope.allInfoCopy[area] = [];
 			for(var campo in $scope.allInfo[area]){ // Aplicar modificaciones
-				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].trim().replace(/  */g, ' '); // Limpiar espacios vacios
-				$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].slice(-1) === '.') ? ($scope.allInfo[area][campo].slice(0, -1)) : ($scope.allInfo[area][campo]); // Eliminar punto al final
-				$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].length > 0) ? ($scope.allInfo[area][campo].charAt(0).toUpperCase() + $scope.allInfo[area][campo].slice(1)) : ($scope.allInfo[area][campo]); // Mayúscula la primera letra
+				if(area !== 'adicional'){ // Porque la imagen y la url deben conservar el nombre original tal cual
+					$scope.allInfo[area][campo] = $scope.allInfo[area][campo].trim().replace(/  */g, ' '); // Limpiar espacios vacios
+					$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].slice(-1) === '.') ? ($scope.allInfo[area][campo].slice(0, -1)) : ($scope.allInfo[area][campo]); // Eliminar punto al final
+					$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].length > 0) ? ($scope.allInfo[area][campo].charAt(0).toUpperCase() + $scope.allInfo[area][campo].slice(1)) : ($scope.allInfo[area][campo]); // Mayúscula la primera letra	
+				}
 				$scope.allInfoCopy[area][campo] = $scope.allInfo[area][campo];
 				// Cambia URL por un ícono con hipervínculo
 				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g,
 					'<a href="$&" target="_blank" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>');
 				// Cambiar "in situ" a itálicas
 				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/in situ/gi, '<em>$&</em>');
+				// Cambiar "videorales" a itálicas
+				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/videorales/gi, '<em>$&</em>');
 			}
 		}
 	};
