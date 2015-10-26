@@ -1,5 +1,6 @@
 // Cuando el documento esté listo se realizan todas las llamadas a las funciones que involucran al formulario.
 	//Iniciar el navbar
+/*
 $( ".navegador" ).css( "background-color", "transparent");
 $(document).ready(function(){       
             var scroll_pos = 0;
@@ -14,3 +15,7 @@ $(document).ready(function(){
 
 
 });
+*/
+
+//Poner fijo el color negro con transparencia el navbar
+$( ".navegador" ).css( "background-color", "rgba(0,0,0,.6)");
