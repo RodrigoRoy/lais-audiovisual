@@ -14,7 +14,7 @@
 				<input type="text" class="form-control" name="nombre" ng-model="nombre" id="nombre" ng-minlength="3" required>
 			</div>
 			<!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
-			<div class="alert alert-danger" role="alert" 
+			<div class="alert alert-danger" requiredole="alert" 
 	          ng-show="formUser.nombre.$dirty && formUser.nombre.$invalid">
 	          <small class="error" ng-show="formUser.nombre.$error.required">
 	            <strong>ERROR:</strong> Se requiere un nombre

@@ -1,9 +1,10 @@
 body{
 	width: 100%;
 	height: auto;
-	background-color: #0D1F2B;
+	background-color: black;
+	background-image: url(../imgs/Foto_Acervo1.png);
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: 100%;
+	background-size: cover;
 	background-attachment: fixed;
 }

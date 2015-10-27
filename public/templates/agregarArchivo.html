@@ -26,7 +26,7 @@
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
 				<div class="page-header">
-					<h1>Agregar registro audiovisual</h1>
+					<h1>Agregar ficha de documentación</h1>
 				</div>
 				
 				<!--Script para mostrar mensajes de error en los campos del formulario-->
@@ -41,12 +41,14 @@
 				<form name="audiovisualForm" id="audiovisualForm" role="form" novalidate> <!--id="audiovisualForm"-->
 					<!-- Nav tabs -->
 					<ul class="nav nav-pills nav-justified" role="tablist">
-						<li role="presentation" class="active"><a data-target="#identificacion" aria-controls="identificacion" role="tab" data-toggle="pill" href="">Identificación</a></li>
-						<li role="presentation"><a data-target="#contexto" aria-controls="contexto" role="tab" data-toggle="pill" href="">Contexto</a></li>
-						<li role="presentation"><a data-target="#contenido" aria-controls="contenido" role="tab" data-toggle="pill" href="">Contenido y estructura</a></li>
-						<li role="presentation"><a data-target="#condiciones" aria-controls="condiciones" role="tab" data-toggle="pill" href="">Condiciones de Acceso</a></li>
-						<li role="presentation"><a data-target="#documentacion" aria-controls="documentacion" role="tab" data-toggle="pill" href="">Documentación asociada y notas</a></li>
-						<li role="presentation"><a data-target="#descripcion" aria-controls="descripcion" role="tab" data-toggle="pill" href="">Descripción e información adicional</a></li>
+						<li role="presentation" class="active"><a data-target="#identificacion" aria-controls="identificacion" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-film" aria-hidden="true"></span> Identificación</a></li>
+						<li role="presentation"><a data-target="#contexto" aria-controls="contexto" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Contexto</a></li>
+						<li role="presentation"><a data-target="#contenido" aria-controls="contenido" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Contenido y estructura</a></li>
+						<li role="presentation"><a data-target="#condiciones" aria-controls="condiciones" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Condiciones de acceso y uso</a></li>
+						<li role="presentation"><a data-target="#documentacion" aria-controls="documentacion" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Documentación asociada</a></li>
+						<li role="presentation"><a data-target="#notas" aria-controls="notas" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Notas</a></li>
+						<li role="presentation"><a data-target="#descripcion" aria-controls="descripcion" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Control de la descripción</a></li>
+						<li role="presentation"><a data-target="#adicional" aria-controls="adicional" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Información adicional</a></li>
 					</ul>
 					<!-- Tab panes -->
 					<div class="tab-content">
@@ -302,7 +304,7 @@
 							</div>
 						</div>
 
-						<!-- AREA DE CONTENIDO -->
+						<!-- AREA DE CONTENIDO Y ESTRUCTURA-->
 						<div role="tabpanel" class="tab-pane fade" id="contenido">
 							<!-- SINOPSIS -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.sinopsis.$dirty && audiovisualForm.sinopsis.$invalid}">
@@ -352,52 +354,14 @@
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.genero.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.genero.$dirty && audiovisualForm.genero.$invalid"></div>
 							</div>
 							<!-- FUENTES -->
-							<div class="form-group" ng-class="{'has-error': audiovisualForm.fuentes.$dirty && audiovisualForm.fuentes.$invalid}">
+							<div class="form-group">
 								<label class="control-label" for="fuentes">Fuentes</label>
-								<select class="form-control select-toggle" id="fuentes" name="fuentes" ng-model="fuentes" size="24" multiple>
-									<option  value="Entrevistas">Entrevistas</option>
-									<option  value="Grabación de campo">Grabación de campo</option>
-									<option  value="Ficción">Ficción</option>
-									<option  value="Documental">Documental</option>
-									<option  value="Registros fílmicos">Registros fílmicos</option>
-									<option  value="Fotogafía">Fotografía</option>
-									<option  value="Pintura">Pintura</option>
-									<option  value="Grabados">Grabados</option>
-									<option  value="Hemerografía">Hemerografía</option>
-									<option  value="Cartografía">Cartografía</option>
-									<option  value="Testimonios orales">Testimonios orales</option>
-									<option  value="Testimonios video orales">Testimonios video orales</option>
-									<option  value="Noticieros fílmicos">Noticieros fílmicos</option>
-									<option  value="Programas de TV">Programas de TV</option>
-									<option  value="Publicidad">Publicidad</option>
-									<option  value="Videoclips">Videoclips</option>
-									<option  value="Dibujo">Dibujo</option>
-									<option  value="Multimedia">Multimedia</option>
-									<option  value="Registros fonográficos">Registros fonográficos</option>
-									<option  value="Música de época">Música de época</option>
-									<option  value="Documentos">Documentos</option>
-									<option  value="Animación">Animación</option>
-									<option  value="Registros radiofónicos">Registros radiofónicos</option>
-									<option  value="Registros videográficos">Registros videográficos</option>
-								</select>
-								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.fuentes.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.fuentes.$dirty && audiovisualForm.fuentes.$invalid"></div>
+								<div isteven-multi-select input-model="inputFuentes" output-model="outputFuentes" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="" translation="localLang" on-close="createFuentes()" output-properties="name" id="fuentes"></div>
 							</div>
 							<!-- RECURSOS -->
-							<div class="form-group" ng-class="{'has-error': audiovisualForm.recursos.$dirty && audiovisualForm.recursos.$invalid}">
+							<div class="form-group">
 								<label class="control-label" for="recursos">Recursos</label>
-								<select class="form-control select-toggle" id="recursos" name="recursos" ng-model="recursos" size="10" multiple>
-									<option value="Puesta en escena">Puesta en escena</option>
-									<option value="Animación">Animación</option>
-									<option value="Incidentales">Incidentales</option>
-									<option value="Narración en off">Narración en off</option>
-									<option value="Conducción">Conducción</option>
-									<option value="Intertítulos">Intertítulos</option>
-									<option value="Interactividad">Interactividad</option>
-									<option value="Música">Música</option>
-									<option value="Otros elementos gráficos">Otros elementos gráficos</option>
-									<option value="Otros elementos audiovisuales">Otros elementos audiovisuales</option>
-								</select>
-								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.recursos.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.recursos.$dirty && audiovisualForm.recursos.$invalid"></div>
+								<div isteven-multi-select input-model="inputRecursos" output-model="outputRecursos" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" helper-elements="" translation="localLang" on-close="createRecursos()" output-properties="name" id="recursos"></div>
 							</div>
 							<!-- VERSIONES -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.versiones.$dirty && audiovisualForm.versiones.$invalid}">
@@ -419,7 +383,7 @@
 							</div>
 						</div>
 
-						<!-- AREA DE CONTENIDO Y ESTRUCTURA -->
+						<!-- AREA DE CONDICIONES DE ACCESO -->
 						<div role="tabpanel" class="tab-pane fade" id="condiciones">
 							<!-- CONDICIONES_DE_ACCESO -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.condiciones_de_acceso.$dirty && audiovisualForm.condiciones_de_acceso.$invalid}">
@@ -525,6 +489,10 @@
 								<textarea class="form-control" rows="2" id="documentos_asociados" name="documentos_asociados" ng-model="documentos_asociados"></textarea>
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.documentos_asociados.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.documentos_asociados.$dirty && audiovisualForm.documentos_asociados.$invalid"></div>
 							</div>
+						</div>
+
+						<!-- AREA DE NOTAS -->
+						<div role="tabpanel" class="tab-pane fade" id="notas">
 							<!-- AREA_DE_NOTAS -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.area_de_notas.$dirty && audiovisualForm.area_de_notas.$invalid}">
 								<label class="control-label" for="area_de_notas">Área de notas</label>
@@ -559,6 +527,10 @@
 								<input class="form-control" id="fecha_de_descripcion" name="fecha_de_descripcion" ng-model="fecha_de_descripcion" type="date">
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.fecha_de_descripcion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.fecha_de_descripcion.$dirty && audiovisualForm.fecha_de_descripcion.$invalid"></div>
 							</div>
+						</div>
+
+						<!-- INFORMACION ADICIONAL -->
+						<div role="tabpanel" class="tab-pane fade" id="adicional">
 							<!-- IMAGEN -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.imagen.$dirty && audiovisualForm.imagen.$invalid}">
 								<label class="control-label" for="imagen">Portada</label>
@@ -569,13 +541,14 @@
 							</div>
 					        <!-- URL -->
 					        <div class="form-group" ng-class="{'has-error': audiovisualForm.url.$dirty && audiovisualForm.url.$invalid}">
-								<label class="control-label" for="url">Dirección URL:</label>
+								<label class="control-label" for="url">Dirección URL</label>
 								<input type="url" class="form-control" id="url" name="url" ng-model="url" ng-maxlength="255">
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.url.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.url.$dirty && audiovisualForm.url.$invalid"></div>
 							</div>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary btn-lg btn-block" ng-disabled="audiovisualForm.$invalid" ng-click="envia(imagen)">Agregar registro a base de datos</button>
+					<button class="btn btn-primary btn-lg btn-block" ng-disabled="audiovisualForm.$invalid" ng-click="envia(imagen)">Agregar información a la base de datos</button>
+					<button class="btn btn-default btn-lg btn-block" ng-click="cancela()">Cancelar</button>
 				</form>
 			</div>
 		</div>

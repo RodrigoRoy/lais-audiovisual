@@ -135,8 +135,17 @@ DESCRIBE area_de_identificacion;
 #SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'my_database' AND TABLE_NAME = 'my_table';
 SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Coleccion_Archivistica' AND TABLE_NAME = 'area_de_identificacion';
 
-# Muestra el código de cada década
-SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decadas FROM area_de_identificacion ORDER BY decadas ASC;
+# Muestra el código de cada década (ordenada alfabnumericamente, lo cual es incorrecto)
+SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decadas 
+	FROM area_de_identificacion 
+    ORDER BY decadas ASC;
+
+# Ordenar correctamente (de manera numérica) los codigos de las décadas
+# Requiere subconsulta del código de las décadas, hacer substring y cast para ordenamiento numérico.
+SELECT claves.decadas, CAST(SUBSTRING_INDEX(decadas,'-',-1) AS UNSIGNED) AS codigos
+	FROM (SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) AS decadas 
+		FROM area_de_identificacion) AS claves
+	ORDER BY codigos DESC;
 
 #SELECT PARA TRAER TODOS LOS ARCHIVOS DE UNA DECADA EN ESPECIFICO
 SELECT codigo_de_referencia FROM area_de_identificacion WHERE codigo_de_referencia LIKE '%MXIM-AV-1-4%';
@@ -171,11 +180,16 @@ SELECT *
 	FROM area_de_identificacion 
 	WHERE codigo_de_referencia LIKE 'MXIM-AV-1-5%';
 
-# Permite borrar los registro de una década particular (en este caso la década 5)
-DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-7%';
+# Permite borrar los registro de una década particular
+DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-5%';
 
 # Todos los materiales audiovisuales sin sinopsis
 SELECT codigo_de_referencia, titulo_propio, sinopsis
+	FROM area_de_identificacion 
+		NATURAL JOIN area_de_contenido_y_estructura
+	WHERE sinopsis = '';
+# Cuántos materiales sin sinopsis
+SELECT COUNT(*)
 	FROM area_de_identificacion 
 		NATURAL JOIN area_de_contenido_y_estructura
 	WHERE sinopsis = '';
@@ -189,12 +203,11 @@ SELECT codigo_de_referencia, titulo_propio, sinopsis
 # Materiales sin portada
 SELECT codigo_de_referencia, titulo_propio
 	FROM area_de_identificacion 
-		NATURAL JOIN area_de_contexto 
-		NATURAL JOIN area_de_contenido_y_estructura
-		NATURAL JOIN area_de_condiciones_de_acceso
-		NATURAL JOIN area_de_documentacion_asociada
-		NATURAL JOIN area_de_notas
-		NATURAL JOIN area_de_descripcion
+		NATURAL JOIN informacion_adicional
+	WHERE imagen = '';
+# Cuántos materiales sin portada
+SELECT COUNT(*)
+	FROM area_de_identificacion 
 		NATURAL JOIN informacion_adicional
 	WHERE imagen = '';
 
@@ -225,3 +238,8 @@ SELECT codigo_de_referencia, titulo_propio, titulo_paralelo, fecha, imagen
 		ORDER BY fecha DESC) AS ordered
 	#ORDER BY fecha DESC
 	LIMIT 0,32; # offset, row_count
+
+# Usar REGEXP para detectar campos que tengan espacios vacios al inicio
+SELECT *
+	FROM area_de_identificacion 
+	WHERE realizacion REGEXP '^ ';

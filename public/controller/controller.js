@@ -140,8 +140,8 @@ lais.service('ParamService', function(){
 			'descriptor_cronologico': (scope.descriptor_cronologico !== undefined) ? scope.descriptor_cronologico.trim().replace(/  +/g, ' ') : "",
 			'tipo_de_produccion': (scope.tipo_de_produccion !== undefined) ? scope.tipo_de_produccion.trim().replace(/\s\s+/g, ' ') : "",
 			'genero': (scope.genero !== undefined) ? scope.genero.trim().replace(/\s\s+/g, ' ') : "",
-			'fuentes': setFuenteRecurso(scope.fuentes), // Parse desde filter.js
-			'recursos': setFuenteRecurso(scope.recursos), // Parse desde filter.js
+			'fuentes': scope.fuentes, // Parse desde filter.js "setFuenteRecurso()" sustituido por $scope.createFuentes()
+			'recursos': scope.recursos, // Parse desde filter.js  "setFuenteRecurso()" sustituido por $scope.createRecursos()
 			'versiones': (scope.versiones !== undefined) ? scope.versiones.trim().replace(/\s\s+/g, ' ') : "",
 			'formato_original': (scope.formato_original !== undefined) ? scope.formato_original.trim().replace(/\s\s+/g, ' ') : "",
 			'material_extra': (scope.material_extra !== undefined) ? scope.material_extra.trim().replace(/\s\s+/g, ' ') : "",
@@ -339,30 +339,39 @@ lais.controller('decadasCtrl',function($scope, $location, $http, $cookieStore, D
 });
 
 //Controlador que mostrara los archivos audiovisuales con su portada por decadas
-lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http, $timeout, ParamService, DecadaService, agregarNuevoAll, $cookieStore){
-	//console.log("Parametro URL: "+ $routeParams.codigo);
+lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $http, $timeout, $cookieStore, ParamService, DecadaService, agregarNuevoAll){
+	// ########## PROPIEDADES DEL CONTROLADOR ##########
 	$scope.codigo = $routeParams.codigo; // Código de la década
 	$scope.query = $routeParams.query; // Query de búsqueda en la barra de navegación
 	$scope.allDecades = DecadaService.allDecades;
 	$scope.encabezados = DecadaService.encabezados;
 	$scope.archivos = []; // Los registros por décadas (incluyen titulo, fecha, duracion, imagen)
 	$scope.allInfo = []; // Toda la información del registro seleccionado (se inicializa más adelante)
+	$scope.allInfoCopy = []; // Copia de los datos originales (ver $scope.preprocesamientoUnidad())
 	$scope.busy = false;
 	var howMany = 32; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
 	$scope.errores = false; //Muetra el error de confirmación de contraseña para borrar un registro
 	//$scope.uniqueName son todos los rubros que coinciden con la búsqueda
 	$scope.predicate = 'fecha'; // Predicado o propiedad que se utilizará para el ordenamiento
 	$scope.reverse = 'true'; // Orden descendente (true) o ascendente (false) de los registros
+	$scope.hideInfo = false; //Banderá para esconder la información completa de cada registro
 	// Arreglo auxiliar agrupado por areas para mostrar correctamente keywords dentro de la tabla de información completa (ver función focus())
 	var areas = {
     	'identificacion': ['codigo_de_referencia', 'titulo_propio', 'titulo_paralelo', 'titulo_atribuido', 'titulo_de_serie', 'numero_de_programa', 'pais', 'fecha', 'duracion', 'investigacion', 'realizacion', 'direccion', 'guion', 'adaptacion', 'idea_original', 'fotografia', 'fotografia_fija', 'edicion', 'sonido_grabacion', 'sonido_edicion', 'musica_original', 'musicalizacion', 'voces', 'actores', 'animacion', 'otros_colaboradores'],
     	'contexto': ['entidad_productora', 'productor', 'distribuidora', 'historia_institucional', 'resena_biografica', 'forma_de_ingreso', 'fecha_de_ingreso'],
     	'contenido': ['sinopsis', 'descriptor_onomastico', 'descriptor_toponimico', 'descriptor_cronologico', 'tipo_de_produccion', 'genero', 'fuentes', 'recursos', 'versiones', 'formato_original', 'material_extra'],
     	'condiciones': ['condiciones_de_acceso', 'existencia_y_localizacion_de_originales', 'idioma_original', 'doblajes_disponibles', 'subtitulajes', 'soporte', 'numero_copias', 'descripcion_fisica', 'color', 'audio', 'sistema_de_grabacion', 'region_dvd', 'requisitos_tecnicos'],
-    	'documentacion': ['existencia_y_localizacion_de_copias', 'unidades_de_descripcion_relacionadas', 'documentos_asociados', 'area_de_notas'],
-    	'descripcion': ['notas_del_archivero', 'datos_del_archivero', 'reglas_o_normas', 'fecha_de_descripcion', 'imagen', 'url']
+    	'documentacion': ['existencia_y_localizacion_de_copias', 'unidades_de_descripcion_relacionadas', 'documentos_asociados'],
+    	'notas': ['area_de_notas'],
+    	'descripcion': ['notas_del_archivero', 'datos_del_archivero', 'reglas_o_normas', 'fecha_de_descripcion'],
+    	'adicional': ['imagen', 'url']
     }
     $scope.visibles = $scope.archivos.length; // Cantidad de documentales visibles (útil al filtrarlos en búsquedas)
+    $scope.predicate = "fecha"; // Ordenamiento por "fecha" (año)
+	$scope.reverse = true; // Orden ascendente/descendente del ordenamiento
+	var articulos = ["el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "al", "del"]; // Lista de artículos en español (útil para corregir los nombres)
+
+    // ########## CONEXIONES CON BASE DE DATOS ##########
 
 	// En caso de que sea una búsqueda se obtienen todos los registros que coincidan con el query
 	if($scope.query){
@@ -374,9 +383,10 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 				$scope.visibles = $scope.archivos.length;
 				for(var i in $scope.archivos){ // A todos los archivos se les agrega la propiedad "show"
 					$scope.archivos[i]['show'] = true; // Esto permite filtrar resultados de manera inmediata
+					$scope.preprocesamiento($scope.archivos[i]); // Limpia de espacios vacios y agrega "titulo_adecuado" y "titulo_visible"
 					// Y eliminar espacios en blanco para un correcto comportamiento en ordenamiento:
-					$scope.archivos[i]['fecha'] = $scope.archivos[i]['fecha'].trim().replace(/  */g, '');
-					$scope.archivos[i]['titulo_propio'] = $scope.archivos[i]['titulo_propio'].trim();
+					//$scope.archivos[i]['fecha'] = $scope.archivos[i]['fecha'].trim().replace(/  */g, '');
+					//$scope.archivos[i]['titulo_propio'] = $scope.archivos[i]['titulo_propio'].trim();
 				}
 				$scope.inputQuery = []; // Objeto para mostrar los objetos multiselect para filtar la busqueda
 				for (var i in $scope.uniqueNames){
@@ -393,8 +403,10 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		$scope.busy = true; // En estos momentos estamos "ocupados" obteniendo datos de la base
 		$http.get('php/manejoBD.php?action=firstGet&codigo='+$routeParams.codigo+"&howMany="+howMany+"&offset="+$scope.archivos.length).
 			success(function(data, status, headers, config) {
-				for(av in data){ // Recorrer por indice (av) cada audiovisual de la base
-					$scope.archivos.push(data[av]); // Agregar al arreglo que los contendrá
+				for(i in data){ // Recorrer por indice (av) cada audiovisual de la base
+					var archivo = data[i]; // Temporalmente guardar en variable para su posterior manipulación (preprocesamiento)
+					$scope.preprocesamiento(archivo); // Limpia de espacios vacios y agrega "titulo_adecuado" y "titulo_visible"
+					$scope.archivos.push(archivo); // Agregar al arreglo que los contendrá
 					//console.log("Imgen: " + data[av].imagen);
 				}
 				$scope.busy = false; // En este momento ya NO estamos "ocupados"
@@ -403,13 +415,14 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			}).
 			error(function(data, status, headers, config) {
 				// called asynchronously if an error occurs or server returns response with an error status.
+				alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
 			});
 	};
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas después de una búsqueda
 	// En caso de requerir otros datos, modificar la función del manejador de la base (manejoDB.php)
 	// (Esta función es una copia de firstLoad())
-	$scope.firstQueryLoad = function(){
+	/*$scope.firstQueryLoad = function(){
 		if($scope.busy) // No hacer nada si ya no hay datos que obtener de la base
 			return;
 		$scope.busy = true; // En estos momentos estamos "ocupados" obteniendo datos de la base
@@ -426,7 +439,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 			error(function(data, status, headers, config) {
 				// called asynchronously if an error occurs or server returns response with an error status.
 			});
-	};
+	};*/
 
 	// Obtener toda la información de un audiovisual particular. Recibe el código de identificación
 	$scope.getAllInfo = function(codigoId){
@@ -436,17 +449,16 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	success(function(data) {
     		$scope.allInfo = data;
     		// Limpiar algunos campos:
-    		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
-    		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
-    		$scope.hideURL(); // Cambia URLs por enlaces
-    		//console.log("image data: ", document.getElementById("imgPortada"));
+    		$scope.preprocesamientoUnidad();
     		getImgSize('imgs/Portadas/' + $scope.allInfo.adicional.imagen); // Llamada asincrona para obtener el ancho y largo original ($scope.imgActualWidth, $scope.imgActualHeight)
     	}).
     	error(function(data, status, headers, config) {
 			// called asynchronously if an error occurs or server returns response with an error status.
-			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa tu conexión a internet.");
+			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
 		});
 	};
+
+	// ########## BUSQUEDAS, ORDENAMIENTO Y FILTRADO ##########
 
 	// Función que actualiza la propiedad "show" del arreglo $scope.archivos que contiene los registros de la búsqueda que se muestran
 	// Verifica los rubros de cada registro y los compara con $scope.outputQuery (que es un multiselect para filtrar resultados)
@@ -491,7 +503,7 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	// isteven Multiselect transalation:
 	$scope.localLang = {
 		selectAll       : "Seleccionar todo",
-		selectNone      : "Seleccionar nada",
+		selectNone      : "Seleccionar ninguno",
 		reset           : "Reset",
 		search          : "Búsqueda",
 		nothingSelected : "Nada está seleccionado"
@@ -520,13 +532,11 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
  //        $scope.predicate = predicate;
 	// };
 
-	$scope.predicate = "fecha";
-	$scope.reverse = true;
+	// Parser del select "ordenSelect" en la vista. Determina el área de ordenamiento y el orden de los datos.
 	$scope.parseOrdenamiento = function(){
 		var orden = $scope.ordenamiento.split("|");
 		$scope.predicate = orden[0];
 		$scope.reverse = (orden[1] === 'true');
-		//console.log("orden", orden, "predicate", $scope.predicate, "reverse", $scope.reverse);
 	};
 
 	// Busca el registro con codigo de referencia dado como parámetro y devuelve el arreglo "rubros" asociado a ese registro
@@ -563,22 +573,93 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 	    $scope.highlight(keyword); // Resaltar la keyword correspondiente dentro del texto
 	};
 
-	// Toma los textos de algunos campos (sinopsis) y cambia las url por enlaces
-	$scope.hideURL = function(){
-		// Expresión regular para URLs: http://stackoverflow.com/questions/161738/what-is-the-best-regular-expression-to-check-if-a-string-is-a-valid-url
-		var pattern = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g;
-		var newText = '<a href="$&" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>';
-		//$scope.sinopsis_original = $scope.allInfo.contenido_y_estructura.sinopsis; // Copia del original (útil para imprimir en pdf)
-		//$scope.allInfo.contenido_y_estructura.sinopsis = $scope.allInfo.contenido_y_estructura.sinopsis.replace(pattern, newText);
-		$scope.allInfoCopy = [];
+	// ########## FORMATO Y VISUALIZACIÓN DE LA INFORMACIÓN ##########
+
+	// Preprocesamiento de la información principal (mosaico de portadas). Agrega valores auxiliares para mostrar titulos correctos.
+	$scope.preprocesamiento = function(archivo){
+		archivo['fecha'] = archivo['fecha'].trim().replace(/  */g, ''); // Quitar espacios en fecha (para ordenamiento alfabetico correcto)
+		archivo['titulo_propio'] = archivo['titulo_propio'].trim();
+		archivo['titulo_paralelo'] = archivo['titulo_paralelo'].trim();
+		archivo['titulo_adecuado'] = $scope.tituloAdecuado(archivo); // Seleccionar el titulo a mostrar (en caso de que haya varios)
+		archivo['titulo_visible'] = $scope.tituloVisible(archivo['titulo_adecuado']); // Coloca al final el artículo (gramátical del español) del "titulo_adecuado" (en caso de haber)
+	};
+
+	// Preprocesamiento de la información en todas las áreas de un audiovisual ($scope.allInfo)
+	$scope.preprocesamientoUnidad = function(){
+		// Cambios puntuales (específicos) y permanentes
+		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
+		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
+		// Agregar nuevos campos "titulo_adecuado" y "titulo_visible":
+		$scope.allInfo.secret = [];
+		$scope.allInfo.secret['titulo_adecuado'] = $scope.tituloAdecuado($scope.allInfo.identificacion);
+		$scope.allInfo.secret['titulo_visible'] = $scope.tituloVisible($scope.allInfo.secret['titulo_adecuado']);
+
+		$scope.allInfoCopy = []; // Vaciar la copia actual
 		for(var area in $scope.allInfo){
 			$scope.allInfoCopy[area] = [];
-			for(var campo in $scope.allInfo[area]){
+			for(var campo in $scope.allInfo[area]){ // Aplicar modificaciones
+				if(area !== 'adicional'){ // Porque la imagen y la url deben conservar el nombre original tal cual
+					$scope.allInfo[area][campo] = $scope.allInfo[area][campo].trim().replace(/  */g, ' '); // Limpiar espacios vacios
+					$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].slice(-1) === '.') ? ($scope.allInfo[area][campo].slice(0, -1)) : ($scope.allInfo[area][campo]); // Eliminar punto al final
+					$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].length > 0) ? ($scope.allInfo[area][campo].charAt(0).toUpperCase() + $scope.allInfo[area][campo].slice(1)) : ($scope.allInfo[area][campo]); // Mayúscula la primera letra	
+				}
 				$scope.allInfoCopy[area][campo] = $scope.allInfo[area][campo];
-				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(pattern, newText);
+				// Cambia URL por un ícono con hipervínculo
+				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g,
+					'<a href="$&" target="_blank" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>');
+				// Cambiar "in situ" a itálicas
+				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/in situ/gi, '<em>$&</em>');
+				// Cambiar "videorales" a itálicas
+				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/videorales/gi, '<em>$&</em>');
 			}
 		}
+	};
+
+	// Selecciona cual es mejor título para mostrar.
+	// Debido a que un título puede incluir entre paréntesis la traducción "oficial" en español o tener uno o varios titulos paralelos.
+	// La prioridad de selección es la siguiente: 
+	//   1. titulo entre paréntesis 
+	//   2. primer o único titulo paralelo
+	//   3. título propio
+	$scope.tituloAdecuado = function(archivo){
+		// Prioridad por mostrar títulos parentizados en titulo_propio
+		if((matches = /\((.*)\)$/.exec(archivo.titulo_propio.trim())) !== null)
+			return matches[1];
+		// De no ser el caso, prioridad a titulo_paralelo
+		if (archivo.titulo_paralelo !== ''){
+			var titulos = archivo.titulo_paralelo.split(","); // Puede haber varios títulos paralelos (separados por coma)
+			if (titulos.length > 1) // De ser así, tomar solamente el primero
+				return titulos[0].trim();
+			// En caso contrario, tomar todo el titulo_paralelo
+			return archivo.titulo_paralelo;
+		}
+		// En otro caso, solo existe titulo_propio
+		return archivo.titulo_propio;
+	};
+
+	// Recibe un titulo_adecuado y en caso de iniciar con un artículo gramátical en español (el, la, los, las, etc.) lo escribe al final.
+	// Ejemplo de conversión:
+	// "La hora de los hornos" => "Hora de los hornos, La"
+	// El resultado de esta función es (comúnmente) asignado a "titulo_visible"
+	$scope.tituloVisible = function(titulo){
+		var descomposicion = titulo.trim().split(" "); // Descomposición de palabras del título
+		for(var i in articulos){ // Buscar en la lista de articulos
+			if(articulos[i].indexOf(descomposicion[0].toLowerCase()) > -1){ // Si hay un artículo en la primera palabra del título
+				descomposicion[descomposicion.length-1] = descomposicion[descomposicion.length-1] + "," // Agregar coma
+				descomposicion[descomposicion.length] = descomposicion[0]; // Pasar articulo al final
+				descomposicion[0] = "" // Borrar el artículo al inicio
+				var newTitulo = descomposicion.join(' ').trim(); // Crear el nuevo título y quitar espacio vacio al inicio
+				return newTitulo.charAt(0).toUpperCase() + newTitulo.slice(1); // Poner en mayúscula la primera letra
+			}
+		}
+		return titulo; // En caso de que no haya artículo
 	}
+
+	// Auxiliar para recortar el título (cadena pasada como primer parámetro) en caso de que exceda el límite de longitud (entero pasado como segundo parámetro)
+	// En caso de exceder el límite, se recorta el título a maxLength y se agregan puntos suspensivos.
+	$scope.recortarTitulo = function(titulo, maxLength){
+		return (titulo.length > maxLength) ? (titulo.substring(0, maxLength) + "...") : (titulo);
+	};
 
 	// Dada la información del archivo (pasado como parámetro) devuelve el titulo paralelo en cado de haberlo, en caso contrario devuelve el titulo propio.
 	// Acorta el texto y agrega "..." para adecuarlo a la vista en cuadrícula de la colección.
@@ -597,10 +678,10 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		}
 		// En otro caso, solo existe titulo_propio
 		return (archivo.titulo_propio.length > maxLength) ? (archivo.titulo_propio.substring(0,maxLength) + "...") : (archivo.titulo_propio);
-	}
+	};
 
+	// Crea un documento PDF con la biblioteca pdfmake(.min).js y al final se abre el PDF en el navegador
 	$scope.openPDF = function(){
-		// var docDefinition = {content: 'This is an sample PDF printed with pdfMake'};
 		var docDefinition = {
 			footer: function(currentPage, pageCount) { 
 				//return {text: currentPage.toString() + ' de ' + pageCount, alignment: 'right'};
@@ -753,6 +834,8 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
     	return true;
 	}
 
+	// ########## ADMINISTRACIÓN DE LOS AUDIOVISUALES (AGREGAR, EDITAR, BORRAR) ##########
+
 	// Acción del icono para agregar un nuevo audiovisual
     $scope.agregarNuevo = function(decada){
     	agregarNuevoAll.agregarNew(decada);
@@ -798,8 +881,6 @@ lais.controller('muestraDecadaCtrl',function($scope,$location,$routeParams,$http
 		
     }
 
-    $scope.hideInfo = false; //Banderá para esconder la información de cada registro
-
     //Función que ocula la información de un registro
     $scope.hideInfos = function(){
     	$scope.hideInfo = !$scope.hideInfo;
@@ -821,26 +902,76 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 		$location.url('/decadas/');
 	}
 
+	$scope.inputFuentes = [
+		{name: "Entrevistas", ticked: false},
+		{name: "Grabación de campo", ticked: false},
+		{name: "Ficción", ticked: false},
+		{name: "Documentales", ticked: false},
+		{name: "Registros fílmicos", ticked: false},
+		{name: "Fotografías", ticked: false},
+		{name: "Pinturas", ticked: false},
+		{name: "Grabados", ticked: false},
+		{name: "Hemerografía", ticked: false},
+		{name: "Cartografía", ticked: false},
+		{name: "Testimonios orales", ticked: false},
+		{name: "Testimonios videorales", ticked: false},
+		{name: "Noticieros fílmicos", ticked: false},
+		{name: "Programas de tv", ticked: false},
+		{name: "Publicidad", ticked: false},
+		{name: "Videoclips", ticked: false},
+		{name: "Dibujos", ticked: false},
+		{name: "Multimedia", ticked: false},
+		{name: "Música de época", ticked: false},
+		{name: "Documentos", ticked: false},
+		{name: "Registros fonográficos", ticked: false},
+		{name: "Registros videográficos", ticked: false}
+	];
+
+	$scope.inputRecursos = [
+		{name: "Puesta en escena", ticked: false},
+		{name: "Animación", ticked: false},
+		{name: "Incidentales", ticked: false},
+		{name: "Narración en off", ticked: false},
+		{name: "Conducción", ticked: false},
+		{name: "Intertítulos", ticked: false},
+		{name: "Interactividad", ticked: false},
+		{name: "Musicalización", ticked: false},
+		{name: "Gráficos", ticked: false},
+		{name: "Audiovisuales", ticked: false}
+	];
+
+	$scope.localLang = {
+		selectAll       : "Seleccionar todos",
+		selectNone      : "Seleccionar ninguno",
+		reset           : "Reset",
+		search          : "Busqueda",
+		nothingSelected : "Nada seleccionado aún"
+	};
+
+	$scope.createFuentes = function(){
+		$scope.fuentes = "";
+		for(var i in $scope.outputFuentes){
+			$scope.fuentes = $scope.fuentes + $scope.outputFuentes[i].name + ", ";
+		}
+		$scope.fuentes = $scope.fuentes.trim();
+		$scope.fuentes = ($scope.fuentes.length > 0 && $scope.fuentes.slice(-1) === ',') ? ($scope.fuentes.slice(0, -1)) : ($scope.fuentes); // Quitar "," final
+		console.log("fuentes: " + $scope.fuentes);
+	};
+
+	$scope.createRecursos = function(){
+		$scope.recursos = "";
+		for(var i in $scope.outputRecursos){
+			$scope.recursos = $scope.recursos + $scope.outputRecursos[i].name + ", ";
+		}
+		$scope.recursos = $scope.recursos.trim();
+		$scope.recursos = ($scope.recursos.length > 0 && $scope.recursos.slice(-1) === ',') ? ($scope.recursos.slice(0, -1)) : ($scope.recursos); // Quitar "," final
+		console.log("recursos: " + $scope.recursos);
+	};
+
+	//$scope.errorDuplicado = false; // DEPRECATED. La función sugerencias() ya impide repetidos.
+
 	//$scope.investigacion = [{nombre:""}];
 	//$scope.realizacion = [{nombre:""}];
-	/*$scope.direccion = [{nombre:""}];
-	$scope.guion = [{nombre:""}];
-	$scope.adaptacion = [{nombre:""}];
-	$scope.idea_original = [{nombre:""}];
-	$scope.fotografia = [{nombre:""}];
-	$scope.fotografia_fija = [{nombre:""}];
-	$scope.edicion = [{nombre:""}];
-	$scope.sonido_grabacion = [{nombre:""}];
-	$scope.sonido_edicion = [{nombre:""}];
-	$scope.musica_original = [{nombre:""}];
-	$scope.musicalizacion = [{nombre:""}];
-	$scope.voces = [{nombre:""}];
-	$scope.actores = [{nombre:""}];
-	$scope.animacion = [{nombre:""}];
-	$scope.otros_colaboradores = [{nombre:""}];
-	*/
-	//$scope.errorDuplicado = false; // DEPRECATED. La función sugerencias() impide repetidos.
-
 	/*$scope.agregar = function(scopeVar){
 		//console.log("length", scopeVar.length);
 		scopeVar.push({
@@ -882,6 +1013,11 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 			console.log("Error en envio de los datos datos: " + error);
 		});
 	}
+
+	// Cancela el envio de datos al redirigir a la página /decadas
+	$scope.cancela = function(){
+		$location.url('/decadas/');
+	};
 
 	// Funciones auxiliares para subir archivos (imagenes)
 	$scope.$watch('files', function () {
@@ -931,6 +1067,44 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		$location.url('/decadas/');
 	}
 
+	$scope.inputFuentes = [
+		{name: "Entrevistas", ticked: false},
+		{name: "Grabación de campo", ticked: false},
+		{name: "Ficción", ticked: false},
+		{name: "Documentales", ticked: false},
+		{name: "Registros fílmicos", ticked: false},
+		{name: "Fotografías", ticked: false},
+		{name: "Pinturas", ticked: false},
+		{name: "Grabados", ticked: false},
+		{name: "Hemerografía", ticked: false},
+		{name: "Cartografía", ticked: false},
+		{name: "Testimonios orales", ticked: false},
+		{name: "Testimonios videorales", ticked: false},
+		{name: "Noticieros fílmicos", ticked: false},
+		{name: "Programas de tv", ticked: false},
+		{name: "Publicidad", ticked: false},
+		{name: "Videoclips", ticked: false},
+		{name: "Dibujos", ticked: false},
+		{name: "Multimedia", ticked: false},
+		{name: "Música de época", ticked: false},
+		{name: "Documentos", ticked: false},
+		{name: "Registros fonográficos", ticked: false},
+		{name: "Registros videográficos", ticked: false}
+	];
+
+	$scope.inputRecursos = [
+		{name: "Puesta en escena", ticked: false},
+		{name: "Animación", ticked: false},
+		{name: "Incidentales", ticked: false},
+		{name: "Narración en off", ticked: false},
+		{name: "Conducción", ticked: false},
+		{name: "Intertítulos", ticked: false},
+		{name: "Interactividad", ticked: false},
+		{name: "Musicalización", ticked: false},
+		{name: "Gráficos", ticked: false},
+		{name: "Audiovisuales", ticked: false}
+	];
+
 	// Obtener todos los datos de cada campo desde la base
 	$http.get('php/manejoBD.php?action=obtener&id=' + $routeParams.id).
     success(function(data) {
@@ -973,8 +1147,10 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		$scope.descriptor_cronologico = data.descriptor_cronologico;
 		$scope.tipo_de_produccion = data.tipo_de_produccion;
 		$scope.genero = data.genero;
-		$scope.fuentes = getFuenteRecurso(data.fuentes); // Parse desde filter.js
-		$scope.recursos = getFuenteRecurso(data.recursos); // Parse desde filter.js
+		//$scope.fuentes = $scope.getFuente(data.fuentes); //getFuenteRecurso(data.fuentes); // Parse desde filter.js
+		$scope.getFuente(data.fuentes); //getFuenteRecurso(data.fuentes); // Parse desde filter.js
+		//$scope.recursos = getFuenteRecurso(data.recursos); // Parse desde filter.js
+		$scope.getRecurso(data.recursos);
 		$scope.versiones = data.versiones;
 		$scope.formato_original = data.formato_original;
 		$scope.material_extra = data.material_extra;
@@ -1003,6 +1179,70 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		$scope.imagen_previa = data.imagen;
     });
     
+	$scope.localLang = {
+		selectAll       : "Seleccionar todos",
+		selectNone      : "Seleccionar ninguno",
+		reset           : "Reset",
+		search          : "Busqueda",
+		nothingSelected : "Nada seleccionado aún"
+	};
+
+	$scope.getFuente = function(fuenteString){
+		console.log("fuentes originales: ", fuenteString);
+		var fuentes = fuenteString;
+		fuentes = (fuentes === undefined) ? "" : fuentes.trim().replace(/  */g, ' ');
+		fuentes = (fuentes.slice(-1) === '.' || fuentes.slice(-1) === ',') ? (fuentes.slice(0, -1)) : (fuentes);
+		var fuentesArray = fuentes.split(",");
+		for(var i in fuentesArray){
+			var fuente = fuentesArray[i].trim().toLowerCase();
+			fuente = (fuente.length > 0) ? (fuente.charAt(0).toUpperCase() + fuente.slice(1)) : (fuente);
+			console.log(i, fuente);
+			for(var j in $scope.inputFuentes){
+				if($scope.inputFuentes[j].name.indexOf(fuente) > -1){ // Si es la misma fuente
+					$scope.inputFuentes[j].ticked = true;
+				}
+			}
+		}
+	};
+
+	$scope.getRecurso = function(recursoString){
+		console.log("recursos originales: ", recursoString);
+		var recursos = recursoString;
+		recursos = (recursos === undefined) ? "" : recursos.trim().replace(/  */g, ' ');
+		recursos = (recursos.slice(-1) === '.' || recursos.slice(-1) === ',') ? (recursos.slice(0, -1)) : (recursos);
+		var recursosArray = recursos.split(",");
+		for(var i in recursosArray){
+			var recurso = recursosArray[i].trim().toLowerCase();
+			recurso = (recurso.length > 0) ? (recurso.charAt(0).toUpperCase() + recurso.slice(1)) : (recurso);
+			console.log(i, recurso);
+			for(var j in $scope.inputRecursos){
+				if($scope.inputRecursos[j].name.indexOf(recurso) > -1){ // Si es la misma fuente
+					$scope.inputRecursos[j].ticked = true;
+				}
+			}
+		}
+	};
+
+	$scope.createFuentes = function(){
+		$scope.fuentes = "";
+		for(var i in $scope.outputFuentes){
+			$scope.fuentes = $scope.fuentes + $scope.outputFuentes[i].name + ", ";
+		}
+		$scope.fuentes = $scope.fuentes.trim();
+		$scope.fuentes = ($scope.fuentes.length > 0 && $scope.fuentes.slice(-1) === ',') ? ($scope.fuentes.slice(0, -1)) : ($scope.fuentes); // Quitar "," final
+		console.log("fuentes: " + $scope.fuentes);
+	};
+
+	$scope.createRecursos = function(){
+		$scope.recursos = "";
+		for(var i in $scope.outputRecursos){
+			$scope.recursos = $scope.recursos + $scope.outputRecursos[i].name + ", ";
+		}
+		$scope.recursos = $scope.recursos.trim();
+		$scope.recursos = ($scope.recursos.length > 0 && $scope.recursos.slice(-1) === ',') ? ($scope.recursos.slice(0, -1)) : ($scope.recursos); // Quitar "," final
+		console.log("recursos: " + $scope.recursos);
+	};
+
     // Acción del botón "Editar" del formulario
     $scope.editar = function(files){
 		$http.post('php/manejoBD.php?action=actualizar', 
@@ -1015,6 +1255,11 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 			console.log("Error de los datos: " + error);
 		});
 	}
+
+	// Cancela la edición al redirigir a la página /decadas
+	$scope.cancela = function(){
+		$location.url('/decadas/');
+	};
 
     // Componentes para subir archivos (imagenes)
 	$scope.$watch('files', function () {
@@ -1125,7 +1370,7 @@ lais.controller('busquedaCtrl',function($scope, $http, $routeParams, $location){
 	    })
 	    .error(function(data, status, headers, config) {
 			// called asynchronously if an error occurs or server returns response with an error status.
-			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa tu conexión a internet.");
+			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
 		});
 });
 

@@ -472,18 +472,13 @@ function buscar($query){
 
 //Funcion que muestra las caratulas de las decadas existentes en la base de datos
 function mostrarDecadas(){
-    $select = "SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decadas FROM area_de_identificacion ORDER BY decadas DESC";
+    $select = "SELECT claves.decadas, CAST(SUBSTRING_INDEX(decadas,'-',-1) AS UNSIGNED) AS codigos FROM (SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) AS decadas FROM area_de_identificacion) AS claves ORDER BY codigos DESC";
     $stmt = $GLOBALS['conn']->prepare($select);
     $stmt->execute();
-    //$stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
     
-    // Check if id is in database (for develop purpose only)
-    if ($stmt->rowCount() == 0){
-    
-    } else {
-        $data = $stmt->fetchAll(PDO::FETCH_COLUMN,0); // Obtener el único resultado de la base de datos
+    if ($stmt->rowCount() > 0){
+        $data = $stmt->fetchAll(PDO::FETCH_COLUMN,0); // Obtener la información de la primer columna (indice 0)
         print_r(json_encode($data));
-        //print_r($data);
     }
 }
 

@@ -29,9 +29,13 @@
 .contenedorInfo {
   background-color: rgba(42, 59, 71, 0.6);
 }
-.spanRubro {
+/*.spanRubro {
   background-color: #0D1F2B;
   color: #C2C2C2;
+}*/
+.busqueda-rubro{
+  margin-left: 3px;
+  margin-right: 3px;
 }
 .nav-pills li a{
   color: #C2C2C2;
@@ -59,37 +63,38 @@
           <h2 class="titularResultados">Resultados de la búsqueda <em>"{{query}}"</em> <small>({{archivos.length}} resultados, {{visibles}} visibles)</small></h2>
         </div>
       </div>
+    </div>
 
-      <!-- Filtrar y ordenar resultados -->
-      <div class="row search-options" ng-show="archivos.length != 0">
-        <div class="col-md-8">
-          <h3>Filtrar por:</h3>
-          <div isteven-multi-select input-model="inputQuery" output-model="outputQuery" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" max-height="250px" max-labels="10" helper-elements="all none" translation="localLang" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
-        </div>
-
-        <div class="col-md-4">
-          <h3>Ordenar por:</h3>
-          <div>
-            <select id="ordenSelect" class="selectpicker" ng-model="ordenamiento" ng-change="parseOrdenamiento()">
-              <option value="fecha|true">Año (descendente)</option> <!-- data-icon="glyphicon-sort-by-order"> -->
-              <option value="fecha|false">Año (ascendente)</option> <!-- data-icon="glyphicon-sort-by-order-alt"> -->
-              <option value="titulo_propio|true">Título (descendente)</option> <!-- data-icon="glyphicon-sort-by-alphabet"> -->
-              <option value="titulo_propio|false">Título (ascendente)</option> <!-- data-icon="glyphicon-sort-by-alphabet-alt"> -->
-            </select>
-          </div>
-        </div>
+    <!-- Filtrar y ordenar resultados -->
+    <div class="row search-options" ng-show="archivos.length != 0">
+      <div class="col-md-8">
+        <h3><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filtrar por:</h3>
+        <div isteven-multi-select input-model="inputQuery" output-model="outputQuery" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" max-height="200px" max-labels="10" helper-elements="all none" translation="localLang" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
       </div>
 
-      <center><h2 ng-show="archivos.length === 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
+      <div class="col-md-4">
+        <h3><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Ordenar por:</h3>
+        <div>
+          <select class="selectpicker" ng-model="ordenamiento" ng-change="parseOrdenamiento()">
+            <option value="fecha|true" data-icon="glyphicon-sort-by-order-alt">Año (mayor a menor)</option>
+            <option value="fecha|false" data-icon="glyphicon-sort-by-order">Año (menor a mayor)</option>
+            <option value="titulo_visible|false" data-icon="glyphicon-sort-by-alphabet">Título (ascendente)</option>
+            <option value="titulo_visible|true" data-icon="glyphicon-sort-by-alphabet-alt">Título (descendente)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <center><h2 ng-show="archivos.length === 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
     
     <div id="seccionPortadas">
       <div id="audiovisual">
         <a ng-repeat="archivo in archivos | orderBy:predicate:reverse" data-toggle="modal" href="" data-target="#modalInfo" class="portadas portadasBusqueda" ng-show="archivo.show">
           <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen_3.jpg')}}"> <!-- data-trigger="hover" data-title="Aparece en:" data-content-template="popover-info.html" data-placement="top" bs-popover -->
           <p class="text-rigth">
-              {{tituloApropiado(archivo)}}
+              {{recortarTitulo(archivo.titulo_visible, 36)}}
               <br>
-              <br ng-show="tituloApropiado(archivo).length <= 25">
+              <br ng-show="archivo.titulo_visible.length <= 22">
               <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
           </p>
         </a>
@@ -107,7 +112,7 @@
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-          <h1 class="modal-title" id="myModalLabel">{{allInfo.identificacion.titulo_propio}}
+          <h1 class="modal-title" id="myModalLabel">{{allInfo.secret.titulo_adecuado}}
             <a ng-show="sesion" class="iconEdicion" href="" ng-click="editar(allInfo.identificacion.codigo_de_referencia)" >
               <span class="glyphicon glyphicon-edit"></span>
             </a>
@@ -148,21 +153,21 @@
                 <p><span class="titularModalContent">Año</span> {{allInfo.identificacion.fecha}} <span class="titularModalContent" style="margin-left: 1em;">Duración</span> {{allInfo.identificacion.duracion}}</p>
                 <p ng-show="allInfo.identificacion.realizacion !== ''"><span class="titularModalContent">Realizador</span> {{allInfo.identificacion.realizacion}}</p>
                 <p class="text-right" ng-show="allInfo.adicional.url !== ''">
-                  <a class="btn btn-default" href="{{allInfoCopy.adicional.url}}" role="button">
+                  <a class="btn btn-default" href="{{allInfoCopy.adicional.url}}" target="_blank" role="button">
                     Video <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>
                   </a>
                 </p>
-                <p>
-                  Resultados de la búsqueda: <br>
-                  <ul class="list-unstyled">
-                    <li ng-repeat="(keyword, rubros) in findRubros(allInfo.identificacion.codigo_de_referencia)"> <span class="label label-primary">{{keyword}}</span> <!-- ng-click="highlight(keyword)" -->
-                      <ul class="list-inline" style="margin-left:2em">
-                        <li ng-repeat="rubro in rubros"> <a href=""><span class="label label-primary spanRubro" ng-click="focus(keyword, rubro)">{{encabezados[rubro]}}</span></a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </p>
               </div> 
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-md-12 col-lg-12">
+                <p class="text-center">
+                  <strong>Resultados de la búsqueda</strong>
+                </p>
+                <p class="text-center" ng-repeat="(keyword, rubros) in findRubros(allInfo.identificacion.codigo_de_referencia)">
+                   <span class="glyphicon glyphicon-tag" aria-hidden="true"></span> <strong><em>{{keyword}}</em>:</strong> <button ng-repeat="rubro in rubros" class="btn btn-default btn-xs busqueda-rubro" ng-click="focus(keyword, rubro)">{{encabezados[rubro]}}</button>
+                 </p>
+              </div>
             </div>
             <br> <!--Espaciado para el botón-->
             <div class="row">
@@ -175,14 +180,16 @@
                 <div ng-show="hideInfo" class="contenedorInfo">
                   <!-- Nav tabs -->
                   <ul class="nav nav-pills nav-justified" role="tablist" id="myTabs">
-                    <li ng-show="!isEmpty(allInfo.identificacion)" role="presentation" class="active"><a data-target="#identificacion" aria-controls="identificacion" role="tab" data-toggle="pill" href="">Identificación</a></li>
-                    <li ng-show="!isEmpty(allInfo.contexto)" role="presentation"><a data-target="#contexto" aria-controls="contexto" role="tab" data-toggle="pill" href="">Contexto</a></li>
-                    <li ng-show="!isEmpty(allInfo.contenido_y_estructura)" role="presentation"><a data-target="#contenido" aria-controls="contenido" role="tab" data-toggle="pill" href="">Contenido y estructura</a></li>
-                    <li ng-show="!isEmpty(allInfo.condiciones_de_acceso)" role="presentation"><a data-target="#condiciones" aria-controls="condiciones" role="tab" data-toggle="pill" href="">Condiciones de Acceso</a></li>
-                    <li ng-show="!isEmpty(allInfo.documentacion_asociada) || !isEmpty(allInfo.notas)" role="presentation"><a data-target="#documentacion" aria-controls="documentacion" role="tab" data-toggle="pill" href="">Documentación asociada y notas</a></li>
-                    <li ng-show="(!isEmpty(allInfo.descripcion) || !isEmpty(allInfo.adicional)) && (permiso > 0)" role="presentation"><a data-target="#descripcion" aria-controls="descripcion" role="tab" data-toggle="pill" href="">Descripción e información adicional</a></li>
+                    <li ng-show="!isEmpty(allInfo.identificacion)" role="presentation" class="active"><a data-target="#identificacion" aria-controls="identificacion" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-film" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Identificación</a></li>
+                    <li ng-show="!isEmpty(allInfo.contexto)" role="presentation"><a data-target="#contexto" aria-controls="contexto" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-file" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Contexto</a></li>
+                    <li ng-show="!isEmpty(allInfo.contenido_y_estructura)" role="presentation"><a data-target="#contenido" aria-controls="contenido" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-comment" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Contenido y estructura</a></li>
+                    <li ng-show="!isEmpty(allInfo.condiciones_de_acceso)" role="presentation"><a data-target="#condiciones" aria-controls="condiciones" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Condiciones de Acceso</a></li>
+                    <li ng-show="!isEmpty(allInfo.documentacion_asociada)" role="presentation"><a data-target="#documentacion" aria-controls="documentacion" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Documentación asociada</a></li>
+                    <li ng-show="!isEmpty(allInfo.notas)" role="presentation"><a data-target="#notas" aria-controls="notas" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Notas</a></li>
+                    <li ng-show="(!isEmpty(allInfo.descripcion)) && (permiso > 0)" role="presentation"><a data-target="#descripcion" aria-controls="descripcion" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Control de la descripción</a></li>
+                    <li ng-show="(!isEmpty(allInfo.adicional)) && (permiso > 0)" role="presentation"><a data-target="#adicional" aria-controls="adicional" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Información adicional</a></li>
                   </ul>
-                  <center><h4><strong>{{allInfo.identificacion.titulo_propio}}</strong></h4></center>
+                  <center><h4><strong>{{allInfo.secret.titulo_adecuado}}</strong></h4></center>
                   <!-- Tab panes -->
                   <div class="tab-content">
                     <!-- AREA DE INDENTIFICACION -->
@@ -229,7 +236,7 @@
                         </tbody>
                       </table>
                     </div>
-                    <!-- AREA DE DOCUMENTACION ASOCIADA Y NOTAS -->
+                    <!-- AREA DE DOCUMENTACION ASOCIADA -->
                     <div role="tabpanel" class="tab-pane fade" id="documentacion">
                       <table class="table table-condensed">
                         <tbody>
@@ -237,6 +244,13 @@
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
                             <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.documentacion_asociada[key]"></span></td>
                           </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- AREA DE NOTAS -->
+                    <div role="tabpanel" class="tab-pane fade" id="notas">
+                      <table class="table table-condensed">
+                        <tbody>
                           <tr ng-repeat="key in notSort(allInfo.notas)" ng-show="allInfo.notas[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
                             <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.notas[key]"></span></td>
@@ -244,7 +258,7 @@
                         </tbody>
                       </table>
                     </div>
-                    <!-- AREA DE DESCRIPCION E INFORMACION ADICIONAL -->
+                    <!-- AREA DE DESCRIPCION -->
                     <div role="tabpanel" class="tab-pane fade" id="descripcion">
                       <table class="table table-condensed">
                         <tbody>
@@ -252,6 +266,13 @@
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
                             <td class="col-xs-10 col-md-10 col-lg-10">{{allInfoCopy.descripcion[key]}}</td><!--No se cambian las URL-->
                           </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- AREA DE INFORMACION ADICIONAL -->
+                    <div role="tabpanel" class="tab-pane fade" id="adicional">
+                      <table class="table table-condensed">
+                        <tbody>
                           <tr ng-repeat="key in notSort(allInfo.adicional)" ng-show="allInfo.adicional[key] != ''">
                             <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
                             <td class="col-xs-10 col-md-10 col-lg-10">{{allInfoCopy.adicional[key]}}</td><!--No se cambian las URL-->
@@ -277,6 +298,7 @@
   </div>
 
 </body>
+
 <!--Togglable Tab para mostrar toda la información de cada audiovisual-->
 <script type="text/javascript">
     $(document).ready(function(){
@@ -288,7 +310,9 @@
           $(this).tab('show');
         });
 
-        $('.selectpicker').selectpicker('show');
-        $('.selectpicker').selectpicker('refresh');
+        // Habilita input selectpicker para ordenamiento
+        $('.selectpicker').selectpicker();
+        //$('.selectpicker').selectpicker('show');
+        //$('.selectpicker').selectpicker('refresh');
     });
 </script>

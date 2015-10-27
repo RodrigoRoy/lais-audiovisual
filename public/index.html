@@ -4,13 +4,22 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
+		<title>metaDOC - Sistema de Catalogación de Documentales</title>
+		<link rel="icon" type="image/png" href="imgs/favicon.png">
 		<!-- Font Family Google -->
 		<link href='http://fonts.googleapis.com/css?family=Cantora+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Anonymous+Pro:700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Ubuntu:500' rel='stylesheet' type='text/css'>
 
 		<!-- Latest compiled and minified CSS (Bootstrap)-->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/index.css">
+
+		<!--multiselect style-->
+		<link rel="stylesheet" href="controller/AngularMultiselect/isteven-multi-select.css">
+		<!-- Bootstrap-select for angular -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.3/css/bootstrap-select.min.css">
 
 	</head>
 	<body ng-app="lais" ng-controller="datosAutentificacion" ng-model="sesion">
@@ -20,12 +29,12 @@
 				<div class="navbar-header">
 					<a class="navbar-brand">
 				        <div class="logo">
-				        	<img class="img-responsive" src="imgs/moraEscalado.png">
+				        	<img class="img-responsive" src="imgs/mora_logo.png">
 				    	</div>
 				    </a>
 				    <a class="navbar-brand">
 				        <div class="logo">
-				        	<img id="logoLais" class="img-responsive" src="imgs/laisEscalado.png">
+				        	<img id="logoLais" class="img-responsive" src="imgs/lais_logo.png">
 				        </div>
 				    </a>
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -37,23 +46,23 @@
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+				<div class="navbar-collapse collapse tituSecciones" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
-							<li><a class="colorLetrasNav" href="#inicio">Inicio<span class="barraDecorativa"></span></a></li>
-							<li><a class="colorLetrasNav" href="#acercade">Acerca del sitio<span class="barraDecorativa"></span></a></li>
-							<li><a class="colorLetrasNav" href="#publicaciones_y_vínculos">Publicaciones y vínculos<span class="barraDecorativa"></span></a></li>
+							<li><a class="colorLetrasNav" href="#inicio"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Inicio<span class="barraDecorativa"></span></a></li>
+							<li><a class="colorLetrasNav" href="#acercade"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Acerca del sitio<span class="barraDecorativa"></span></a></li>
+							<!-- <li><a class="colorLetrasNav" href="#publicaciones_y_vínculos">Publicaciones y vínculos<span class="barraDecorativa"></span></a></li> -->
 						</ul>
 					
 						<ul class="nav navbar-nav navbar-right">
 							<li ng-cloak>
-								<a ng-show="!sesion" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"class="btn btn-link colorLetrasNav"> Iniciar Sesión </a>
+								<a ng-show="!sesion" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"class="btn btn-link colorLetrasNav"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Iniciar Sesión </a>
 							</li>
 							<li ng-show="sesion" class="dropdown">
-						        <a href="" class="dropdown-toggle colorLetrasNav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user}}<simbolo class="caret"></simbolo></a>
+						        <a href="" class="dropdown-toggle colorLetrasNav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{user}}<simbolo class="caret"></simbolo></a>
 						        <ul class="dropdown-menu">
-						            <li ng-show="permiso > 2"><a class="colorLetrasNav" href="#administracion_usuarios">Administración</a></li>
+						            <li ng-show="permiso > 2"><a class="colorLetrasNav" href="#administracion_usuarios"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Administración usuarios</a></li>
 						            <li ng-show="permiso > 2" role="separator" class="divider"></li>
-						            <li ><a class="colorLetrasNav" ng-click="logout()" href="">Cerrar Sesión</a></li>
+						            <li ><a class="colorLetrasNav" ng-click="logout()" href=""><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Cerrar Sesión</a></li>
 						        </ul>
 						    </li>
 						</ul>
@@ -67,7 +76,7 @@
 					<!--<button type="submit" class="btn btn-default" ng-click="busqueda(query)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>-->
 						</form>
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="colorLetrasNav" href="#decadas">Colección<span class="barraDecorativa"></span></a></li>
+							<li><a class="colorLetrasNav" href="#decadas"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Colección<span class="barraDecorativa"></span></a></li>
 						</ul>
 				</div><!-- /.navbar-collapse -->
 			</div><!-- /.container-fluid -->
@@ -111,15 +120,11 @@
 		
 		<!-- Latest compiled and minified JavaScript (Bootstrap)-->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.3/css/bootstrap-select.min.css">
+		<!-- Bootstrap-select -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.3/js/bootstrap-select.min.js"></script>
 
-		<!--Estilo de multiselect-->
-		<link rel="stylesheet" href="controller/AngularMultiselect/isteven-multi-select.css">
-
 		<!-- AngularJS-->
-		<script data-require="angular.js@1.3.17" data-semver="1.3.17" src="https://code.angularjs.org/1.3.17/angular.js"></script>
+		<script src="https://code.angularjs.org/1.3.17/angular.js"></script>
 		<!-- Para rutear las vistas AngularJS-->
 		<script src="https://code.angularjs.org/1.3.17/angular-route.js"></script>
 		<!-- Permite reusar mensajes en formularios -->
@@ -152,6 +157,7 @@
 		<script src="js/form.js"></script>
 		<script src="js/filter.js"></script>
 		
+		<!--Animacion para hacer y obscurecer el navbar-->
 		<script type="text/javascript" src="js/animacion.js"></script>
 
 		<script type="text/javascript">
