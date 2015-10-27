@@ -99,6 +99,8 @@ lais.service('ParamService', function(){
 	// trim().replace(/\s\s+/g, ' ') excepto para textos donde se desea mantener tabuladores o saltos de linea se utiliza la función:
 	// .trim().replace(/  /g, ' ') [http://stackoverflow.com/questions/1981349/regex-to-replace-multiple-spaces-with-a-single-space]
 	this.scopeData2object = function(scope){
+		scope.createFuentes();
+		scope.createRecursos();
 		return {
 			'codigo_de_referencia': (scope.codigo_de_referencia !== undefined) ? scope.codigo_de_referencia : "",
 			'titulo_propio' : (scope.titulo_propio !== undefined) ? scope.titulo_propio.trim().replace(/\s\s+/g, ' ') : "",
@@ -166,7 +168,7 @@ lais.service('ParamService', function(){
 			'datos_del_archivero': (scope.datos_del_archivero !== undefined) ? scope.datos_del_archivero.trim().replace(/\s\s+/g, ' ') : "",
 			'reglas_o_normas': (scope.reglas_o_normas !== undefined) ? scope.reglas_o_normas.trim().replace(/\s\s+/g, ' ') : "",
 			//'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? scope.fecha_de_descripcion.trim().replace(/  +/g, ' ') : "", // TODO: setFechaDescripcion()?
-			'fecha_de_descripcion': (scope.fecha_de_descripcion !== null) ? scope.fecha_de_descripcion : "",
+			'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? (scope.fecha_de_descripcion) : "0000-00-00",
 			'url': (scope.url !== undefined) ? scope.url.trim() : ""
 		}
 	}
@@ -998,6 +1000,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 	// Acción al presionar el botón de "Enviar" del formulario
 	// Recibe como parámetro el archivo de imagen (único elemento que se sube a parte)
 	$scope.envia = function(files){
+		console.log("datos para el servidor: ", ParamService.scopeData2object($scope));
 		$http.post('php/manejoBD.php?action=agregar', 
 			ParamService.scopeData2object($scope) // Encapsular todos los datos para el servidor
 		).success(function(data, status, headers, congif){
@@ -1014,7 +1017,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 			alert("La información del documental ha sido agregada");
 			$location.url('/decadas/');
 		}).error(function(error){
-			console.log("Error en envio de los datos datos: " + error);
+			console.log("Error en envio de los datos: " + error);
 		});
 	}
 
