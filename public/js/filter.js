@@ -39,7 +39,7 @@ function setDuracion(duracion){
 		}
 	}
 	// En caso de ser un texto con sintaxis inválida
-	return 0;
+	return '00:00:00';
 }
 
 /* 

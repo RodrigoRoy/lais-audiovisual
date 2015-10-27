@@ -1001,13 +1001,17 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 		$http.post('php/manejoBD.php?action=agregar', 
 			ParamService.scopeData2object($scope) // Encapsular todos los datos para el servidor
 		).success(function(data, status, headers, congif){
-			if(data.Status !== 'Ok'){ // Si hay algún error en la base de datos
-				//alert("El archivo Audiovisual está duplicado");
-				$scope.errorDuplicado = true;
-				return;
-			}
+			console.log("información de documental enviada");
+			// if(data.Status !== 'Ok'){ // Si hay algún error en la base de datos
+			// 	//alert("El archivo Audiovisual está duplicado");
+			// 	$scope.errorDuplicado = true;
+			// 	console.log("Duplicado!");
+			// 	return;
+			// }
+			console.log("en proceso de envio...");
 			$scope.upload(files); // Subir la imagen después de crear el registro en la base
-			alert("El archivo Audiovisual ha sido agregado");
+			console.log("información agregada correctamente");
+			alert("La información del documental ha sido agregada");
 			$location.url('/decadas/');
 		}).error(function(error){
 			console.log("Error en envio de los datos datos: " + error);
@@ -1188,7 +1192,6 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 	};
 
 	$scope.getFuente = function(fuenteString){
-		console.log("fuentes originales: ", fuenteString);
 		var fuentes = fuenteString;
 		fuentes = (fuentes === undefined) ? "" : fuentes.trim().replace(/  */g, ' ');
 		fuentes = (fuentes.slice(-1) === '.' || fuentes.slice(-1) === ',') ? (fuentes.slice(0, -1)) : (fuentes);
@@ -1196,9 +1199,8 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		for(var i in fuentesArray){
 			var fuente = fuentesArray[i].trim().toLowerCase();
 			fuente = (fuente.length > 0) ? (fuente.charAt(0).toUpperCase() + fuente.slice(1)) : (fuente);
-			console.log(i, fuente);
 			for(var j in $scope.inputFuentes){
-				if($scope.inputFuentes[j].name.indexOf(fuente) > -1){ // Si es la misma fuente
+				if(($scope.inputFuentes[j].name.indexOf(fuente) > -1) && (fuente !== '')){ // Si es la misma fuente (y si split no creó la cadena vacia)
 					$scope.inputFuentes[j].ticked = true;
 				}
 			}
@@ -1206,7 +1208,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 	};
 
 	$scope.getRecurso = function(recursoString){
-		console.log("recursos originales: ", recursoString);
+		//console.log("recursos originales: ", recursoString);
 		var recursos = recursoString;
 		recursos = (recursos === undefined) ? "" : recursos.trim().replace(/  */g, ' ');
 		recursos = (recursos.slice(-1) === '.' || recursos.slice(-1) === ',') ? (recursos.slice(0, -1)) : (recursos);
@@ -1214,9 +1216,9 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		for(var i in recursosArray){
 			var recurso = recursosArray[i].trim().toLowerCase();
 			recurso = (recurso.length > 0) ? (recurso.charAt(0).toUpperCase() + recurso.slice(1)) : (recurso);
-			console.log(i, recurso);
+			//console.log(i, recurso);
 			for(var j in $scope.inputRecursos){
-				if($scope.inputRecursos[j].name.indexOf(recurso) > -1){ // Si es la misma fuente
+				if(($scope.inputRecursos[j].name.indexOf(recurso) > -1) && recurso !== ''){ // Si es la misma fuente (y si split no creó la cadena vacia)
 					$scope.inputRecursos[j].ticked = true;
 				}
 			}
@@ -1249,7 +1251,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 			ParamService.scopeData2object($scope) // Encapsula y envia los datos a la base
 		).success(function(data,status, headers, congif){
 			$scope.upload(files); // Subir la imagen después de crear el registro en la base
-			alert("El archivo Audiovisual ha sido actualizado");
+			alert("La información del documental ha sido actualizada");
 			$location.url('/decadas/');
 		}).error(function(error){
 			console.log("Error de los datos: " + error);
