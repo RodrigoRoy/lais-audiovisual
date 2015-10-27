@@ -510,3 +510,7 @@ h3 a:focus{
   padding: 0px;
   margin: 0px;
 }
+
+.black-bg{
+	background: rgba(0,0,0,.4);
+}
