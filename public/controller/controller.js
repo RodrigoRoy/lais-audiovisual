@@ -1178,7 +1178,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		$scope.notas_del_archivero = data.notas_del_archivero;
 		$scope.datos_del_archivero = data.datos_del_archivero;
 		$scope.reglas_o_normas = data.reglas_o_normas;
-		$scope.fecha_de_descripcion = data.fecha_de_descripcion;
+		$scope.fecha_de_descripcion = new Date(data.fecha_de_descripcion);
 		$scope.url = data.url;
 		$scope.imagen_previa = data.imagen;
     });
