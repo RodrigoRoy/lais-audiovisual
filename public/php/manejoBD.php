@@ -99,122 +99,118 @@ function mostrar(){
 function agregar(){
     $datos = json_decode(file_get_contents("php://input"));
     
-    $identificacion = "INSERT INTO area_de_identificacion() VALUES('"
-            . $datos->codigo_de_referencia . "','"
-            . $datos->titulo_propio . "','" 
-            . $datos->titulo_paralelo . "','" 
-            . $datos->titulo_atribuido . "','" 
-            . $datos->titulo_de_serie . "','"
-            . $datos->numero_de_programa . "','"
-            . $datos->pais . "','"
-            . $datos->fecha . "',"
-            . $datos->duracion . ",'"
-            . $datos->investigacion . "','"
-            . $datos->realizacion . "','"
-            . $datos->direccion . "','"
-            . $datos->guion . "','"
-            . $datos->adaptacion . "','"
-            . $datos->idea_original . "','"
-            . $datos->fotografia . "','"
-            . $datos->fotografia_fija . "','"
-            . $datos->edicion . "','"
-            . $datos->sonido_grabacion . "','"
-            . $datos->sonido_edicion . "','"
-            . $datos->musica_original . "','"
-            . $datos->musicalizacion . "','"
-            . $datos->voces . "','"
-            . $datos->actores . "','"
-            . $datos->animacion . "','"
-            . $datos->otros_colaboradores
-            . "');";
+    # Esto permite incluir single quote (') y double quote (") sin error de sintaxis
+    foreach ($datos as &$dato) { # el símbolo amperson (&) es necesario para modificar (permite paso por referencia y no por valor)
+        $dato = str_replace("'", "\\'", $dato);
+        $dato = str_replace("\"", "\\\"", $dato);
+    }
+    
+    $identificacion = "INSERT INTO area_de_identificacion() VALUES(
+        '$datos->codigo_de_referencia', 
+        '$datos->titulo_propio', 
+        '$datos->titulo_paralelo', 
+        '$datos->titulo_atribuido', 
+        '$datos->titulo_de_serie', 
+        '$datos->numero_de_programa', 
+        '$datos->pais', '$datos->fecha', 
+        '$datos->duracion', 
+        '$datos->investigacion', 
+        '$datos->realizacion', 
+        '$datos->direccion', 
+        '$datos->guion', 
+        '$datos->adaptacion', 
+        '$datos->idea_original', 
+        '$datos->fotografia', 
+        '$datos->fotografia_fija', 
+        '$datos->edicion', 
+        '$datos->sonido_grabacion', 
+        '$datos->sonido_edicion', 
+        '$datos->musica_original', 
+        '$datos->musicalizacion', 
+        '$datos->voces', 
+        '$datos->actores', 
+        '$datos->animacion', 
+        '$datos->otros_colaboradores');";
+    $contexto = "INSERT INTO area_de_contexto() VALUES(
+        '$datos->codigo_de_referencia', 
+        '$datos->entidad_productora', 
+        '$datos->productor', 
+        '$datos->distribuidora', 
+        '$datos->historia_institucional', 
+        '$datos->resena_biografica', 
+        '$datos->forma_de_ingreso', 
+        '$datos->fecha_de_ingreso');";
+    $contenido = "INSERT INTO area_de_contenido_y_estructura() VALUES(
+        '$datos->codigo_de_referencia', 
+        '$datos->sinopsis', 
+        '$datos->descriptor_onomastico', 
+        '$datos->descriptor_toponimico', 
+        '$datos->descriptor_cronologico', 
+        '$datos->tipo_de_produccion', 
+        '$datos->genero', 
+        '$datos->fuentes', 
+        '$datos->recursos', 
+        '$datos->versiones', 
+        '$datos->formato_original', 
+        '$datos->material_extra');";
+    $condiciones = "INSERT INTO area_de_condiciones_de_acceso() VALUES(
+        '$datos->codigo_de_referencia', 
+        '$datos->condiciones_de_acceso', 
+        '$datos->existencia_y_localizacion_de_originales', 
+        '$datos->idioma_original', 
+        '$datos->doblajes_disponibles', 
+        '$datos->subtitulajes', 
+        '$datos->soporte', 
+        '$datos->numero_copias', 
+        '$datos->descripcion_fisica', 
+        '$datos->color', 
+        '$datos->audio', 
+        '$datos->sistema_de_grabacion', 
+        '$datos->region_dvd', 
+        '$datos->requisitos_tecnicos');";
+    $documentacion = "INSERT INTO area_de_documentacion_asociada() VALUES(
+        '$datos->codigo_de_referencia', 
+        '$datos->existencia_y_localizacion_de_copias', 
+        '$datos->unidades_de_descripcion_relacionadas', 
+        '$datos->documentos_asociados');";
+    $notas = "INSERT INTO area_de_notas() VALUES(
+        '$datos->codigo_de_referencia', 
+        '$datos->area_de_notas');";
+    $descripcion = "INSERT INTO area_de_descripcion() VALUES(
+        '$datos->codigo_de_referencia', 
+        '$datos->notas_del_archivero', 
+        '$datos->datos_del_archivero', 
+        '$datos->reglas_o_normas', 
+        '$datos->fecha_de_descripcion');";
+    # Agregar en blanco la imagen y demás información adicional
+    $info_adicional = "INSERT INTO informacion_adicional(codigo_de_referencia) VALUES(
+        '$datos->codigo_de_referencia');";
 
-        $contexto = "INSERT INTO area_de_contexto() VALUES('"
-            . $datos->codigo_de_referencia . "','"
-            . $datos->entidad_productora . "','"
-            . $datos->productor . "','"
-            . $datos->distribuidora . "','"
-            . $datos->historia_institucional . "','"
-            . $datos->resena_biografica . "','"
-            . $datos->forma_de_ingreso . "','"
-            . $datos->fecha_de_ingreso 
-            . "');";
-        
-        $contenido = "INSERT INTO area_de_contenido_y_estructura() VALUES('"
-            . $datos->codigo_de_referencia . "','"
-            . $datos->sinopsis . "','"
-            . $datos->descriptor_onomastico . "','"
-            . $datos->descriptor_toponimico . "','"
-            . $datos->descriptor_cronologico . "','"
-            . $datos->tipo_de_produccion . "','"
-            . $datos->genero . "','"
-            . $datos->fuentes . "','"
-            . $datos->recursos . "','"
-            . $datos->versiones . "','"
-            . $datos->formato_original . "','"
-            . $datos->material_extra 
-            . "');";
-        
-        $condiciones = "INSERT INTO area_de_condiciones_de_acceso() VALUES('"
-            . $datos->codigo_de_referencia . "','"
-            . $datos->condiciones_de_acceso . "','"
-            . $datos->existencia_y_localizacion_de_originales . "','"
-            . $datos->idioma_original . "','"
-            . $datos->doblajes_disponibles . "','"
-            . $datos->subtitulajes . "','"
-            . $datos->soporte . "','"
-            . $datos->numero_copias . "','"
-            . $datos->descripcion_fisica . "','"
-            . $datos->color . "','"
-            . $datos->audio . "','"
-            . $datos->sistema_de_grabacion . "','"
-            . $datos->region_dvd . "','"
-            . $datos->requisitos_tecnicos 
-            . "');";
-        
-        $documentacion = "INSERT INTO area_de_documentacion_asociada() VALUES('"
-            . $datos->codigo_de_referencia . "','"
-            . $datos->existencia_y_localizacion_de_copias . "','"
-            . $datos->unidades_de_descripcion_relacionadas . "','"
-            . $datos->documentos_asociados 
-            . "');";
-        
-        $notas = "INSERT INTO area_de_notas() VALUES('"
-            . $datos->codigo_de_referencia . "','"
-            . $datos->area_de_notas 
-            . "');";
-
-        $descripcion = "INSERT INTO area_de_descripcion() VALUES('"
-            . $datos->codigo_de_referencia . "','"
-            . $datos->notas_del_archivero . "','"
-            . $datos->datos_del_archivero . "','"
-            . $datos->reglas_o_normas . "','"
-            . $datos->fecha_de_descripcion 
-            . "');";
-        # Agregar en blanco la imagen y demás información adicional
-        $info_adicional = "INSERT INTO informacion_adicional(codigo_de_referencia) VALUES('"
-            . $datos->codigo_de_referencia
-            . "');";
-
-        try{
-            $GLOBALS['conn']->exec($identificacion);
-            $GLOBALS['conn']->exec($contexto);
-            $GLOBALS['conn']->exec($contenido);
-            $GLOBALS['conn']->exec($condiciones);
-            $GLOBALS['conn']->exec($documentacion);
-            $GLOBALS['conn']->exec($notas);
-            $GLOBALS['conn']->exec($descripcion);
-            $GLOBALS['conn']->exec($info_adicional);
-            print_r(json_encode(array("Status"=>"Ok"))); // Responder que la operación fué exitosa
-        }
-        catch(PDOException $e){
-            echo $e->getMessage();
-        }
-        $GLOBALS['conn'] = null;
+    try{
+        $GLOBALS['conn']->exec($identificacion);
+        $GLOBALS['conn']->exec($contexto);
+        $GLOBALS['conn']->exec($contenido);
+        $GLOBALS['conn']->exec($condiciones);
+        $GLOBALS['conn']->exec($documentacion);
+        $GLOBALS['conn']->exec($notas);
+        $GLOBALS['conn']->exec($descripcion);
+        $GLOBALS['conn']->exec($info_adicional);
+        print_r(json_encode(array("Status"=>"Ok"))); // Responder que la operación fué exitosa
+    }
+    catch(PDOException $e){
+        echo $e->getMessage();
+    }
+    $GLOBALS['conn'] = null;
 }
 
 /*Funcion que actualiza un nuevo archivo audivisual*/
 function actualizar(){
     $datos = json_decode(file_get_contents("php://input"));
+
+    # Esto permite incluir single quote (') sin error de sintaxis
+    foreach ($datos as &$dato) { # el símbolo amperson (&) es necesario para modificar (permite paso por referencia y no por valor)
+        $dato = str_replace("'", "\\'", $dato);
+    }
     
     $identificacion = "UPDATE area_de_identificacion SET "
         . "titulo_propio='" . $datos->titulo_propio . "', " 

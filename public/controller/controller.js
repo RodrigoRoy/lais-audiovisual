@@ -1000,20 +1000,21 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 	// Acción al presionar el botón de "Enviar" del formulario
 	// Recibe como parámetro el archivo de imagen (único elemento que se sube a parte)
 	$scope.envia = function(files){
-		console.log("datos para el servidor: ", ParamService.scopeData2object($scope));
+		//console.log("datos para el servidor: ", ParamService.scopeData2object($scope));
 		$http.post('php/manejoBD.php?action=agregar', 
 			ParamService.scopeData2object($scope) // Encapsular todos los datos para el servidor
 		).success(function(data, status, headers, congif){
-			console.log("información de documental enviada");
-			// if(data.Status !== 'Ok'){ // Si hay algún error en la base de datos
-			// 	//alert("El archivo Audiovisual está duplicado");
-			// 	$scope.errorDuplicado = true;
-			// 	console.log("Duplicado!");
-			// 	return;
-			// }
-			console.log("en proceso de envio...");
+			//console.log("información de documental enviada");
+			if(data.Status !== 'Ok'){ // Si hay algún error en la base de datos
+				//alert("El archivo Audiovisual está duplicado");
+				$scope.errorDuplicado = true;
+				console.log("Duplicado!");
+				alert("Hubo un error con la base de datos.\nPor favor intente más tarde.")
+				return;
+			}
+			//console.log("en proceso de envio...");
 			$scope.upload(files); // Subir la imagen después de crear el registro en la base
-			console.log("información agregada correctamente");
+			//console.log("información agregada correctamente");
 			alert("La información del documental ha sido agregada");
 			$location.url('/decadas/');
 		}).error(function(error){
