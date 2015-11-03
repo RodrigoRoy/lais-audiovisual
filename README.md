@@ -29,7 +29,7 @@ El sistema consiste en una **aplicación web** que emplea las siguientes tecnolo
 ## Version inicial
 
 Principales características del sistema:
-- Presentación por décadas de la ficha de catalogación de los documentales de la colección del LAIS-
+- Presentación por décadas de la ficha de catalogación de los documentales de la colección del LAIS.
 - Mostrar la ficha de catalogación a nivel de unidad simple de cada documental en una ventana temporal emergente para rápida navegación.
 - Búsqueda contextual de contenido con opción de filtrar los resultados por área de catalogación y opción de ordenamiento por año o título.
 - Sistema de usuarios y niveles de permiso para controlar la creación, edición y borrado de las fichas de catalogación de documentales.
