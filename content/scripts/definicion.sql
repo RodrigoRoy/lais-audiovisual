@@ -2,21 +2,18 @@
 # Rodrigo Rivera (15.02.19)
 
 # Crear base de datos
-CREATE DATABASE IF NOT EXISTS Coleccion_Archivistica CHARACTER SET UTF8;
+CREATE DATABASE IF NOT EXISTS Audiovisuales CHARACTER SET UTF8;
 
 # Mostrar todas las bases de datos existentes
 #SHOW DATABASES;
 
 # Indicar con que base de datos trabajar
-USE Coleccion_Archivistica;
+USE Audiovisuales;
 # Util para mostrar correctamente caracteres 'extraños'
 SET NAMES utf8;
 
 # Otorga privilegios a las cuentas de usuario MySQL
-GRANT ALL ON Coleccion_Archivistica.* TO lais@localhost IDENTIFIED BY 'audiovisual';
-
-# Eliminar una base de datos
-#DROP DATABASE IF EXISTS Coleccion_Archivistica;
+GRANT ALL ON Audiovisuales.* TO lais@localhost IDENTIFIED BY 'audiovisual';
 
 # AREA DE IDENTIFICACION
 # Longitud maxima para los nombre: 70 (fuente: UK Government Data Standards Catalogue)
@@ -169,7 +166,7 @@ ALTER TABLE informacion_adicional ADD CONSTRAINT codigoInfoAdicionalFK
 	FOREIGN KEY(codigo_de_referencia) REFERENCES area_de_identificacion(codigo_de_referencia)
 	ON DELETE CASCADE	
 	ON UPDATE CASCADE;
-
+    
 # Crear tabla para usuarios registrados
 CREATE TABLE `usuarios` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
@@ -179,18 +176,3 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Username` (`Username`)
 );
-
-#Insertar usuarios registrados a la tabla 'usuarios'
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Rodrigo",3);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Sergio",3);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Lourdes",3);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Carlos",3);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Felipe",3);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Penélope",0);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Verónica",0);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Foo",2);
-# Clave de los privilegios:
-# 0 = None
-# 1 = Add
-# 2 = Add, edit
-# 3 = Add, edit, delete

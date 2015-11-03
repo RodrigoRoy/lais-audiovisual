@@ -1,7 +1,9 @@
 # Indicar con que base de datos trabajar
-USE Coleccion_Archivistica;
+USE Audiovisuales;
 # Util para mostrar correctamente caracteres 'extraños'
 SET NAMES utf8;
+
+# Este documento sirve para realizar consultas y pruebas a la base de datos
 
 # Mostrar tablas
 SELECT * FROM area_de_identificacion;
@@ -23,7 +25,7 @@ DELETE FROM area_de_notas;
 DELETE FROM area_de_descripcion;
 DELETE FROM informacion_adicional;
 DELETE FROM usuarios;
-# Borrar todas las tablas (y sus contenidos) de la base Coleccion_Archivistica
+# Borrar todas las tablas (y sus contenidos) de la base Audiovisuales
 DROP TABLE area_de_contexto;
 DROP TABLE area_de_contenido_y_estructura;
 DROP TABLE area_de_condiciones_de_acceso;
@@ -34,7 +36,7 @@ DROP TABLE informacion_adicional;
 DROP TABLE area_de_identificacion; # Debido a que codigo_de_referencia es PK, se elimina al final
 DROP TABLE usuarios;
 # Borrar toda la base de datos
-DROP DATABASE IF EXISTS Coleccion_Archivistica;
+DROP DATABASE IF EXISTS Audiovisuales;
 
 # Mostrar todos los registros de todas las tablas
 SELECT *
@@ -125,15 +127,15 @@ UPDATE area_de_contexto
 
 SELECT CURDATE();
 # Mostrar toda la información de las columnas
-SELECT * FROM information_schema.`COLUMNS` C WHERE TABLE_SCHEMA = 'Coleccion_Archivistica.area_de_identificacion';
-#SELECT COLUMN_NAME FROM information_schema.`COLUMNS` C WHERE TABLE_SCHEMA = 'Coleccion_Archivistica';
+SELECT * FROM information_schema.`COLUMNS` C WHERE TABLE_SCHEMA = 'Audiovisuales.area_de_identificacion';
+#SELECT COLUMN_NAME FROM information_schema.`COLUMNS` C WHERE TABLE_SCHEMA = 'Audiovisuales';
 # Mostrar todas las tablas de la base de datos
 SHOW TABLES;
 #Mostrar todas las columnas de una tabla
 SHOW COLUMNS FROM area_de_identificacion;
 DESCRIBE area_de_identificacion;
 #SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'my_database' AND TABLE_NAME = 'my_table';
-SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Coleccion_Archivistica' AND TABLE_NAME = 'area_de_identificacion';
+SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Audiovisuales' AND TABLE_NAME = 'area_de_identificacion';
 
 # Muestra el código de cada década (ordenada alfabnumericamente, lo cual es incorrecto)
 SELECT DISTINCT SUBSTRING_INDEX(codigo_de_referencia,'-',4) as decadas 

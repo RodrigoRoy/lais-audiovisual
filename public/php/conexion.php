@@ -1,7 +1,7 @@
 <?php
 
     // set up the connection variables
-    $database  = 'Coleccion_Archivistica';
+    $database  = 'Audiovisuales';
     $hostname = '127.0.0.1';
     $password = 'audiovisual';
     $username = 'lais';

@@ -1,5 +1,5 @@
 # Indicar con que base de datos trabajar
-USE Coleccion_Archivistica;
+USE Audiovisuales;
 # Util para mostrar correctamente caracteres 'extraños'
 SET NAMES utf8;
 

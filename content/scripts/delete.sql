@@ -1,3 +1,8 @@
+# Indicar con que base de datos trabajar
+USE Audiovisuales;
+# Util para mostrar correctamente caracteres 'extraños'
+SET NAMES utf8;
+
 # Script para borrar documentales de la década 10 (1980) que aun no está definido su catalogación exacta:
 DELETE FROM area_de_identificacion WHERE codigo_de_referencia='MXIM-AV-1-10-48';
 DELETE FROM area_de_identificacion WHERE codigo_de_referencia='MXIM-AV-1-10-49';

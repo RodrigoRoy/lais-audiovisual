@@ -402,7 +402,7 @@ function mostrarCaratula($query){
 
 // Devulve todos los nombres de columnas de (el nombre de) una tabla pasada como parámetro. Auxiliar para búsquedas sobre toda la base de datos.
 function getColumnNames($table){
-    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Coleccion_Archivistica' AND TABLE_NAME = :table";
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Audiovisuales' AND TABLE_NAME = :table";
     try{
         $stmt = $GLOBALS['conn']->prepare($sql);
         $stmt->bindValue(':table', $table);
