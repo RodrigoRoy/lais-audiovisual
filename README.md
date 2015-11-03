@@ -24,7 +24,7 @@ El sistema consiste en una **aplicación web** que emplea las siguientes tecnolo
   - AngularJS
   - Twitter Bootstrap
 
-![](https://raw.githubusercontent.com/RodrigoRoy/lais-audiovisual/master/content/doc/latex/Diagramas/EsquemaGeneral.png)
+![](https://raw.githubusercontent.com/RodrigoRoy/lais-audiovisual/master/content/doc/Diagramas/EsquemaGeneral.png)
 
 ## Version inicial
 
@@ -36,7 +36,7 @@ Principales características del sistema:
 - Énfasis en mostrar portadas de los documentales.
 - Diseño responsivo (diseño adaptable para computadoras de escritorio y dispositivos móviles).
 
-![](https://raw.githubusercontent.com/RodrigoRoy/lais-audiovisual/master/content/doc/latex/Diagramas/Sistema01_small.jpg)
+![](https://raw.githubusercontent.com/RodrigoRoy/lais-audiovisual/master/content/doc/Diagramas/Sistema01_small.jpg)
 
 ## Futuro desarrollo
 
@@ -49,3 +49,7 @@ Principales características del sistema:
 metaDOC está disponible (temporalmente) en la siguiente dirección de internet:
 
 [lais-interno.mora.edu.mx/metaDOC/public/](http://lais-interno.mora.edu.mx/metaDOC/public/#/)
+
+## Licencia
+
+[MIT](./LICENSE.md)
