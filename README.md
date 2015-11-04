@@ -44,12 +44,6 @@ Principales características del sistema:
 - Formulario de contacto para sugerencias de usuarios.
 - Incorporar estadísticas de uso e información sobre el contenido de la base de datos.
 
-## Sitio
-
-metaDOC está disponible (temporalmente) en la siguiente dirección de internet:
-
-[lais-interno.mora.edu.mx/metaDOC/public/](http://lais-interno.mora.edu.mx/metaDOC/public/#/)
-
 ## Licencia
 
 [MIT](./LICENSE.md)
