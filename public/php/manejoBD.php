@@ -1,6 +1,7 @@
 <?php
 require_once 'filters.php';
 require_once 'conexion.php';
+require_once 'PHPMailer/PHPMailerAutoload.php';
 
 /*Casos para tomar la acción del controlador*/
 switch ($_GET['action']) {
@@ -54,6 +55,9 @@ switch ($_GET['action']) {
         break;
     case 'getIndice':
         getIndice($_GET['decada']);
+        break;
+    case 'mail':
+        mailMe();
         break;
     case 'verUsuarios':
         obtener_datosUsuarios();
@@ -719,6 +723,109 @@ function getIndice($decada){
         }
         print_r(json_encode(sizeof($data)+1)); // Devolver el último indice (no hay "huecos" en la numeración)
     }
+}
+
+# A partir de la información del formulario de contacto, se envia un correo con la información del usuario, su correo (opcionalmente)
+# y el mensaje del usuario. El mensaje se envia mediante la biblioteca PHPMailer, ya que permite enviar correos desde una
+# cuenta en otro servidor (por ejemplo GMail, Outlook) y permite usar el formato HTML, adjuntar archivos, entre otras funciones.
+# Para detalles sobre cómo usar PHPMailer: https://github.com/PHPMailer/PHPMailer
+function mailMe(){
+    $data = json_decode(file_get_contents("php://input")); // Obtener datos del controlador(controller.js -> contactCtrl -> $scope.enviar)
+
+    $title = "Opinión de metaDOC"; // Titulo del mensaje (no es el subject)
+    $mailSubject = '[metaDOC] Opinión de usuario'; // El subject o asunto del correo
+    $user = $data->Name; // Nombre del usuario
+    $message = $data->Message; // Mensaje del usuario
+    $userMail = empty($data->Email) ? "" : $data->Email; // Email opcional del usuario
+    // Correo del usuario en formato HTML:
+    $userMailHTML = empty($userMail) ? "" : '<br> <strong>Correo</strong> <a href="mailto:' . $userMail . '?subject=Opini%C3%B3n%20del%20sitio%20metaDOC">' . $userMail . '</a>';
+    // Correo del usuario en formato de texto plano:
+    $userMailNonHTML = empty($userMail) ? "" : "\nCorreo: " . $userMail;
+
+    /* El mensaje enviado tiene el siguiente formato (tanto en HTML como en texto plano):
+        <titulo>
+        De: <usuario>
+        Correo: <correoUsuario>
+        Mensaje:
+        <mensajeEscritoPorUsuario>
+        -------
+        <pieDelMensaje>
+    */
+    // Mensaje del correo en formato HTML
+    $htmlbody = '<h3>' . $title . '</h3> ' .
+            '<p>' .
+                '<strong>De</strong>: ' . $user .
+                $userMailHTML .
+            '</p>' .
+            '<p>' .
+                '<strong>Mensaje</strong>:' .
+                '<br>' .
+                $message .
+            '</p>' .
+            '<hr>' .
+            '<small>Mensaje enviado desde el sitio <a href="http://lais.mora.edu.mx/metadoc">metaDOC</a></small>';
+    // Mensaje de correo en formato de texto plano:
+    $simplebody = $title . "\n\n" . 
+            "De: " . $user . 
+            $userMailNonHTML . "\n\n" . 
+            "Mensaje:\n" . 
+            $message . "\n\n" . 
+            "----------\n" . 
+            "Mensaje enviado desde el sitio metaDOC (http://lais.mora.edu.mx/metadoc)";
+
+    // A continuación viene la creación y envio del mensaje usando PHPMailer:
+    //Create a new PHPMailer instance
+    $mail = new PHPMailer;
+    //Allow UTF-8 encoding
+    $mail->CharSet = 'UTF-8';
+    //Tell PHPMailer to use SMTP
+    $mail->isSMTP();
+    //Enable SMTP debugging
+    // 0 = off (for production use)
+    // 1 = client messages
+    // 2 = client and server messages
+    $mail->SMTPDebug = 2;
+    //Ask for HTML-friendly debug output
+    $mail->Debugoutput = 'html';
+    //Set the hostname of the mail server
+    $mail->Host = 'smtp.gmail.com';
+    // use
+    // $mail->Host = gethostbyname('smtp.gmail.com');
+    // if your network does not support SMTP over IPv6
+    //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+    $mail->Port = 587;
+    //Set the encryption system to use - ssl (deprecated) or tls
+    $mail->SMTPSecure = 'tls';
+    //Whether to use SMTP authentication
+    $mail->SMTPAuth = true;
+    //Username to use for SMTP authentication - use full email address for gmail
+    $mail->Username = "rodrigo.cln@ciencias.unam.mx";
+    //Password to use for SMTP authentication
+    $mail->Password = "animeroyrogers";
+    //Set who the message is to be sent from
+    $mail->setFrom('rodrigo.cln@ciencias.unam.mx', 'Rodrigo Eduardo Colín Rivera');
+    //Set an alternative reply-to address
+    //$mail->addReplyTo('replyto@example.com', 'First Last');
+    //Set who the message is to be sent to
+    $mail->addAddress('rcolin@institutomora.edu.mx', 'Rodrigo Colín');
+    // Add a "CC" address
+    //$mail->addCC("animeroy@gmail.com", "Roy");
+    //Set the subject line
+    $mail->Subject = $mailSubject;
+    //Read an HTML message body from an external file, convert referenced images to embedded,
+    //convert HTML into a basic plain-text alternative body
+    $mail->msgHTML($htmlbody);
+    //Add the body in plain text
+    //$mail->Body = "Hello world. This is a plain-text message body.\nFoo.";
+    //Replace the plain text body with one created manually
+    $mail->AltBody = $simplebody;
+    //Attach an image file
+    //$mail->addAttachment('images/phpmailer_mini.png');
+    
+    $response = array('success' => false); // Variable "success" para indicar si el mensaje se envió correctamente
+    if ($mail->send()) //send the message
+        $response['success'] = true;
+    echo json_encode($response); // Responder al controlador si la operación fué correcta
 }
 
 //Obtiene todo los usuarios

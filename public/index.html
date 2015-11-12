@@ -21,6 +21,18 @@
 		<!-- Bootstrap-select for angular -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.3/css/bootstrap-select.min.css">
 
+		<style>
+			.visibleDiv{
+				position: fixed;
+				left: 1.5%;
+				bottom: 2%;
+			}
+			#contactMail{
+				text-align: center;
+				font-size: 38px;
+				color: whitesmoke;
+			}
+		</style>
 	</head>
 	<body ng-app="lais" ng-controller="datosAutentificacion" ng-model="sesion">
 		<nav class="navbar-inverse navbar-fixed-top navegador">
@@ -92,7 +104,7 @@
                 <h4 class="modal-title" id="exampleModalLabel">Autentificación LAIS</h4>
               </div>
               <div class="modal-body">
-                <form methos="POST">
+                <form>
                       <div class="form-group">
                         <label for="recipient-name" class="control-label" >Usuario</label>
                         <input type="text" class="form-control" id="recipient-name" ng-model="usuario">
@@ -115,6 +127,48 @@
             </div>
           </div>
         </div>
+
+        <div id="contactMail" class="visibleDiv">
+        	<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+        </div>
+        <!-- Modal -->
+		<div id="contactModal" class="modal fade" tabindex="-1" role="dialog" ng-controller="contactCtrl" aria-labelledby="contactModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h3 class="modal-title" id="contactModalLabel">Contacto</h3>
+					</div>
+					<div class="modal-body">
+						<p>
+							En el LAIS nos interesa saber la opinión de todos los interesados con el sitio metaDOC, así que por favor escribe tu(s) comentario(s) en el siguiente formulario.
+						</p>
+						<form>
+							<div class="form-group">
+								<label for="contactFormName" class="control-label">Nombre</label>
+								<input class="form-control" id="contactFormName" placeholder="Tu nombre" ng-model="name">
+							</div>
+							<div class="form-group">
+								<label for="contactFormMessage" class="control-label">Mensaje</label>
+								<textarea class="form-control" rows="3" id="contactFormMessage" placeholder="Escribe tu opinión" ng-model="message"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="contactFormMail" class="control-label">Correo (opcional)</label>
+								<input class="form-control" id="contactFormMail" placeholder="rodrigo@mail.com" ng-model="email">
+							</div>
+							<button type="button" class="btn btn-primary" ng-click="enviar()">Enviar <span class="glyphicon glyphicon-send" aria-hidden="true"></span></button>
+						</form>
+					</div>
+					<!-- <div class="modal-footer">
+						<button type="button" class="btn btn-primary">Enviar <span class="glyphicon glyphicon-send" aria-hidden="true" ng-click="enviar()"></span></button>
+						<br>{{message}}
+					</div> -->
+				</div>
+			</div>
+		</div>
+
+
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>	
 		
@@ -164,6 +218,10 @@
         $(document).ready(function(){
             $('#exampleModal').on('shown.bs.modal', function () {
                 $('#exampleModal').focus();
+            });
+
+            $('#contactModal').on('shown.bs.modal', function () {
+                $('#contactModal').focus();
             });
         });
 		</script>
