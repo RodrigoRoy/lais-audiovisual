@@ -12,19 +12,24 @@
     </head>
 
     <div class="container">
-    	<h1>Portadas de la colección audiovisual</h1>
+    	<h1>Portadas de la colección de documentales del LAIS</h1>
     	
-        <?php
-            $dir    = '.';
-            $files = scandir($dir);
-            foreach ($files as $key => $file) {
-                if(preg_match("/.*\.(jpg|png)$/i", $file, $matches)){
-                    echo "<strong><samp>$file</samp></strong>";
-                    echo '<img src="' . $file .  '" class="img-responsive" width="400">';
-                    echo "<br>";
+        <table class="table table-hover">
+            <?php
+                $dir    = '.';
+                $files = scandir($dir);
+                foreach ($files as $key => $file) {
+                    if(preg_match("/.*\.(jpg|png)$/i", $file, $matches)){
+                        echo "<tr>";
+                        echo   "<td>";
+                        echo     "<strong><samp>$file</samp></strong>";
+                        echo     '<img src="' . $file .  '" class="img-responsive" width="400">';
+                        echo   "</td>";
+                        echo "</tr>";
+                    }
                 }
-            }
-        ?>
+            ?>
+        </table>
     </div>
 
     </body>
