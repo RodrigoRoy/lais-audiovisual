@@ -183,7 +183,7 @@
 							</div>
 							<div class="form-group" ng-class="{'has-error': contactForm.name.$dirty && contactForm.name.$invalid}">
 								<label for="name" class="control-label">Nombre (opcional)</label>
-								<input class="form-control" type="text" id="name" name="name" placeholder="Tu nombre" ng-model="name" ng-maxlength="50" required ng-trim>
+								<input class="form-control" type="text" id="name" name="name" placeholder="Tu nombre" ng-model="name" ng-maxlength="50" ng-trim>
 								<div ng-messages="contactForm.name.$error" ng-messages-include="error-messages-contact-mail" ng-show="contactForm.name.$dirty && contactForm.name.$invalid"></div>
 							</div>
 							<div class="form-group" ng-class="{'has-error': contactForm.email.$dirty && contactForm.email.$invalid}">
