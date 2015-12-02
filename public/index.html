@@ -14,6 +14,8 @@
 
 		<!-- Latest compiled and minified CSS (Bootstrap)-->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		<!-- Conjunto de animaciones listas para usarse mediante CSS -->
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css">
 		<link rel="stylesheet" href="css/index.css">
 
 		<!--multiselect style-->
@@ -22,15 +24,37 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.3/css/bootstrap-select.min.css">
 
 		<style>
+			/*Estilo para el botón y modal de contacto*/
+
+			/*Boton siempre visible en la parte inferior izquierda*/
 			.visibleDiv{
 				position: fixed;
 				left: 1.5%;
 				bottom: 2%;
 			}
+			/*Color y tamaño del botón*/
+			.blue-button{
+				background-color: #12285A;
+			}
+			.icon-button{
+				font-size: x-large;
+			}
+			/*Alineación, tamaño y color del icono*/
 			#contactMail{
 				text-align: center;
 				font-size: 38px;
 				color: whitesmoke;
+			}
+			/*Animación al pasar el mouse*/
+			#contactMail:hover{
+				-webkit-animation: swing 0.5s ease;
+				-moz-animation: swing 0.5s ease;
+				animation: swing 0.5s ease;
+			}
+			/*Colores del modal para la información de contacto*/
+			.modal-content{
+			  background-color: rgba(25, 45, 59, 0.95);
+			  color: #C2C2C2;
 			}
 		</style>
 	</head>
@@ -128,10 +152,17 @@
           </div>
         </div>
 
+        <!-- Script para manejo de errores -->
+        <script type="text/ng-template" id="error-messages-contact-mail">
+		  <span ng-message="required" class="help-block">Esta información es necesaria.</span>
+		  <span ng-message="maxlength" class="help-block">La información excede el límite de longitud permitido.</span>
+		  <span ng-message="email" class="help-block">El formato del correo electrónico es incorrecto.</span>
+		</script>
+        <!-- Botón de contacto -->
         <div id="contactMail" class="visibleDiv">
-        	<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+        	<button type="button" class="btn btn-primary btn-lg blue-button" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-envelope icon-button" aria-hidden="true"></span></button>
         </div>
-        <!-- Modal -->
+        <!-- Modal con formulario de contacto -->
 		<div id="contactModal" class="modal fade" tabindex="-1" role="dialog" ng-controller="contactCtrl" aria-labelledby="contactModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<!-- Modal content-->
@@ -142,22 +173,25 @@
 					</div>
 					<div class="modal-body">
 						<p>
-							En el LAIS nos interesa saber la opinión de todos los interesados con el sitio metaDOC, así que por favor escribe tu(s) comentario(s) en el siguiente formulario.
+							En el LAIS nos interesa saber la opinión de todos los interesados con el sitio metaDOC, por favor escribe tu(s) comentario(s) en el siguiente formulario.
 						</p>
-						<form>
-							<div class="form-group">
-								<label for="contactFormName" class="control-label">Nombre</label>
-								<input class="form-control" id="contactFormName" placeholder="Tu nombre" ng-model="name">
+						<form name="contactForm" id="contactForm" role="form" novalidate>
+							<div class="form-group" ng-class="{'has-error': contactForm.message.$dirty && contactForm.message.$invalid}">
+								<label for="message" class="control-label">Comentario(s)</label>
+								<textarea class="form-control" rows="4" id="message" name="message" placeholder="Escribe tu opinión" ng-model="message" ng-maxlength="300" required ng-trim></textarea>
+								<div ng-messages="contactForm.message.$error" ng-messages-include="error-messages-contact-mail" ng-show="contactForm.message.$dirty && contactForm.message.$invalid"></div>
 							</div>
-							<div class="form-group">
-								<label for="contactFormMessage" class="control-label">Mensaje</label>
-								<textarea class="form-control" rows="3" id="contactFormMessage" placeholder="Escribe tu opinión" ng-model="message"></textarea>
+							<div class="form-group" ng-class="{'has-error': contactForm.name.$dirty && contactForm.name.$invalid}">
+								<label for="name" class="control-label">Nombre (opcional)</label>
+								<input class="form-control" type="text" id="name" name="name" placeholder="Tu nombre" ng-model="name" ng-maxlength="50" required ng-trim>
+								<div ng-messages="contactForm.name.$error" ng-messages-include="error-messages-contact-mail" ng-show="contactForm.name.$dirty && contactForm.name.$invalid"></div>
 							</div>
-							<div class="form-group">
-								<label for="contactFormMail" class="control-label">Correo (opcional)</label>
-								<input class="form-control" id="contactFormMail" placeholder="rodrigo@mail.com" ng-model="email">
+							<div class="form-group" ng-class="{'has-error': contactForm.email.$dirty && contactForm.email.$invalid}">
+								<label for="email" class="control-label">Correo (opcional)</label>
+								<input class="form-control" type="email" id="email" name="email" placeholder="rodrigo@mail.com" ng-model="email">
+								<div ng-messages="contactForm.email.$error" ng-messages-include="error-messages-contact-mail" ng-show="contactForm.email.$dirty && contactForm.email.$invalid"></div>
 							</div>
-							<button type="button" class="btn btn-primary" ng-click="enviar()">Enviar <span class="glyphicon glyphicon-send" aria-hidden="true"></span></button>
+							<button type="button" class="btn btn-primary btn-lg btn-block" ng-disabled="contactForm.$invalid" ng-click="enviar()">Enviar <span class="glyphicon glyphicon-send" aria-hidden="true"></span></button>
 						</form>
 					</div>
 					<!-- <div class="modal-footer">

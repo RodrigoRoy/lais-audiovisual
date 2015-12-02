@@ -734,7 +734,7 @@ function mailMe(){
 
     $title = "Opinión de metaDOC"; // Titulo del mensaje (no es el subject)
     $mailSubject = '[metaDOC] Opinión de usuario'; // El subject o asunto del correo
-    $user = $data->Name; // Nombre del usuario
+    $user = empty($data->Name) ? "Anónimo" : $data->Name; // Nombre del usuario
     $message = $data->Message; // Mensaje del usuario
     $userMail = empty($data->Email) ? "" : $data->Email; // Email opcional del usuario
     // Correo del usuario en formato HTML:
