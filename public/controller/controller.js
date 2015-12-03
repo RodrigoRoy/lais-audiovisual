@@ -1400,7 +1400,8 @@ lais.controller('contactCtrl', function($scope, $http){
 
 	// Envia la información del formulario para que el correo se envié por "manejoBD.php"
 	$scope.enviar = function(){
-		console.log("clic on submit");
+		$('#contactModal').modal('hide'); // cerrar modal (porque el envio bloqueará un par de segundos la página)
+		// enviar correo mediate PHPmailer:
 		$http.post('php/manejoBD.php?action=mail',
 		{
 			'Name': $scope.name,
@@ -1408,14 +1409,13 @@ lais.controller('contactCtrl', function($scope, $http){
 			'Email': $scope.email
 		}).
 		success(function(data, status, headers, config) {
-			console.log(data);
-			if(data.success){ // Si el mensaje se envió correctamente desde "manejoBD.php"
+			// if comentado porque el envio es síncrono y no funciona correctamente la comprobación
+			//if(data.success){ // Si el mensaje se envió correctamente desde "manejoBD.php"
 				$scope.name = "";
 				$scope.message = "";
 				$scope.email = "";
-				$('#contactModal').modal('hide');
 				alert("Mensaje enviado.\nGracias por tu opinión.");
-			}
+			//}
 		}).
 		error(function(data, status, headers, config) {
 			alert("Error de conexión. Es probable que la señal de internet sea baja, revisa la conexión e intenta nuevamente.");
