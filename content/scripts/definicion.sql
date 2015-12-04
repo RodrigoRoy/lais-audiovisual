@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS area_de_contenido_y_estructura(
 	recursos VARCHAR(150) DEFAULT '', # si se ocupan todos los tipos de recursos
 	versiones VARCHAR(150) DEFAULT '',
 	formato_original VARCHAR(25) DEFAULT '',
-	material_extra VARCHAR(150) DEFAULT ''
+	material_extra VARCHAR(200) DEFAULT ''
 );
 # Agregar llave foranea (FK) para el codigo_de_referencia que ya existe en la tabla area_de_identificacion
 ALTER TABLE area_de_contenido_y_estructura ADD CONSTRAINT codigoContEstructFK
