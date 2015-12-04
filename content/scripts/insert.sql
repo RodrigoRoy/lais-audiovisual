@@ -465,3 +465,68 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década10\ 
 	LINES TERMINATED BY '\n'
 	IGNORE 3 LINES
 	(codigo_de_referencia, @tituloIgnorado, url, imagen);
+
+#################### DECADA 11 (1990) ####################
+
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década11\ (1990)\ Identificacion.csv'
+	INTO TABLE area_de_identificacion
+	CHARACTER SET utf8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 3 LINES;
+
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década11\ (1990)\ Contexto.csv'
+	INTO TABLE area_de_contexto
+	CHARACTER SET utf8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 3 LINES
+	(codigo_de_referencia, @tituloIgnorado, entidad_productora, productor, distribuidora, historia_institucional, resena_biografica, forma_de_ingreso, fecha_de_ingreso);
+
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década11\ (1990)\ Contenido.csv'
+	INTO TABLE area_de_contenido_y_estructura
+	CHARACTER SET utf8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 3 LINES
+	(codigo_de_referencia, @tituloIgnorado, sinopsis, descriptor_onomastico, descriptor_toponimico, descriptor_cronologico,	tipo_de_produccion,	genero,	fuentes, recursos, versiones, formato_original, material_extra);
+
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década11\ (1990)\ Condiciones.csv'
+	INTO TABLE area_de_condiciones_de_acceso
+	CHARACTER SET utf8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 3 LINES
+	(codigo_de_referencia, @tituloIgnorado, condiciones_de_acceso, existencia_y_localizacion_de_originales, idioma_original, doblajes_disponibles, subtitulajes, soporte, numero_copias, descripcion_fisica, color, audio, sistema_de_grabacion, region_dvd, requisitos_tecnicos);
+
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década11\ (1990)\ Documentacion.csv'
+	INTO TABLE area_de_documentacion_asociada
+	CHARACTER SET utf8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 3 LINES
+	(codigo_de_referencia, @tituloIgnorado, existencia_y_localizacion_de_copias, unidades_de_descripcion_relacionadas, documentos_asociados);
+
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década11\ (1990)\ Notas.csv'
+	INTO TABLE area_de_notas
+	CHARACTER SET utf8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 3 LINES
+	(codigo_de_referencia, @tituloIgnorado, area_de_notas);
+
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década11\ (1990)\ Descripcion.csv'
+	INTO TABLE area_de_descripcion
+	CHARACTER SET utf8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 3 LINES
+	(codigo_de_referencia, @tituloIgnorado, notas_del_archivero, datos_del_archivero, reglas_o_normas, fecha_de_descripcion);
+
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/csv/Fichas\ década11\ (1990)\ Portadas.csv'
+	INTO TABLE informacion_adicional
+	CHARACTER SET UTF8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 3 LINES
+	(codigo_de_referencia, @tituloIgnorado, url, imagen);

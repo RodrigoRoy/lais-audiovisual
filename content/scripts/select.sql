@@ -38,6 +38,9 @@ DROP TABLE usuarios;
 # Borrar toda la base de datos
 DROP DATABASE IF EXISTS Audiovisuales;
 
+# Borrar una década
+DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-11%';
+
 # Mostrar todos los registros de todas las tablas
 SELECT *
 	FROM area_de_identificacion 
@@ -213,9 +216,6 @@ SELECT COUNT(*)
 		NATURAL JOIN informacion_adicional
 	WHERE imagen = '';
 
-# Borrar una década
-DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-9%';
-
 # Orden descendente en datos de una década
 SELECT codigo_de_referencia, titulo_propio, titulo_paralelo, fecha, imagen
 	FROM area_de_identificacion
@@ -245,3 +245,16 @@ SELECT codigo_de_referencia, titulo_propio, titulo_paralelo, fecha, imagen
 SELECT *
 	FROM area_de_identificacion 
 	WHERE realizacion REGEXP '^ ';
+
+SELECT codigo_de_referencia
+	FROM area_de_identificacion
+	WHERE codigo_de_referencia LIKE 'MXIM-AV-1-11-%'
+
+# Mostrar información del diseño de la base, de las tablas y columnas
+SHOW DATABASES;
+SHOW TABLES FROM Audiovisuales;
+SHOW COLUMNS FROM area_de_condiciones_de_acceso;
+
+# Modificar la longitud de un campo
+ALTER TABLE area_de_condiciones_de_acceso
+	MODIFY audio VARCHAR(50);

@@ -23,30 +23,30 @@ CREATE TABLE IF NOT EXISTS area_de_identificacion(
 	titulo_paralelo VARCHAR(120) DEFAULT '',
 	titulo_atribuido VARCHAR(120) DEFAULT '',
 	titulo_de_serie VARCHAR(70) DEFAULT '',
-	numero_de_programa VARCHAR(15) DEFAULT '',
-	pais VARCHAR(30) DEFAULT '', # Alternativa con ISO Standard: http://en.wikipedia.org/wiki/ISO_3166-2
+	numero_de_programa VARCHAR(45) DEFAULT '',
+	pais VARCHAR(50) DEFAULT '', # Alternativa con ISO Standard: http://en.wikipedia.org/wiki/ISO_3166-2
 	fecha VARCHAR(12) DEFAULT '', # La fecha puede ser un periodo: "[1980-1990]"
 	duracion TIME,
 
-	investigacion VARCHAR(160) DEFAULT '',
-	realizacion VARCHAR(160) DEFAULT '',
-	direccion VARCHAR(160) DEFAULT '',
-	guion VARCHAR(160) DEFAULT '',
-	adaptacion VARCHAR(160) DEFAULT '',
-	idea_original VARCHAR(160) DEFAULT '',
-	fotografia VARCHAR(160) DEFAULT '',
-	fotografia_fija VARCHAR(160) DEFAULT '',
-	edicion VARCHAR(160) DEFAULT '',
+	investigacion VARCHAR(380) DEFAULT '',
+	realizacion VARCHAR(380) DEFAULT '',
+	direccion VARCHAR(380) DEFAULT '',
+	guion VARCHAR(380) DEFAULT '',
+	adaptacion VARCHAR(380) DEFAULT '',
+	idea_original VARCHAR(380) DEFAULT '',
+	fotografia VARCHAR(380) DEFAULT '',
+	fotografia_fija VARCHAR(380) DEFAULT '',
+	edicion VARCHAR(380) DEFAULT '',
 	# Sonido
-	sonido_grabacion VARCHAR(160) DEFAULT '',
-	sonido_edicion VARCHAR(160) DEFAULT '', # columna 'edicion' ya existe
+	sonido_grabacion VARCHAR(380) DEFAULT '',
+	sonido_edicion VARCHAR(380) DEFAULT '', # columna 'edicion' ya existe
 	# Musica
-	musica_original VARCHAR(160) DEFAULT '',
-	musicalizacion VARCHAR(160) DEFAULT '',
-	voces VARCHAR(160) DEFAULT '',
-	actores VARCHAR(180) DEFAULT '',
-	animacion VARCHAR(160) DEFAULT '',
-	otros_colaboradores VARCHAR(160) DEFAULT ''
+	musica_original VARCHAR(380) DEFAULT '',
+	musicalizacion VARCHAR(380) DEFAULT '',
+	voces VARCHAR(380) DEFAULT '',
+	actores VARCHAR(380) DEFAULT '',
+	animacion VARCHAR(380) DEFAULT '',
+	otros_colaboradores VARCHAR(380) DEFAULT ''
 
 	#PRIMARY KEY (codigo_de_referencia) # Las restricciones se agregaran despues de crear la tabla
 );
@@ -59,12 +59,12 @@ ALTER TABLE area_de_identificacion ADD CONSTRAINT codigoUnicoPK
 # AREA DE CONTEXTO
 CREATE TABLE IF NOT EXISTS area_de_contexto(
 	codigo_de_referencia VARCHAR(20) NOT NULL,
-	entidad_productora VARCHAR(250) DEFAULT '',
+	entidad_productora VARCHAR(380) DEFAULT '',
 	productor VARCHAR(160) DEFAULT '',
 	distribuidora VARCHAR(160) DEFAULT '',
 	historia_institucional TEXT,
 	resena_biografica TEXT,
-	forma_de_ingreso VARCHAR(35) DEFAULT '',
+	forma_de_ingreso VARCHAR(50) DEFAULT '',
 	fecha_de_ingreso VARCHAR(12) DEFAULT ''
 );
 # Agregar llave foranea (FK) para el codigo_de_referencia que ya existe en la tabla area_de_identificacion
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS area_de_condiciones_de_acceso(
 	numero_copias VARCHAR(40) DEFAULT '',
 	descripcion_fisica VARCHAR(60) DEFAULT '',
 	color VARCHAR(80) DEFAULT '',
-	audio VARCHAR(30) DEFAULT '',
+	audio VARCHAR(50) DEFAULT '',
 	sistema_de_grabacion VARCHAR(10) DEFAULT '',
 	region_dvd VARCHAR(20) DEFAULT '',
 	requisitos_tecnicos VARCHAR(40) DEFAULT ''
