@@ -19,34 +19,34 @@ GRANT ALL ON Audiovisuales.* TO lais@localhost IDENTIFIED BY 'audiovisual';
 # Longitud maxima para los nombre: 70 (fuente: UK Government Data Standards Catalogue)
 CREATE TABLE IF NOT EXISTS area_de_identificacion(
 	codigo_de_referencia VARCHAR(20) NOT NULL,
-	titulo_propio VARCHAR(120) DEFAULT '',
-	titulo_paralelo VARCHAR(120) DEFAULT '',
-	titulo_atribuido VARCHAR(120) DEFAULT '',
-	titulo_de_serie VARCHAR(70) DEFAULT '',
-	numero_de_programa VARCHAR(45) DEFAULT '',
+	titulo_propio VARCHAR(150) DEFAULT '',
+	titulo_paralelo VARCHAR(150) DEFAULT '',
+	titulo_atribuido VARCHAR(150) DEFAULT '',
+	titulo_de_serie VARCHAR(90) DEFAULT '',
+	numero_de_programa VARCHAR(75) DEFAULT '',
 	pais VARCHAR(50) DEFAULT '', # Alternativa con ISO Standard: http://en.wikipedia.org/wiki/ISO_3166-2
 	fecha VARCHAR(12) DEFAULT '', # La fecha puede ser un periodo: "[1980-1990]"
 	duracion TIME,
 
-	investigacion VARCHAR(380) DEFAULT '',
-	realizacion VARCHAR(380) DEFAULT '',
-	direccion VARCHAR(380) DEFAULT '',
-	guion VARCHAR(380) DEFAULT '',
-	adaptacion VARCHAR(380) DEFAULT '',
-	idea_original VARCHAR(380) DEFAULT '',
-	fotografia VARCHAR(380) DEFAULT '',
-	fotografia_fija VARCHAR(380) DEFAULT '',
-	edicion VARCHAR(380) DEFAULT '',
+	investigacion VARCHAR(500) DEFAULT '',
+	realizacion VARCHAR(500) DEFAULT '',
+	direccion VARCHAR(500) DEFAULT '',
+	guion VARCHAR(500) DEFAULT '',
+	adaptacion VARCHAR(500) DEFAULT '',
+	idea_original VARCHAR(500) DEFAULT '',
+	fotografia VARCHAR(500) DEFAULT '',
+	fotografia_fija VARCHAR(500) DEFAULT '',
+	edicion VARCHAR(500) DEFAULT '',
 	# Sonido
-	sonido_grabacion VARCHAR(380) DEFAULT '',
-	sonido_edicion VARCHAR(380) DEFAULT '', # columna 'edicion' ya existe
+	sonido_grabacion VARCHAR(500) DEFAULT '',
+	sonido_edicion VARCHAR(500) DEFAULT '', # columna 'edicion' ya existe
 	# Musica
-	musica_original VARCHAR(380) DEFAULT '',
-	musicalizacion VARCHAR(380) DEFAULT '',
-	voces VARCHAR(380) DEFAULT '',
-	actores VARCHAR(380) DEFAULT '',
-	animacion VARCHAR(380) DEFAULT '',
-	otros_colaboradores VARCHAR(380) DEFAULT ''
+	musica_original VARCHAR(500) DEFAULT '',
+	musicalizacion VARCHAR(500) DEFAULT '',
+	voces VARCHAR(500) DEFAULT '',
+	actores VARCHAR(500) DEFAULT '',
+	animacion VARCHAR(500) DEFAULT '',
+	otros_colaboradores VARCHAR(500) DEFAULT ''
 
 	#PRIMARY KEY (codigo_de_referencia) # Las restricciones se agregaran despues de crear la tabla
 );
@@ -59,7 +59,7 @@ ALTER TABLE area_de_identificacion ADD CONSTRAINT codigoUnicoPK
 # AREA DE CONTEXTO
 CREATE TABLE IF NOT EXISTS area_de_contexto(
 	codigo_de_referencia VARCHAR(20) NOT NULL,
-	entidad_productora VARCHAR(380) DEFAULT '',
+	entidad_productora VARCHAR(500) DEFAULT '',
 	productor VARCHAR(160) DEFAULT '',
 	distribuidora VARCHAR(160) DEFAULT '',
 	historia_institucional TEXT,
@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS area_de_contenido_y_estructura(
 	fuentes VARCHAR(350) DEFAULT '', # si se ocupan todos los tipos de fuentes
 	recursos VARCHAR(150) DEFAULT '', # si se ocupan todos los tipos de recursos
 	versiones VARCHAR(150) DEFAULT '',
-	formato_original VARCHAR(25) DEFAULT '',
-	material_extra VARCHAR(200) DEFAULT ''
+	formato_original VARCHAR(45) DEFAULT '',
+	material_extra VARCHAR(300) DEFAULT ''
 );
 # Agregar llave foranea (FK) para el codigo_de_referencia que ya existe en la tabla area_de_identificacion
 ALTER TABLE area_de_contenido_y_estructura ADD CONSTRAINT codigoContEstructFK
@@ -105,11 +105,11 @@ CREATE TABLE IF NOT EXISTS area_de_condiciones_de_acceso(
 	soporte VARCHAR(25) DEFAULT '',
 	numero_copias VARCHAR(40) DEFAULT '',
 	descripcion_fisica VARCHAR(60) DEFAULT '',
-	color VARCHAR(80) DEFAULT '',
+	color VARCHAR(90) DEFAULT '',
 	audio VARCHAR(50) DEFAULT '',
-	sistema_de_grabacion VARCHAR(10) DEFAULT '',
+	sistema_de_grabacion VARCHAR(20) DEFAULT '',
 	region_dvd VARCHAR(20) DEFAULT '',
-	requisitos_tecnicos VARCHAR(40) DEFAULT ''
+	requisitos_tecnicos VARCHAR(60) DEFAULT ''
 );
 # Agregar llave foranea (FK) para el codigo_de_referencia que ya existe en la tabla area_de_identificacion
 ALTER TABLE area_de_condiciones_de_acceso ADD CONSTRAINT codigoCondAccesoFK

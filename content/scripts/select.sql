@@ -39,7 +39,7 @@ DROP TABLE usuarios;
 DROP DATABASE IF EXISTS Audiovisuales;
 
 # Borrar una década
-DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-11%';
+DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-12%';
 
 # Mostrar todos los registros de todas las tablas
 SELECT *
@@ -248,7 +248,17 @@ SELECT *
 
 SELECT codigo_de_referencia
 	FROM area_de_identificacion
-	WHERE codigo_de_referencia LIKE 'MXIM-AV-1-11-%'
+	WHERE codigo_de_referencia LIKE 'MXIM-AV-1-11-%';
+
+# Seleccionar documentales de la década 11 (1990) sin realizador
+SELECT codigo_de_referencia, titulo_propio
+	FROM area_de_identificacion
+    WHERE codigo_de_referencia LIKE 'MXIM-AV-1-12-%' AND realizacion = '';
+    
+
+SELECT codigo_de_referencia, titulo_propio
+	FROM area_de_identificacion
+    WHERE codigo_de_referencia LIKE 'MXIM-AV-1-12-%' AND fecha = '';
 
 # Mostrar información del diseño de la base, de las tablas y columnas
 SHOW DATABASES;
