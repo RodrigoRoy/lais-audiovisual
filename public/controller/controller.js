@@ -42,6 +42,10 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/adminUsers.html",
 			controller: "adminUserCtrl"
 		})
+		.when("/control_informacion",{
+			templateUrl: "templates/control_informacion.html",
+			controller: "controlDatosCtrl"
+		})
 		.otherwise({
 			redirectTo: "/"
 		});
@@ -1531,4 +1535,17 @@ lais.controller('adminUserCtrl',function($scope,$http, $location){
 	        $scope.datos = data;
 	    });
     };
+});
+
+lais.controller('controlDatosCtrl', function($scope){
+	$scope.totales = {
+		documentales: 900,
+		sinopsis: 750,
+		pais: 800,
+		fecha: 855,
+		duracion: 798,
+		realizacion: 777,
+		imagen: 120,
+		url: 56
+	};
 });

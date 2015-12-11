@@ -74,6 +74,9 @@ switch ($_GET['action']) {
     case 'borrarUsuario':
         borrarUsuario();
         break;
+    case 'estadisticas':
+        datos_estadisticos($_GET['decada']);
+        break;
     case 'sugerencia':
         sugerencia($_GET['clave']);
         break;
@@ -893,6 +896,33 @@ function borrarUsuario(){
     catch(PDOException $e){
         echo $e->getMessage();
     }
+    $GLOBALS['conn'] = null;
+}
+
+// Obtiene diversas estadísticas sobre la cantidad de documentales en la base de datos
+// El parámetro $decada nos indica de qué década en particular se desesan las estadísticas
+function datos_estadisticos($decada){
+    $datos = array();
+    try {
+        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS documentales FROM area_de_identificacion WHERE codigo_de_referencia LIKE '$decada%'");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $result = $stmt->fetch();
+        $datos["documentales"] = $result->documentales;
+
+        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS sinopsis FROM area_de_identificacion NATURAL JOIN area_de_contenido_y_estructura WHERE sinopsis NOT LIKE '' AND codigo_de_referencia LIKE '$decada%'");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $result = $stmt->fetch();
+        $datos["sinopsis"] = $result->sinopsis;
+
+        #Analogamente para los demás casos
+    }
+    catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+    print_r(json_encode($datos));
     $GLOBALS['conn'] = null;
 }
 

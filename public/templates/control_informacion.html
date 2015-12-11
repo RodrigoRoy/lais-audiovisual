@@ -1,0 +1,107 @@
+<link rel="stylesheet" type="text/css" href="css/background.css" />
+<body>
+	<br><br>
+	<div class="container adminUser">
+		<div class="page-header">
+			<h1>Control de la información</h1>
+		</div>
+
+		<h2>Toda la colección</h2>
+		
+		<div class="table-responsive">
+		  <table class="table">
+		    <tbody>
+			    <tr>
+			    	<td class="col-xs-4">Cantidad de documentales</td>
+			    	<td class="col-xs-2">{{totales.documentales}}</td>
+			    	<td class="col-xs-6"></td>
+			    </tr>
+
+			    <tr>
+			    	<td class="col-xs-4">Documentales con <em>sinopsis</em></td>
+			    	<td class="col-xs-2">{{totales.sinopsis}}</td>
+			    	<td class="col-xs-6">
+			    		<div class="progress" style="margin-bottom: 0px;">
+						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.sinopsis * 100) / totales.documentales | number:0}}%;">
+						    {{(totales.sinopsis * 100) / totales.documentales | number:0}}%
+						  </div>
+						</div>
+			    	</td>
+			    </tr>
+
+			    <tr>
+			    	<td class="col-xs-4">Documentales con <em>país</em></td>
+			    	<td class="col-xs-2">{{totales.pais}}</td>
+			    	<td class="col-xs-6">
+			    		<div class="progress" style="margin-bottom: 0px;">
+						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.pais * 100) / totales.documentales | number:0}}%;">
+						    {{(totales.pais * 100) / totales.documentales | number:0}}%
+						  </div>
+						</div>
+			    	</td>
+			    </tr>
+
+			    <tr>
+			    	<td class="col-xs-4">Documentales con <em>fecha</em></td>
+			    	<td class="col-xs-2">{{totales.fecha}}</td>
+			    	<td class="col-xs-6">
+			    		<div class="progress" style="margin-bottom: 0px;">
+						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.fecha * 100) / totales.documentales | number:0}}%;">
+						    {{(totales.fecha * 100) / totales.documentales | number:0}}%
+						  </div>
+						</div>
+			    	</td>
+			    </tr>
+
+			    <tr>
+			    	<td class="col-xs-4">Documentales con <em>duración</em></td>
+			    	<td class="col-xs-2">{{totales.duracion}}</td>
+			    	<td class="col-xs-6">
+			    		<div class="progress" style="margin-bottom: 0px;">
+						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.duracion * 100) / totales.documentales | number:0}}%;">
+						    {{(totales.duracion * 100) / totales.documentales | number:0}}%
+						  </div>
+						</div>
+			    	</td>
+			    </tr>
+
+			    <tr>
+			    	<td class="col-xs-4">Documentales con <em>realización</em></td>
+			    	<td class="col-xs-2">{{totales.realizacion}}</td>
+			    	<td class="col-xs-6">
+			    		<div class="progress" style="margin-bottom: 0px;">
+						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.realizacion * 100) / totales.documentales | number:0}}%;">
+						    {{(totales.realizacion * 100) / totales.documentales | number:0}}%
+						  </div>
+						</div>
+			    	</td>
+			    </tr>
+
+			    <tr>
+			    	<td class="col-xs-4">Documentales con imagen de portada</td>
+			    	<td class="col-xs-2">{{totales.imagen}}</td>
+			    	<td class="col-xs-6">
+			    		<div class="progress" style="margin-bottom: 0px;">
+						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.imagen * 100) / totales.documentales | number:0}}%;">
+						    {{(totales.imagen * 100) / totales.documentales | number:0}}%
+						  </div>
+						</div>
+			    	</td>
+			    </tr>
+
+			    <tr>
+			    	<td class="col-xs-4">Documentales con video/URL</td>
+			    	<td class="col-xs-2">{{totales.url}}</td>
+			    	<td class="col-xs-6">
+			    		<div class="progress" style="margin-bottom: 0px;">
+						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.url * 100) / totales.documentales | number:0}}%;">
+						    {{(totales.url * 100) / totales.documentales | number:0}}%
+						  </div>
+						</div>
+			    	</td>
+			    </tr>
+			</tbody>
+		  </table>
+		</div>
+	</div>
+</body>

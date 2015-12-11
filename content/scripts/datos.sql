@@ -5,8 +5,46 @@ SET NAMES utf8;
 
 
 # Total de documentales en la base de datos
-SELECT COUNT(*) AS Total_documentales
-	FROM area_de_identificacion;
+SELECT COUNT(*) AS documentales
+	FROM area_de_identificacion
+    WHERE codigo_de_referencia LIKE 'MXIM-AV-1-10%';
+
+# Total de documentales con sinopsis
+SELECT COUNT(*) AS sinopsis
+	FROM area_de_identificacion NATURAL JOIN area_de_contenido_y_estructura
+    WHERE sinopsis NOT LIKE '' AND codigo_de_referencia LIKE 'MXIM-AV-1%';
+
+# Total de documentales con pais
+SELECT COUNT(*)
+	FROM area_de_identificacion
+    WHERE pais NOT LIKE '';
+
+# Total de documentales con fecha
+SELECT COUNT(*)
+	FROM area_de_identificacion
+    WHERE fecha NOT LIKE '';
+
+# Total de documentales con duracion
+SELECT COUNT(*)
+	FROM area_de_identificacion
+    WHERE duracion NOT LIKE '';
+
+# Total de documentales con realizador(es)
+SELECT COUNT(*)
+	FROM area_de_identificacion
+    WHERE realizacion NOT LIKE '';
+
+# Total de documentales con imagen de portada
+SELECT COUNT(*)
+	FROM area_de_identificacion NATURAL JOIN informacion_adicional
+    WHERE imagen NOT LIKE '';
+
+# Total de documentales con URL
+SELECT COUNT(*)
+	FROM area_de_identificacion NATURAL JOIN informacion_adicional
+    WHERE url NOT LIKE '';
+
+### Información similar a la anterior pero recopilada por décadas:
 
 # Total de documentales por década
 SELECT claves.decadas, CAST(SUBSTRING_INDEX(decadas,'-',-1) AS UNSIGNED) AS codigos, COUNT(*) AS total_por_decada
