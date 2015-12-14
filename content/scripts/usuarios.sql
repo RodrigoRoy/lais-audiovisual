@@ -9,9 +9,9 @@ INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Sergio",3);
 INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Lourdes",3);
 INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Carlos",3);
 INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Felipe",3);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Penélope",0);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Verónica",0);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Elisa",0);
+INSERT INTO usuarios (Password,Username,Privilegio) values("penelope","Penélope",0);
+INSERT INTO usuarios (Password,Username,Privilegio) values("veronica","Verónica",0);
+INSERT INTO usuarios (Password,Username,Privilegio) values("elisa","Elisa",0);
 # Clave de los privilegios:
 # 0 = None
 # 1 = Add

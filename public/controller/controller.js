@@ -1537,15 +1537,123 @@ lais.controller('adminUserCtrl',function($scope,$http, $location){
     };
 });
 
-lais.controller('controlDatosCtrl', function($scope){
-	$scope.totales = {
-		documentales: 900,
-		sinopsis: 750,
-		pais: 800,
-		fecha: 855,
-		duracion: 798,
-		realizacion: 777,
-		imagen: 120,
-		url: 56
+lais.controller('controlDatosCtrl', function($scope, $http){
+	// $scope.totales = {
+	// 	documentales: 900,
+	// 	sinopsis: 750,
+	// 	pais: 800,
+	// 	fecha: 855,
+	// 	duracion: 798,
+	// 	realizacion: 777,
+	// 	fuentes: 701,
+	// 	recursos: 710,
+	// 	imagen: 120,
+	// 	url: 56
+	// };
+	$scope.totales = {};
+	$scope.decadas = [];
+	$scope.faltantes = [];
+	$scope.decada = 'MXIM-AV-1';
+
+	$scope.infoDecadas = {
+		"MXIM-AV-1-14": {fecha: "2020", titulo: "2020 a 2030"},
+		"MXIM-AV-1-13": {fecha: "2010", titulo: "2010 a 2020"},
+		"MXIM-AV-1-12": {fecha: "2000", titulo: "2000 a 2010"},
+		"MXIM-AV-1-11": {fecha: "1990", titulo: "1990 a 2000"},
+		"MXIM-AV-1-10": {fecha: "1980", titulo: "1980 a 1990"},
+		"MXIM-AV-1-9": {fecha: "1970", titulo: "1970 a 1980"},
+		"MXIM-AV-1-8": {fecha: "1960", titulo: "1960 a 1970"},
+		"MXIM-AV-1-7": {fecha: "1950", titulo: "1950 a 1960"},
+		"MXIM-AV-1-6": {fecha: "1940", titulo: "1940 a 1950"},
+		"MXIM-AV-1-5": {fecha: "1930", titulo: "1930 a 1940"},
+		"MXIM-AV-1-4": {fecha: "1920", titulo: "1920 a 1930"},
+		"MXIM-AV-1-3": {fecha: "1910", titulo: "1910 a 1920"},
+		"MXIM-AV-1-2": {fecha: "1900", titulo: "1900 a 1910"},
+		"MXIM-AV-1-1": {fecha: "1890", titulo: "1890 a 1900"},
+		"MXIM-AV-1": {fecha: "Todo", titulo: "toda la colección"}
 	};
+
+	$http.get('php/manejoBD.php?action=mostrarDecadas')
+		.success(function(data){
+			$scope.decadas = data;
+		})
+		.error(function(data, status, headers, config){
+			console.log("Error de conexión en la base.");
+		});
+
+	$http.get('php/manejoBD.php?action=estadisticas&decada=' + $scope.decada)
+    	.success(function(data,status) {
+	        $scope.totales = {
+				documentales: data.documentales,
+				sinopsis: data.sinopsis,
+				pais: data.pais,
+				fecha: data.fecha,
+				duracion: data.duracion,
+				realizacion: data.realizacion,
+				fuentes: data.fuentes,
+				recursos: data.recursos,
+				imagen: data.imagen,
+				url: data.url
+			};
+	    })
+	    .error(function(data, status, headers, config) {
+			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
+		});
+
+	$scope.setDecada = function(decada){
+		$scope.decada = decada;
+		$http.get('php/manejoBD.php?action=estadisticas&decada=' + $scope.decada)
+	    	.success(function(data,status) {
+		        $scope.totales = {
+					documentales: data.documentales,
+					sinopsis: data.sinopsis,
+					pais: data.pais,
+					fecha: data.fecha,
+					duracion: data.duracion,
+					realizacion: data.realizacion,
+					fuentes: data.fuentes,
+					recursos: data.recursos,
+					imagen: data.imagen,
+					url: data.url
+				};
+		    })
+		    .error(function(data, status, headers, config) {
+				alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
+			});
+	};
+
+	$scope.getFaltantes = function(campo){
+		var area = '';
+
+		switch(campo){
+			case "sinopsis":
+				area = 'area_de_contenido_y_estructura'
+				break;
+			case "imagen":
+				area = 'informacion_adicional'
+				break;
+			case "url":
+				area = 'informacion_adicional'
+				break;
+			case "fuentes":
+				area = 'area_de_contenido_y_estructura'
+				break;
+			case "recursos":
+				area = 'area_de_contenido_y_estructura'
+				break;
+		}
+
+		console.log("decada: " + $scope.decada, "campo: " + campo, "area: " + area);
+
+		$http.get('php/manejoBD.php?action=detalles&decada=' + $scope.decada + '&campo=' + campo + '&area=' + area)
+	    	.success(function(data,status) {
+	    		//console.log("faltantes: ", data);
+		        $scope.faltantes = data;
+		        $scope.campo = campo;
+		    })
+		    .error(function(data, status, headers, config) {
+				alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
+			});
+	};
+
 });

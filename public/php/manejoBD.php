@@ -77,6 +77,9 @@ switch ($_GET['action']) {
     case 'estadisticas':
         datos_estadisticos($_GET['decada']);
         break;
+    case 'detalles':
+        faltantes_detalles($_GET['decada'], $_GET['campo'], $_GET['area']);
+        break;
     case 'sugerencia':
         sugerencia($_GET['clave']);
         break;
@@ -902,13 +905,15 @@ function borrarUsuario(){
 // Obtiene diversas estadísticas sobre la cantidad de documentales en la base de datos
 // El parámetro $decada nos indica de qué década en particular se desesan las estadísticas
 function datos_estadisticos($decada){
-    $datos = array();
+    $datos = array(); # guardar toda la información en un solo arreglo
     try {
+        # Realizar la cantidad de documentales totales
         $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS documentales FROM area_de_identificacion WHERE codigo_de_referencia LIKE '$decada%'");
         $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_OBJ);
-        $result = $stmt->fetch();
-        $datos["documentales"] = $result->documentales;
+        $stmt->setFetchMode(PDO::FETCH_OBJ); # Obtener resultado como objeto, por ejemplo: {documentales: 800}
+        $result = $stmt->fetch(); # El único resultado es un número
+        $datos["documentales"] = $result->documentales; # Guardar el resultado en el arreglo
+        # De manera análoga para el resto de datos deseados:
 
         $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS sinopsis FROM area_de_identificacion NATURAL JOIN area_de_contenido_y_estructura WHERE sinopsis NOT LIKE '' AND codigo_de_referencia LIKE '$decada%'");
         $stmt->execute();
@@ -916,7 +921,53 @@ function datos_estadisticos($decada){
         $result = $stmt->fetch();
         $datos["sinopsis"] = $result->sinopsis;
 
-        #Analogamente para los demás casos
+        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS pais FROM area_de_identificacion WHERE pais NOT LIKE '' AND codigo_de_referencia LIKE '$decada%'");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $result = $stmt->fetch();
+        $datos["pais"] = $result->pais;
+
+        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS fecha FROM area_de_identificacion WHERE fecha NOT LIKE '' AND codigo_de_referencia LIKE '$decada%'");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $result = $stmt->fetch();
+        $datos["fecha"] = $result->fecha;
+
+        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS duracion FROM area_de_identificacion WHERE duracion NOT LIKE '00:00:00' AND codigo_de_referencia LIKE '$decada%'");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $result = $stmt->fetch();
+        $datos["duracion"] = $result->duracion;
+
+        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS realizacion FROM area_de_identificacion WHERE realizacion NOT LIKE '' AND codigo_de_referencia LIKE '$decada%'");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $result = $stmt->fetch();
+        $datos["realizacion"] = $result->realizacion;
+
+        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS fuentes FROM area_de_identificacion NATURAL JOIN area_de_contenido_y_estructura WHERE fuentes NOT LIKE '' AND codigo_de_referencia LIKE '$decada%'");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $result = $stmt->fetch();
+        $datos["fuentes"] = $result->fuentes;
+
+        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS recursos FROM area_de_identificacion NATURAL JOIN area_de_contenido_y_estructura WHERE recursos NOT LIKE '' AND codigo_de_referencia LIKE '$decada%'");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $result = $stmt->fetch();
+        $datos["recursos"] = $result->recursos;
+
+        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE imagen NOT LIKE '' AND codigo_de_referencia LIKE '$decada%'");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $result = $stmt->fetch();
+        $datos["imagen"] = $result->imagen;
+
+        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS url FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE url NOT LIKE '' AND codigo_de_referencia LIKE '$decada%';");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $result = $stmt->fetch();
+        $datos["url"] = $result->url;
     }
     catch (PDOException $e) {
         echo $e->getMessage();
@@ -924,6 +975,43 @@ function datos_estadisticos($decada){
 
     print_r(json_encode($datos));
     $GLOBALS['conn'] = null;
+}
+
+// Indica cuáles documentales tienen información faltante.
+// $decada indica el subconjunto de documentales a revisar
+// $campo es el área o campo que se desea verificar si está vacio
+// $area es el nombre de la tabla donde se encuentra el campo (es opcional para información que no está en el área de identificación)
+// Devuelve un arreglo de objetos con el codigo de referencia y el nombre propio de los documentales
+// con información vacia en el campo $campo (de la tabla $area).
+function faltantes_detalles($decada, $campo, $area){
+    $void = $campo == 'duracion' ? '00:00:00' : ''; # La "cadena vacia" para duración (TIME) es '00:00:00'
+    $join = empty($area) ? '' : "NATURAL JOIN $area"; # Si la consulta SQL requiere hacer un NATURAL JOIN
+    # Consulta SQL. Utiliza los parametros y las variable $join y $void:
+    $select = "SELECT codigo_de_referencia, titulo_propio, 
+      CAST(SUBSTRING_INDEX(codigo_de_referencia,'-',-1) AS UNSIGNED) AS numeracion, 
+      CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(codigo_de_referencia,'-',4),'-',-1) AS UNSIGNED) AS decada 
+        FROM area_de_identificacion $join 
+        WHERE $campo = '$void' AND codigo_de_referencia LIKE '$decada%' 
+        ORDER BY decada DESC, numeracion ASC";
+
+    try {
+        $stmt = $GLOBALS['conn']->prepare($select);
+        $stmt->execute();
+        $datos = $stmt->fetchAll(PDO::FETCH_FUNC, "getOnlyNecessary");
+        # NOTA: La consulta en $select ordena numéricamente mediante dos columnas auxiliares ('numeracion' y 'decada')
+        # pero para no enviar estos datos innecesarios, la función "getOnlyNecessary" los ignora.
+    }
+    catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+    $GLOBALS['conn'] = null;
+    print_r(json_encode($datos));
+}
+
+// Auxiliar para ignorar columnas que no se requieren. Ver la consulta de la función faltantes_detalles en caso de más explicación.
+function getOnlyNecessary($codigo, $titulo, $numeracion, $decada){
+    return (object) array('codigo_de_referencia' => $codigo, 'titulo_propio' => $titulo);
 }
 
 // Recibe código de referencia, determina si es un nuevo registro de nueva década y devuelve un código de sugerencia.

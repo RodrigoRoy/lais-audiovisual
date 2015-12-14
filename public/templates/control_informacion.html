@@ -6,7 +6,12 @@
 			<h1>Control de la información</h1>
 		</div>
 
-		<h2>Toda la colección</h2>
+		<div class="btn-group" role="group" aria-label="decadas">
+			<button type="button" class="btn btn-default" ng-click="setDecada('MXIM-AV-1')">Todo</button>
+			<button type="button" class="btn btn-default" ng-repeat="decada in decadas" ng-click="setDecada(decada)">{{infoDecadas[decada].fecha}}</button>
+		</div>
+
+		<h2>Documentales de {{infoDecadas[decada].titulo}} <small>({{decada}})</small></h2>
 		
 		<div class="table-responsive">
 		  <table class="table">
@@ -20,88 +25,144 @@
 			    <tr>
 			    	<td class="col-xs-4">Documentales con <em>sinopsis</em></td>
 			    	<td class="col-xs-2">{{totales.sinopsis}}</td>
-			    	<td class="col-xs-6">
+			    	<td class="col-xs-3">
 			    		<div class="progress" style="margin-bottom: 0px;">
 						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.sinopsis * 100) / totales.documentales | number:0}}%;">
 						    {{(totales.sinopsis * 100) / totales.documentales | number:0}}%
 						  </div>
 						</div>
 			    	</td>
+			    	<td class="col-xs-3"><button class="btn btn-default btn-sm" ng-click="getFaltantes('sinopsis')"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button></td>
 			    </tr>
 
 			    <tr>
 			    	<td class="col-xs-4">Documentales con <em>país</em></td>
 			    	<td class="col-xs-2">{{totales.pais}}</td>
-			    	<td class="col-xs-6">
+			    	<td class="col-xs-3">
 			    		<div class="progress" style="margin-bottom: 0px;">
 						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.pais * 100) / totales.documentales | number:0}}%;">
 						    {{(totales.pais * 100) / totales.documentales | number:0}}%
 						  </div>
 						</div>
 			    	</td>
+			    	<td class="col-xs-3"><button class="btn btn-default btn-sm" ng-click="getFaltantes('pais')"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button></td>
 			    </tr>
 
 			    <tr>
 			    	<td class="col-xs-4">Documentales con <em>fecha</em></td>
 			    	<td class="col-xs-2">{{totales.fecha}}</td>
-			    	<td class="col-xs-6">
+			    	<td class="col-xs-3">
 			    		<div class="progress" style="margin-bottom: 0px;">
 						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.fecha * 100) / totales.documentales | number:0}}%;">
 						    {{(totales.fecha * 100) / totales.documentales | number:0}}%
 						  </div>
 						</div>
 			    	</td>
+			    	<td class="col-xs-3"><button class="btn btn-default btn-sm" ng-click="getFaltantes('fecha')"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button></td>
 			    </tr>
 
 			    <tr>
 			    	<td class="col-xs-4">Documentales con <em>duración</em></td>
 			    	<td class="col-xs-2">{{totales.duracion}}</td>
-			    	<td class="col-xs-6">
+			    	<td class="col-xs-3">
 			    		<div class="progress" style="margin-bottom: 0px;">
 						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.duracion * 100) / totales.documentales | number:0}}%;">
 						    {{(totales.duracion * 100) / totales.documentales | number:0}}%
 						  </div>
 						</div>
 			    	</td>
+			    	<td class="col-xs-3"><button class="btn btn-default btn-sm" ng-click="getFaltantes('duracion')"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button></td>
 			    </tr>
 
 			    <tr>
 			    	<td class="col-xs-4">Documentales con <em>realización</em></td>
 			    	<td class="col-xs-2">{{totales.realizacion}}</td>
-			    	<td class="col-xs-6">
+			    	<td class="col-xs-3">
 			    		<div class="progress" style="margin-bottom: 0px;">
 						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.realizacion * 100) / totales.documentales | number:0}}%;">
 						    {{(totales.realizacion * 100) / totales.documentales | number:0}}%
 						  </div>
 						</div>
 			    	</td>
+			    	<td class="col-xs-3"><button class="btn btn-default btn-sm" ng-click="getFaltantes('realizacion')"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button></td>
+			    </tr>
+
+			    <tr>
+			    	<td class="col-xs-4">Documentales con <em>fuentes</em></td>
+			    	<td class="col-xs-2">{{totales.fuentes}}</td>
+			    	<td class="col-xs-3">
+			    		<div class="progress" style="margin-bottom: 0px;">
+						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.fuentes * 100) / totales.documentales | number:0}}%;">
+						    {{(totales.fuentes * 100) / totales.documentales | number:0}}%
+						  </div>
+						</div>
+			    	</td>
+			    	<td class="col-xs-3"><button class="btn btn-default btn-sm" ng-click="getFaltantes('fuentes')"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button></td>
+			    </tr>
+
+			    <tr>
+			    	<td class="col-xs-4">Documentales con <em>recursos</em></td>
+			    	<td class="col-xs-2">{{totales.recursos}}</td>
+			    	<td class="col-xs-3">
+			    		<div class="progress" style="margin-bottom: 0px;">
+						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.recursos * 100) / totales.documentales | number:0}}%;">
+						    {{(totales.recursos * 100) / totales.documentales | number:0}}%
+						  </div>
+						</div>
+			    	</td>
+			    	<td class="col-xs-3"><button class="btn btn-default btn-sm" ng-click="getFaltantes('recursos')"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button></td>
 			    </tr>
 
 			    <tr>
 			    	<td class="col-xs-4">Documentales con imagen de portada</td>
 			    	<td class="col-xs-2">{{totales.imagen}}</td>
-			    	<td class="col-xs-6">
+			    	<td class="col-xs-3">
 			    		<div class="progress" style="margin-bottom: 0px;">
 						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.imagen * 100) / totales.documentales | number:0}}%;">
 						    {{(totales.imagen * 100) / totales.documentales | number:0}}%
 						  </div>
 						</div>
 			    	</td>
+			    	<td class="col-xs-3"><button class="btn btn-default btn-sm" ng-click="getFaltantes('imagen')"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button></td>
 			    </tr>
 
 			    <tr>
 			    	<td class="col-xs-4">Documentales con video/URL</td>
 			    	<td class="col-xs-2">{{totales.url}}</td>
-			    	<td class="col-xs-6">
+			    	<td class="col-xs-3">
 			    		<div class="progress" style="margin-bottom: 0px;">
 						  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{total.documentales}}" style="min-width: 2em; width: {{(totales.url * 100) / totales.documentales | number:0}}%;">
 						    {{(totales.url * 100) / totales.documentales | number:0}}%
 						  </div>
 						</div>
 			    	</td>
+			    	<td class="col-xs-3"><button class="btn btn-default btn-sm" ng-click="getFaltantes('url')"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button></td>
 			    </tr>
 			</tbody>
 		  </table>
 		</div>
+
+		<div ng-show="faltantes.length !== 0">
+			<h3>Documentales sin "</em>{{campo}}</em>" de {{infoDecadas[decada].titulo}} (Total: {{faltantes.length}}) <button class="btn btn-default btn-sm" ng-click="faltantes = []">Ocultar</button></h3>
+			<div class="table-responsive" style="max-height: 300px; overflow: auto;">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Código</th>
+							<th>Título</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="documental in faltantes">
+					    	<td class="col-xs-1">{{$index + 1}}</td>
+					    	<td class="col-xs-2">{{documental.codigo_de_referencia}}</td>
+					    	<td class="col-xs-9">{{documental.titulo_propio}}</td>
+					    </tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
 	</div>
 </body>

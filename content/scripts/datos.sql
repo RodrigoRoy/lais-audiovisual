@@ -15,34 +15,55 @@ SELECT COUNT(*) AS sinopsis
     WHERE sinopsis NOT LIKE '' AND codigo_de_referencia LIKE 'MXIM-AV-1%';
 
 # Total de documentales con pais
-SELECT COUNT(*)
+SELECT COUNT(*) AS pais
 	FROM area_de_identificacion
-    WHERE pais NOT LIKE '';
+    WHERE pais NOT LIKE '' AND codigo_de_referencia LIKE 'MXIM-AV-1%';
 
 # Total de documentales con fecha
-SELECT COUNT(*)
+SELECT COUNT(*) AS fecha
 	FROM area_de_identificacion
-    WHERE fecha NOT LIKE '';
+    WHERE fecha NOT LIKE '' AND codigo_de_referencia LIKE 'MXIM-AV-1%';
 
 # Total de documentales con duracion
-SELECT COUNT(*)
+SELECT COUNT(*) AS duracion
 	FROM area_de_identificacion
-    WHERE duracion NOT LIKE '';
+    WHERE duracion NOT LIKE '00:00:00' AND codigo_de_referencia LIKE 'MXIM-AV-1%';
 
 # Total de documentales con realizador(es)
-SELECT COUNT(*)
+SELECT COUNT(*) AS realizacion
 	FROM area_de_identificacion
-    WHERE realizacion NOT LIKE '';
+    WHERE realizacion NOT LIKE '' AND codigo_de_referencia LIKE 'MXIM-AV-1%';
 
 # Total de documentales con imagen de portada
-SELECT COUNT(*)
+SELECT COUNT(*) AS imagen
 	FROM area_de_identificacion NATURAL JOIN informacion_adicional
-    WHERE imagen NOT LIKE '';
+    WHERE imagen NOT LIKE '' AND codigo_de_referencia LIKE 'MXIM-AV-1%';
 
 # Total de documentales con URL
-SELECT COUNT(*)
+SELECT COUNT(*) AS url
 	FROM area_de_identificacion NATURAL JOIN informacion_adicional
-    WHERE url NOT LIKE '';
+    WHERE url NOT LIKE '' AND codigo_de_referencia LIKE 'MXIM-AV-1%';
+
+# Total de documentales con fuentes
+SELECT COUNT(*) AS fuentes
+	FROM area_de_identificacion NATURAL JOIN area_de_contenido_y_estructura
+    WHERE fuentes NOT LIKE '' AND codigo_de_referencia LIKE 'MXIM-AV-1%';
+
+# Total de documentales con recursos
+SELECT COUNT(*) AS recursos
+	FROM area_de_identificacion NATURAL JOIN area_de_contenido_y_estructura
+    WHERE recursos NOT LIKE '' AND codigo_de_referencia LIKE 'MXIM-AV-1%';
+
+
+### Obtener los códigos de referencia y titulo de documentales con información faltante:
+
+# Documentales sin sinopsis
+SELECT codigo_de_referencia, titulo_propio,  
+  CAST(SUBSTRING_INDEX(codigo_de_referencia,'-',-1) AS UNSIGNED) AS numeracion,
+  CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(codigo_de_referencia,'-',4),'-',-1) AS UNSIGNED) AS decada
+	FROM area_de_identificacion NATURAL JOIN area_de_contenido_y_estructura
+    WHERE sinopsis = '' AND codigo_de_referencia LIKE 'MXIM-AV-1%'
+    ORDER BY decada DESC, numeracion ASC;
 
 ### Información similar a la anterior pero recopilada por décadas:
 
