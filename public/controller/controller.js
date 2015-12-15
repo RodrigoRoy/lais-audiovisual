@@ -1537,24 +1537,31 @@ lais.controller('adminUserCtrl',function($scope,$http, $location){
     };
 });
 
-lais.controller('controlDatosCtrl', function($scope, $http){
-	// $scope.totales = {
-	// 	documentales: 900,
-	// 	sinopsis: 750,
-	// 	pais: 800,
-	// 	fecha: 855,
-	// 	duracion: 798,
-	// 	realizacion: 777,
-	// 	fuentes: 701,
-	// 	recursos: 710,
-	// 	imagen: 120,
-	// 	url: 56
-	// };
-	$scope.totales = {};
-	$scope.decadas = [];
-	$scope.faltantes = [];
-	$scope.decada = 'MXIM-AV-1';
+lais.controller('controlDatosCtrl', function($scope, $http, $location){
+	if(!$scope.sesion && !($scope.permiso >= 3)){
+		console.log('No hay permisos suficientes');
+		$location.url('/inicio');
+	}
 
+	$scope.totales = {}; // Guarda las cantidades de los documentales con información faltante
+	/* Ejemplo:
+		$scope.totales = {
+			documentales: 900,
+			sinopsis: 750,
+			pais: 800,
+			fecha: 855,
+			duracion: 798,
+			realizacion: 777,
+			fuentes: 701,
+			recursos: 710,
+			imagen: 120,
+			url: 56
+		};
+	*/
+	$scope.decadas = []; // Contiene los códigos de referencia de las décadas existentes en la base de datos (ejemplo: MXIMIM-AV-1-4)
+	$scope.faltantes = []; // Guarda la lista de los documentales (código y nombre) con alguna información específica faltante
+	$scope.decada = 'MXIM-AV-1'; // Código de la década que se muestra en pantalla. Por default: toda la colección
+	// Objeto para mostrar textos de apoyo en la vista:
 	$scope.infoDecadas = {
 		"MXIM-AV-1-14": {fecha: "2020", titulo: "2020 a 2030"},
 		"MXIM-AV-1-13": {fecha: "2010", titulo: "2010 a 2020"},
@@ -1572,7 +1579,10 @@ lais.controller('controlDatosCtrl', function($scope, $http){
 		"MXIM-AV-1-1": {fecha: "1890", titulo: "1890 a 1900"},
 		"MXIM-AV-1": {fecha: "Todo", titulo: "toda la colección"}
 	};
+	$scope.campo = ''; // Auxiliar para mostrar el campo específico consultado en la vista. Se asigna en la función "getFaltantes"
 
+	// ***** INICIALIZACIÓN ****
+	// Obtener los códigos de las décadas. Sirve para mostrar los botones por época en la vista
 	$http.get('php/manejoBD.php?action=mostrarDecadas')
 		.success(function(data){
 			$scope.decadas = data;
@@ -1581,6 +1591,7 @@ lais.controller('controlDatosCtrl', function($scope, $http){
 			console.log("Error de conexión en la base.");
 		});
 
+	// Obtener las cifras de los documentales con información faltante. Por default, obtener la información de toda la colección.
 	$http.get('php/manejoBD.php?action=estadisticas&decada=' + $scope.decada)
     	.success(function(data,status) {
 	        $scope.totales = {
@@ -1600,6 +1611,8 @@ lais.controller('controlDatosCtrl', function($scope, $http){
 			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
 		});
 
+	// Se manda a llamar cada vez que el usuario da clic en un botón con una década.
+	// Las cantidades de documentales se actualizan en la variable "$scope.totales" según la década seleccionada.
 	$scope.setDecada = function(decada){
 		$scope.decada = decada;
 		$http.get('php/manejoBD.php?action=estadisticas&decada=' + $scope.decada)
@@ -1622,9 +1635,14 @@ lais.controller('controlDatosCtrl', function($scope, $http){
 			});
 	};
 
+	// Se manda a llamar cada vez que se da clic en el botón al lado de una gráfica para obtener el listado específico
+	// de los documentales con información faltante.
+	// La lista "$scope.faltantes" contiene objetos con dos propiedades: el código de referencia y el título propio del documental
 	$scope.getFaltantes = function(campo){
-		var area = '';
+		var area = ''; // Auxiliar para determinar si la consulta requiere un NATURAL JOIN
 
+		// Si la información requerida no está en la tabla "area_de_identificacion", entonces es necesario
+		// incluir el nombre del campo en la petición GET para realizar un NATURAL JOIN
 		switch(campo){
 			case "sinopsis":
 				area = 'area_de_contenido_y_estructura'
@@ -1643,13 +1661,10 @@ lais.controller('controlDatosCtrl', function($scope, $http){
 				break;
 		}
 
-		console.log("decada: " + $scope.decada, "campo: " + campo, "area: " + area);
-
 		$http.get('php/manejoBD.php?action=detalles&decada=' + $scope.decada + '&campo=' + campo + '&area=' + area)
 	    	.success(function(data,status) {
-	    		//console.log("faltantes: ", data);
 		        $scope.faltantes = data;
-		        $scope.campo = campo;
+		        $scope.campo = campo; // texto para usar en la vista
 		    })
 		    .error(function(data, status, headers, config) {
 				alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
