@@ -939,7 +939,8 @@ function datos_estadisticos($decada){
         $result = $stmt->fetch();
         $datos["duracion"] = $result->duracion;
 
-        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS realizacion FROM area_de_identificacion WHERE realizacion NOT LIKE '' AND codigo_de_referencia LIKE '$decada%'");
+        //$stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS realizacion FROM area_de_identificacion WHERE realizacion NOT LIKE '' AND codigo_de_referencia LIKE '$decada%'");
+        $stmt = $GLOBALS['conn']->prepare("SELECT COUNT(*) AS realizacion FROM area_de_identificacion WHERE (realizacion NOT LIKE '' OR direccion NOT LIKE '') AND codigo_de_referencia LIKE '$decada%'");
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_OBJ);
         $result = $stmt->fetch();
@@ -993,6 +994,14 @@ function faltantes_detalles($decada, $campo, $area){
         FROM area_de_identificacion $join 
         WHERE $campo = '$void' AND codigo_de_referencia LIKE '$decada%' 
         ORDER BY decada DESC, numeracion ASC";
+
+    if($campo == 'realizacion')
+        $select = "SELECT codigo_de_referencia, titulo_propio, 
+          CAST(SUBSTRING_INDEX(codigo_de_referencia,'-',-1) AS UNSIGNED) AS numeracion, 
+          CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(codigo_de_referencia,'-',4),'-',-1) AS UNSIGNED) AS decada 
+            FROM area_de_identificacion $join 
+            WHERE $campo = '$void' AND direccion = '' AND codigo_de_referencia LIKE '$decada%' 
+            ORDER BY decada DESC, numeracion ASC";
 
     try {
         $stmt = $GLOBALS['conn']->prepare($select);
