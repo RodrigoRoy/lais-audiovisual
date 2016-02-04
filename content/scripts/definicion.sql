@@ -1,22 +1,21 @@
 # Definiciones para crear base de datos de LAIS con MySQL
 # Rodrigo Rivera (15.02.19)
 
+# Borrar toda la base de datos (para iniciar desde cero)
+DROP DATABASE IF EXISTS Audiovisuales;
+
 # Crear base de datos
 CREATE DATABASE IF NOT EXISTS Audiovisuales CHARACTER SET UTF8;
-
-# Mostrar todas las bases de datos existentes
-#SHOW DATABASES;
 
 # Indicar con que base de datos trabajar
 USE Audiovisuales;
 # Util para mostrar correctamente caracteres 'extraños'
 SET NAMES utf8;
 
-# Otorga privilegios a las cuentas de usuario MySQL
+# Otorga todos los privilegios al usuario "lais" (en "localhost") con pass "audiovisual" en la base de datos
 GRANT ALL ON Audiovisuales.* TO lais@localhost IDENTIFIED BY 'audiovisual';
 
 # AREA DE IDENTIFICACION
-# Longitud maxima para los nombre: 70 (fuente: UK Government Data Standards Catalogue)
 CREATE TABLE IF NOT EXISTS area_de_identificacion(
 	codigo_de_referencia VARCHAR(20) NOT NULL,
 	titulo_propio VARCHAR(150) DEFAULT '',
@@ -168,11 +167,11 @@ ALTER TABLE informacion_adicional ADD CONSTRAINT codigoInfoAdicionalFK
 	ON UPDATE CASCADE;
     
 # Crear tabla para usuarios registrados
-CREATE TABLE `usuarios` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Password` varchar(255) DEFAULT NULL,
-  `Username` varchar(255) DEFAULT NULL,
-  `Privilegio` int DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `Username` (`Username`)
+CREATE TABLE IF NOT EXISTS usuarios(
+  Id int(11) NOT NULL AUTO_INCREMENT,
+  Password varchar(255) NOT NULL,
+  Username varchar(255) NOT NULL UNIQUE,
+  Privilegio int DEFAULT NULL,
+  
+  PRIMARY KEY(Id)
 );

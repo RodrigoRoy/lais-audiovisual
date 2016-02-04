@@ -116,3 +116,15 @@ SELECT claves.decadas, CAST(SUBSTRING_INDEX(decadas,'-',-1) AS UNSIGNED) AS codi
 	WHERE imagen NOT LIKE ''
 	GROUP BY decadas
 	ORDER BY codigos DESC;
+
+# Variante para contar la cantidad de documentales sin realizador o sin director y de una década en específico
+SELECT codigo_de_referencia, titulo_propio, realizacion, direccion,
+	CAST(SUBSTRING_INDEX(codigo_de_referencia,'-',-1) AS UNSIGNED) AS numeracion, 
+	CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(codigo_de_referencia,'-',4),'-',-1) AS UNSIGNED) AS decada 
+        FROM area_de_identificacion
+        WHERE realizacion = '' AND direccion = '' AND codigo_de_referencia LIKE 'MXIM-AV-1%' 
+        ORDER BY decada DESC, numeracion ASC;
+
+# Similar al anterior pero obtiene la cantidad de documentales SIN realizador o SIN directos de una década en específico
+SELECT COUNT(*) AS realizacion FROM area_de_identificacion 
+	WHERE (realizacion NOT LIKE '' OR direccion NOT LIKE '') AND (codigo_de_referencia LIKE 'MXIM-AV-1%');

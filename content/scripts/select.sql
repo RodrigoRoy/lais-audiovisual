@@ -38,6 +38,9 @@ DROP TABLE usuarios;
 # Borrar toda la base de datos
 DROP DATABASE IF EXISTS Audiovisuales;
 
+# Mostrar todas las bases de datos existentes
+#SHOW DATABASES;
+
 # Borrar una década
 DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-12%';
 

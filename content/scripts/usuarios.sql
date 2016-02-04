@@ -12,7 +12,8 @@ INSERT INTO usuarios (Password,Username,Privilegio) values("lais","Felipe",3);
 INSERT INTO usuarios (Password,Username,Privilegio) values("penelope","Penélope",0);
 INSERT INTO usuarios (Password,Username,Privilegio) values("veronica","Vero",0);
 INSERT INTO usuarios (Password,Username,Privilegio) values("lola","Eli",0);
-INSERT INTO usuarios (Password,Username,Privilegio) values("lili","Lili",0);
+INSERT INTO usuarios (Password,Username,Privilegio) values("Palestina","Lilia",2);
+INSERT INTO usuarios (Password,Username,Privilegio) values("Hysteria","Jocelyn",2);
 # Clave de los privilegios:
 # 0 = None
 # 1 = Add
