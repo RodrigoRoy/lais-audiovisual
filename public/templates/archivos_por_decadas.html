@@ -121,6 +121,7 @@
                 <p ng-show="allInfo.contenido_y_estructura.sinopsis === ''"><em>Pendiente.</em></p>
                 <p><span class="titularModalContent">Año</span> {{allInfo.identificacion.fecha}} <span class="titularModalContent" style="margin-left: 1em;">Duración</span> {{allInfo.identificacion.duracion}}</p>
                 <p ng-show="allInfo.identificacion.realizacion !== ''"><span class="titularModalContent">Realizador</span> {{allInfo.identificacion.realizacion}}</p>
+                <p ng-show="allInfo.identificacion.realizacion === '' && allInfo.identificacion.direccion !== ''"><span class="titularModalContent">Dirección</span> {{allInfo.identificacion.direccion}}</p>
                 <p class="text-right" ng-show="allInfo.adicional.url !== ''">
                   <a class="btn btn-default" href="{{allInfoCopy.adicional.url}}" target="_blank" role="button">
                     Video <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>
