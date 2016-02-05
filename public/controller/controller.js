@@ -1537,7 +1537,7 @@ lais.controller('adminUserCtrl',function($scope,$http, $location){
     };
 });
 
-lais.controller('controlDatosCtrl', function($scope, $http, $location){
+lais.controller('controlDatosCtrl', function($scope, $http, $location, DecadaService){
 	if(!$scope.sesion && !($scope.permiso >= 3)){
 		console.log('No hay permisos suficientes');
 		$location.url('/inicio');
@@ -1670,5 +1670,139 @@ lais.controller('controlDatosCtrl', function($scope, $http, $location){
 				alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
 			});
 	};
+
+	// ##### Las siguientes funciones son copia directa del controlador "muestraDecadaCtrl" #####
+
+	// Obtener toda la información de un audiovisual particular. Recibe el código de identificación
+	$scope.getAllInfo = function(codigoId){
+		$scope.hideInfo = false; //Inicializar el botón de ver más para que siempre este visible
+		//console.log("codigo: " + codigoId);
+		$http.get('php/manejoBD.php?action=obtenerXAreas&id=' + codigoId).
+    	success(function(data) {
+    		$scope.allInfo = data;
+    		// Limpiar algunos campos:
+    		$scope.preprocesamientoUnidad();
+    		//getImgSize('imgs/Portadas/' + $scope.allInfo.adicional.imagen); // Llamada asincrona para obtener el ancho y largo original ($scope.imgActualWidth, $scope.imgActualHeight)
+    		console.log($scope.allInfo);
+    	}).
+    	error(function(data, status, headers, config) {
+			// called asynchronously if an error occurs or server returns response with an error status.
+			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
+		});
+	};
+
+	// Preprocesamiento de la información en todas las áreas de un audiovisual ($scope.allInfo)
+	$scope.preprocesamientoUnidad = function(){
+		// Cambios puntuales (específicos) y permanentes
+		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
+		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
+		// Agregar nuevos campos "titulo_adecuado" y "titulo_visible":
+		$scope.allInfo.secret = [];
+		$scope.allInfo.secret['titulo_adecuado'] = $scope.tituloAdecuado($scope.allInfo.identificacion);
+		$scope.allInfo.secret['titulo_visible'] = $scope.tituloVisible($scope.allInfo.secret['titulo_adecuado']);
+
+		$scope.allInfoCopy = []; // Vaciar la copia actual
+		for(var area in $scope.allInfo){
+			$scope.allInfoCopy[area] = [];
+			for(var campo in $scope.allInfo[area]){ // Aplicar modificaciones
+				if(area !== 'adicional'){ // Porque la imagen y la url deben conservar el nombre original tal cual
+					$scope.allInfo[area][campo] = $scope.allInfo[area][campo].trim().replace(/  */g, ' '); // Limpiar espacios vacios
+					$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].slice(-1) === '.') ? ($scope.allInfo[area][campo].slice(0, -1)) : ($scope.allInfo[area][campo]); // Eliminar punto al final
+					$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].length > 0) ? ($scope.allInfo[area][campo].charAt(0).toUpperCase() + $scope.allInfo[area][campo].slice(1)) : ($scope.allInfo[area][campo]); // Mayúscula la primera letra	
+				}
+				$scope.allInfoCopy[area][campo] = $scope.allInfo[area][campo];
+				// Cambia URL por un ícono con hipervínculo
+				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g,
+					'<a href="$&" target="_blank" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>');
+				// Cambiar "in situ" a itálicas
+				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/in situ/gi, '<em>$&</em>');
+				// Cambiar "videorales" a itálicas
+				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/videorales/gi, '<em>$&</em>');
+			}
+		}
+	};
+
+	// Selecciona cual es mejor título para mostrar.
+	// Debido a que un título puede incluir entre paréntesis la traducción "oficial" en español o tener uno o varios titulos paralelos.
+	// La prioridad de selección es la siguiente: 
+	//   1. titulo entre paréntesis 
+	//   2. primer o único titulo paralelo
+	//   3. título propio
+	$scope.tituloAdecuado = function(archivo){
+		// Prioridad por mostrar títulos parentizados en titulo_propio
+		if((matches = /\((.*)\)$/.exec(archivo.titulo_propio.trim())) !== null)
+			return matches[1];
+		// De no ser el caso, prioridad a titulo_paralelo
+		if (archivo.titulo_paralelo !== ''){
+			var titulos = archivo.titulo_paralelo.split(","); // Puede haber varios títulos paralelos (separados por coma)
+			if (titulos.length > 1) // De ser así, tomar solamente el primero
+				return titulos[0].trim();
+			// En caso contrario, tomar todo el titulo_paralelo
+			return archivo.titulo_paralelo;
+		}
+		// En otro caso, solo existe titulo_propio
+		return archivo.titulo_propio;
+	};
+
+	$scope.encabezados = DecadaService.encabezados;
+	var articulos = ["el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "al", "del"]; // Lista de artículos en español (útil para corregir los nombres)
+
+	// Recibe un titulo_adecuado y en caso de iniciar con un artículo gramátical en español (el, la, los, las, etc.) lo escribe al final.
+	// Ejemplo de conversión:
+	// "La hora de los hornos" => "Hora de los hornos, La"
+	// El resultado de esta función es (comúnmente) asignado a "titulo_visible"
+	$scope.tituloVisible = function(titulo){
+		var descomposicion = titulo.trim().split(" "); // Descomposición de palabras del título
+		for(var i in articulos){ // Buscar en la lista de articulos
+			if(articulos[i].indexOf(descomposicion[0].toLowerCase()) > -1){ // Si hay un artículo en la primera palabra del título
+				descomposicion[descomposicion.length-1] = descomposicion[descomposicion.length-1] + "," // Agregar coma
+				descomposicion[descomposicion.length] = descomposicion[0]; // Pasar articulo al final
+				descomposicion[0] = "" // Borrar el artículo al inicio
+				var newTitulo = descomposicion.join(' ').trim(); // Crear el nuevo título y quitar espacio vacio al inicio
+				return newTitulo.charAt(0).toUpperCase() + newTitulo.slice(1); // Poner en mayúscula la primera letra
+			}
+		}
+		return titulo; // En caso de que no haya artículo
+	}
+
+	// Auxiliar para recortar el título (cadena pasada como primer parámetro) en caso de que exceda el límite de longitud (entero pasado como segundo parámetro)
+	// En caso de exceder el límite, se recorta el título a maxLength y se agregan puntos suspensivos.
+	$scope.recortarTitulo = function(titulo, maxLength){
+		return (titulo.length > maxLength) ? (titulo.substring(0, maxLength) + "...") : (titulo);
+	};
+
+	// Dada la información del archivo (pasado como parámetro) devuelve el titulo paralelo en cado de haberlo, en caso contrario devuelve el titulo propio.
+	// Acorta el texto y agrega "..." para adecuarlo a la vista en cuadrícula de la colección.
+	$scope.tituloApropiado = function(archivo){
+		var maxLength = 40; // Longitud máxima permitida (para la vista)
+		// Prioridad por mostrar títulos parentizados en titulo_propio
+		if((matches = /\((.*)\)$/.exec(archivo.titulo_propio.trim())) !== null)
+			return (matches[1].length > maxLength) ? (matches[1].substring(0,maxLength) + "...") : (matches[1]);
+		// De no ser el caso, prioridad a titulo_paralelo
+		if (archivo.titulo_paralelo !== ''){
+			var titulos = archivo.titulo_paralelo.split(","); // Puede haber varios títulos paralelos (separados por coma)
+			if (titulos.length > 1) // De ser así, tomar solamente el primero
+				return (titulos[0].trim().length > maxLength) ? (titulos[0].trim().substring(0,maxLength) + "...") : (titulos[0].trim());
+			// En caso contrario, tomar todo el titulo_paralelo
+			return (archivo.titulo_paralelo.length > maxLength) ? (archivo.titulo_paralelo.substring(0,maxLength) + "...") : (archivo.titulo_paralelo);
+		}
+		// En otro caso, solo existe titulo_propio
+		return (archivo.titulo_propio.length > maxLength) ? (archivo.titulo_propio.substring(0,maxLength) + "...") : (archivo.titulo_propio);
+	};
+
+	// Auxiliar para obtener los rubros de manera no-ordenada alfabeticamente
+    $scope.notSort = function(obj){
+    	if (!obj)
+    		return [];
+    	return Object.keys(obj);
+    }
+
+    // Acción al presionar el icono de edición
+	$scope.editar = function(id){
+		$('#modalInfo').modal('hide'); // Ocultar modal
+		$('body').removeClass('modal-open'); // Eliminar del DOM
+		$('.modal-backdrop').remove();
+		$location.url('/archivos/editarArchivo/' + id); // Redirigir a la página de edición
+    }
 
 });

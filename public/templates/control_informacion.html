@@ -151,18 +151,181 @@
 							<th>#</th>
 							<th>Código</th>
 							<th>Título</th>
+							<th>Info</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="documental in faltantes">
 					    	<td class="col-xs-1">{{$index + 1}}</td>
 					    	<td class="col-xs-2">{{documental.codigo_de_referencia}}</td>
-					    	<td class="col-xs-9">{{documental.titulo_propio}}</td>
+					    	<td class="col-xs-8">{{documental.titulo_propio}}</td>
+					    	<td class="col-xs-1"><a class="btn btn-default" href="" role="button" ng-click="getAllInfo(documental.codigo_de_referencia)" data-toggle="modal" href="" data-target="#modalInfo"><span class="glyphicon glyphicon-modal-window" aria-hidden="true"></span></a></td>
 					    </tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 
+
+
+
+
+		<!--Modal que muestra la información de los audiovisuales -->
+		  <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog">
+		    <div class="modal-dialog modal-lg" role="document">
+		      <div class="modal-content">
+
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+		          <h1 class="modal-title titulos" id="myModalLabel">{{allInfo.secret.titulo_adecuado}}
+		            <a ng-show="sesion" class="iconEdicion" href="" ng-click="editar(allInfo.identificacion.codigo_de_referencia)" >
+		              <span class="glyphicon glyphicon-edit"></span>
+		            </a>
+		          </h1>
+		        </div>
+
+		        <div class="modal-body">
+		          <div class="container-fluid">
+		            <div class="row">
+		              <div class="col-xs-12 col-md-4 col-lg-4">
+		                <img src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas/sin_imagen_3.jpg')}}" class="img-responsive" id="imgPortada">
+		              </div>
+		              <div class="col-xs-12 col-md-8 col-lg-8">
+		                <p><span class="titularModalContent">Sinopsis</span></p>
+		                <p ng-bind-html="allInfo.contenido_y_estructura.sinopsis"></p>
+		                <p ng-show="allInfo.contenido_y_estructura.sinopsis === ''"><em>Pendiente.</em></p>
+		                <p><span class="titularModalContent">Año</span> {{allInfo.identificacion.fecha}} <span class="titularModalContent" style="margin-left: 1em;">Duración</span> {{allInfo.identificacion.duracion}}</p>
+		                <p ng-show="allInfo.identificacion.realizacion !== ''"><span class="titularModalContent">Realizador</span> {{allInfo.identificacion.realizacion}}</p>
+		                <p class="text-right" ng-show="allInfo.adicional.url !== ''">
+		                  <a class="btn btn-default" href="{{allInfoCopy.adicional.url}}" target="_blank" role="button">
+		                    Video <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>
+		                  </a>
+		                </p>
+		              </div> 
+		            </div>
+		            <br> <!--Espaciado para el botón-->
+		            <div class="row">
+		              <div class="col-xs-12 col-md-12 col-lg-12">
+		                
+		                <!-- DETALLES DEL AUDIOVISUAL -->
+		                <div class="contenedorInfo">
+		                  <!-- Nav tabs -->
+		                  <ul class="nav nav-pills nav-justified" role="tablist" id="myTabs">
+		                    <li ng-show="!isEmpty(allInfo.identificacion)" role="presentation" class="active"><a data-target="#identificacion" aria-controls="identificacion" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-film" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Identificación</a></li>
+		                    <li ng-show="!isEmpty(allInfo.contexto)" role="presentation"><a data-target="#contexto" aria-controls="contexto" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-file" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Contexto</a></li>
+		                    <li ng-show="!isEmpty(allInfo.contenido_y_estructura)" role="presentation"><a data-target="#contenido" aria-controls="contenido" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-comment" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Contenido y estructura</a></li>
+		                    <li ng-show="!isEmpty(allInfo.condiciones_de_acceso)" role="presentation"><a data-target="#condiciones" aria-controls="condiciones" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Condiciones de Acceso</a></li>
+		                    <li ng-show="!isEmpty(allInfo.documentacion_asociada)" role="presentation"><a data-target="#documentacion" aria-controls="documentacion" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Documentación asociada</a></li>
+		                    <li ng-show="!isEmpty(allInfo.notas)" role="presentation"><a data-target="#notas" aria-controls="notas" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Notas</a></li>
+		                    <li ng-show="(!isEmpty(allInfo.descripcion)) && (permiso > 0)" role="presentation"><a data-target="#descripcion" aria-controls="descripcion" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Control de la descripción</a></li>
+		                    <li ng-show="(!isEmpty(allInfo.adicional)) && (permiso > 0)" role="presentation"><a data-target="#adicional" aria-controls="adicional" role="tab" data-toggle="pill" href=""><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span><br class="hidden-xs hidden-sm"><span class="visible-xs-inline visible-sm-inline"> </span>Información adicional</a></li>
+		                  </ul>
+		                  <center><h4><strong>{{allInfo.secret.titulo_adecuado}}</strong></h4></center>
+		                  <!-- Tab panes -->
+		                  <div class="tab-content">
+		                    <!-- AREA DE INDENTIFICACION -->
+		                    <div role="tabpanel" class="tab-pane fade in active" id="identificacion">
+		                      <table class="table table-condensed">
+		                        <tbody>
+		                          <tr ng-repeat="key in notSort(allInfo.identificacion)" ng-show="allInfo.identificacion[key] != ''">
+		                            <td class="col-xs-2 col-xs-2 col-md-2 col-lg-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
+		                            <td class="col-xs-10 col-xs-10 col-md-10 col-lg-10 col-lg-10"><span ng-bind-html="allInfo.identificacion[key]"></span></td>
+		                          </tr>
+		                        </tbody>
+		                      </table>
+		                    </div>
+		                    <!-- AREA DE CONTEXTO -->
+		                    <div role="tabpanel" class="tab-pane fade" id="contexto">
+		                      <table class="table table-condensed">
+		                        <tbody>
+		                          <tr ng-repeat="key in notSort(allInfo.contexto)" ng-show="allInfo.contexto[key] != ''">
+		                            <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
+		                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.contexto[key]"></span></td>
+		                          </tr>
+		                        </tbody>
+		                      </table>
+		                    </div>
+		                    <!-- AREA DE CONTENIDO -->
+		                    <div role="tabpanel" class="tab-pane fade" id="contenido">
+		                      <table class="table table-condensed">
+		                        <tbody>
+		                          <tr ng-repeat="key in notSort(allInfo.contenido_y_estructura)" ng-show="allInfo.contenido_y_estructura[key] != ''">
+		                            <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
+		                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.contenido_y_estructura[key]"></span></td>
+		                          </tr>
+		                        </tbody>
+		                      </table>
+		                    </div>
+		                    <!-- AREA DE CONDICIONES DE ACCESO -->
+		                    <div role="tabpanel" class="tab-pane fade" id="condiciones">
+		                      <table class="table table-condensed">
+		                        <tbody>
+		                          <tr ng-repeat="key in notSort(allInfo.condiciones_de_acceso)" ng-show="allInfo.condiciones_de_acceso[key] != ''">
+		                            <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
+		                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.condiciones_de_acceso[key]"></span></td>
+		                          </tr>
+		                        </tbody>
+		                      </table>
+		                    </div>
+		                    <!-- AREA DE DOCUMENTACION ASOCIADA -->
+		                    <div role="tabpanel" class="tab-pane fade" id="documentacion">
+		                      <table class="table table-condensed">
+		                        <tbody>
+		                          <tr ng-repeat="key in notSort(allInfo.documentacion_asociada)" ng-show="allInfo.documentacion_asociada[key] != ''">
+		                            <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
+		                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.documentacion_asociada[key]"></span></td>
+		                          </tr>
+		                        </tbody>
+		                      </table>
+		                    </div>
+		                    <!-- AREA DE NOTAS -->
+		                    <div role="tabpanel" class="tab-pane fade" id="notas">
+		                      <table class="table table-condensed">
+		                        <tbody>
+		                          <tr ng-repeat="key in notSort(allInfo.notas)" ng-show="allInfo.notas[key] != ''">
+		                            <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
+		                            <td class="col-xs-10 col-md-10 col-lg-10"><span ng-bind-html="allInfo.notas[key]"></span></td>
+		                          </tr>
+		                        </tbody>
+		                      </table>
+		                    </div>
+		                    <!-- AREA DE DESCRIPCION -->
+		                    <div role="tabpanel" class="tab-pane fade" id="descripcion">
+		                      <table class="table table-condensed">
+		                        <tbody>
+		                          <tr ng-repeat="key in notSort(allInfo.descripcion)" ng-show="allInfo.descripcion[key] != ''">
+		                            <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
+		                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfoCopy.descripcion[key]}}</td><!--No se cambian las URL-->
+		                          </tr>
+		                        </tbody>
+		                      </table>
+		                    </div>
+		                    <!-- AREA DE INFORMACION ADICIONAL -->
+		                    <div role="tabpanel" class="tab-pane fade" id="adicional">
+		                      <table class="table table-condensed">
+		                        <tbody>
+		                          <tr ng-repeat="key in notSort(allInfo.adicional)" ng-show="allInfo.adicional[key] != ''">
+		                            <td class="col-xs-2 col-md-2 col-lg-2"><strong>{{encabezados[key]}}</strong></td>
+		                            <td class="col-xs-10 col-md-10 col-lg-10">{{allInfoCopy.adicional[key]}}</td><!--No se cambian las URL-->
+		                          </tr>
+		                        </tbody>
+		                      </table>
+		                    </div>
+		                  </div>
+		                </div><!-- DETALLES DEL AUDIOVISUAL -->
+
+		              </div>
+		            </div> <!--row-->
+		          </div> <!--container-fluid-->
+		        </div> <!--modal-body-->
+
+		        <div class="modal-footer">
+		          <!-- <button type="button" class="btn btn-default" ng-click="openPDF()">Ver en PDF</button> -->
+		          <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+		        </div>
+
+		      </div>
+		    </div>
+		  </div> <!-- modal -->
 	</div>
 </body>
