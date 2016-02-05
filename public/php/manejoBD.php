@@ -647,9 +647,12 @@ function cmpFecha($item1, $item2){
 // Búsqueda que incluye el rubro en donde se encontró la coincidencia
 // El parámetro $permiso se utiliza para restringir la búsqueda dentro del area_de_decripcion
 function busqueda2($query, $permiso){
-    $arrayQuery = explode(' ', $query); // Descomponer el texto de búsqueda en palabras individuales
-    if(sizeof($arrayQuery) > 1)
-        array_push($arrayQuery, $query);
+    $arrayQuery = array();
+    array_push($arrayQuery, $query);
+    ##### desscomentar/comentar 2 lineas anteriores y descomentar/comentar 3 lineas posteriores para cambiar las keywords a buscar
+    //$arrayQuery = explode(' ', $query); // Descomponer el texto de búsqueda en palabras individuales
+    //if(sizeof($arrayQuery) > 1)
+        //array_push($arrayQuery, $query);
     $totalResults = array(); // Arreglo para almacenar los códigos de los registros con ocurrencias de las palabras
     $tablas = array('area_de_identificacion', 'area_de_contexto', 'area_de_contenido_y_estructura', 'area_de_condiciones_de_acceso', 'area_de_documentacion_asociada', 'area_de_notas', 'area_de_descripcion');
     if ($permiso == 0) // Si la consulta no tiene permisos suficientes, no buscar dentro del area_de_descripcion

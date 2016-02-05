@@ -17,7 +17,7 @@ GRANT ALL ON Audiovisuales.* TO lais@localhost IDENTIFIED BY 'audiovisual';
 
 # AREA DE IDENTIFICACION
 CREATE TABLE IF NOT EXISTS area_de_identificacion(
-	codigo_de_referencia VARCHAR(20) NOT NULL,
+	codigo_de_referencia VARCHAR(24) NOT NULL,
 	titulo_propio VARCHAR(150) DEFAULT '',
 	titulo_paralelo VARCHAR(150) DEFAULT '',
 	titulo_atribuido VARCHAR(150) DEFAULT '',

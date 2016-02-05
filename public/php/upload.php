@@ -8,19 +8,36 @@ require_once 'conexion.php'; // Archivo de configuracion para la conexion con la
 // Subir imágen a carpeta contenedora "Portadas"
 $filename = $_FILES['file']['name'];
 $destination = '../imgs/Portadas/' . $filename;
-move_uploaded_file( $_FILES['file']['tmp_name'] , $destination ); // Automágicamente se sube la imagen
 
-$codigo_de_referencia = $_POST['codigo_de_referencia'];
-// Cambiar el nombre de la imagen asociada
-$info_adicional = "UPDATE informacion_adicional SET "
-    . "imagen='" . $filename
-    . "' WHERE codigo_de_referencia='" . $codigo_de_referencia . "'";
-// Ejecutar inserción o actualizacion
-try{
-    $conn->exec($info_adicional);
+if(move_uploaded_file( $_FILES['file']['tmp_name'] , $destination )){ // Automágicamente se sube la imagen. TRUE si fué exitoso, FALSE en otro caso
+	$codigo_de_referencia = $_POST['codigo_de_referencia'];
+	// Cambiar el nombre de la imagen asociada
+	$info_adicional = "UPDATE informacion_adicional SET "
+	    . "imagen='" . $filename
+	    . "' WHERE codigo_de_referencia='" . $codigo_de_referencia . "'";
+	// Ejecutar inserción o actualizacion
+	try{
+	    $conn->exec($info_adicional);
+	}
+	catch(PDOException $e){
+	    echo $e->getMessage();
+	}
+	$conn = null;
 }
-catch(PDOException $e){
-    echo $e->getMessage();
-}
-$conn = null;
+
+//move_uploaded_file( $_FILES['file']['tmp_name'] , $destination ); // Automágicamente se sube la imagen
+
+// $codigo_de_referencia = $_POST['codigo_de_referencia'];
+// // Cambiar el nombre de la imagen asociada
+// $info_adicional = "UPDATE informacion_adicional SET "
+//     . "imagen='" . $filename
+//     . "' WHERE codigo_de_referencia='" . $codigo_de_referencia . "'";
+// // Ejecutar inserción o actualizacion
+// try{
+//     $conn->exec($info_adicional);
+// }
+// catch(PDOException $e){
+//     echo $e->getMessage();
+// }
+// $conn = null;
 ?>
