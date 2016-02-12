@@ -79,13 +79,13 @@ CREATE TABLE IF NOT EXISTS area_de_contenido_y_estructura(
 	descriptor_onomastico TEXT,
 	descriptor_toponimico TEXT,
 	descriptor_cronologico TEXT,
-	tipo_de_produccion VARCHAR(31) DEFAULT '',
+	tipo_de_produccion VARCHAR(50) DEFAULT '',
 	genero VARCHAR(30) DEFAULT '',
 	fuentes VARCHAR(350) DEFAULT '', # si se ocupan todos los tipos de fuentes
 	recursos VARCHAR(150) DEFAULT '', # si se ocupan todos los tipos de recursos
 	versiones VARCHAR(150) DEFAULT '',
 	formato_original VARCHAR(45) DEFAULT '',
-	material_extra VARCHAR(300) DEFAULT ''
+	material_extra VARCHAR(450) DEFAULT ''
 );
 # Agregar llave foranea (FK) para el codigo_de_referencia que ya existe en la tabla area_de_identificacion
 ALTER TABLE area_de_contenido_y_estructura ADD CONSTRAINT codigoContEstructFK

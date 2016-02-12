@@ -42,7 +42,7 @@ DROP DATABASE IF EXISTS Audiovisuales;
 #SHOW DATABASES;
 
 # Borrar una década
-DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-12%';
+DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-13%';
 
 # Mostrar todos los registros de todas las tablas
 SELECT *
@@ -268,6 +268,7 @@ SHOW DATABASES;
 SHOW TABLES FROM Audiovisuales;
 SHOW COLUMNS FROM area_de_condiciones_de_acceso;
 
-# Modificar la longitud de un campo
+# Modificar la longitud de un campo y el valor por defecto
 ALTER TABLE area_de_condiciones_de_acceso
+	ALTER audio SET DEFAULT ''
 	MODIFY audio VARCHAR(50);

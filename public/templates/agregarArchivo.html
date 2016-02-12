@@ -340,7 +340,7 @@
 							<!-- TIPO_DE_PRODUCCION -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.tipo_de_produccion.$dirty && audiovisualForm.tipo_de_produccion.$invalid}">
 								<label class="control-label" for="tipo_de_produccion">Tipo de producción</label>
-								<input class="form-control" id="tipo_de_produccion" name="tipo_de_produccion" ng-model="tipo_de_produccion" list="tipoDeProduccion" ng-maxlength="31">
+								<input class="form-control" id="tipo_de_produccion" name="tipo_de_produccion" ng-model="tipo_de_produccion" list="tipoDeProduccion" ng-maxlength="50">
 								<datalist id="tipoDeProduccion">
 									<option value="Película de ficción">
 									<option value="Película documental">
@@ -385,7 +385,7 @@
 							<!-- MATERIAL_EXTRA -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.material_extra.$dirty && audiovisualForm.material_extra.$invalid}">
 								<label class="control-label" for="material_extra">Material extra</label>
-								<input class="form-control" id="material_extra" name="material_extra" ng-model="material_extra" ng-maxlength="300">
+								<input class="form-control" id="material_extra" name="material_extra" ng-model="material_extra" ng-maxlength="450">
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.material_extra.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.material_extra.$dirty && audiovisualForm.material_extra.$invalid"></div>
 							</div>
 						</div>
