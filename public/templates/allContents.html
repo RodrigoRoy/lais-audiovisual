@@ -1,0 +1,13 @@
+<!-- <link rel="stylesheet" type="text/css" href="css/background.css" /> -->
+<body>
+	<br><br><br><br>
+	<button class="btn btn-default" ng-click="allContentsPDF()">PDF de todo</button>
+
+	<div ng-repeat="documental in allContents">
+		<div ng-repeat="key in notSort(documental)" ng-if="documental[key] !== ''">
+			{{encabezados[key]}}: {{documental[key]}}
+		</div>
+		<br>
+	</div>
+	<!-- <pre>{{documental | json}}</pre> -->
+</body>

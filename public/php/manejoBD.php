@@ -44,6 +44,9 @@ switch ($_GET['action']) {
     case 'obtenerXAreas':
         obtenerArea($_GET['id']);
         break;
+    case 'getAbsolutelyAll':
+        getAbsolutelyAll();
+        break;
     case 'mostrarCaratulaScroll':
         mostrarCaratulaScroll($_GET['codigo'],$_GET['howMany'],$_GET['offset']);
         break;
@@ -557,6 +560,15 @@ function obtenerArea($id){
     }
     print_r(json_encode($areas)); // Devolver resultado para ser leido por controller.js
     $GLOBALS['conn'] = null; // Cerrar conexion
+}
+
+function getAbsolutelyAll(){
+    $select = "SELECT * FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    print_r(json_encode($data));
+    $GLOBALS['conn'] = null;
 }
 
 function mostrarCaratulaScroll($codigo,$howMany,$offset){

@@ -46,6 +46,10 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/control_informacion.html",
 			controller: "controlDatosCtrl"
 		})
+		.when("/allContents", {
+			templateUrl: "templates/allContents.html",
+			controller: "allContentsCtrl"
+		})
 		.otherwise({
 			redirectTo: "/"
 		});
@@ -1804,5 +1808,102 @@ lais.controller('controlDatosCtrl', function($scope, $http, $location, DecadaSer
 		$('.modal-backdrop').remove();
 		$location.url('/archivos/editarArchivo/' + id); // Redirigir a la página de edición
     }
+});
 
+lais.controller('allContentsCtrl', function($scope, $http, $location, DecadaService){
+	if(!$scope.sesion && !($scope.permiso >= 3)){
+		console.log('No hay permisos suficientes');
+		$location.url('/inicio');
+	}
+
+	$scope.encabezados = DecadaService.encabezados;
+	$scope.notSort = function(obj){
+    	if (!obj)
+    		return [];
+    	return Object.keys(obj);
+    }
+
+	$http.get('php/manejoBD.php?action=getAbsolutelyAll')
+    	.success(function(data, status){
+			$scope.allContents = data;
+	    })
+	    .error(function(data, status, headers, config) {
+			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
+		});
+
+
+	// Crea un documento PDF con la biblioteca pdfmake(.min).js y al final se abre el PDF en el navegador
+	$scope.allContentsPDF = function(){
+		$http.get('php/manejoBD.php?action=getAbsolutelyAll')
+	    	.success(function(data, status){
+	    		var coleccion = data.slice(0, 9);
+		        console.log("Totales: ", coleccion.length);
+		        var content = [];
+		        for(var doc in coleccion)
+		        	for(var area in coleccion[doc]){
+		        		if(coleccion[doc][area] !== '')
+			        		content.push(
+			        			{
+									columns: [
+										{
+											width: 100,
+											text: $scope.encabezados[area]
+										},
+										{
+											width: '*',
+											text: coleccion[doc][area]
+										}
+									]
+								}
+			        		);
+		        	}
+
+		        var docDefinition = {
+					footer: function(currentPage, pageCount) { 
+						//return {text: currentPage.toString() + ' de ' + pageCount, alignment: 'right'};
+						return {
+							style: 'table',
+							table: {
+								widths: [28, '*', 50, 28],
+								body: [
+									[
+										'',
+										{text: 'Laboratorio Audiovisual de Investigación Social. Instituto Mora.', fontSize: 10, italics: true, alignment: 'left'},
+										{text: currentPage.toString() + ' de ' + pageCount, italics: true, alignment: 'right'},
+										''
+									]
+								]
+							},
+							layout: 'noBorders'
+						}
+					},
+					//header: {text: '"LAIS"', fontSize: 10, italics: true, alignment: 'right', margin: [25,25,50,50]},
+					content: content,
+					styles: {
+						header: {
+							fontSize: 22,
+							bold: true,
+							margin: [0, 0, 0, 10]
+						},
+						subheader: {
+							fontSize: 16,
+							bold: true,
+							margin: [0, 10, 0, 5]
+						},
+						table: {
+							margin: [0, 5, 0, 15]
+						}
+					}
+				};
+				// open the PDF in a new window
+				pdfMake.createPdf(docDefinition).open();
+				//pdfMake.createPdf(docDefinition).download('all.pdf');
+
+				console.log('PDF created');
+
+		    })
+		    .error(function(data, status, headers, config) {
+				alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
+			});
+	};
 });
