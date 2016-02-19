@@ -291,9 +291,10 @@ body{
 	margin-left: 4%;
 }
 
+/*Imagenes del navbar*/
 #logoLais{
 	height: 100%;
-	width: 100%;
+	/*width: 100%;*/
 }
 
 .logo{
