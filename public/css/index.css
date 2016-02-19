@@ -297,8 +297,9 @@ body{
 	/*width: 100%;*/
 }
 
+/*Div contenedor de imagenes en el navbar*/
 .logo{
-	width:51px;
+	/*width:51px;*/
 	height: 46px;
 	margin-top: -14px;
 }

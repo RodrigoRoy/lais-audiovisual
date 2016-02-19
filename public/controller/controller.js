@@ -1864,7 +1864,7 @@ lais.controller('allContentsCtrl', function($scope, $http, $location, DecadaServ
 						return {
 							style: 'table',
 							table: {
-								widths: [28, '*', 50, 28],
+								widths: [28, '*', 60, 28],
 								body: [
 									[
 										'',
