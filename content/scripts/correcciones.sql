@@ -13,3 +13,7 @@ insert into area_de_condiciones_de_acceso values ('MXIM-AV-1-10-85', 'Usos reser
 delete from area_de_documentacion_asociada where codigo_de_referencia = 'MXIM-AV-1-10-8' or codigo_de_referencia = 'MXIM-AV-1-10-85';
 insert into area_de_documentacion_asociada values ('MXIM-AV-1-10-8', '', '', '');
 insert into area_de_documentacion_asociada values ('MXIM-AV-1-10-85', '', '', '');
+
+# Reasignar codigo_de_referencia para una mejor catalogación
+UPDATE area_de_identificacion SET codigo_de_referencia='MXIM-AV-1-12-354' WHERE codigo_de_referencia='MXIM-AV-1-12-188-1';
+UPDATE area_de_identificacion SET codigo_de_referencia='MXIM-AV-1-12-355' WHERE codigo_de_referencia='MXIM-AV-1-12-188-2';

@@ -57,7 +57,7 @@
 							<!-- CODIGO_DE_REFERENCIA -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.codigo_de_referencia.$invalid}">
 								<label class="control-label" for="codigo_de_referencia">Código de identificación</label>
-								<input class="form-control" name="codigo_de_referencia" ng-model="codigo_de_referencia" id="codigo_de_referencia" ng-maxlength="24" ng-pattern="/^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}(-\d{1,3})?$/" ng-blur="sugerencias()">
+								<input class="form-control" name="codigo_de_referencia" ng-model="codigo_de_referencia" id="codigo_de_referencia" ng-maxlength="24" ng-pattern="/^\w{3,5}-\w{1,3}-\d{1,2}-\d{1,2}-\d{1,4}(-\d{1,3})?$/" disabled><!-- ng-blur="sugerencias()" -->
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.codigo_de_referencia.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.codigo_de_referencia.$invalid">
 									<small ng-message="pattern">El formato debe ser similar a: MXIM-AV-1-8-1</small>
 								</div>
