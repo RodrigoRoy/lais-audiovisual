@@ -633,8 +633,8 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 	//   3. título propio
 	$scope.tituloAdecuado = function(archivo){
 		// Prioridad por mostrar títulos parentizados en titulo_propio
-		if((matches = /\((.*)\)$/.exec(archivo.titulo_propio.trim())) !== null)
-			return matches[1];
+		// if((matches = /\((.*)\)$/.exec(archivo.titulo_propio.trim())) !== null)
+		// 	return matches[1];
 		// De no ser el caso, prioridad a titulo_paralelo
 		if (archivo.titulo_paralelo !== ''){
 			var titulos = archivo.titulo_paralelo.split(","); // Puede haber varios títulos paralelos (separados por coma)
