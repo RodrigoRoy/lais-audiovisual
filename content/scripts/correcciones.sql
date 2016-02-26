@@ -15,5 +15,10 @@ insert into area_de_documentacion_asociada values ('MXIM-AV-1-10-8', '', '', '')
 insert into area_de_documentacion_asociada values ('MXIM-AV-1-10-85', '', '', '');
 
 # Reasignar codigo_de_referencia para una mejor catalogación
-UPDATE area_de_identificacion SET codigo_de_referencia='MXIM-AV-1-12-354' WHERE codigo_de_referencia='MXIM-AV-1-12-188-1';
-UPDATE area_de_identificacion SET codigo_de_referencia='MXIM-AV-1-12-355' WHERE codigo_de_referencia='MXIM-AV-1-12-188-2';
+update area_de_identificacion set codigo_de_referencia='MXIM-AV-1-12-354' where codigo_de_referencia='MXIM-AV-1-12-188-1';
+update area_de_identificacion set codigo_de_referencia='MXIM-AV-1-12-355' where codigo_de_referencia='MXIM-AV-1-12-188-2';
+
+
+delete from informacion_adicional where codigo_de_referencia = 'MXIM-AV-1-13-46-8';
+insert into informacion_adicional values ('MXIM-AV-1-13-46-8', '', '');
+insert into informacion_adicional values ('MXIM-AV-1-13-46-9', '', 'https://www.youtube.com/watch?v=pyZm_Dog-7c');
