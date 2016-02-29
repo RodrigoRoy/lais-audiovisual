@@ -18,7 +18,25 @@ insert into area_de_documentacion_asociada values ('MXIM-AV-1-10-85', '', '', ''
 update area_de_identificacion set codigo_de_referencia='MXIM-AV-1-12-354' where codigo_de_referencia='MXIM-AV-1-12-188-1';
 update area_de_identificacion set codigo_de_referencia='MXIM-AV-1-12-355' where codigo_de_referencia='MXIM-AV-1-12-188-2';
 
-
+# Reasignar el codigo_de_referencia porque estaba repetido
 delete from informacion_adicional where codigo_de_referencia = 'MXIM-AV-1-13-46-8';
 insert into informacion_adicional values ('MXIM-AV-1-13-46-8', '', '');
 insert into informacion_adicional values ('MXIM-AV-1-13-46-9', '', 'https://www.youtube.com/watch?v=pyZm_Dog-7c');
+
+# Reasignar codigo_de_referencia para individualizar materiales (no son errores, son para tener más ordenada la colección)
+# Se recomienda verificar primero que cada tabla contenga el mismo codigo_de_referencia:
+#SELECT codigo_de_referencia, titulo_propio FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia = 'MXIM-AV-1-12-188';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-12-356' where codigo_de_referencia = 'MXIM-AV-1-12-188';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-12-357' where codigo_de_referencia = 'MXIM-AV-1-12-188-3';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-12-358' where codigo_de_referencia = 'MXIM-AV-1-12-188-4';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-12-359' where codigo_de_referencia = 'MXIM-AV-1-12-188-5';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-12-360' where codigo_de_referencia = 'MXIM-AV-1-12-188-6';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-12-361' where codigo_de_referencia = 'MXIM-AV-1-12-188-7';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-12-362' where codigo_de_referencia = 'MXIM-AV-1-12-188-8';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-12-363' where codigo_de_referencia = 'MXIM-AV-1-12-188-9';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-12-364' where codigo_de_referencia = 'MXIM-AV-1-12-188-10';
+# Quedará libre temporalmente el codigo_de_referencia = 'MXIM-AV-1-12-188'
+# --------------------
+#SELECT codigo_de_referencia, titulo_propio FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia = 'MXIM-AV-1-11-53-1';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-11-218' where codigo_de_referencia = 'MXIM-AV-1-11-53-1';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-11-219' where codigo_de_referencia = 'MXIM-AV-1-11-53-2';
