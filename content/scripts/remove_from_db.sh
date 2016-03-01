@@ -1,5 +1,6 @@
 #!/bin/bash
 # This script must be executed in /content/scripts
+# Create single (content/documentary) backup information to CSV files in directory ../removed/
 
 # Check if exists codigo_de_referencia as argument
 if [[ ! "$#" == 1 ]]; then
