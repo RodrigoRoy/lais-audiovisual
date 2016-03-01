@@ -1,5 +1,6 @@
 #!/bin/bash
 # This script must be executed in /content/scripts
+# Export database information to CSV files in directory ../backup/
 
 # First check if directory named backup/ exists, if not then create it
 cd ..
