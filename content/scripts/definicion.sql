@@ -175,3 +175,11 @@ CREATE TABLE IF NOT EXISTS usuarios(
   
   PRIMARY KEY(Id)
 );
+
+# Crear una tabla con el nombre del documental borrado, cuándo y por quién
+CREATE TABLE IF NOT EXISTS borrados(
+	codigo_de_referencia VARCHAR(20),
+	titulo_propio VARCHAR(150),
+	fecha TIMESTAMP,
+	usuario VARCHAR(255)
+);

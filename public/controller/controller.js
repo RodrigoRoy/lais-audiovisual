@@ -875,9 +875,11 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
     
     // Acción del icono para eliminar/borrar
     $scope.eliminar = function(id){
+    	var user = $cookieStore.get('nombre'); // nombre del usuario que realiza el borrado
     	$http.post('php/manejoBD.php?action=borrar',
 		{
-			'codigo_de_referencia': id
+			'codigo_de_referencia': id,
+			'user': user ? user : ''
 		}).
 		success(function(data, status, headers, config) {
 			alert("Registro eliminado");

@@ -346,14 +346,30 @@ function actualizar(){
 
 function borrar(){
     $datos = json_decode(file_get_contents("php://input"));
-    
-    $sql = "DELETE FROM area_de_identificacion WHERE codigo_de_referencia = '" . $datos->codigo_de_referencia . "';";
+
     try{
+        // Obtener el titulo del material que se desea borrar
+        $titulo = '';
+        $select = "SELECT titulo_propio FROM area_de_identificacion WHERE codigo_de_referencia = '" . $datos->codigo_de_referencia . "';";
+        $stmt = $GLOBALS['conn']->prepare($select);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        if($stmt->rowCount() == 1){
+            $titulo = $stmt->fetch()["titulo_propio"];
+        }
+
+        // El borrado actual se lleva a cabo
+        $sql = "DELETE FROM area_de_identificacion WHERE codigo_de_referencia = '" . $datos->codigo_de_referencia . "';";
+        $GLOBALS['conn']->exec($sql);
+
+        // Si fué posible borrar, guardar el codigo y nombre del documental así como la fecha y quién lo realizó
+        $sql = "INSERT INTO borrados VALUES('$datos->codigo_de_referencia', '$titulo', now(), '$datos->user');";
         $GLOBALS['conn']->exec($sql);
     }
     catch(PDOException $e){
         echo $e->getMessage();
     }
+    
     $GLOBALS['conn'] = null;
 }
 
@@ -659,12 +675,19 @@ function cmpFecha($item1, $item2){
 // Búsqueda que incluye el rubro en donde se encontró la coincidencia
 // El parámetro $permiso se utiliza para restringir la búsqueda dentro del area_de_decripcion
 function busqueda2($query, $permiso){
-    $arrayQuery = array();
-    array_push($arrayQuery, $query);
+    // lista de palabras a ignorar:
+    $exclude_words = array("el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "a el", "al", "de el", "del", "a", "ante", "bajo", "con", "contra", "de", "desde", "durante", "en", "entre", "hacia", "hasta", "mediante", "para", "por", "según", "sin", "sobre", "tras", "este", "ese", "aquel", "esta", "esa", "aquella", "estos", "esos", "aquellos", "estas", "esas", "aquellas", "esto", "eso", "aquello");
+    //$arrayQuery = array();
+    //array_push($arrayQuery, $query);
     ##### desscomentar/comentar 2 lineas anteriores y descomentar/comentar 3 lineas posteriores para cambiar las keywords a buscar
-    //$arrayQuery = explode(' ', $query); // Descomponer el texto de búsqueda en palabras individuales
+    $arrayQuery = explode(' ', $query); // Descomponer el texto de búsqueda en palabras individuales
     //if(sizeof($arrayQuery) > 1)
         //array_push($arrayQuery, $query);
+    foreach ($exclude_words as $word) { // si la consulta ($query) tiene palabras a ignorar, se eliminan
+        if (in_array($word, $arrayQuery)) {
+            unset($arrayQuery[array_search($word, $arrayQuery)]);
+        }
+    }
     $totalResults = array(); // Arreglo para almacenar los códigos de los registros con ocurrencias de las palabras
     $tablas = array('area_de_identificacion', 'area_de_contexto', 'area_de_contenido_y_estructura', 'area_de_condiciones_de_acceso', 'area_de_documentacion_asociada', 'area_de_notas', 'area_de_descripcion');
     if ($permiso == 0) // Si la consulta no tiene permisos suficientes, no buscar dentro del area_de_descripcion
