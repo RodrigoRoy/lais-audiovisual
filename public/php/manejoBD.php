@@ -676,7 +676,7 @@ function cmpFecha($item1, $item2){
 // El parámetro $permiso se utiliza para restringir la búsqueda dentro del area_de_decripcion
 function busqueda2($query, $permiso){
     // lista de palabras a ignorar:
-    $exclude_words = array("el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "a el", "al", "de el", "del", "a", "ante", "bajo", "con", "contra", "de", "desde", "durante", "en", "entre", "hacia", "hasta", "mediante", "para", "por", "según", "sin", "sobre", "tras", "este", "ese", "aquel", "esta", "esa", "aquella", "estos", "esos", "aquellos", "estas", "esas", "aquellas", "esto", "eso", "aquello");
+    $exclude_words = array("el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "a el", "al", "de el", "del", "a", "ante", "bajo", "con", "contra", "de", "desde", "durante", "en", "entre", "hacia", "hasta", "mediante", "para", "por", "según", "sin", "sobre", "tras", "este", "ese", "aquel", "esta", "esa", "aquella", "estos", "esos", "aquellos", "estas", "esas", "aquellas", "esto", "eso", "aquello", "mi", "mis", "tu", "tus", "su", "sus");
     //$arrayQuery = array();
     //array_push($arrayQuery, $query);
     ##### desscomentar/comentar 2 lineas anteriores y descomentar/comentar 3 lineas posteriores para cambiar las keywords a buscar

@@ -59,7 +59,7 @@
     <div id="seccionPortadas" infinite-scroll="firstLoad()" infinite-scroll-disabled='busy' infinite-scroll-distance="4">
       <div id="audiovisual">
         <a ng-repeat="archivo in archivos" data-toggle="modal" href="" data-target="#modalInfo" class="portadas">
-          <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas/sin_imagen_3.jpg')}}">
+          <img ng-cloak class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}">
           <p class="text-rigth">
               <strong>{{recortarTitulo(archivo.titulo_adecuado, 32)}}</strong>
               <br>
@@ -113,7 +113,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-xs-12 col-md-4 col-lg-4">
-                <img src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas/sin_imagen_3.jpg')}}" class="img-responsive" id="imgPortada">
+                <img ng-src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas2/' + allInfo.identificacion.codigo_de_referencia + '.jpg')}}" class="img-responsive" id="imgPortada">
               </div>
               <div class="col-xs-12 col-md-8 col-lg-8">
                 <p><span class="titularModalContent">Sinopsis</span></p>
