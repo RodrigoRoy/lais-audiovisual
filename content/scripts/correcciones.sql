@@ -42,3 +42,23 @@ update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-11-219' wher
 # --------------------
 update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-4-7' where codigo_de_referencia = 'MXIM-AV-1-12-338';
 # Quedará libre temporalmente el codigo_de_referencia = 'MXIM-AV-1-12-338'
+
+# Borrar portadas temporales. Ahora son reemplazadas por imagenes generadas en Processing
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-6-13';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-6-9';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-7-9';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-9-17';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-11-129';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-11-107';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-11-134';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-11-206';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-233';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-234';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-235';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-236';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-237';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-105';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-106';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-287';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-181';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-290';
