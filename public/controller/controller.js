@@ -468,6 +468,41 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 		});
 	};
 
+	// Obtener toda la información del siguiente/anterior audiovisual de la lista $scope.archivos.
+	// Recibe el código de identificación del audiovisual actual y la dirección que se desea: "next" o "prev".
+	$scope.getAllInfoNear = function(codigoId, direction){
+		var nextID = ''; // El codigo_de_referencia del siguiente/anterior documental
+		if(direction.toLowerCase() === 'next' || direction === undefined){ // Caso para encontrar el siguiente
+			for(var i in $scope.archivos){ // Buscar en los archivos disponibles
+				if($scope.archivos[i].codigo_de_referencia === codigoId && i !== $scope.archivos.length){ // Si encontramos el codigo actual
+					nextID = $scope.archivos[parseInt(i)+1].codigo_de_referencia; // Hemos encontrado el código buscado
+					break;
+				}
+			}
+		}
+		else if(direction.toLowerCase() === 'prev'){ // Caso para encontrar el anterior
+			for(var i in $scope.archivos){ // Buscar en los archivos disponibles
+				if($scope.archivos[i].codigo_de_referencia === codigoId && i !== 0){ // Si encontramos el codigo actual
+					nextID = $scope.archivos[parseInt(i)-1].codigo_de_referencia; // Hemos encontrado el código buscado
+					break;
+				}
+			}
+		}
+		//$scope.hideInfo = false; //Inicializar el botón de ver más para que siempre este visible
+		$http.get('php/manejoBD.php?action=obtenerXAreas&id=' + nextID).
+    	success(function(data) {
+    		$scope.allInfo = data;
+    		// Limpiar algunos campos:
+    		$scope.preprocesamientoUnidad();
+    		getImgSize('imgs/Portadas/' + $scope.allInfo.adicional.imagen); // Llamada asincrona para obtener el ancho y largo original ($scope.imgActualWidth, $scope.imgActualHeight)
+    		//console.log($scope.allInfo);
+    	}).
+    	error(function(data, status, headers, config) {
+			// called asynchronously if an error occurs or server returns response with an error status.
+			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
+		});
+	};
+
 	// ########## BUSQUEDAS, ORDENAMIENTO Y FILTRADO ##########
 
 	// Función que actualiza la propiedad "show" del arreglo $scope.archivos que contiene los registros de la búsqueda que se muestran

@@ -52,6 +52,33 @@
   padding-left: 6%;
   padding-right: 6%;
 }
+
+/*Links "Anterior"/"Siguiente" dentro del modal*/
+a.navDocumental{
+  float: left;
+  text-align: left;
+  margin-right: 2em;
+}
+a.navDocumental:link{
+  color: #C2C2C2;
+  text-decoration: none;
+}
+a.navDocumental:visited{
+  color: #C2C2C2;
+  text-decoration: none;
+}
+a.navDocumental:hover{
+  color: #C2C2C2;
+  text-decoration: underline;
+}
+a.navDocumental:active{
+  color: #C2C2C2;
+  text-decoration: none;
+}
+/*Espaciado horizontal para no pegar los textos "Anterior"/"Siguiente"*/
+a.navSpacing{
+  margin-right: 2em;
+}
 </style>
 
 <body>
@@ -85,7 +112,7 @@
       </div>
     </div>
 
-    <center><h2 ng-show="archivos.length === 0">No hay coincidencias en la base de datos. Intente otra búsqueda.</h2></center>
+    <center><div class="alert alert-warning" role="alert" ng-show="archivos.length === 0" ng-cloak><strong>No hay coincidencias en la base de datos.</strong> Intente otra búsqueda.</div></center>
     
     <div id="seccionPortadas">
       <div id="audiovisual">
@@ -289,6 +316,8 @@
         </div> <!--modal-body-->
 
         <div class="modal-footer">
+          <a href="" ng-show="allInfo.identificacion.codigo_de_referencia !== archivos[0].codigo_de_referencia" ng-click="getAllInfoNear(allInfo.identificacion.codigo_de_referencia, 'prev')" class="navDocumental navSpacing"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Anterior</a>
+          <a href="" ng-show="allInfo.identificacion.codigo_de_referencia !== archivos[archivos.length - 1].codigo_de_referencia" ng-click="getAllInfoNear(allInfo.identificacion.codigo_de_referencia, 'next')" class="navDocumental">Siguiente <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
           <button type="button" class="btn btn-default" ng-click="openPDF()">Ver en PDF</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
         </div>
