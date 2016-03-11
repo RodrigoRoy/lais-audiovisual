@@ -112,7 +112,8 @@ a.navSpacing{
       </div>
     </div>
 
-    <center><div class="alert alert-warning" role="alert" ng-show="archivos.length === 0" ng-cloak><strong>No hay coincidencias en la base de datos.</strong> Intente otra búsqueda.</div></center>
+    <span ng-if="loading"><center><i class="fa fa-spinner fa-pulse fa-2x"></i></center></span>
+    <center ng-if="!loading"><div class="alert alert-warning" role="alert" ng-show="archivos.length === 0" ng-cloak><strong>No hay coincidencias en la base de datos.</strong> Intente otra búsqueda.</div></center>
     
     <div id="seccionPortadas">
       <div id="audiovisual">

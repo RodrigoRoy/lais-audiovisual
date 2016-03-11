@@ -12,7 +12,7 @@ lais.config(function ($routeProvider, $locationProvider){
 		.when("/acercade",{
 			templateUrl: "templates/acerca_del_sitio.html"	
 		})
-		.when("/publicaciones_y_vínculos",{
+		.when("/publicaciones",{
 			templateUrl: "templates/publicaciones_y_vinculos.html"
 		})
 		.when("/decadas",{
@@ -380,6 +380,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
     $scope.predicate = "fecha"; // Ordenamiento por "fecha" (año)
 	$scope.reverse = true; // Orden ascendente/descendente del ordenamiento
 	var articulos = ["el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "al", "del"]; // Lista de artículos en español (útil para corregir los nombres)
+	$scope.loading = true;
 
     // ########## CONEXIONES CON BASE DE DATOS ##########
 
@@ -402,6 +403,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 				for (var i in $scope.uniqueNames){
 					$scope.inputQuery.push({name: DecadaService.encabezados[$scope.uniqueNames[i]], ticked:true});
 				}
+				$scope.loading = false;
 			});
 	}
 
