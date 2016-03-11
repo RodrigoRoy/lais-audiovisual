@@ -47,6 +47,9 @@ switch ($_GET['action']) {
     case 'getAbsolutelyAll':
         getAbsolutelyAll();
         break;
+    case 'getSinopsis':
+        getSinopsis($_GET['howMany'],$_GET['offset']);
+        break;
     case 'mostrarCaratulaScroll':
         mostrarCaratulaScroll($_GET['codigo'],$_GET['howMany'],$_GET['offset']);
         break;
@@ -578,8 +581,19 @@ function obtenerArea($id){
     $GLOBALS['conn'] = null; // Cerrar conexion
 }
 
+# Obtener toda la información de la base de datos
 function getAbsolutelyAll(){
     $select = "SELECT * FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    print_r(json_encode($data));
+    $GLOBALS['conn'] = null;
+}
+
+# Obtener sinopsis (de manera ordenada). El parámetro $howMany indica la cantidad de registros por devolver y el parámetro $offset indica el índice a partir del cual se comienzan a obtener.
+function getSinopsis($howMany, $offset){
+    $select = "SELECT claves.codigo_de_referencia, claves.numeracion, CAST(SUBSTRING_INDEX(decadas,'-',-1) AS UNSIGNED) AS codigo, titulo_propio, sinopsis FROM (SELECT SUBSTRING_INDEX(codigo_de_referencia,'-',4) AS decadas, codigo_de_referencia, CAST(SUBSTRING_INDEX(codigo_de_referencia,'-',-1) AS UNSIGNED) AS numeracion FROM area_de_identificacion) AS claves NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_identificacion ORDER BY codigo, numeracion ASC LIMIT $offset, $howMany;";
     $stmt = $GLOBALS['conn']->prepare($select);
     $stmt->execute();
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -38,8 +38,10 @@ DROP TABLE usuarios;
 # Borrar toda la base de datos
 DROP DATABASE IF EXISTS Audiovisuales;
 
-# Mostrar todas las bases de datos existentes
-#SHOW DATABASES;
+# Mostrar información del diseño de la base, de las tablas y columnas
+SHOW DATABASES;
+SHOW TABLES FROM Audiovisuales;
+SHOW COLUMNS FROM area_de_condiciones_de_acceso;
 
 # Borrar una década
 DELETE FROM area_de_identificacion WHERE codigo_de_referencia LIKE 'MXIM-AV-1-13%';
@@ -262,11 +264,17 @@ SELECT codigo_de_referencia, titulo_propio
 SELECT codigo_de_referencia, titulo_propio
 	FROM area_de_identificacion
     WHERE codigo_de_referencia LIKE 'MXIM-AV-1-12-%' AND fecha = '';
-
-# Mostrar información del diseño de la base, de las tablas y columnas
-SHOW DATABASES;
-SHOW TABLES FROM Audiovisuales;
-SHOW COLUMNS FROM area_de_condiciones_de_acceso;
+    
+# Obtener k (168) sinopsis desde el índice i (0) de manera ordenada (tanto como es posible) por codigo_de_referencia
+SELECT subconsulta.codigo_de_referencia, subconsulta.titulo_propio, subconsulta.sinopsis
+FROM
+(SELECT claves.codigo_de_referencia, claves.numeracion, CAST(SUBSTRING_INDEX(decadas,'-',-1) AS UNSIGNED) AS codigo, titulo_propio, sinopsis
+	FROM (SELECT SUBSTRING_INDEX(codigo_de_referencia,'-',4) AS decadas, codigo_de_referencia, CAST(SUBSTRING_INDEX(codigo_de_referencia,'-',-1) AS UNSIGNED) AS numeracion
+		FROM area_de_identificacion) AS claves
+        NATURAL JOIN area_de_contenido_y_estructura
+        NATURAL JOIN area_de_identificacion
+	ORDER BY codigo, numeracion ASC
+    LIMIT 0 , 168)subconsulta;
 
 # Modificar la longitud de un campo y el valor por defecto
 ALTER TABLE area_de_condiciones_de_acceso
