@@ -359,7 +359,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 	$scope.allInfo = []; // Toda la información del registro seleccionado (se inicializa más adelante)
 	$scope.allInfoCopy = []; // Copia de los datos originales (ver $scope.preprocesamientoUnidad())
 	$scope.busy = false;
-	var howMany = 32; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
+	var howMany = 30; // Cantidad de audiovisuales que se obtienen de la base de datos cuando es necesario
 	$scope.errores = false; //Muetra el error de confirmación de contraseña para borrar un registro
 	//$scope.uniqueName son todos los rubros que coinciden con la búsqueda
 	$scope.predicate = 'fecha'; // Predicado o propiedad que se utilizará para el ordenamiento

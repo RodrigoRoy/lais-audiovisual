@@ -120,9 +120,9 @@ a.navSpacing{
         <a ng-repeat="archivo in archivos | orderBy:predicate:reverse" data-toggle="modal" href="" data-target="#modalInfo" class="portadas portadasBusqueda" ng-show="archivo.show">
           <img class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}"> <!-- data-trigger="hover" data-title="Aparece en:" data-content-template="popover-info.html" data-placement="top" bs-popover -->
           <p class="text-rigth">
-              {{recortarTitulo(archivo.titulo_visible, 32)}}
+              {{recortarTitulo(archivo.titulo_adecuado, 32)}}
               <br>
-              <br ng-show="archivo.titulo_visible.length <= 21">
+              <br ng-show="archivo.titulo_adecuado.length <= 21">
               <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
           </p>
         </a>

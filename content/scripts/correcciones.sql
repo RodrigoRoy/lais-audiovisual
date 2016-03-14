@@ -62,3 +62,6 @@ update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-
 update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-287';
 update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-181';
 update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-12-290';
+
+# Copiar una portada a otro documental
+update informacion_adicional set imagen = 'MXIM-AV-1-12-21.jpg' where codigo_de_referencia = 'MXIM-AV-1-12-253';
