@@ -1,0 +1,178 @@
+.btn-detalles{
+  background-color: #254559;
+  border-color: #112432;
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    color: #fff;
+    background-color: #112332;
+}
+.nav-pills>li>a:hover{
+  background-color: #324250;
+}
+.nav-pills li a{
+  color: #C2C2C2;
+}
+/*.titularResultados {
+  color: white;
+  margin-left:4.6%;
+}
+.tituloOrdenar {
+  color:#f0fff0;
+}*/
+.titularModalContent{
+  font-weight: bold;
+  font-size: 1.17em;
+}
+.modal-content{
+  background-color: rgba(25, 45, 59, 0.95);
+  color: #C2C2C2;
+}
+.contenedorInfo {
+  background-color: rgba(42, 59, 71, 0.6);
+}
+/*.spanRubro {
+  background-color: #0D1F2B;
+  color: #C2C2C2;
+}*/
+
+/*.tituloPrincipal{
+  width:175px; 
+  height:40px; 
+  background-color:white;
+}*/
+
+/*Links "Anterior"/"Siguiente" dentro del modal*/
+a.navDocumental{
+  float: left;
+  text-align: left;
+  margin-right: 2em;
+}
+a.navDocumental:link{
+  color: #C2C2C2;
+  text-decoration: none;
+}
+a.navDocumental:visited{
+  color: #C2C2C2;
+  text-decoration: none;
+}
+a.navDocumental:hover{
+  color: #C2C2C2;
+  text-decoration: underline;
+}
+a.navDocumental:active{
+  color: #C2C2C2;
+  text-decoration: none;
+}
+/*Espaciado horizontal para no pegar los textos "Anterior"/"Siguiente"*/
+a.navSpacing{
+  margin-right: 2em;
+}
+
+
+/*Nuevas reglas para cuadricula*/
+
+.thumbnail{
+  background-color: rgba(0,0,0,0.1);
+  color: #f0fff0;
+  /*border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0,0,0,0.5);*/
+  border: 1px solid rgba(0,0,0,0.5);
+}
+.thumbnail:hover{
+  margin-top: -10px;
+}
+.thumbnail a{
+  color: #f0fff0;
+}
+/*Basado en img-thumbnail de Bootstrap (el cambio importante es en "display" como lo indica .img-center)*/
+.my-img-thumbanil{
+  display: block;
+  padding: 4px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  webkit-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+.img-container {
+  height: 300px;
+  background-color: rgba(0,0,0,0.1);
+
+  border: 1px solid rgba(0,0,0,0.3);
+
+  /*Tip para evitar imagenes "blurry" al alinear verticalmente: */
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+/*Imagen que mantiene aspect ratio*/
+img{
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+.img-center{
+  /*Alineación horizontal: */
+  margin: auto;
+  /*Alineación vertical: */
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  /*Esto sobreescribe "display: inline block;" de Bootstrap img-thumbnail que evita centrar imagen:*/
+  display: block;
+}
+/*Titulo "encuadrado" en div: */
+.title-container{
+  width: 100%;
+  height: 3em;
+  /*overflow: hidden;
+  word-wrap: break-word;*/
+}
+.title-container p{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+}
+/*Configuración de texto para moviles (agrandar texto):*/
+.title-on-mobile{
+  font-size: 1.2em;
+}
+.no-overflow{
+  /*white-space: nowrap;*/
+  overflow: hidden;
+  /*text-overflow: ellipsis;*/
+  word-wrap: break-word;
+}
+/*Permite modificar el tamaño por default del container de Bootstrap*/
+.container-small, .container-large {
+    max-width: 100%;
+}
+@media (min-width: 768px) {
+    .container-small {
+        width: 300px;
+    }
+    .container-large {
+        width: 970px;
+    }
+}
+@media (min-width: 992px) {
+    .container-small {
+        width: 500px;
+    }
+    .container-large {
+        width: 1170px;
+    }
+}
+@media (min-width: 1200px) {
+    .container-small {
+        width: 700px;
+    }
+    .container-large {
+        width: 1500px;
+    }
+}
