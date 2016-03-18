@@ -1,5 +1,5 @@
 // La dependencia ngFileUpload sirve para subir imagenes (https://github.com/danialfarid/ng-file-upload)
-var lais = angular.module('lais',['ngRoute','ngCookies', 'ngMessages', 'ngAnimate', 'ngSanitize', 'ngFileUpload','infinite-scroll', 'mgcrea.ngStrap', 'isteven-multi-select']);
+var lais = angular.module('lais',['ngRoute','ngCookies', 'ngMessages', 'ngAnimate', 'ngSanitize', 'ngFileUpload','infinite-scroll', 'mgcrea.ngStrap', 'isteven-multi-select', 'ui.bootstrap']);
 
 lais.config(function ($routeProvider, $locationProvider){
 	$routeProvider
