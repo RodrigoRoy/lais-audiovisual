@@ -86,7 +86,7 @@ a.navSpacing{
   color: #f0fff0;
 }
 /*Basado en img-thumbnail de Bootstrap (el cambio importante es en "display" como lo indica .img-center)*/
-.my-img-thumbanil{
+.my-img-thumbnail{
   display: block;
   padding: 4px;
   background-color: #fff;
