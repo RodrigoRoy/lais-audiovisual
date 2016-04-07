@@ -1,5 +1,26 @@
 <link rel="stylesheet" type="text/css" href="css/background.css" />
+<link rel="stylesheet" type="text/css" href="css/grid-portadas.css" />
+
 <style>
+* {
+  color: #f0fff0;
+}
+.affix {
+  top: 0px;
+  width: 100%;
+}
+
+.affix-top {
+  width: 100%;
+}
+
+.affix-bottom {
+  position: absolute;
+  width: 100%;  
+}
+
+
+
 .btn-detalles{
   background-color: #254559;
   border-color: #112432;
@@ -83,17 +104,68 @@ a.navSpacing{
 
 <body>
   <br><br><br>
-  <div class="container-fluid">
+  <div class="container container-large">
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12">
-        <div id="decadas">
-          <h2 class="titularResultados">Resultados de la búsqueda <em>"{{query}}"</em> <small>({{archivos.length}} resultados, {{visibles}} visibles)</small></h2>
-        </div>
+      <div class="col-xs-12">
+        <h2>Colección de documentales en video</h2>
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-xs-2">
+        <div data-spy="affix">
+          Tipos de resultados de la búsqueda
+          <ul class="list-inline">
+            <li><button class="btn btn-default btn-xs" type="button" ng-click="setAllFilters(true)"> Seleccionar todos</button></li>
+            <li><button class="btn btn-default btn-xs" type="button" ng-click="setAllFilters(false)"> Limpiar selección</button></li>
+          </ul>
+
+          <hr>
+
+          <ul class="list-unstyled" data-spy="affix" data-offset-top="50">
+            <li ng-repeat="rubro in inputQuery">
+              <input type="checkbox" ng-model="rubro.ticked" ng-change="updateView()"> {{rubro.total}} documental<span ng-if="rubro.total > 1">es</span> en "<strong>{{rubro.name}}</strong>" dentro del área de <em>{{rubro.area}}</em>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-xs-10">
+        <span style="font-size: large;">Búsqueda de <em>"{{query}}"</em></span>
+        <br>
+        <span style="font-size: larger;">{{archivos.length}} resultados ({{visibles}} visibles)</span>
+
+        <span ng-if="loading"><center><i class="fa fa-spinner fa-pulse fa-2x"></i></center></span>
+        <center ng-if="!loading"><div class="alert alert-warning" role="alert" ng-show="archivos.length === 0" ng-cloak><strong>No hay coincidencias en la base de datos.</strong> Intente otra búsqueda.</div></center>
+        
+        <div id="seccionPortadas">
+          <div id="audiovisual">
+            <a ng-repeat="archivo in archivos" data-toggle="modal" href="" data-target="#modalInfo" class="portadas portadasBusqueda" ng-show="archivo.show">
+              <img class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}"> <!-- data-trigger="hover" data-title="Aparece en:" data-content-template="popover-info.html" data-placement="top" bs-popover -->
+              <p class="text-rigth">
+                  {{recortarTitulo(archivo.titulo_adecuado, 32)}}
+                  <br>
+                  <br ng-show="archivo.titulo_adecuado.length <= 21">
+                  <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
+              </p>
+            </a>
+            <!--<script type="text/ng-template" id="popover-info.html">
+              <h5 ng-repeat="rubro in getRubros(archivo)"><span class="label label-primary">{{rubro}}</span> </h5>        
+            </script>-->
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col-xs-12">
+        <pre>inputQuery:</pre>
+        <pre>{{inputQuery | json}}</pre>
+        <pre>archivos:</pre>
+        <pre>{{archivos | json}}</pre>
+      </div> -->
+    </div>
+
     <!-- Filtrar y ordenar resultados -->
-    <div class="row search-options" ng-show="archivos.length != 0">
+    <!-- <div class="row search-options" ng-show="archivos.length != 0">
       <div class="col-md-8">
         <h3><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filtrar por:</h3>
         <div isteven-multi-select input-model="inputQuery" output-model="outputQuery" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" max-height="200px" max-labels="10" helper-elements="all none" translation="localLang" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
@@ -110,27 +182,7 @@ a.navSpacing{
           </select>
         </div>
       </div>
-    </div>
-
-    <span ng-if="loading"><center><i class="fa fa-spinner fa-pulse fa-2x"></i></center></span>
-    <center ng-if="!loading"><div class="alert alert-warning" role="alert" ng-show="archivos.length === 0" ng-cloak><strong>No hay coincidencias en la base de datos.</strong> Intente otra búsqueda.</div></center>
-    
-    <div id="seccionPortadas">
-      <div id="audiovisual">
-        <a ng-repeat="archivo in archivos | orderBy:predicate:reverse" data-toggle="modal" href="" data-target="#modalInfo" class="portadas portadasBusqueda" ng-show="archivo.show">
-          <img class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}"> <!-- data-trigger="hover" data-title="Aparece en:" data-content-template="popover-info.html" data-placement="top" bs-popover -->
-          <p class="text-rigth">
-              {{recortarTitulo(archivo.titulo_adecuado, 32)}}
-              <br>
-              <br ng-show="archivo.titulo_adecuado.length <= 21">
-              <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
-          </p>
-        </a>
-        <!--<script type="text/ng-template" id="popover-info.html">
-          <h5 ng-repeat="rubro in getRubros(archivo)"><span class="label label-primary">{{rubro}}</span> </h5>        
-        </script>-->
-      </div>
-    </div>
+    </div> -->
   </div>
 
   <!--Modal que muestra la información de los audiovisuales -->
@@ -144,9 +196,9 @@ a.navSpacing{
             <a ng-show="sesion" class="iconEdicion" href="" ng-click="editar(allInfo.identificacion.codigo_de_referencia)" >
               <span class="glyphicon glyphicon-edit"></span>
             </a>
-            <a type="button" data-unique="1" data-auto-close="1" data-placement="right" data-content-template="popover-tmpl.html" data-title="Eliminar registro" bs-popover ng-show="sesion" class="iconEdicion" href="">
+            <!-- <a type="button" data-unique="1" data-auto-close="1" data-placement="right" data-content-template="popover-tmpl.html" data-title="Eliminar registro" bs-popover ng-show="sesion" class="iconEdicion" href="">
               <span class="glyphicon glyphicon-remove-circle"></span>
-            </a>
+            </a> -->
             <script type="text/ng-template" id="popover-tmpl.html">
               <form>
                     <div class="form-group">

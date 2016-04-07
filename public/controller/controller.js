@@ -221,6 +221,17 @@ lais.service('DecadaService', function($http){
 		'22':"2100-2109"
 	};
 
+	this.areas = {
+		'identificacion': 'identificación',
+		'contexto': 'contexto',
+		'contenido': 'contenido y estructura',
+		'condiciones':'condiciones de acceso',
+		'documentacion': 'documentación asociada',
+		'notas': 'notas',
+		'descripcion': 'control de la descripcion',
+		'adicional': 'información adicional'
+	};
+
 	// Traducción de los encabezados (nombre_en_base_datos -> Nombre para leer)
 	this.encabezados = {
 		'codigo_de_referencia': 'Código de referencia',
@@ -400,9 +411,22 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 					//$scope.archivos[i]['titulo_propio'] = $scope.archivos[i]['titulo_propio'].trim();
 				}
 				$scope.inputQuery = []; // Objeto para mostrar los objetos multiselect para filtar la busqueda
-				for (var i in $scope.uniqueNames){
-					$scope.inputQuery.push({name: DecadaService.encabezados[$scope.uniqueNames[i]], ticked:true});
+				for(var i in $scope.uniqueNames){
+					$scope.inputQuery.push({name: DecadaService.encabezados[$scope.uniqueNames[i]], ticked: true, total: 0, area: '', originalName: $scope.uniqueNames[i]});
 				}
+				
+				for(var key in $scope.archivos){
+					var rubrosList = $scope.getRubros($scope.archivos[key]); // Arreglo que solo contiene los rubros (sin repeticiones)
+					for(var i in rubrosList)
+						for(var j in $scope.inputQuery)
+							if($scope.inputQuery[j]['name'] === rubrosList[i]) // Si aparece el rubro del registro en inputQuery
+								$scope.inputQuery[j]['total']++;
+				}
+
+				for(var i in $scope.inputQuery){
+					$scope.inputQuery[i]['area'] = DecadaService.areas[$scope.searchArea($scope.inputQuery[i]['originalName'])];
+				}
+
 				$scope.loading = false;
 			});
 	}
@@ -532,6 +556,30 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 		}
 		$scope.visibles = contador;
 	};
+	
+	// TODO: Puede optimizarse
+	$scope.updateView = function(){
+		var contador = 0;
+		for(var key in $scope.archivos){
+			var rubrosList = $scope.getRubros($scope.archivos[key]); // Arreglo que solo contiene los rubros (sin repeticiones)
+			//console.log(rubrosList);
+			loop:
+			for(var i in rubrosList)
+				for(var j in $scope.inputQuery){
+					console.log($scope.archivos[key]['titulo_propio'], $scope.inputQuery[j]['name'], "===", rubrosList[i], "?:", $scope.inputQuery[j]['name'] === rubrosList[i]);
+					if(($scope.inputQuery[j]['ticked']) && ($scope.inputQuery[j]['name'] === rubrosList[i])){ // Si aparece el rubro del registro en inputQuery
+						$scope.archivos[key]['show'] = true;
+						contador++;
+						break loop; // Para evitar reasignar a falso si el siguiente rubro no está contenido
+					}else{
+						$scope.archivos[key]['show'] = false;
+					}
+				}
+		}
+		$scope.visibles = contador;
+
+		//$scope.archivos[0]['show'] = false;
+	};
 
 	// Auxiliar que devuelve un arreglo de los rubros (campos) donde un registro tuvo coincidencias de búsqueda (sin repeticiones).
 	// Evita lidiar con arreglos anidados dentro de $scope.archivos (para el caso de la propiedad "rubros")
@@ -571,6 +619,22 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 		}
 		$scope.visibles = $scope.archivos.length;
 	};
+
+	$scope.setAllFilters = function(bool){
+		for(var i in $scope.inputQuery){
+			$scope.inputQuery[i]['ticked'] = bool;
+		}
+
+		for(var i in $scope.archivos){
+			$scope.archivos[i].show = bool;
+		}
+		
+		if(bool)
+			$scope.visibles = $scope.archivos.length;
+		else
+			$scope.visibles = 0;
+	};
+
 
 	// Recibe el nombre de la propiedad o predicado que se utilizará para el ordenamiento de los registros (por ejemplo: 'fecha')
 	// Revierte el orden ascendente/descendente en caso de ser la misma propiedad o predicado (uso con la directiva orderBy).
