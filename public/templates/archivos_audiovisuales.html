@@ -1,23 +1,234 @@
 <link rel="stylesheet" type="text/css" href="css/background.css" />
+<link rel="stylesheet" type="text/css" href="css/grid-portadas.css" />
+<style>
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-5ths {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .col-sm-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+* {
+  color: #f0fff0;
+}
+
+.nav>li>a {
+  color: #f0fff0;
+}
+
+.nav>li>a:hover {
+  color: #555;
+}
+</style>
+
 <br><br><br>
 <body>
-	<div class="container-fluid">
-		<div class="col-xs-12 col-sm-12 col-md-12" class="row">
-			<div id="decadas">
-				<h1>Décadas</h1>
-			</div>
-		</div>
+	<!-- TODO: Continuar con grupos documentales (tabs). https://angular-ui.github.io/bootstrap/#/tabs -->
+	<div class="container container-large">
 		<div class="row">
-			<div class="col-xs-12 col-sm-4 col-md-3" ng-repeat="decada in decadas">
-				<a href="#/decadas/{{decada}}" class="thumbnail portadasDecadas">
-			    	<img ng-cloak class="img-rounded img-responsive" id="coverDecades" ng-src="imgs/Decadas/{{decada}}.png">
-			    </a>
+			<div class="col-xs-12">
+        <h1>Colección de documentales en video</h1>
+        <h3>Acervo Audiovisual del Laboratorio Audiovisual de Investigación Social (LAIS)</h3>
+				<uib-tabset>
+					<uib-tab index="0" heading="Grupos documentales">
+						<div class="row">
+              <div class="col-xs-12">
+                <h3>Por década</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div ng-repeat="decada in decadas">
+                <div ng-if="$index % 5 == 0" class="clearfix"></div>
+                
+                <div class="col-xs-12 col-sm-5ths">
+                  <div class="thumbnail">
+                    <a href="#/decadas/{{decada}}">
+                      <img class="img-rounded" ng-src="imgs/Decadas/{{decada}}.png">
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+					</uib-tab>
+
+					<uib-tab index="1" heading="Ficha de la colección">
+						<h4>Área de identificación</h4>
+            <table class="table table-condensed">
+              <tbody>
+                <tr>
+                  <td class="col-xs-2">Código de referencia</td>
+                  <td class="col-xs-10">El código asignado a la Colección es: MXIM-AV <br>
+                    MX = México <br>
+                    IM = Instituto Mora <br>
+                    AV = Materiales audiovisuales</td>
+                </tr>
+                <tr>
+                  <td class="col-xs-2">Título</td>
+                  <td class="col-xs-10">Colección de Documentales en Video</td>
+                </tr>
+                <tr>
+                  <td class="col-xs-2">País</td>
+                  <td class="col-xs-10">México</td>
+                </tr>
+                <tr>
+                  <td class="col-xs-2">Fecha</td>
+                  <td class="col-xs-10">1995 a la fecha</td>
+                </tr>
+                <tr>
+                  <td class="col-xs-2">Nivel de descripción</td>
+                  <td class="col-xs-10">Colección</td>
+                </tr>
+                <tr>
+                  <td class="col-xs-2">Volumen y soporte</td>
+                  <td class="col-xs-10">840 títulos en DVD</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4>Área de contexto</h4>
+            <table class="table table-condensed">
+              <tbody>
+                <tr>
+                  <td class="col-xs-2">Productor</td>
+                  <td class="col-xs-10">LAIS, Laboratorio Audiovisual de Investigación Social del Instituto Mora, fundado como proyecto CONACyT en 2002</td>
+                </tr>
+                <tr>
+                  <td class="col-xs-2">Historia institucional</td>
+                  <td class="col-xs-10">
+                    <p>El Instituto Mora es un centro público del Consejo Nacional de Ciencia y Tecnología de México, dedicado a la investigación y la docencia en historia y ciencias sociales, a nivel nacional e internacional. A inicios de los años noventa, desde su proyecto de historia oral encabezado por Graciela de Garay, mostró interés en incursionar en el documental, para difundir los resultados de investigación. Así fue como, a lo largo de un lustro, se equipó y consolidó un pequeño grupo de trabajo que realizó los primeros documentales del Instituto, con el apoyo del CONACYT.</p>
+
+                    <p>Desde entonces, Lourdes Roca organizó cuatro foros de proyección y discusión sobre el documental entre 1995 y 1997, que fueron el origen de este acervo de documentales. En el siguiente lustro, el equipo de trabajo integrado por Carlos Hernández, Paris García, Felipe Morales Leal, Fernando Aguayo y Lourdes Roca fue gestando la creación del Laboratorio Audiovisual de Investigación Social (LAIS), que fundó como tal Lourdes Roca en 2002 en el marco del proyecto CONACYT del mismo nombre, dedicado a la investigación social con imágenes. Poco después se incorporó Andrew Green para el desarrollo informático de un Sistema de Información para Archivos de Imágenes, El Pescador.</p>
+
+                    <p>Finalmente, la integración de Rodrigo Colín en 2015 ha permitido el desarrollo de un nuevo sitio web, metaDOC, que alberga la documentación de esta colección y que seguirá en desarrollo para otras metas en materia de documentación y puesta en acceso de las diversas colecciones que nos hemos propuesto.</p>
+
+                    <p>La producción de documentales como una forma de ‘diseminación’ de los resultados ha continuado en el LAIS con la realización de otra decena de títulos ya en este siglo XX, incluidos algunos que derivan de investigaciones de otros colegas del Instituto. La práctica docente ha caracterizado al LAIS desde sus orígenes, pero se ha potenciado desde inicios de la segunda década del siglo, en que Carlos Hernández, Felipe Morales Leal y Lourdes Roca privilegiamos la formación de recursos humanos en esta línea. Las nuevas generaciones cada vez muestran más interés en incorporar este tipo de fuentes a la investigación y en capacitarse para comunicar audiovisualmente los resultados de estudio. </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-xs-2">Historia archivística</td>
+                  <td class="col-xs-10">
+                    <p>La catalogación de la colección inició con el diseño y conformación del Laboratorio Audiovisual de Investigación Social del Instituto Mora, entre los años 2001 y 2002, y en ella ha trabajado la mayoría de colaboradores del LAIS, ya fuera como becarias/os o como servicio social. En ese entonces lo primero que se creó fue una base de datos en ACCESS, llamada ADOV, Acervo de Documentales en Video. Tiempo después y con los cambios tecnológicos y la instauración del uso de la red en el Instituto, la propuesta se fue enfocando hacia un sitio en línea que nos permitiera ir más allá de una base de datos. Y con ello decidimos integrar como parte del acervo audiovisual del LAIS dos colecciones más, con los materiales que veníamos generando y localizando desde años atrás: los registros en video y los materiales de archivo.</p>
+
+                    <p>El antecedente más inmediato en materia de archivística y gestión documental en el LAIS es Huellas de Luz (LAIS-Instituto Mora/CONACYT, 2012), un sitio creado y desarrollado entre 2003 y 2012, que alberga varias fototecas en línea construidas a partir de investigaciones sobre el patrimonio fotográfico lantinoamericano y puestas en acceso con el trabajo de colegas de tres países (México, Brasil y Argentina). Inició en el marco del proyecto de Laboratorio Audiovisual de Investigación Social (CONACYT 2002-2006) y concluyó con el proyecto Preservación de Imágenes, Sistemas de Información, Acceso e Investigación (CONACYT 2007-2012). El desarrollo informático para este sistema El Pescador sentó las bases de la puesta en línea de estas fototecas virtuales y su documentación. Este sistema inspiró el sitio metaDOC (2015-2016), desarrollado por Rodrigo Colín, que alberga la catalogación de esta Colección de Documentales en Video.</p>
+
+                    <p>Esta colección del acervo audiovisual del LAIS está conformada por los documentales que se han recopilado desde 1995 a la fecha, a partir de: cuatro video foros sobre documental e investigación (1995-1997); ocho cursos sobre Lenguaje Audiovisual e Investigación Social (1999-2015); un Congreso Internacional sobre Imágenes e Investigación Social (2002); dos cursos sobre la historia del documental y el reciclaje de imágenes (2004 y 2007); trece Talleres anuales sobre Manejo de Equipo Audiovisual para la Investigación Social (2002-2015), dos Foros sobre Documental e Investigación (2008-2009), tres cursos de especialización en Investigación Social con Imágenes (2012-2014), y tres mesas redondas sobre Documental e Investigación (2016). Otro pequeño porcentaje ha llegado al Acervo a lo largo de estos años por donación externa o adquisición, según los intereses de cada investigación realizada en estas dos décadas.</p>
+
+                    <p>La colección consta hoy día de 840 títulos producidos en 42 países (15 de ellos latinoamericanos) a lo largo de casi un siglo (1922 a la fechai): Alemania, Alemania Oriental, Argentina, Armenia, Australia, Austria, Bélgica, Bolivia, Brasil, Argentina, Canadá, Chile, Colombia, Cuba, Ecuador, El Salvador, España, Estados Unidos, Francia, Gran Bretaña, Guatemala, Holanda, Hungría, India, Indonesia, Inglaterra, Irán, Italia, Japón, México, Nicaragua, Países Bajos, Palestina, Panamá, Perú, Polonia, Portugal, Reino Unido, Rusia, Suecia, Unión Soviética y Uruguay.</p>
+
+                    <p>Los documentales han sido producidos por una gran diversidad de países de casi todos los continentes, con gran presencia latinoamericana, aunque, en un principio tenían en común que trataban todos sobre México. Con el tiempo se incluyeron también documentales de los inicios de este género y otros títulos considerados clave para entender los diversos quehaceres al interior de la realización de documentales, sobre todo por las necesidades de numerosos cursos organizados por el grupo de trabajo del LAIS a lo largo de este periodo. De esta manera, los documentales que conforman la colección cubren una gran diversidad de temáticas de corte social, pero siguen predominando los que tratan sobre México y América Latina, sin importar el lugar donde fueron realizados.</p>
+
+                    <p>El formato original en que se fueron coleccionando los documentales fue VHS, y en el primer lustro del siglo comenzamos la migración hacia soporte DVD, más estable, dejando los VHS como respaldo.</p>
+
+                    <p>Esta es la primera colección que se documenta de las tres que conforman el acervo audiovisual del LAIS. Las otras dos colecciones están constituidas por: </p>
+
+                    <p>
+                      <ol>
+                        <li>Registros en video: los registros audiovisuales propios a lo largo de más de dos décadas realizar entrevistas, etnografías y trabajo de campo para diversas investigaciones.</li>
+                        <li>Materiales de archivo: los documentos fílmicos o en video localizados en archivos públicos y colecciones particulares en el marco también de diferentes estudios realizados por los integrantes del LAIS y por colegas investigadoras/es que han depositado ahí estos documentos.</li>
+                      </ol>
+                    </p>
+
+                    <p>En el LAIS sostenemos que la documentación es un paso previo imprescindible para la investigación, de manera que nos hemos dado a la tarea de mostrar cómo proponemos hacerlo para el caso del documental, como también lo hemos hecho con las fotografías. Con el fin de potenciar investigaciones a partir de la construcción de documentales como fuentes y de acuerdo a la ISAD-G, que fue la norma internacional que nos ofreció más flexibilidad y potencial para lo que quisimos desarrollar, el diseño de la ficha multinivel y por áreas nos pareció ideal. El desarrollo de la ficha fue un largo trabajo colectivo, primero para documentos fotográficos y después para documentales, iniciado en el marco de un Seminario sobre el Sistema de Información para Archivos de Imágenes (2002-2003).</p>
+
+                    <p>En este proceso, destacan como principal aporte los campos que los integrantes del LAIS creamos para el área de “estructura y contenido”, particularmente originales y novedosos: en ella recuperamos las ideas que tuvo el LAIS desde un principio, apenas en su proceso de conformación entre los años 2000 y 2001, al plantearse la necesidad de catalogación de su acervo para documentar este tipo de realizaciones audiovisuales, distinguiendo entre “fuentes” y “recursos” utilizados para su creación, diferencia que consideramos básica para poder construir a su vez al documental como fuente de investigación.</p>
+
+                    <p>Por último, cabe anotar que los títulos que conforman la colección han sido utilizados sobre todo con fines docentes, y más esporádicamente con algún fin de investigación, sobre todo por los propios integrantes del LAIS y también por algunos otros investigadores y estudiantes del Instituto.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-xs-2">Forma de ingreso</td>
+                  <td class="col-xs-10">Mayoría por donación y los demás adquiridos.</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4>Área de contenido y estructura</h4>
+            <table class="table table-condensed">
+              <tbody>
+                <tr>
+                  <td class="col-xs-2">Alcance y contenido</td>
+                  <td class="col-xs-10">
+                    <p>Esta colección está constituida por varios centenares de documentales potenciales fuentes de investigación para muchas temáticas, temporalidades y latitudes. Su tratamiento documental, que ha implicado incorporar criterios archivísticos y establecer un sistema de catalogación, aporta elementos también para profundizar en las formas de hacerlos y los recursos documentales y narrativos que se utilizan para ello, de manera que impulsa a su vez una meta reflexión que va más allá de temas y contenidos, apuntando hacia posibles historias del documental, apenas en construcción en gran parte del orbe y más en nuestra región.</p>
+
+                    <p>Los usuarios encontrarán descripciones puntuales acerca de los documentales, que les permitirán ir más allá de un visionado o una consulta temática, al hacerse de información más profusa sobre la confección y entretejido de estas realizaciones, lo que permite profundizar en aspectos visuales, sonoros y audiovisuales de su producción.</p>
+
+                    <p>Con el ánimo de abonar a la necesaria crítica de fuentes que requerimos desde la investigación, en los campos de “fuentes” y “recursos” diferenciamos entre los contenidos sonoros, visuales y audiovisuales que el investigador-realizador utiliza para dar sustentar, contrastar, evidenciar o explicar algún proceso, situación o acontecimiento a partir de diversidad de documentos (fuentes), y los contenidos sonoros, visuales y audiovisuales que genera para expresarlos o narrarlos (recursos).</p>
+
+                    <p>Las “fuentes” pueden ser construidas con documentos de archivo de muy diversa índole, o creadas durante la investigación. Entre ellas están las entrevistas, documentos, fotografías, registros fílmicos, grabación de campo, ficción, pintura, grabados, historieta, hemerografía, cartografía, testimonios orales, noticieros fílmicos, programas de televisión, publicidad, videoclips, música de época, animación, registros fonográficos y registros radiofónicos.</p>
+
+                    <p>Y los “recursos” son elementos creados o retomados para la producción audiovisual, utilizados con fines expresivos o narrativos, de acuerdo a las necesidades del propio lenguaje audiovisual. Algunos recursos se integran para dar cierta intencionalidad o tono al documental y otros se construyen para exponer de forma más clara el argumento del producto audiovisual. Pueden ser puestas en escena, animaciones, recursos narrativos como la voz en off o la conducción, ciertos usos de la música y de elementos gráficos, entre otros. Estos recursos se renuevan constantemente, de acuerdo a las transformaciones del propio lenguaje audiovisual, incorporándose nuevas herramientas tecnológicas e ideas creativas que los generan.</p>
+
+                    <p>La concebimos como una colección privilegiada para fomentar la investigación sobre el documental, sus procesos de investigación y de producción, temas cuyo interés se ha incrementado en las últimas dos décadas en México y América Latina en general. Las nuevas generaciones de estudiantes en ciencias sociales y humanidades consideran al documental como otro tipo de documento a tomar en cuenta en sus investigaciones y, de manera más bien autodidacta, han ido explorando las posibilidades de incorporarlo como fuente de investigación y a menudo también como forma de presentar los resultados de sus estudios. Todo ello planteó seriamente al LAIS la necesidad de catalogarlo y poner en acceso sus fichas, -aun con las limitaciones de no poder poner en línea los materiales completos-, para que con ellas se potencien estudios sobre el documental.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-xs-2">Valoración, selección y eliminación</td>
+                  <td class="col-xs-10">El principal criterio de selección de los materiales fue que partieran de investigaciones sociales, ya fueran de carácter histórico, antropológico, sociológico e incluso periodístico. De inicio se trataba de investigaciones y documentales sobre México, recabados sobre todo a partir de convocatorias a videoforos y muestras de video documental. Pero con el tiempo, en el LAIS comenzamos a ofrecer cursos con especialistas extranjeros y a impartirlos el propio grupo de trabajo, entorno a la investigación social y el lenguaje audiovisual, lo que derivó en un aumento considerable de donaciones de títulos que sobre todo constituían la filmografía y videografía de los diversos programas impartidos. Así es cómo la colección contiene hoy día producciones más de cuarenta países acerca de muchas latitudes y temáticas.</td>
+                </tr>
+                <tr>
+                  <td class="col-xs-2">Nuevos ingresos</td>
+                  <td class="col-xs-10">Es una colección abierta permanentemente a nuevos ingresos.</td>
+                </tr>
+                <tr>
+                  <td class="col-xs-2">Organización</td>
+                  <td class="col-xs-10">La colección está organizada por décadas e inicia en la década de 1920 a 1929 para llegar hasta ahora a la de 2010-2019, de acuerdo a las fechas de producción de cada unidad. La organización por décadas permitía mayor flexibilidad para la entrada permanente de nuevos ingresos.</td>
+                </tr>
+              </tbody>
+            </table>
+          </uib-tab>
+				</uib-tabset>
 			</div>
 		</div>
 	</div>
-	<div ng-show="sesion"> <!-- id="footer" -->
-		<a class='botonDos bottom-right-fix' ng-click="agregarNuevo()">
-			<span class="glyphicon glyphicon-plus" style="font-size: 38px;margin-top: 20%;margin-left: 25%; color:white"></span>
-		</a>
-	</div>
+  
+  <!-- <div class="container-fluid">
+    <div class="col-xs-12 col-sm-12 col-md-12" class="row">
+      <div id="decadas">
+        <h1>Décadas</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 col-md-3" ng-repeat="decada in decadas">
+        <a href="#/decadas/{{decada}}" class="thumbnail portadasDecadas">
+            <img ng-cloak class="img-rounded img-responsive" id="coverDecades" ng-src="imgs/Decadas/{{decada}}.png">
+          </a>
+      </div>
+    </div>
+  </div> -->
+  
+  <div ng-show="sesion"> <!-- id="footer" -->
+    <a class='botonDos bottom-right-fix' ng-click="agregarNuevo()">
+      <span class="glyphicon glyphicon-plus" style="font-size: 38px;margin-top: 20%;margin-left: 25%; color:white"></span>
+    </a>
+  </div>
 </body>
