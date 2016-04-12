@@ -356,7 +356,18 @@ lais.controller('decadasCtrl',function($scope, $location, $http, $cookieStore, D
     	var decada = matches[1] + numeracion; // Nuevo string con década siguiente (+1)
     	$cookieStore.put('decada', decada); // Almacena el código de década
 		$location.url('/archivos/agregarArchivo/'); // Ir a la página "Agregar audiovisual"
-    }
+    };
+
+    // Arreglo con los nombres de campos demasiado largos para ser mostrados inicialmente en la vista
+	$scope.showCampos = {
+		"historia-institucional": false,
+		"historia-archivistica": false,
+		"alcance-y-contenido": false
+	};
+	// Cambia a true el valor de un campo largo ($scope.showCampos). Recibe una cadena de texto con el nombre del campo
+    $scope.makeVisible = function(campo){
+    	$scope.showCampos[campo] = true;
+    };
 });
 
 //Controlador que mostrara los archivos audiovisuales con su portada por decadas
