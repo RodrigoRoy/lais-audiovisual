@@ -464,6 +464,16 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 				// called asynchronously if an error occurs or server returns response with an error status.
 				alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
 			});
+
+		// Manera alternativa de obtener ancho y alto de una imagen mediante jQuery (se utiliza PHP en su lugar):
+		// $(document).ready(function(){
+		// 	var screenImage = $("img[src$='007142.jpg']");
+		// 	var theImage = new Image();
+		// 	theImage.src = screenImage.attr("src");
+		// 	var imageWidth = theImage.width;
+		// 	var imageHeight = theImage.height;
+		// 	console.log(imageWidth, imageHeight);
+		// });
 	};
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas después de una búsqueda
@@ -573,7 +583,6 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 		var contador = 0;
 		for(var key in $scope.archivos){
 			var rubrosList = $scope.getRubros($scope.archivos[key]); // Arreglo que solo contiene los rubros (sin repeticiones)
-			//console.log(rubrosList);
 			loop:
 			for(var i in rubrosList)
 				for(var j in $scope.inputQuery){
@@ -588,8 +597,6 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 				}
 		}
 		$scope.visibles = contador;
-
-		//$scope.archivos[0]['show'] = false;
 	};
 
 	// Auxiliar que devuelve un arreglo de los rubros (campos) donde un registro tuvo coincidencias de búsqueda (sin repeticiones).
@@ -631,15 +638,17 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 		$scope.visibles = $scope.archivos.length;
 	};
 
+	// Permite marcar todos los checkbox de búsqueda y los elementos visibles (propiedad "show" del arreglo "archivos") según el parámetro booleano dado
 	$scope.setAllFilters = function(bool){
+		// Asigna todos los checkbox por el parámetro dado:
 		for(var i in $scope.inputQuery){
 			$scope.inputQuery[i]['ticked'] = bool;
 		}
-
+		// Esconde/muestra todos los archivos (ya que los checkbox no actualizan esta propiedad de la misma manera que al dar clic en la vista):
 		for(var i in $scope.archivos){
 			$scope.archivos[i].show = bool;
 		}
-		
+		// Actualiza también la cantidad de elementos visibles:
 		if(bool)
 			$scope.visibles = $scope.archivos.length;
 		else

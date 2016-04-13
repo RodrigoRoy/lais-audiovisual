@@ -1,5 +1,12 @@
 <link rel="stylesheet" type="text/css" href="css/background.css" />
+<link rel="stylesheet" type="text/css" href="css/grid-definitions.css" />
 <link rel="stylesheet" type="text/css" href="css/grid-portadas.css" />
+
+<style type="text/css">
+body{
+  background-color: rgba(0,0,0,0.85);
+}
+</style>
 
 <body>
   <br><br><br>
@@ -18,24 +25,32 @@
           <div class="thumbnail">
             <a href="" data-toggle="modal" data-target="#modalInfo" ng-click="getAllInfo(archivo.codigo_de_referencia)">
               <div class="img-container">
-                <img class="img-thumbnail img-center" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}">
+                <img ng-cloak class="img-center frame-decorator hidden-xs hidden-sm visible-md-block visible-lg-block" src="imgs/frame2.png" ng-if="archivo.orientacion === 'landscape'">
+                <img ng-cloak class="img-center hidden-xs hidden-sm visible-md-block visible-lg-block" ng-class="{'img-portrait': (archivo.orientacion === 'portrait'), 'img-landscape': archivo.orientacion === 'landscape'}" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}">
+
+                <img ng-cloak class="img-center img-aspect-ratio visible-xs-block visible-sm-block hidden-md hidden-lg" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}">
               </div>
               <div class="title-container no-overflow">
-                <p>
+                <p class="text-center">
+                  <!-- Esto era para hacer más grande el tamaño de letra en moviles. -->
                   <!-- <span class="title-on-mobile visible-xs-block visible-sm-block hidden-md hidden-lg">{{archivo.titulo_adecuado}}</span>
                   <span class="visible-md-block visible-lg-block hidden-xs hidden-sm">{{archivo.titulo_adecuado}}</span> -->
                   {{archivo.titulo_adecuado}}
                 </p>
               </div>
               
-              <p>
+              <p class="text-center">
                 {{archivo.fecha}}
               </p>
             </a>
           </div>
         </div>
       </div>
-      <!-- <div class="clearfix visible-xs-block" ng-if="$index % 6 == 0"></div> -->
+      
+      <div class="col-xs-12">
+        <pre>archivos:</pre>
+        <pre>{{archivos | json}}</pre>
+      </div>
     </div>
 
     <div class="row" infinite-scroll="firstLoad()" infinite-scroll-distance="0" infinite-scroll-disabled='busy'>
