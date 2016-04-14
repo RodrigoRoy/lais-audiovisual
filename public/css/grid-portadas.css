@@ -74,24 +74,26 @@ a.navSpacing{
 /*Nuevas reglas para cuadricula*/
 
 .thumbnail{
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0,0,0,0.2);
   color: #f0fff0;
   /*border-width: 1px;
   border-style: solid;
   border-color: rgba(0,0,0,0.5);*/
-  border: 1px solid rgba(0,0,0,0.5);
+  border: 2px solid rgba(0,0,0,0.8);
 }
 .thumbnail:hover{
-  margin-top: -10px;
+  /*margin-top: -10px;*/
+  /*background-color: rgba(24,32,53,0.9);*/
+  background-color: rgba(22,27,41,0.9);
+  border-color: rgb(4,10,24);
 }
 .thumbnail a{
   color: #f0fff0;
 }
 .img-container{
   height: 300px;
-  background-color: rgba(0,0,0,0.1);
-
-  border: 1px solid rgba(0,0,0,0.3);
+  /*background-color: rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.3);*/
 
   /*Tip para evitar imagenes "blurry" al alinear verticalmente: */
   -webkit-transform-style: preserve-3d;
@@ -125,8 +127,12 @@ a.navSpacing{
 .img-landscape{
   max-width: 100%;
   max-height: 100%;
-  width: 150px;
-  height: 85px;
+  /*width: 150px;
+  height: 85px;*/
+  /*width: 158px;
+  height: 89px;*/
+  width: 75%;
+  height: 32%;
 }
 .frame-decorator{
   position: absolute;

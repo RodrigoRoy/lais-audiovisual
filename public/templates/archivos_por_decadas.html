@@ -25,7 +25,7 @@ body{
           <div class="thumbnail">
             <a href="" data-toggle="modal" data-target="#modalInfo" ng-click="getAllInfo(archivo.codigo_de_referencia)">
               <div class="img-container">
-                <img ng-cloak class="img-center frame-decorator hidden-xs hidden-sm visible-md-block visible-lg-block" src="imgs/frame2.png" ng-if="archivo.orientacion === 'landscape'">
+                <img ng-cloak class="img-center frame-decorator hidden-xs hidden-sm visible-md-block visible-lg-block" src="imgs/frame6.png" ng-if="archivo.orientacion === 'landscape'">
                 <img ng-cloak class="img-center hidden-xs hidden-sm visible-md-block visible-lg-block" ng-class="{'img-portrait': (archivo.orientacion === 'portrait'), 'img-landscape': archivo.orientacion === 'landscape'}" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}">
 
                 <img ng-cloak class="img-center img-aspect-ratio visible-xs-block visible-sm-block hidden-md hidden-lg" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}">
@@ -46,11 +46,11 @@ body{
           </div>
         </div>
       </div>
-      
-      <div class="col-xs-12">
+      <!-- Debug Log: -->
+      <!-- <div class="col-xs-12">
         <pre>archivos:</pre>
         <pre>{{archivos | json}}</pre>
-      </div>
+      </div> -->
     </div>
 
     <div class="row" infinite-scroll="firstLoad()" infinite-scroll-distance="0" infinite-scroll-disabled='busy'>
