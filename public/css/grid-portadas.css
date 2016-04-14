@@ -73,7 +73,17 @@ a.navSpacing{
 
 /*Nuevas reglas para cuadricula*/
 
-.thumbnail{
+/*Contenedor para grupos documentales (décadas)*/
+.nodecoration-container{
+  background-color: rgba(0,0,0,0);
+  color: #f0fff0;
+  border: 0px solid rgba(0,0,0,0);
+}
+.nodecoration-container:hover{
+  margin-top: -10px;
+}
+/*Contenedor para cada documental:*/
+.simple-container{
   background-color: rgba(0,0,0,0.2);
   color: #f0fff0;
   /*border-width: 1px;
@@ -81,25 +91,27 @@ a.navSpacing{
   border-color: rgba(0,0,0,0.5);*/
   border: 2px solid rgba(0,0,0,0.8);
 }
-.thumbnail:hover{
+.simple-container:hover{
   /*margin-top: -10px;*/
   /*background-color: rgba(24,32,53,0.9);*/
   background-color: rgba(22,27,41,0.9);
   border-color: rgb(4,10,24);
 }
-.thumbnail a{
+.simple-container a{
   color: #f0fff0;
 }
+/*Contenedor anidado en "simple-container" para imagen(es)*/
 .img-container{
   height: 300px;
   /*background-color: rgba(0,0,0,0.1);
   border: 1px solid rgba(0,0,0,0.3);*/
 
-  /*Tip para evitar imagenes "blurry" al alinear verticalmente: */
+  /*Tip para evitar imagenes "blurry" al alinear verticalmente*/
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
+/*Permite alinear un objeto si está contenido en otro (img-container por ejemplo)*/
 .img-center{
   /*Alineación horizontal: */
   margin: auto;
@@ -118,12 +130,14 @@ a.navSpacing{
   width: auto;
   height: auto;
 }
+/*Tamaño para imagen que representa una portada*/
 .img-portrait{
   max-width: 100%;
   max-height: 100%;
   width: 100%;
   height: 296px;
 }
+/*Tamaño para imagen que representa una captura de pantalla*/
 .img-landscape{
   max-width: 100%;
   max-height: 100%;
@@ -134,6 +148,7 @@ a.navSpacing{
   width: 75%;
   height: 32%;
 }
+/*Posición y tamaño para decorado de capturas de pantalla (img-landscape)*/
 .frame-decorator{
   position: absolute;
   width: 100%;
