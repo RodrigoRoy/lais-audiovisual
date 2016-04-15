@@ -183,3 +183,13 @@ CREATE TABLE IF NOT EXISTS borrados(
 	fecha TIMESTAMP,
 	usuario VARCHAR(255)
 );
+
+# Registro de actividades. Se requiere almacenar el código del documental, titulo propio, la fecha de la actividad, el usuario que
+# llevó a cabo la acción y una letra que identifica el tipo de acción: U(pdate), D(elete), C(reate).
+CREATE TABLE IF NOT EXISTS registro_actividades(
+	codigo_de_referencia VARCHAR(20),
+	titulo_propio VARCHAR(150),
+	fecha TIMESTAMP,
+	usuario VARCHAR(255),
+	accion CHAR(1)
+);

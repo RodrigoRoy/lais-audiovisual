@@ -84,14 +84,15 @@ body{
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
           <h1 class="modal-title titulos" id="myModalLabel">{{allInfo.secret.titulo_adecuado}}
-            <a ng-show="sesion" class="iconEdicion" href="" ng-click="editar(allInfo.identificacion.codigo_de_referencia)" >
+            <a href="" class="iconEdicion" ng-show="sesion" ng-click="editar(allInfo.identificacion.codigo_de_referencia)">
               <span class="glyphicon glyphicon-edit"></span>
             </a>
-            <a type="button" data-unique="1" data-auto-close="1" data-placement="right" data-content-template="popover-tmpl.html" data-title="Eliminar registro" bs-popover ng-show="sesion" class="iconEdicion" href="">
+            <a href="" class="iconEdicion" ng-show="sesion" uib-popover-template="'popover-tmpl.html'" popover-title="Eliminar registro" popover-placement="bottom" popover-trigger="focus">
               <span class="glyphicon glyphicon-remove-circle"></span>
             </a>
             <script type="text/ng-template" id="popover-tmpl.html">
-              <form>
+              <div>
+                <form>
                     <div class="form-group">
                         ¿Seguro que deseas borrar el registro "{{allInfo.identificacion.titulo_propio}}"?
                         <br>
@@ -107,6 +108,7 @@ body{
                       </div>
                     <button type="submit" ng-click="confirmar(user,pass)" class="btn btn-danger">Eliminar</button>
                 </form>
+              </div>
             </script>
           </h1>
         </div>

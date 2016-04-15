@@ -211,6 +211,11 @@ function agregar(){
         $GLOBALS['conn']->exec($notas);
         $GLOBALS['conn']->exec($descripcion);
         $GLOBALS['conn']->exec($info_adicional);
+        
+        // Si fué posible la creación, guardar datos al registro de actividades
+        $sql = "INSERT INTO registro_actividades VALUES('$datos->codigo_de_referencia', '$datos->titulo_propio', now(), '$datos->user', '$datos->accion');";
+        $GLOBALS['conn']->exec($sql);
+
         print_r(json_encode(array("Status"=>"Ok"))); // Responder que la operación fué exitosa
     }
     catch(PDOException $e){
@@ -340,6 +345,10 @@ function actualizar(){
         $stmt->execute();
         $stmt = $GLOBALS['conn']->prepare($info_adicional);
         $stmt->execute();
+
+        // Si fué posible actualizar, guardar datos al registro de actividades
+        $sql = "INSERT INTO registro_actividades VALUES('$datos->codigo_de_referencia', '$datos->titulo_propio', now(), '$datos->user', '$datos->accion');";
+        $GLOBALS['conn']->exec($sql);
     }
     catch(PDOException $e){
         echo $e->getMessage();
@@ -366,7 +375,7 @@ function borrar(){
         $GLOBALS['conn']->exec($sql);
 
         // Si fué posible borrar, guardar el codigo y nombre del documental así como la fecha y quién lo realizó
-        $sql = "INSERT INTO borrados VALUES('$datos->codigo_de_referencia', '$titulo', now(), '$datos->user');";
+        $sql = "INSERT INTO registro_actividades VALUES('$datos->codigo_de_referencia', '$titulo', now(), '$datos->user', '$datos->accion');";
         $GLOBALS['conn']->exec($sql);
     }
     catch(PDOException $e){
