@@ -5,7 +5,11 @@
 * {
   color: #f0fff0;
 }
-.affix {
+.list-unstyled > .interline-small{
+  margin-bottom: 1em;
+  line-height: 1.2;
+}
+/*.affix {
   top: 0px;
   width: 100%;
 }
@@ -17,7 +21,7 @@
 .affix-bottom {
   position: absolute;
   width: 100%;  
-}
+}*/
 
 
 
@@ -123,8 +127,8 @@ a.navSpacing{
           <hr>
 
           <ul class="list-unstyled" data-spy="affix" data-offset-top="50">
-            <li ng-repeat="rubro in inputQuery">
-              <input type="checkbox" ng-model="rubro.ticked" ng-change="updateView()"> {{rubro.total}} documental<span ng-if="rubro.total > 1">es</span> en "<strong>{{rubro.name}}</strong>" dentro del área de <em>{{rubro.area}}</em>
+            <li ng-repeat="rubro in inputQuery" class="interline-small">
+              <input type="checkbox" ng-model="rubro.ticked" ng-change="updateView()"> {{rubro.total}} documental<span ng-if="rubro.total > 1">es</span> en "<strong>{{rubro.name}}</strong>", área de <em>{{rubro.area}}</em>
             </li>
           </ul>
         </div>
@@ -155,7 +159,7 @@ a.navSpacing{
           </div>
         </div>
       </div>
-
+      <!-- Debug Log: -->
       <!-- <div class="col-xs-12">
         <pre>inputQuery:</pre>
         <pre>{{inputQuery | json}}</pre>

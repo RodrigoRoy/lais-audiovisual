@@ -65,3 +65,6 @@ update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-
 
 # Copiar una portada a otro documental
 update informacion_adicional set imagen = 'MXIM-AV-1-12-21.jpg' where codigo_de_referencia = 'MXIM-AV-1-12-253';
+
+# Es mejor mantener un registro general de actividades que solo de los borrados
+drop table borrados;

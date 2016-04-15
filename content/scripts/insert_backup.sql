@@ -66,3 +66,11 @@ LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/backup/informacion_adic
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 	LINES TERMINATED BY '\n'
 	IGNORE 1 LINES;
+
+# Cargar datos desde archivo csv para la tabla 'registro_actividades'
+LOAD DATA INFILE '/var/www/html/lais-audiovisual/content/backup/registro_actividades.csv'
+	INTO TABLE registro_actividades
+	CHARACTER SET UTF8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 1 LINES;

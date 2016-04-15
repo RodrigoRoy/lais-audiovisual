@@ -1,5 +1,5 @@
 // La dependencia ngFileUpload sirve para subir imagenes (https://github.com/danialfarid/ng-file-upload)
-var lais = angular.module('lais',['ngRoute','ngCookies', 'ngMessages', 'ngAnimate', 'ngSanitize', 'ngFileUpload','infinite-scroll', 'mgcrea.ngStrap', 'isteven-multi-select', 'ui.bootstrap']);
+var lais = angular.module('lais',['ngRoute','ngCookies', 'ngMessages', 'ngAnimate', 'ngSanitize', 'ngFileUpload','infinite-scroll', 'isteven-multi-select', 'ui.bootstrap']);
 
 lais.config(function ($routeProvider, $locationProvider){
 	$routeProvider
@@ -356,7 +356,18 @@ lais.controller('decadasCtrl',function($scope, $location, $http, $cookieStore, D
     	var decada = matches[1] + numeracion; // Nuevo string con década siguiente (+1)
     	$cookieStore.put('decada', decada); // Almacena el código de década
 		$location.url('/archivos/agregarArchivo/'); // Ir a la página "Agregar audiovisual"
-    }
+    };
+
+    // Arreglo con los nombres de campos demasiado largos para ser mostrados inicialmente en la vista
+	$scope.showCampos = {
+		"historia-institucional": false,
+		"historia-archivistica": false,
+		"alcance-y-contenido": false
+	};
+	// Cambia a true el valor de un campo largo ($scope.showCampos). Recibe una cadena de texto con el nombre del campo
+    $scope.makeVisible = function(campo){
+    	$scope.showCampos[campo] = true;
+    };
 });
 
 //Controlador que mostrara los archivos audiovisuales con su portada por decadas
@@ -453,6 +464,16 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 				// called asynchronously if an error occurs or server returns response with an error status.
 				alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
 			});
+
+		// Manera alternativa de obtener ancho y alto de una imagen mediante jQuery (se utiliza PHP en su lugar):
+		// $(document).ready(function(){
+		// 	var screenImage = $("img[src$='007142.jpg']");
+		// 	var theImage = new Image();
+		// 	theImage.src = screenImage.attr("src");
+		// 	var imageWidth = theImage.width;
+		// 	var imageHeight = theImage.height;
+		// 	console.log(imageWidth, imageHeight);
+		// });
 	};
 
 	// Obtiene los datos (id,imagen,titulo,duracion) necesarios para mostrar portadas después de una búsqueda
@@ -562,7 +583,6 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 		var contador = 0;
 		for(var key in $scope.archivos){
 			var rubrosList = $scope.getRubros($scope.archivos[key]); // Arreglo que solo contiene los rubros (sin repeticiones)
-			//console.log(rubrosList);
 			loop:
 			for(var i in rubrosList)
 				for(var j in $scope.inputQuery){
@@ -577,8 +597,6 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 				}
 		}
 		$scope.visibles = contador;
-
-		//$scope.archivos[0]['show'] = false;
 	};
 
 	// Auxiliar que devuelve un arreglo de los rubros (campos) donde un registro tuvo coincidencias de búsqueda (sin repeticiones).
@@ -620,15 +638,17 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 		$scope.visibles = $scope.archivos.length;
 	};
 
+	// Permite marcar todos los checkbox de búsqueda y los elementos visibles (propiedad "show" del arreglo "archivos") según el parámetro booleano dado
 	$scope.setAllFilters = function(bool){
+		// Asigna todos los checkbox por el parámetro dado:
 		for(var i in $scope.inputQuery){
 			$scope.inputQuery[i]['ticked'] = bool;
 		}
-
+		// Esconde/muestra todos los archivos (ya que los checkbox no actualizan esta propiedad de la misma manera que al dar clic en la vista):
 		for(var i in $scope.archivos){
 			$scope.archivos[i].show = bool;
 		}
-		
+		// Actualiza también la cantidad de elementos visibles:
 		if(bool)
 			$scope.visibles = $scope.archivos.length;
 		else
@@ -980,7 +1000,8 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
     	$http.post('php/manejoBD.php?action=borrar',
 		{
 			'codigo_de_referencia': id,
-			'user': user ? user : ''
+			'user': user ? user : '',
+			'accion': 'D' // Delete
 		}).
 		success(function(data, status, headers, config) {
 			alert("Registro eliminado");
@@ -1021,7 +1042,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 });
 
 //Controlador que hace post para agregar datos a la base de datos y recupera los datos desde el html
-lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, ParamService, $cookieStore){
+lais.controller('agregarDatosCtrl',function($scope, $http, $location, $cookieStore, Upload, ParamService){
 	// Impide acceso no autorizado en la página
 	if(!$scope.sesion && !$scope.permiso >= 1){
 		console.log('No hay permisos suficientes para estar en esta página');
@@ -1081,7 +1102,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 		}
 		$scope.fuentes = $scope.fuentes.trim();
 		$scope.fuentes = ($scope.fuentes.length > 0 && $scope.fuentes.slice(-1) === ',') ? ($scope.fuentes.slice(0, -1)) : ($scope.fuentes); // Quitar "," final
-		console.log("fuentes: " + $scope.fuentes);
+		//console.log("fuentes: " + $scope.fuentes);
 	};
 
 	$scope.createRecursos = function(){
@@ -1091,7 +1112,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 		}
 		$scope.recursos = $scope.recursos.trim();
 		$scope.recursos = ($scope.recursos.length > 0 && $scope.recursos.slice(-1) === ',') ? ($scope.recursos.slice(0, -1)) : ($scope.recursos); // Quitar "," final
-		console.log("recursos: " + $scope.recursos);
+		//console.log("recursos: " + $scope.recursos);
 	};
 
 	//$scope.errorDuplicado = false; // DEPRECATED. La función sugerencias() ya impide repetidos.
@@ -1124,10 +1145,13 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 	// Acción al presionar el botón de "Enviar" del formulario
 	// Recibe como parámetro el archivo de imagen (único elemento que se sube a parte)
 	$scope.envia = function(files){
-		//console.log("datos para el servidor: ", ParamService.scopeData2object($scope));
-		$http.post('php/manejoBD.php?action=agregar', 
-			ParamService.scopeData2object($scope) // Encapsular todos los datos para el servidor
-		).success(function(data, status, headers, congif){
+		var user = $cookieStore.get('nombre'); // nombre del usuario que realiza el borrado
+    	var data = ParamService.scopeData2object($scope); // datos para enviar (del documental)
+    	data['user'] = user ? user : ''; // agregar el usuario
+    	data['accion'] = 'C'; // Agregar la acción a realizar: Create
+
+		$http.post('php/manejoBD.php?action=agregar', data) // Encapsular todos los datos para el servidor
+		.success(function(data, status, headers, congif){
 			//console.log("información de documental enviada");
 			if(data.Status !== 'Ok'){ // Si hay algún error en la base de datos
 				//alert("El archivo Audiovisual está duplicado");
@@ -1192,7 +1216,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, Upload, Pa
 });
 
 // Edición de audiovisuales
-lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, Upload, ParamService){
+lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, $cookieStore, Upload, ParamService){
 	// Impide acceso no autorizado en la página
 	if(!$scope.sesion && !$scope.permiso >= 2){
 		console.log('No hay permisos suficientes');
@@ -1360,7 +1384,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		}
 		$scope.fuentes = $scope.fuentes.trim();
 		$scope.fuentes = ($scope.fuentes.length > 0 && $scope.fuentes.slice(-1) === ',') ? ($scope.fuentes.slice(0, -1)) : ($scope.fuentes); // Quitar "," final
-		console.log("fuentes: " + $scope.fuentes);
+		//console.log("fuentes: " + $scope.fuentes);
 	};
 
 	$scope.createRecursos = function(){
@@ -1370,14 +1394,18 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		}
 		$scope.recursos = $scope.recursos.trim();
 		$scope.recursos = ($scope.recursos.length > 0 && $scope.recursos.slice(-1) === ',') ? ($scope.recursos.slice(0, -1)) : ($scope.recursos); // Quitar "," final
-		console.log("recursos: " + $scope.recursos);
+		//console.log("recursos: " + $scope.recursos);
 	};
 
     // Acción del botón "Editar" del formulario
     $scope.editar = function(files){
-		$http.post('php/manejoBD.php?action=actualizar', 
-			ParamService.scopeData2object($scope) // Encapsula y envia los datos a la base
-		).success(function(data,status, headers, congif){
+    	var user = $cookieStore.get('nombre'); // nombre del usuario que realiza el borrado
+    	var data = ParamService.scopeData2object($scope); // datos para enviar (del documental)
+    	data['user'] = user ? user : ''; // agregar el usuario
+    	data['accion'] = 'U'; // Agregar la acción a realizar: Update
+
+		$http.post('php/manejoBD.php?action=actualizar', data) // Encapsula y envia los datos a la base
+		.success(function(data,status, headers, congif){
 			$scope.upload(files); // Subir la imagen después de crear el registro en la base
 			alert("La información del documental ha sido actualizada");
 			$location.url('/decadas/');

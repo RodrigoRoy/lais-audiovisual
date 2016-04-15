@@ -211,6 +211,11 @@ function agregar(){
         $GLOBALS['conn']->exec($notas);
         $GLOBALS['conn']->exec($descripcion);
         $GLOBALS['conn']->exec($info_adicional);
+        
+        // Si fué posible la creación, guardar datos al registro de actividades
+        $sql = "INSERT INTO registro_actividades VALUES('$datos->codigo_de_referencia', '$datos->titulo_propio', now(), '$datos->user', '$datos->accion');";
+        $GLOBALS['conn']->exec($sql);
+
         print_r(json_encode(array("Status"=>"Ok"))); // Responder que la operación fué exitosa
     }
     catch(PDOException $e){
@@ -340,6 +345,10 @@ function actualizar(){
         $stmt->execute();
         $stmt = $GLOBALS['conn']->prepare($info_adicional);
         $stmt->execute();
+
+        // Si fué posible actualizar, guardar datos al registro de actividades
+        $sql = "INSERT INTO registro_actividades VALUES('$datos->codigo_de_referencia', '$datos->titulo_propio', now(), '$datos->user', '$datos->accion');";
+        $GLOBALS['conn']->exec($sql);
     }
     catch(PDOException $e){
         echo $e->getMessage();
@@ -366,7 +375,7 @@ function borrar(){
         $GLOBALS['conn']->exec($sql);
 
         // Si fué posible borrar, guardar el codigo y nombre del documental así como la fecha y quién lo realizó
-        $sql = "INSERT INTO borrados VALUES('$datos->codigo_de_referencia', '$titulo', now(), '$datos->user');";
+        $sql = "INSERT INTO registro_actividades VALUES('$datos->codigo_de_referencia', '$titulo', now(), '$datos->user', '$datos->accion');";
         $GLOBALS['conn']->exec($sql);
     }
     catch(PDOException $e){
@@ -627,6 +636,20 @@ function getDecada($codigoDecada){
     }
 }
 
+# Determina si la orientación de la imagen es vertical/portrait (portada) u horizontal/landscape (captura de pantalla)
+# Recibe un arreglo asociativo con la información del audiovisual (obtenida por consulta a MySQL). Este arreglo debe contener la llave (key) "imagen", que corresponde al nombre del archivo
+# Devuelve una cadena de texto: "landscape" si el ancho de la imagen es mayor que la altura, "portrait" en otro caso.
+function getOrientation($audiovisual){
+    $dataImage = getimagesize("../imgs/Portadas/" . $audiovisual['imagen']); // getimagesize() devuelve un arreglo con varios datos. Revisar documentación para detalles
+    $width = $dataImage[0];
+    $height = $dataImage[1];
+    $imageStyle = "portrait";
+    if($width > $height){
+        $imageStyle = "landscape";
+    }
+    return $imageStyle;
+}
+
 # Obtener datos básicos para mostrar audiovisuales por décadas: id, imagen, titulo, pais, fecha, duracion.
 function firstGet($codigo, $howMany, $offset){
     #$select = "SELECT codigo_de_referencia, titulo_propio, titulo_paralelo, fecha, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia LIKE '%".$codigo."%' ORDER BY fecha DESC LIMIT ".$offset.",".$howMany;
@@ -636,6 +659,9 @@ function firstGet($codigo, $howMany, $offset){
     $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
     if ($stmt->rowCount() != 0){
         $data = $stmt->fetchAll(); // Obtener los datos
+        foreach ($data as &$audiovisual) {
+            $audiovisual['orientacion'] = getOrientation($audiovisual);//getOrientation($audiovisual);
+        }
         print_r(json_encode($data)); // Convertir a json y mostrar para poder rescatar los datos desde otro script
     }
 }
