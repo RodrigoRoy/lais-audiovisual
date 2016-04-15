@@ -201,6 +201,8 @@ function agregar(){
     # Agregar en blanco la imagen y demás información adicional
     $info_adicional = "INSERT INTO informacion_adicional(codigo_de_referencia) VALUES(
         '$datos->codigo_de_referencia');";
+    # Datos para el registro de actividades
+    $registro_actividades = "INSERT INTO registro_actividades VALUES('$datos->codigo_de_referencia', '$datos->titulo_propio', now(), '$datos->user', '$datos->accion');";
 
     try{
         $GLOBALS['conn']->exec($identificacion);
@@ -213,8 +215,7 @@ function agregar(){
         $GLOBALS['conn']->exec($info_adicional);
         
         // Si fué posible la creación, guardar datos al registro de actividades
-        $sql = "INSERT INTO registro_actividades VALUES('$datos->codigo_de_referencia', '$datos->titulo_propio', now(), '$datos->user', '$datos->accion');";
-        $GLOBALS['conn']->exec($sql);
+        $GLOBALS['conn']->exec($registro_actividades);
 
         print_r(json_encode(array("Status"=>"Ok"))); // Responder que la operación fué exitosa
     }
@@ -328,6 +329,8 @@ function actualizar(){
         . "url='" . $datos->url
         . "' WHERE codigo_de_referencia='" . $datos->codigo_de_referencia . "'";
 
+    $registro_actividades = "INSERT INTO registro_actividades VALUES('$datos->codigo_de_referencia', '$datos->titulo_propio', now(), '$datos->user', '$datos->accion');";
+
     try{
         $stmt = $GLOBALS['conn']->prepare($identificacion);
         $stmt->execute();
@@ -347,8 +350,8 @@ function actualizar(){
         $stmt->execute();
 
         // Si fué posible actualizar, guardar datos al registro de actividades
-        $sql = "INSERT INTO registro_actividades VALUES('$datos->codigo_de_referencia', '$datos->titulo_propio', now(), '$datos->user', '$datos->accion');";
-        $GLOBALS['conn']->exec($sql);
+        $stmt = $GLOBALS['conn']->prepare($registro_actividades);
+        $stmt->execute();
     }
     catch(PDOException $e){
         echo $e->getMessage();
