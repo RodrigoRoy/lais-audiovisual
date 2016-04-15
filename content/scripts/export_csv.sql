@@ -74,3 +74,12 @@ SELECT *
 	CHARACTER SET UTF8
 	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 	LINES TERMINATED BY '\n';
+
+# Exportar todos los registros en la base de datos de la tabla registro_actividades
+SELECT 'codigo_de_referencia', 'titulo_propio', 'fecha', 'usuario', 'accion'
+	UNION
+SELECT *
+	FROM registro_actividades INTO OUTFILE '/var/www/html/lais-audiovisual/content/backup/registro_actividades.csv'
+	CHARACTER SET UTF8
+	FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+	LINES TERMINATED BY '\n';
