@@ -1,10 +1,14 @@
 <link rel="stylesheet" type="text/css" href="css/background.css" />
+<link rel="stylesheet" type="text/css" href="css/grid-definitions.css" />
 <link rel="stylesheet" type="text/css" href="css/grid-portadas.css" />
 
 <style>
-* {
+/*Color de texto del contenedor de la información*/
+.container {
   color: #f0fff0;
 }
+
+/*Permite separar los checkbox del filtrado de búsqueda*/
 .list-unstyled > .interline-small{
   margin-bottom: 1em;
   line-height: 1.2;
@@ -23,86 +27,43 @@
   width: 100%;  
 }*/
 
-
-
-.btn-detalles{
-  background-color: #254559;
-  border-color: #112432;
-}
-.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
-    color: #fff;
-    background-color: #112332;
-}
-.nav-pills>li>a:hover{
-  background-color: #324250;
-}
-.titularResultados {
-  color: white;
-  margin-left:4.6%;
-}
-.tituloOrdenar {
-  color:#f0fff0;
-}
-.titularModalContent{
-  font-weight: bold;
-  font-size: 1.17em;
-}
-.modal-content{
-  background-color: rgba(25, 45, 59, 0.95);
-  color: #C2C2C2;
-}
-.contenedorInfo {
-  background-color: rgba(42, 59, 71, 0.6);
-}
-/*.spanRubro {
-  background-color: #0D1F2B;
-  color: #C2C2C2;
-}*/
+/*Espaciado lateral para las keywords*/
 .busqueda-rubro{
   margin-left: 3px;
   margin-right: 3px;
 }
+/*Color para las pestañas del modal (dentro de "Ver más")*/
 .nav-pills li a{
   color: #C2C2C2;
 }
 
-.tituloPrincipal{
-  width:175px; 
-  height:40px; 
-  background-color:white;
+
+/*CORRECCIONES DE TAMAÑO (para ajustarse junto con la barra de búsqueda)*/
+/*Posición y tamaño para decorado de capturas de pantalla (img-landscape)*/
+.frame-decorator {
+  width: 100%;
+  height: 134px;
+}
+/*Tamaño para imagen que representa una portada*/
+.img-portrait{
+  width: 80%;
+  height: 100%;
+}
+/*Tamaño para imagen que representa una captura de pantalla*/
+.img-landscape {
+  width: 75%;
+  height: 115px;
 }
 
-.search-options{
-  color: white;
-  padding-left: 6%;
-  padding-right: 6%;
+/*Si se desea ocupar una animación para otro elemento, se concatena:
+.other-element.ng-hide-add{}*/
+/* Cuando se esconde un documental (mediante ng-show) */
+.ng-hide-add{
+  animation:0.5s fadeOutUp linear;
 }
-
-/*Links "Anterior"/"Siguiente" dentro del modal*/
-a.navDocumental{
-  float: left;
-  text-align: left;
-  margin-right: 2em;
-}
-a.navDocumental:link{
-  color: #C2C2C2;
-  text-decoration: none;
-}
-a.navDocumental:visited{
-  color: #C2C2C2;
-  text-decoration: none;
-}
-a.navDocumental:hover{
-  color: #C2C2C2;
-  text-decoration: underline;
-}
-a.navDocumental:active{
-  color: #C2C2C2;
-  text-decoration: none;
-}
-/*Espaciado horizontal para no pegar los textos "Anterior"/"Siguiente"*/
-a.navSpacing{
-  margin-right: 2em;
+/* Cuando se muestra un documental (mediante ng-show) */
+.ng-hide-remove{
+  animation:0.5s fadeIn linear;
 }
 </style>
 
@@ -116,8 +77,8 @@ a.navSpacing{
     </div>
 
     <div class="row">
-      <div class="col-xs-2">
-        <div data-spy="affix">
+      <div class="col-xs-12 col-md-2">
+        <div> <!-- data-spy="affix" -->
           Tipos de resultados de la búsqueda
           <ul class="list-inline">
             <li><button class="btn btn-default btn-xs" type="button" ng-click="setAllFilters(true)"> Seleccionar todos</button></li>
@@ -126,7 +87,7 @@ a.navSpacing{
 
           <hr>
 
-          <ul class="list-unstyled" data-spy="affix" data-offset-top="50">
+          <ul class="list-unstyled"> <!-- data-spy="affix" data-offset-top="50"-->
             <li ng-repeat="rubro in inputQuery" class="interline-small">
               <input type="checkbox" ng-model="rubro.ticked" ng-change="updateView()"> {{rubro.total}} documental<span ng-if="rubro.total > 1">es</span> en "<strong>{{rubro.name}}</strong>", área de <em>{{rubro.area}}</em>
             </li>
@@ -134,7 +95,7 @@ a.navSpacing{
         </div>
       </div>
 
-      <div class="col-xs-10">
+      <div class="col-xs-12 col-md-10">
         <span style="font-size: large;">Búsqueda de <em>"{{query}}"</em></span>
         <br>
         <span style="font-size: larger;">{{archivos.length}} resultados ({{visibles}} visibles)</span>
@@ -142,52 +103,47 @@ a.navSpacing{
         <span ng-if="loading"><center><i class="fa fa-spinner fa-pulse fa-2x"></i></center></span>
         <center ng-if="!loading"><div class="alert alert-warning" role="alert" ng-show="archivos.length === 0" ng-cloak><strong>No hay coincidencias en la base de datos.</strong> Intente otra búsqueda.</div></center>
         
-        <div id="seccionPortadas">
-          <div id="audiovisual">
-            <a ng-repeat="archivo in archivos" data-toggle="modal" href="" data-target="#modalInfo" class="portadas portadasBusqueda" ng-show="archivo.show">
-              <img class="img-rounded" ng-click="getAllInfo(archivo.codigo_de_referencia)" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}"> <!-- data-trigger="hover" data-title="Aparece en:" data-content-template="popover-info.html" data-placement="top" bs-popover -->
-              <p class="text-rigth">
-                  {{recortarTitulo(archivo.titulo_adecuado, 32)}}
-                  <br>
-                  <br ng-show="archivo.titulo_adecuado.length <= 21">
-                  <p class="textoA">{{(archivo.fecha != "") ? archivo.fecha : "(Sin fecha)"}}</p>
-              </p>
-            </a>
-            <!--<script type="text/ng-template" id="popover-info.html">
-              <h5 ng-repeat="rubro in getRubros(archivo)"><span class="label label-primary">{{rubro}}</span> </h5>        
-            </script>-->
+
+        <div class="row">
+          <div ng-repeat="archivo in archivos">
+            <!-- <div ng-if="($index % 6 == 0) && ($index != 0)" class="clearfix"></div> -->
+
+            <div class="col-xs-12 col-md-3" ng-show="archivo.show">
+              <div class="thumbnail simple-container">
+                <a href="" data-toggle="modal" data-target="#modalInfo" ng-click="getAllInfo(archivo.codigo_de_referencia)">
+                  <div class="img-container">
+                    <img ng-cloak class="img-center frame-decorator hidden-xs hidden-sm visible-md-block visible-lg-block" src="imgs/frame6.png" ng-if="archivo.orientacion === 'landscape'">
+                    <img ng-cloak class="img-center hidden-xs hidden-sm visible-md-block visible-lg-block" ng-class="{'img-portrait': (archivo.orientacion === 'portrait'), 'img-landscape': archivo.orientacion === 'landscape'}" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}">
+
+                    <img ng-cloak class="img-center img-aspect-ratio visible-xs-block visible-sm-block hidden-md hidden-lg" ng-src="{{(archivo.imagen != '') ? ('imgs/Portadas/' + archivo.imagen) : ('imgs/Portadas2/' + archivo.codigo_de_referencia + '.jpg')}}">
+                  </div>
+                  <div class="title-container no-overflow">
+                    <p class="text-center">
+                      <!-- Esto era para hacer más grande el tamaño de letra en moviles. -->
+                      <!-- <span class="title-on-mobile visible-xs-block visible-sm-block hidden-md hidden-lg">{{archivo.titulo_adecuado}}</span>
+                      <span class="visible-md-block visible-lg-block hidden-xs hidden-sm">{{archivo.titulo_adecuado}}</span> -->
+                      {{archivo.titulo_adecuado}}
+                    </p>
+                  </div>
+                  
+                  <p class="text-center">
+                    {{archivo.fecha}}
+                  </p>
+                </a>
+              </div>
+            </div>
           </div>
+          <!-- Debug Log: -->
+          <!-- <div class="col-xs-10">
+            <pre>archivos:</pre>
+            <pre>{{archivos | json}}</pre>
+          </div> -->
         </div>
+
       </div>
-      <!-- Debug Log: -->
-      <!-- <div class="col-xs-12">
-        <pre>inputQuery:</pre>
-        <pre>{{inputQuery | json}}</pre>
-        <pre>archivos:</pre>
-        <pre>{{archivos | json}}</pre>
-      </div> -->
+
     </div>
-
-    <!-- Filtrar y ordenar resultados -->
-    <!-- <div class="row search-options" ng-show="archivos.length != 0">
-      <div class="col-md-8">
-        <h3><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filtrar por:</h3>
-        <div isteven-multi-select input-model="inputQuery" output-model="outputQuery" button-label="name" item-label="name" tick-property="ticked" orientation="horizontal" max-height="200px" max-labels="10" helper-elements="all none" translation="localLang" on-item-click="updateVisibility()" on-select-all="updateAll()" on-select-none="updateNone()" on-reset="updateAll()"></div>
-      </div>
-
-      <div class="col-md-4">
-        <h3><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Ordenar por:</h3>
-        <div>
-          <select class="selectpicker" ng-model="ordenamiento" ng-change="parseOrdenamiento()">
-            <option value="fecha|true" data-icon="glyphicon-sort-by-order-alt">Año (mayor a menor)</option>
-            <option value="fecha|false" data-icon="glyphicon-sort-by-order">Año (menor a mayor)</option>
-            <option value="titulo_visible|false" data-icon="glyphicon-sort-by-alphabet">Título (ascendente)</option>
-            <option value="titulo_visible|true" data-icon="glyphicon-sort-by-alphabet-alt">Título (descendente)</option>
-          </select>
-        </div>
-      </div>
-    </div> -->
-  </div>
+  </div> <!-- container -->
 
   <!--Modal que muestra la información de los audiovisuales -->
   <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog">

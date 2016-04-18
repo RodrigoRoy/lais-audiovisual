@@ -663,7 +663,7 @@ function firstGet($codigo, $howMany, $offset){
     if ($stmt->rowCount() != 0){
         $data = $stmt->fetchAll(); // Obtener los datos
         foreach ($data as &$audiovisual) {
-            $audiovisual['orientacion'] = getOrientation($audiovisual);//getOrientation($audiovisual);
+            $audiovisual['orientacion'] = getOrientation($audiovisual);
         }
         print_r(json_encode($data)); // Convertir a json y mostrar para poder rescatar los datos desde otro script
     }
@@ -786,6 +786,12 @@ function busqueda2($query, $permiso){
         usort($registros, "cmpFecha"); // Ordenar por fecha
         array_push($registros, $uniqueNames);
         //$registros['uniqueNames'] = $uniqueNames;
+
+        // Agregar la orientación de las imágenes:
+        foreach ($registros as $key => &$audiovisual) {
+            if($key < count($registros)-1) // porque el último elemento contiene un listado de campos
+                $audiovisual['orientacion'] = getOrientation($audiovisual);
+        }
         print_r(json_encode($registros));
     }
 }
