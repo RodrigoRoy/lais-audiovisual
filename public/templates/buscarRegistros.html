@@ -13,6 +13,10 @@
   margin-bottom: 1em;
   line-height: 1.2;
 }
+
+.affix {
+  top: 65px;
+}
 /*.affix {
   top: 0px;
   width: 100%;
@@ -55,14 +59,13 @@
   height: 115px;
 }
 
-/*Si se desea ocupar una animación para otro elemento, se concatena:
-.other-element.ng-hide-add{}*/
+/*Animación solamente para cada documental:*/
 /* Cuando se esconde un documental (mediante ng-show) */
-.ng-hide-add{
+.documental.ng-hide-add{
   animation:0.5s fadeOutUp linear;
 }
 /* Cuando se muestra un documental (mediante ng-show) */
-.ng-hide-remove{
+.documental.ng-hide-remove{
   animation:0.5s fadeIn linear;
 }
 </style>
@@ -77,8 +80,8 @@
     </div>
 
     <div class="row">
-      <div class="col-xs-12 col-md-2">
-        <div> <!-- data-spy="affix" -->
+      <div class="col-xs-12 col-md-2 hidden-xs hidden-sm">
+        <div id="panel-lateral"> <!-- data-spy="affix" -->
           Tipos de resultados de la búsqueda
           <ul class="list-inline">
             <li><button class="btn btn-default btn-xs" type="button" ng-click="setAllFilters(true)"> Seleccionar todos</button></li>
@@ -108,7 +111,7 @@
           <div ng-repeat="archivo in archivos">
             <!-- <div ng-if="($index % 6 == 0) && ($index != 0)" class="clearfix"></div> -->
 
-            <div class="col-xs-12 col-md-3" ng-show="archivo.show">
+            <div class="col-xs-12 col-md-3 documental" ng-show="archivo.show">
               <div class="thumbnail simple-container">
                 <a href="" data-toggle="modal" data-target="#modalInfo" ng-click="getAllInfo(archivo.codigo_de_referencia)">
                   <div class="img-container">
@@ -356,5 +359,22 @@
         $('.selectpicker').selectpicker();
         //$('.selectpicker').selectpicker('show');
         //$('.selectpicker').selectpicker('refresh');
+        
+
+        // Habilitar affix
+        $("#panel-lateral").affix({
+          offset: { 
+            top: 65 
+          }
+        });
+        // Ajusta el ancho del panel-lateral para que no se desborde el contenido
+        $(function() {
+          var $affixElement = $('#panel-lateral');
+          $affixElement.width($affixElement.parent().width());
+        });
+        // $(window).resize(function () {
+        //   var $affixElement = $('#panel-lateral');
+        //   $affixElement.width($affixElement.parent().width());
+        // });
     });
 </script>
