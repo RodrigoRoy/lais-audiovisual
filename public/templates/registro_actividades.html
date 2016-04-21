@@ -1,0 +1,36 @@
+<link rel="stylesheet" type="text/css" href="css/background.css" />
+<body>
+	<br><br>
+	<div class="container adminUser">
+		<div class="page-header">
+			<h1>Registro de actividades</h1>
+		</div>
+
+		<h2>Últimos cambios en la base de datos</h2>
+		
+		<div class="table-responsive">
+		  <table class="table">
+		  	<thead>
+		  		<tr>
+		  			<th class="col-xs-2">Código de referencia</th>
+		  			<th class="col-xs-4">Título</th>
+		  			<th class="col-xs-2">Fecha y hora</th>
+		  			<th class="col-xs-2">Usuario</th>
+		  			<th class="col-xs-2">Acción</th>
+		  		</tr>
+		  	</thead>
+		    <tbody>
+			    <tr ng-repeat="registro in registros">
+			    	<td class="col-xs-2">{{registro.codigo_de_referencia}}</td>
+		  			<td class="col-xs-4">{{registro.titulo_propio}}</td>
+		  			<td class="col-xs-2">{{registro.fecha}}</td>
+		  			<td class="col-xs-2">{{registro.usuario}}</td>
+		  			<td class="col-xs-2">{{parseActividad(registro.accion)}}</td>
+			    </tr>
+			</tbody>
+		  </table>
+		</div>
+
+		<button class="btn btn-primary btn-lg btn-block" ng-hide="allObtained" ng-click="getMore()">Más registros</button>
+	</div>
+</body>

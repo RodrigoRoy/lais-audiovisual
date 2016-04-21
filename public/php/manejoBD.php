@@ -83,6 +83,9 @@ switch ($_GET['action']) {
     case 'estadisticas':
         datos_estadisticos($_GET['decada']);
         break;
+    case 'registro':
+        registro_actividades($_GET['offset'], $_GET['rowCount']);
+        break;
     case 'detalles':
         faltantes_detalles($_GET['decada'], $_GET['campo'], $_GET['area']);
         break;
@@ -643,12 +646,13 @@ function getDecada($codigoDecada){
 # Recibe un arreglo asociativo con la información del audiovisual (obtenida por consulta a MySQL). Este arreglo debe contener la llave (key) "imagen", que corresponde al nombre del archivo
 # Devuelve una cadena de texto: "landscape" si el ancho de la imagen es mayor que la altura, "portrait" en otro caso.
 function getOrientation($audiovisual){
-    $dataImage = getimagesize("../imgs/Portadas/" . $audiovisual['imagen']); // getimagesize() devuelve un arreglo con varios datos. Revisar documentación para detalles
-    $width = $dataImage[0];
-    $height = $dataImage[1];
     $imageStyle = "portrait";
-    if($width > $height){
-        $imageStyle = "landscape";
+    if (!empty($audiovisual['imagen'])) {
+        $dataImage = getimagesize("../imgs/Portadas/" . $audiovisual['imagen']); // getimagesize() devuelve un arreglo con varios datos. Revisar documentación para detalles
+        $width = $dataImage[0];
+        $height = $dataImage[1];
+        if($width > $height)
+            $imageStyle = "landscape";
     }
     return $imageStyle;
 }
@@ -1063,6 +1067,23 @@ function datos_estadisticos($decada){
 
     print_r(json_encode($datos));
     $GLOBALS['conn'] = null;
+}
+
+// Petición a la base de datos de los primeros n registros a partir de la posición k,
+// donde n es el parámetro $offset y k es el parámetro $rowCount.
+function registro_actividades($offset, $rowCount){
+    $select = "SELECT * FROM registro_actividades ORDER BY fecha DESC LIMIT $offset, $rowCount";
+    try{
+        $stmt = $GLOBALS['conn']->prepare($select);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $data = $stmt->fetchAll();
+        print_r(json_encode($data));
+        $GLOBALS['conn'] = null;
+    }
+    catch(PDOException $e){
+        echo $e->getMessage();
+    }
 }
 
 // Indica cuáles documentales tienen información faltante.

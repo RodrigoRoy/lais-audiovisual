@@ -46,6 +46,10 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/control_informacion.html",
 			controller: "controlDatosCtrl"
 		})
+		.when("/actividad",{
+			templateUrl: "templates/registro_actividades.html",
+			controller: "registroActividadesCtrl"
+		})
 		.when("/allContents", {
 			templateUrl: "templates/allContents.html",
 			controller: "allContentsCtrl"
@@ -586,7 +590,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 			loop:
 			for(var i in rubrosList)
 				for(var j in $scope.inputQuery){
-					console.log($scope.archivos[key]['titulo_propio'], $scope.inputQuery[j]['name'], "===", rubrosList[i], "?:", $scope.inputQuery[j]['name'] === rubrosList[i]);
+					//console.log($scope.archivos[key]['titulo_propio'], $scope.inputQuery[j]['name'], "===", rubrosList[i], "?:", $scope.inputQuery[j]['name'] === rubrosList[i]);
 					if(($scope.inputQuery[j]['ticked']) && ($scope.inputQuery[j]['name'] === rubrosList[i])){ // Si aparece el rubro del registro en inputQuery
 						$scope.archivos[key]['show'] = true;
 						contador++;
@@ -1939,6 +1943,58 @@ lais.controller('controlDatosCtrl', function($scope, $http, $location, DecadaSer
 		$('.modal-backdrop').remove();
 		$location.url('/archivos/editarArchivo/' + id); // Redirigir a la página de edición
     }
+});
+
+// Controlador para mostrar el registro de actividades en la base de datos
+lais.controller('registroActividadesCtrl', function($scope, $http, $location, DecadaService){
+	if(!$scope.sesion && !($scope.permiso >= 3)){
+		console.log('No hay permisos suficientes');
+		$location.url('/inicio');
+	}
+
+	$scope.registros = {}; // Los registros contienen codigo_de_referencia, titulo_propio, fecha, usuario y accion (U,D,C)
+	$scope.offset = 0; // Posición del último registro obtenido
+	$scope.rowCount = 20; // Cantidad de registros a obtener en cada petición a la tabla "registro_actividades"
+	$scope.allObtained = false; // Indica si ya se obtuvieron todos los resultados
+	
+	// ***** INICIALIZACIÓN ****
+	// Obtener los primeros n registros ($scope.rowCount) y guardos en $scope.registros
+	$http.get('php/manejoBD.php?action=registro&offset=' + $scope.offset + '&rowCount=' + $scope.rowCount)
+		.success(function(data){
+			$scope.registros = data;
+		})
+		.error(function(data, status, headers, config){
+			console.log("Error de conexión en la base.");
+		});
+
+	// Obtener los siguientes n registros ($scope.rowCount) a partir de la posición $scope.offset + n
+	$scope.getMore = function(){
+		$scope.offset = $scope.offset + $scope.rowCount; // Actualizar la posición actual
+		// Pedir los siguientes registros:
+		$http.get('php/manejoBD.php?action=registro&offset=' + $scope.offset + '&rowCount=' + $scope.rowCount)
+			.success(function(data){
+				if(data.length < $scope.rowCount)
+					$scope.allObtained = true; // Si recibimos menos de n registros ($scope.rowCount) indicar que ya son todos
+				$scope.registros = $scope.registros.concat(data); // Concatenar el resultado a los registros existentes
+			})
+			.error(function(data, status, headers, config){
+				console.log("Error de conexión en la base.");
+			});		
+	};
+
+	// Auxiliar para hacer legible la letra que representa la actividad:
+	// U = Actualizar (Update), D = Borrado (Delete), C = Creación (Create)
+	$scope.parseActividad = function(actividad){
+		var result = "";
+		if(actividad === 'U')
+			result = "Actualización";
+		else if (actividad === 'D')
+			result = "Borrado";
+		else if (actividad === 'C')
+			result = "Creación";
+		return result;
+	};
+
 });
 
 lais.controller('allContentsCtrl', function($scope, $http, $location, DecadaService){
