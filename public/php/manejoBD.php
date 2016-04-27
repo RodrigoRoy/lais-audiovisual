@@ -726,6 +726,83 @@ function cmpFecha($item1, $item2){
     return $item2['fecha'] - $item1['fecha'];
 }
 
+// Función de comparación para priorizar los campos de las areas de documentación.
+// Útil para ordenar los resultados por áreas en la función busqueda2()
+// Devuelve un entero menor que, igual, o mayor que cero si el primer argumento es considerado respectivamente menor que, igual, o mayor que el segundo.
+function cmpCampos($str1, $str2){
+    // Arreglo asociativo que indica la prioridad de cada campo (menor valor indica mayor prioridad)
+    $campos = array(
+        'codigo_de_referencia' => 0, 
+        'titulo_propio' => 1, 
+        'titulo_paralelo' => 2, 
+        'titulo_atribuido' => 3, 
+        'titulo_de_serie' => 4, 
+        'numero_de_programa' => 5, 
+        'pais' => 6, 
+        'fecha' => 7, 
+        'duracion' => 8, 
+        'investigacion' => 9, 
+        'realizacion' => 10, 
+        'direccion' => 11, 
+        'guion' => 12, 
+        'adaptacion' => 13, 
+        'idea_original' => 14, 
+        'fotografia' => 15, 
+        'fotografia_fija' => 16, 
+        'edicion' => 17, 
+        'sonido_grabacion' => 18, 
+        'sonido_edicion' => 19, 
+        'musica_original' => 20, 
+        'musicalizacion' => 21, 
+        'voces' => 22, 
+        'actores' => 23, 
+        'animacion' => 24, 
+        'otros_colaboradores' => 25, 
+        'entidad_productora' => 26, 
+        'productor' => 27, 
+        'distribuidora' => 28, 
+        'historia_institucional' => 29, 
+        'resena_biografica' => 30, 
+        'forma_de_ingreso' => 31, 
+        'fecha_de_ingreso' => 32, 
+        'sinopsis' => 33, 
+        'descriptor_onomastico' => 34, 
+        'descriptor_toponimico' => 35, 
+        'descriptor_cronologico' => 36, 
+        'tipo_de_produccion' => 37, 
+        'genero' => 38, 
+        'fuentes' => 39, 
+        'recursos' => 40, 
+        'versiones' => 41, 
+        'formato_original' => 42, 
+        'material_extra' => 43, 
+        'condiciones_de_acceso' => 44, 
+        'existencia_y_localizacion_de_originales' => 45, 
+        'idioma_original' => 46, 
+        'doblajes_disponibles' => 47, 
+        'subtitulajes' => 48, 
+        'soporte' => 49, 
+        'numero_copias' => 50, 
+        'descripcion_fisica' => 51, 
+        'color' => 52, 
+        'audio' => 53, 
+        'sistema_de_grabacion' => 54, 
+        'region_dvd' => 55, 
+        'requisitos_tecnicos' => 56, 
+        'existencia_y_localizacion_de_copias' => 57, 
+        'unidades_de_descripcion_relacionadas' => 58, 
+        'documentos_asociados' => 59, 
+        'area_de_notas' => 60, 
+        'notas_del_archivero' => 61, 
+        'datos_del_archivero' => 62, 
+        'reglas_o_normas' => 63, 
+        'fecha_de_descripcion' => 64, 
+        'imagen' => 65, 
+        'url' => 66
+    );
+    return $campos[$str1] - $campos[$str2];
+}
+
 // Búsqueda que incluye el rubro en donde se encontró la coincidencia
 // El parámetro $permiso se utiliza para restringir la búsqueda dentro del area_de_decripcion
 function busqueda2($query, $permiso){
@@ -791,7 +868,7 @@ function busqueda2($query, $permiso){
             $uniqueNames = array_merge($uniqueNames, $rubro);
             $uniqueNames = array_unique($uniqueNames); // Evitar repetidos
         }
-    sort($uniqueNames); // Ordena alfabeticamente los rubros
+    usort($uniqueNames, cmpCampos); // Ordena por prioridad de los rubros (campos)
 
     if (!empty($registros)) { // Solamente mostrar resultados cuando la búsqueda no es vacia
         usort($registros, "cmpFecha"); // Ordenar por fecha
