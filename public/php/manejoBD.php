@@ -592,6 +592,9 @@ function obtenerArea($id){
         $areas["adicional"] = $stmt->fetch();
         unset($areas['adicional']['codigo_de_referencia']);
     }
+    // Agregar la orientación de la imagen:
+    $areas["secret"]["orientacion"] = getOrientation($areas);
+    
     print_r(json_encode($areas)); // Devolver resultado para ser leido por controller.js
     $GLOBALS['conn'] = null; // Cerrar conexion
 }
@@ -646,15 +649,19 @@ function getDecada($codigoDecada){
 # Recibe un arreglo asociativo con la información del audiovisual (obtenida por consulta a MySQL). Este arreglo debe contener la llave (key) "imagen", que corresponde al nombre del archivo
 # Devuelve una cadena de texto: "landscape" si el ancho de la imagen es mayor que la altura, "portrait" en otro caso.
 function getOrientation($audiovisual){
-    $imageStyle = "portrait";
-    if (!empty($audiovisual['imagen'])) {
+    if (array_key_exists('imagen', $audiovisual) && !empty($audiovisual['imagen'])) { // Caso para objeto $audiovisual con poca información (firstGet(), busqueda2())
         $dataImage = getimagesize("../imgs/Portadas/" . $audiovisual['imagen']); // getimagesize() devuelve un arreglo con varios datos. Revisar documentación para detalles
+    }
+    elseif (array_key_exists('adicional', $audiovisual) && !empty($audiovisual['adicional']['imagen'])) { // Caso para objeto $audiovisual con información completa (obtenerAreas())
+        $dataImage = getimagesize("../imgs/Portadas/" . $audiovisual['adicional']['imagen']); // getimagesize() devuelve un arreglo con varios datos. Revisar documentación para detalles
+    }
+    if (isset($dataImage)){ // Si la variable $dataImage fué inicializada
         $width = $dataImage[0];
         $height = $dataImage[1];
         if($width > $height)
-            $imageStyle = "landscape";
+            return "landscape";
     }
-    return $imageStyle;
+    return "portrait"; // valor por default si no existe imagen
 }
 
 # Obtener datos básicos para mostrar audiovisuales por décadas: id, imagen, titulo, pais, fecha, duracion.

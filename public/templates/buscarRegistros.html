@@ -111,7 +111,7 @@
           <div ng-repeat="archivo in archivos">
             <!-- <div ng-if="($index % 6 == 0) && ($index != 0)" class="clearfix"></div> -->
 
-            <div class="col-xs-12 col-md-3 documental" ng-show="archivo.show">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 documental" ng-show="archivo.show">
               <div class="thumbnail simple-container">
                 <a href="" data-toggle="modal" data-target="#modalInfo" ng-click="getAllInfo(archivo.codigo_de_referencia)">
                   <div class="img-container">
@@ -187,7 +187,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-xs-12 col-md-4 col-lg-4">
-                <img ng-src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas2/' + allInfo.identificacion.codigo_de_referencia + '.jpg')}}" class="img-responsive" id="imgPortada">
+                <img ng-src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas2/' + allInfo.identificacion.codigo_de_referencia + '.jpg')}}" class="img-responsive" id="img-portada">
               </div>
               <div class="col-xs-12 col-md-8 col-lg-8">
                 <p><span class="titularModalContent">Sinopsis</span></p>

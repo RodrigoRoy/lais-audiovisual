@@ -725,7 +725,8 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
 		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
 		// Agregar nuevos campos "titulo_adecuado" y "titulo_visible":
-		$scope.allInfo.secret = [];
+		if(!$scope.allInfo.secret)
+			$scope.allInfo.secret = [];
 		$scope.allInfo.secret['titulo_adecuado'] = $scope.tituloAdecuado($scope.allInfo.identificacion);
 		$scope.allInfo.secret['titulo_visible'] = $scope.tituloVisible($scope.allInfo.secret['titulo_adecuado']);
 
@@ -863,7 +864,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 					return ($scope.allInfoCopy.adicional.imagen === '') ? "" : {text: 'Portada', style: 'subheader'}
 				})(),
 				(function(){
-					return ($scope.allInfoCopy.adicional.imagen === '') ? "" : {image: getBase64Image(document.getElementById("imgPortada")), width: 150 }
+					return ($scope.allInfoCopy.adicional.imagen === '') ? "" : {image: getBase64Image(document.getElementById("img-portada")), width: 150 }
 				})(),
 				{
 					text: "Fecha de consulta: " + $scope.getTodayDate() + ".", fontSize: 10, margin: [0, 10]
