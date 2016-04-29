@@ -682,10 +682,42 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 
 	};
 
+	// Lista de keywords del query de búsqueda.
+	// Suponiendo una búsqueda restrictiva donde cada keyword debe aparecer en el campo/rubro,
+	// es decir, siempre deben estar contenidas todas las keywords.
+	$scope.listRubrosKeys = function(codigo_de_referencia){
+		var rubros = $scope.findRubros(codigo_de_referencia);
+		var keysList = [];
+		for(var key in rubros)
+			keysList.push(key);
+		console.log();
+		return keysList;
+	};
+
+	// Lista de campos/rubros encontrados en una búsqueda (dentro de la propiedad "rubros" de la función busqueda2())
+	// Suponiendo una búsqueda restrictiva donde cada keyword debe aparecer en el campo/rubro,
+	// es decir, el arreglo "rubros" contiene las mismas repeticiones en cada keyword (ver mediante postman)
+	// y por lo tanto, es válido tomar solamente la primera lista de rubros/campos.
+	$scope.listRubros = function(codigo_de_referencia){
+		var rubros = $scope.findRubros(codigo_de_referencia);
+		//var campos = [];
+		for(var key in rubros)
+			//campos = campos.concat(rubros[key]);
+			return rubros[key];
+		//return campos;
+	};
+
 	// Resalta la cadena de texto dada como parámetro dentro del modal que contiene toda la información del registro audiovisual
 	$scope.highlight = function(query){
 		$("#modalInfo").removeHighlight();
 		$("#modalInfo").highlight(query, true);
+	};
+
+	// Modificación de highlight(), permite resaltar más de una palabra a la vez.
+	$scope.highlightKeywords = function(array_query){
+		$("#modalInfo").removeHighlight();
+		for(var i in array_query)
+			$("#modalInfo").highlight(array_query[i], true);
 	};
 
 	// Auxiliar para determinar el área de un rubro (util al auto-mostrar la pestaña donde aparece la keyword)
@@ -706,6 +738,14 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 		$scope.hideInfo = true; // Mostrar modal si está oculto
 	    $('.nav-pills a[data-target="#' + area + '"]').tab('show'); // Mostrar pestaña (nav-pill/nav-tab)
 	    $scope.highlight(keyword); // Resaltar la keyword correspondiente dentro del texto
+	};
+
+	// Mostrar tab relacionada con las keywords de la búsqueda
+	$scope.focusKeywords = function(keywords, rubro){
+		var area = $scope.searchArea(rubro); // Determinar el área (id de la pestaña/nav-pill/nav-tab)
+		$scope.hideInfo = true; // Mostrar modal si está oculto
+	    $('.nav-pills a[data-target="#' + area + '"]').tab('show'); // Mostrar pestaña (nav-pill/nav-tab)
+	    $scope.highlightKeywords(keywords);
 	};
 
 	// ########## FORMATO Y VISUALIZACIÓN DE LA INFORMACIÓN ##########
