@@ -14,22 +14,20 @@
   line-height: 1.2;
 }
 
+/*CONFIGURACIÓN DEL PANEL LATERAL DE BÚSQUEDA*/
+#panel-lateral{
+  /*width: initial;*/
+  height: 90vh;
+  overflow-y: scroll;
+}
 .affix {
   top: 65px;
+  /*width: inherit;*/
 }
-/*.affix {
-  top: 0px;
-  width: 100%;
-}
-
 .affix-top {
-  width: 100%;
+  /*top: 65px;*/
+  /*width: initial;*/
 }
-
-.affix-bottom {
-  position: absolute;
-  width: 100%;  
-}*/
 
 /*Espaciado lateral para las keywords*/
 .busqueda-rubro{
@@ -67,6 +65,28 @@
 /* Cuando se muestra un documental (mediante ng-show) */
 .documental.ng-hide-remove{
   animation:0.5s fadeIn linear;
+}
+
+.container-nav-left{
+  position: fixed;
+  width: 2em;
+  height: 100%;
+  border: 1px solid green;
+  top: 0px;
+  left: -2em;
+}
+.container-nav-right{
+  position: fixed;
+  width: 2em;
+  height: 100%;
+  border: 1px solid green;
+  top: 0px;
+  right: -2em;
+}
+.arrow-nav{
+  position: absolute;
+  top: 50%;
+  left: 0px;
 }
 </style>
 
@@ -153,8 +173,9 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
 
-        <!-- <div><i class="fa fa-arrow-left fa-3x" aria-hidden="true"></i></div>
-        <div><i class="fa fa-arrow-right fa-3x" aria-hidden="true"></i></div> -->
+        <!-- Propuesta de flechas de navegación -->
+        <!-- <div class="container-nav-left"><i class="fa fa-arrow-left fa-3x arrow-nav" aria-hidden="true"></i></div>
+        <div class="container-nav-right"><i class="fa fa-arrow-right fa-3x arrow-nav" aria-hidden="true"></i></div> -->
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -373,14 +394,16 @@
             top: 65 
           }
         });
+        
         // Ajusta el ancho del panel-lateral para que no se desborde el contenido
         $(function() {
           var $affixElement = $('#panel-lateral');
           $affixElement.width($affixElement.parent().width());
         });
-        // $(window).resize(function () {
-        //   var $affixElement = $('#panel-lateral');
-        //   $affixElement.width($affixElement.parent().width());
-        // });
+        $(window).resize(function () {
+          var $affixElement = $('#panel-lateral');
+          $affixElement.width($affixElement.parent().width());
+        });
     });
+
 </script>
