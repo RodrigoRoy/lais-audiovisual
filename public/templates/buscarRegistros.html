@@ -211,7 +211,13 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-xs-12 col-md-4 col-lg-4">
-                <img ng-src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas2/' + allInfo.identificacion.codigo_de_referencia + '.jpg')}}" class="img-responsive" id="img-portada">
+                <!-- id="img-portada" se usa en controller para generar imagen en PDF -->
+                <!-- Desktop view: -->
+                <img ng-cloak class="hidden-xs hidden-sm visible-md-block visible-lg-block modal-frame-decorator" src="imgs/frame6.png" ng-if="allInfo.secret.orientacion.toLowerCase() === 'landscape'">
+                <img ng-cloak class="hidden-xs hidden-sm visible-md-block visible-lg-block" ng-class="{'modal-img-responsive': (allInfo.secret.orientacion.toLowerCase() === 'portrait'), 'modal-img-landscape': allInfo.secret.orientacion.toLowerCase() === 'landscape'}" ng-src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas2/' + allInfo.identificacion.codigo_de_referencia + '.jpg')}}" id="img-portada">
+                <!-- Mobile view: -->
+                <img ng-cloak class="visible-xs-block visible-sm-block hidden-md hidden-lg modal-mobile-frame-decorator" src="imgs/frame6.png" ng-if="allInfo.secret.orientacion.toLowerCase() === 'landscape'">
+                <img ng-cloak class="visible-xs-block visible-sm-block hidden-md hidden-lg" ng-class="{'modal-img-responsive': (allInfo.secret.orientacion.toLowerCase() === 'portrait'), 'modal-mobile-img-landscape': allInfo.secret.orientacion.toLowerCase() === 'landscape'}" ng-src="{{(allInfo.adicional.imagen != '') ? ('imgs/Portadas/' + allInfo.adicional.imagen) : ('imgs/Portadas2/' + allInfo.identificacion.codigo_de_referencia + '.jpg')}}" id="img-portada">
               </div>
               <div class="col-xs-12 col-md-8 col-lg-8">
                 <p><span class="titularModalContent">Sinopsis</span></p>
