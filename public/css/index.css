@@ -172,8 +172,8 @@ body{
 *Cambiar de color de fondo del navegador de secciones
 */	
 .navegador{
-	background-color:transparent;
-	border-color: none;
+	background-color: rgba(0,0,0,.6);
+	border-style: none;
 	color: white;
 }
 
