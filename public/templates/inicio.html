@@ -4,6 +4,10 @@
 <script type="text/javascript" src="js/modernizr.custom.86080.js"></script>
 
 <style>
+/*slide.css y animacionesSlide.css permiten la transición de imagenes de fondo pero sobreescriben algunos estilos.
+Lo siguiente sirve únicamente para que el texto en la página inicial sea vistoso y descriptivo*/
+
+/*Recreación del Jumbotron original de Bootstrap sin fondo*/
 .my-jumbotron{
     position: fixed;
     top: 10%;
@@ -15,32 +19,42 @@
     padding-top: 48px;
     padding-bottom: 48px;
     color: #CCC;
-    /*background-color: rgba(13,13,13,0.85);*/
     background-color: rgba(13,13,13,0.0);
-    box-sizing: border-box;
 }
+/*Título principal: "metaDOC"*/
 .my-title{
     font-family: 'Montserrat', sans-serif;
     font-size: 3em;
     text-shadow: 5px 4px 0 rgba(0,0,0,0.4);
     margin-bottom: 5px;
 }
+/*Subtítulo: "Documental e investigación"*/
 .my-subtitle{
     font-family: 'Montserrat', sans-serif;
     font-size: 2em;
     text-shadow: 2px 3px 5px rgba(0,0,0,0.8);
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
 }
+/*Breve texto explicativo*/
 .my-description{
     font-family: 'Montserrat', sans-serif;
     font-size: 1em;
     text-shadow: 2px 2px 1px rgba(0,0,0,0.8);
-    margin-bottom: 5px;
+}
+/*Color y fuente del botón para ver la colección*/
+a.btn-primary{
+    background-color: #006596;
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 2em;
+}
+a.btn-primary:hover{
+    background-color: #005076;
 }
 </style>
 
 <body id="page">
     <ul ng-cloak class="cb-slideshow">
+        <!-- En la versión original, dentro de cada <h3> contiene las palabras "Laboratorio Audiovisual de Investigación Social" -->
         <li><span></span><div><h3 class="titulos"></h3></div></li>
         <li><span></span><div><h3 class="titulos"></h3></div></li>
         <li><span></span><div><h3 class="titulos"></h3></div></li>
@@ -48,16 +62,11 @@
         <li><span></span><div><h3 class="titulos"></h3></div></li>
     </ul>
 
-    <div>
-        <div class="jumbotron my-jumbotron">
-            <h1 class="my-title">metaDOC</h1>
-            <h2 class="my-subtitle">Documental e investigación</h2>
-            <p class="my-description">Sitio web que pone a disposición la documentación de la colección de documentales del Laboratorio Audiovisual de Investigación Social del Instituto Mora, con la intención de impulsar el análisis e investigación sobre este tipo de documentos.</p>
-            <p><a class="btn btn-primary btn-lg" href="#/decadas/" role="button">Ver colección</a></p>
-        </div>
+    
+    <div class="jumbotron my-jumbotron">
+        <h1 class="my-title">metaDOC</h1>
+        <h2 class="my-subtitle">Documental e investigación</h2>
+        <p class="my-description">Sitio web que pone a disposición la documentación de la colección de documentales del Laboratorio Audiovisual de Investigación Social del Instituto Mora, con la intención de impulsar el análisis e investigación sobre este tipo de documentos.</p>
+        <p><a class="btn btn-primary btn-lg" href="#/decadas/" role="button">Ver colección</a></p>
     </div>
-
-    <!-- <br>
-    <center>
-    </center> -->
 </body>
