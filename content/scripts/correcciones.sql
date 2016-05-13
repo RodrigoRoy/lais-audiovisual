@@ -68,3 +68,36 @@ update informacion_adicional set imagen = 'MXIM-AV-1-12-21.jpg' where codigo_de_
 
 # Es mejor mantener un registro general de actividades que solo de los borrados
 drop table borrados;
+
+# Incluir el símbolo de igualdad (=) como separador de títulos paralelos
+update area_de_identificacion set titulo_paralelo = "Del Polo al ecuador = Dall Polo all'Equatore" where titulo_paralelo = "Del Polo al ecuador, Dall Polo all'Equatore";
+update area_de_identificacion set titulo_paralelo = 'Excursiones caníbales = Viajes caníbales' where titulo_paralelo = 'Excursiones caníbales, Viajes caníbales';
+update area_de_identificacion set titulo_paralelo = 'Nuestro siglo = Nosso século' where titulo_paralelo = 'Nuestro siglo, Nosso século';
+update area_de_identificacion set titulo_paralelo = 'El final = film e vida' where titulo_paralelo = 'El final, film e vida';
+update area_de_identificacion set titulo_paralelo = 'Pathé alrededor del mundo = Pathé around the world' where titulo_paralelo = 'Pathé alrededor del mundo, Pathé around the world';
+update area_de_identificacion set titulo_paralelo = 'Swagatam (bienvenidos) = Swagatam (welcome)' where titulo_paralelo = 'Swagatam (bienvenidos), Swagatam (welcome)';
+update area_de_identificacion set titulo_paralelo = 'Los cosechadores y yo = Los cosechadores y la cosechadora' where titulo_paralelo = 'Los cosechadores y yo, Los cosechadores y la cosechadora';
+update area_de_identificacion set titulo_paralelo = 'Poses del siglo XIX = 19th Poses' where titulo_paralelo = 'Poses del siglo XIX, 19th Poses';
+update area_de_identificacion set titulo_paralelo = 'Hablemos de Antonio Campos = Let´s talk about António Campos' where titulo_paralelo = 'Hablemos de Antonio Campos, Let´s talk about António Campos';
+update area_de_identificacion set titulo_paralelo = 'Cine-Ojo = Kino-Eye' where titulo_paralelo = 'Cine-Ojo, Kino-Eye';
+update area_de_identificacion set titulo_paralelo = 'Nanook el esquimal = Nanook del norte. Una historia de vida y amor en el Ártico actual' where titulo_paralelo = 'Nanook del norte Una historia de vida y amor in el Artico actual, Nanook el esquimal,';
+update area_de_identificacion set titulo_paralelo = 'Lluvia = Rain = La Pluie' where titulo_paralelo = 'Lluvia, Rain, La Pluie';
+update area_de_identificacion set titulo_paralelo = 'La caída de la dinastía Romanov = The fall of the Romanov dynasty' where titulo_paralelo = 'La caída de la dinastía Romanov, The fall of the Romanov dynasty';
+update area_de_identificacion set titulo_paralelo = 'Tres cantos a Lenin = Three songs about Lenin' where titulo_paralelo = 'Tres cantos a Lenin, Three songs about Lenin';
+update area_de_identificacion set titulo_paralelo = 'Semana Santa en Lorca = Semana Santa en Murcia y Cartagena = Fiestas de Primavera en Murcia' where titulo_paralelo = 'Semana Santa en Lorca, Semana Santa en Murcia y Cartagena, Fiestas de Primavera en Murcia';
+update area_de_identificacion set titulo_paralelo = 'Danza Barong-Keket en Bali = Barong Kèkèt Dance on Bali' where titulo_paralelo = 'Danza Barong-Keket en Bali, Barong Kèkèt Dance on Bali';
+update area_de_identificacion set titulo_paralelo = 'Taris, rey del agua = Taris, roi de léau' where titulo_paralelo = 'Taris, rey del agua, Taris, roi de léau';
+update area_de_identificacion set titulo_paralelo = 'La sangre de las bestias = Blood of the beasts' where titulo_paralelo = 'La sangre de las bestias, Blood of the beasts';
+update area_de_identificacion set titulo_paralelo = 'Londres puede soportarlo = Londres resiste' where titulo_paralelo = 'Londres puede soportarlo, Londres resiste';
+update area_de_identificacion set titulo_paralelo = 'Los amos locos = The mad masters = Os mestres loucos' where titulo_paralelo = 'Los amos locos, The mad masters, Os mestres loucos';
+update area_de_identificacion set titulo_paralelo = 'Mami agua = Mamy Wata' where titulo_paralelo = 'Mami agua, Mamy Wata';
+update area_de_identificacion set titulo_paralelo = 'Nosotros = Nós' where titulo_paralelo = 'Nosotros, Nós';
+update area_de_identificacion set titulo_paralelo = 'Los años locos = Mad years' where titulo_paralelo = 'Los años locos, Mad years';
+update area_de_identificacion set titulo_paralelo = 'Bailes folklóricos en Desa, Rumania = Folk dances at Desa, Romania' where titulo_paralelo = 'Bailes folklóricos en Desa, Rumania, Folk dances at Desa, Romania';
+update area_de_identificacion set titulo_paralelo = 'El principio = O inicio = Beginning = Au début' where titulo_paralelo = 'El principio, O inicio, Beginning, Au début';
+update area_de_identificacion set titulo_paralelo = 'En la tierra de las canoas de guerra = Im land der Kriegs-Kanus = In the land of the headhunters' where titulo_paralelo = 'En la tierra de las canoas de guerra, Im land der Kriegs-Kanus, In the land of the headhunters';
+update area_de_identificacion set titulo_paralelo = 'El fondo del aire es rojo = A grin without a cat' where titulo_paralelo = 'El fondo del aire es rojo, A grin without a cat';
+update area_de_identificacion set titulo_paralelo = 'El tren en marcha = The train rolls on' where titulo_paralelo = 'El tren en marcha, The train rolls on';
+update area_de_identificacion set titulo_paralelo = 'Los tambores de antaño = Tourou et Bitti' where titulo_paralelo = 'Los tambores de antaño, Tourou et Bitti';
+update area_de_identificacion set titulo_paralelo = 'Toros en Forcalhos = Tourada em Forcalhos' where titulo_paralelo = 'Toros en Forcalhos, Tourada em Forcalhos';
+update area_de_identificacion set titulo_paralelo = 'Las estaciones = Les saisons' where titulo_paralelo = 'Las estaciones, Les saisons';

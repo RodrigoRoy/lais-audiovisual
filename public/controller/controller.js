@@ -770,6 +770,8 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 			$scope.allInfo.secret = [];
 		$scope.allInfo.secret['titulo_adecuado'] = $scope.tituloAdecuado($scope.allInfo.identificacion);
 		$scope.allInfo.secret['titulo_visible'] = $scope.tituloVisible($scope.allInfo.secret['titulo_adecuado']);
+		// Cambiar (=) por (,) cuando existen varios títulos para el campo titulo_paralelo (se debe realizar después de asignar "titulo_adecuado"/"titulo_visible")
+		$scope.allInfo.identificacion.titulo_paralelo = $scope.allInfo.identificacion.titulo_paralelo.indexOf("=") > -1 ? $scope.allInfo.identificacion.titulo_paralelo.replace(/ ?= ?/g, ', ') : $scope.allInfo.identificacion.titulo_paralelo;
 
 		$scope.allInfoCopy = []; // Vaciar la copia actual
 		for(var area in $scope.allInfo){
@@ -804,7 +806,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 		// 	return matches[1];
 		// De no ser el caso, prioridad a titulo_paralelo
 		if (archivo.titulo_paralelo !== ''){
-			var titulos = archivo.titulo_paralelo.split(","); // Puede haber varios títulos paralelos (separados por coma)
+			var titulos = archivo.titulo_paralelo.split("="); // Puede haber varios títulos paralelos (separados por '=')
 			if (titulos.length > 1) // De ser así, tomar solamente el primero
 				return titulos[0].trim();
 			// En caso contrario, tomar todo el titulo_paralelo

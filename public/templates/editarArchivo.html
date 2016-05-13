@@ -18,6 +18,9 @@
 	a{
 		color: #79AAD2;
 	}
+	/*.has-warning{
+		border-color: #8a6d3b;
+	}*/
 </style>
 
 <body>
@@ -69,10 +72,11 @@
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.titulo_propio.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.titulo_propio.$invalid"></div>
 							</div>
 							<!-- TITULO_PARALELO -->
-							<div class="form-group" ng-class="{'has-error': audiovisualForm.titulo_paralelo.$invalid}">
+							<div class="form-group" ng-class="{'has-error': audiovisualForm.titulo_paralelo.$invalid, 'has-warning': titulo_paralelo.indexOf(',') > -1}">
 								<label class="control-label" for="titulo_paralelo">Título paralelo</label>
 								<input class="form-control" id="titulo_paralelo" name="titulo_paralelo" ng-model="titulo_paralelo" ng-maxlength="150">
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.titulo_paralelo.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.titulo_paralelo.$invalid"></div>
+								<div class="text-warning" ng-show="titulo_paralelo.indexOf(',') > -1">Varios títulos paralelos se separan con el símbolo de igualdad (=) en vez de coma (,).</div>
 							</div>
 							<!-- TITULO_ATRIBUIDO -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.titulo_atribuido.$invalid}">
