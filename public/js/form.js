@@ -2,7 +2,7 @@
 
 // Todas las descripciones o textos de ayuda de cada campo en el formulario.
 var dataContent = {
-	"codigo_de_referencia": "Se crea en relación al resto de los materiales contenidos en el acervo del LAIS, el cual se compone de fotografía, mapas, caricatura y material audiovisual. El código asignado a la Colección es: MXIM-AV",
+	"codigo_de_referencia": "Se crea en relación al resto de los materiales contenidos en el acervo del LAIS, el cual se compone de fotografía, mapas, caricatura y material audiovisual.",
 	"titulo_propio": "Título original de distribución en el país del origen. Se incluyen, en su caso, el subtítulo que es una palabra o frase que aparece junto con y subordinada al título propio, incluyuendo la traducción al español entre paréntesis.",
 	"titulo_paralelo": "Es un título propio en otra lengua (no es la traducción, sino un nuevo título creado para su versión en otra lengua). En caso de tener subtítulo también se consigna.",
 	"titulo_atribuido": "Nombre dado por el documentalista cuando el material no tiene nobre propio.",
@@ -33,9 +33,9 @@ var dataContent = {
 	"productor": "Nombre(s) de la(s) persona(s) responsable(s) de la producción (personas físicas), tal como aparecen en los créditos de la obra.",
 	"distribuidora": "Institución o empresa distribuidora del material en el país, en caso de no existir tal, se consigna la distribuidora original en el país de origen de la obra.",
 	"historia_institucional": "Una breve semblanza de las instituciones productoras o el productor.",
-	"resena_biografica": "Refiere una biografía sintética del realizador de la obra, priorizando su trabajo en producciones del tipo que se está consignando",
+	"resena_biografica": "Refiere una biografía sintética del realizador de la obra, priorizando su trabajo en producciones del tipo que se está consignando.",
 	"forma_de_ingreso": "Describe cómo llegó la unidad documental al acervo.",
-	"fecha_de_ingreso": "Consigna la fecha de ingreso del material a la colección",
+	"fecha_de_ingreso": "Consigna la fecha de ingreso del material a la colección.",
 
 	"sinopsis": "Se consigna el contenido del material, refiriendo el resumen original del mismo, en idioma original y en su caso incluye una traducción al español de la versión original. Cuando no exista una sinopsis elaborada por el realizador o productor de los materiales se puede recuperar un texto que describa el material en forma adecuada. Cuando no sea posible lo anterior, ésta será elaborada por el catalogador.",
 	"descriptor_onomastico": "Señala los nombres de las personas referidas en el documental así como los de aquellos que aprecen en el mismo. Se debe poner nombre y después apellidos.",
@@ -60,7 +60,7 @@ var dataContent = {
 	"color": "Se indicará si la producción es a color, blanco y negro o ambos.",
 	"audio": "Se consigna el sistema de audio en que se encuentra la producción (Dolby, Dolby Digital, Estéreo, Monoaural, Sonido 2.1, Sonido 5.1, etc. Se indicará lo que esté consignado en la obra.",
 	"sistema_de_grabacion": "Se señala el sistema de grabación y reproducción de los materiales, el cual puede ser: NTSC, PAL, SECAM, etc.",
-	"region_dvd": 'Se señala, en caso de estar especificado, la región designada para la reproducción del DVD. En caso de no tener, se catalogará como "libre de región".',
+	"region_dvd": 'Se señala, en caso de estar especificado, la región designada para la reproducción del DVD. En caso de no tener, se catalogará como libre de región.',
 	"requisitos_tecnicos": "Se señala qué equipo de reproducción se requiere para visionar el material.",
 
 	"existencia_y_localizacion_de_copias": "Sirve para señalar la posible existencia de copias del material en algún otro acervo del Instituto Mora (biblioteca).",
@@ -69,7 +69,7 @@ var dataContent = {
 	
 	"area_de_notas": "Se debe poner toda aquella información que se considere relevante y que por alguna razón no pudo ser indexada en algún otro rubro.",
 	
-	"notas_del_archivero": "Fuentes usadas para complementar la información de la ficha (producción original, sitios web, publicaciones, etc.)",
+	"notas_del_archivero": "Fuentes usadas para complementar la información de la ficha (producción original, sitios web, publicaciones, etc).",
 	"datos_del_archivero": "Nombre de quién elaboró la ficha de la unidad.",
 	"reglas_o_normas": "Aquellas normas que se utilizaron para la elaboración de la ficha. Se consignará solamente a nivel de colección.",
 	"fecha_de_descripcion": "Fecha en que se ha elaborado la ficha de la unidad."
@@ -77,11 +77,7 @@ var dataContent = {
 
 // Cuando el documento esté listo se realizan todas las llamadas a las funciones que involucran al formulario.
 $(document).ready(function(){
-	//$('#audiovisualForm').validator(); // Activación de validación (con validator.min.js)
 	agregaIconoAyuda();
-	clicSecciones();
-	//agregaDivErrores();
-	//multiSelect();
 });
 
 
@@ -104,49 +100,4 @@ function agregaIconoAyuda(){
 
 	// Habilita todos los popover en el documento
 	$('[data-toggle="popover"]').popover()
-};
-
-/*
-  Permite que al dar clic en un encabezado de sección del formulario, este se muestre y esconda
-*/
-function clicSecciones(){
-	// Muestra todos los encabezados de paneles (es decir, muestra todo el formulario)
-	//$("div.collapse").collapse('show');
-
-	// Muestra el primer encabezado de panel (al menos se debe mostrar el primero del formulario)
-	$("div.collapse").first().collapse('show');
-
-	// Intercambia el colapsado/descolapzado de cada panel al dar un click
-    $(".list-group-item").click(function(){
-        $(this).parent(".list-group").children(".collapse").collapse('toggle');
-    });
-};
-
-/*
- Agrega un div para mensajes de error de validación.
- Necesario para la biblioteca Validator.js (/js/validator.min.js)
-*/
-function agregaDivErrores(){
-	for(var key in dataContent){
-		var element = "#" + key;
-		$(element).after('<div class="help-block with-errors"></div>');
-	}
-};
-
-/*
- Permite realizar multiples selecciones dentro de la lista de opciones para
- los campos Recursos y Fuentes.
-*/
-function multiSelect(){
-	$('.select-toggle').each(function(){    
-	    var select = $(this), values = {};    
-	    $('option',select).each(function(i, option){
-	        values[option.value] = option.selected;        
-	    }).click(function(event){        
-	        values[this.value] = !values[this.value];
-	        $('option',select).each(function(i, option){            
-	            option.selected = values[option.value];        
-	        });
-	    });
-	});
 };
