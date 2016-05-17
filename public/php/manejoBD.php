@@ -120,7 +120,7 @@ function agregar(){
     
     # Parse de información (limpiar espacios en blanco y detalle con comillas)
     foreach ($datos as &$dato) { # el símbolo amperson (&) es necesario para modificar (permite paso por referencia y no por valor)
-        $dato = preg_replace('/  */g', ' ', $dato); # Eliminar múltiples espacios vacios por uno solo
+        $dato = preg_replace('/  */', ' ', $dato); # Eliminar múltiples espacios vacios por uno solo
         $dato = trim($dato); # Elimina espacios en blanco al inicio y al final
         $dato = str_replace("'", "\\'", $dato); # Esto permite incluir single quote (') sin error de sintaxis
         $dato = str_replace("\"", "\\\"", $dato); # Esto permite incluir double quote (") sin error de sintaxis
@@ -236,7 +236,7 @@ function actualizar(){
 
     # Parse de información (limpiar espacios en blanco y detalle con comillas)
     foreach ($datos as &$dato) { # el símbolo amperson (&) es necesario para modificar (permite paso por referencia y no por valor)
-        $dato = preg_replace('/  */g', ' ', $dato); # Eliminar múltiples espacios vacios por uno solo
+        $dato = preg_replace('/  */', ' ', $dato); # Eliminar múltiples espacios vacios por uno solo
         $dato = trim($dato); # Elimina espacios en blanco al inicio y al final
         $dato = str_replace("'", "\\'", $dato); # Esto permite incluir single quote (') sin error de sintaxis
     }

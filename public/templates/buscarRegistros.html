@@ -183,9 +183,9 @@
             <a ng-show="sesion" class="iconEdicion" href="" ng-click="editar(allInfo.identificacion.codigo_de_referencia)" >
               <span class="glyphicon glyphicon-edit"></span>
             </a>
-            <!-- <a type="button" data-unique="1" data-auto-close="1" data-placement="right" data-content-template="popover-tmpl.html" data-title="Eliminar registro" bs-popover ng-show="sesion" class="iconEdicion" href="">
+            <a href="" class="iconEdicion" ng-show="sesion" uib-popover-template="'popover-tmpl.html'" popover-title="Eliminar registro" popover-placement="bottom" popover-trigger="focus">
               <span class="glyphicon glyphicon-remove-circle"></span>
-            </a> -->
+            </a>
             <script type="text/ng-template" id="popover-tmpl.html">
               <form>
                     <div class="form-group">

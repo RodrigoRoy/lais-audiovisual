@@ -512,7 +512,6 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
     		// Limpiar algunos campos:
     		$scope.preprocesamientoUnidad();
     		getImgSize('imgs/Portadas/' + $scope.allInfo.adicional.imagen); // Llamada asincrona para obtener el ancho y largo original ($scope.imgActualWidth, $scope.imgActualHeight)
-    		console.log($scope.allInfo);
     	}).
     	error(function(data, status, headers, config) {
 			// called asynchronously if an error occurs or server returns response with an error status.
