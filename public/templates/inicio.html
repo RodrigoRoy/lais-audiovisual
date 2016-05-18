@@ -55,11 +55,11 @@ a.btn-primary:hover{
 <body id="page">
     <ul ng-cloak class="cb-slideshow">
         <!-- En la versión original, dentro de cada <h3> contiene las palabras "Laboratorio Audiovisual de Investigación Social" -->
-        <li><span></span><div><h3 class="titulos"></h3></div></li>
-        <li><span></span><div><h3 class="titulos"></h3></div></li>
-        <li><span></span><div><h3 class="titulos"></h3></div></li>
-        <li><span></span><div><h3 class="titulos"></h3></div></li>
-        <li><span></span><div><h3 class="titulos"></h3></div></li>
+        <li><span></span><div><h3 class="titulos"></h3>Laboratorio</div></li>
+        <li><span></span><div><h3 class="titulos"></h3>Audiovisual</div></li>
+        <li><span></span><div><h3 class="titulos"></h3>de</div></li>
+        <li><span></span><div><h3 class="titulos"></h3>Investigación</div></li>
+        <li><span></span><div><h3 class="titulos"></h3>Social</div></li>
     </ul>
 
     
@@ -70,3 +70,10 @@ a.btn-primary:hover{
         <p><a class="btn btn-primary btn-lg" href="#/decadas/" role="button">Ver colección</a></p>
     </div>
 </body>
+
+<script>
+//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
+$('#modalInfo').modal('hide'); // Ocultar modal
+$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
+$('.modal-backdrop').remove(); // Elimina del DOM
+</script>

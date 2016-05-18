@@ -45,3 +45,9 @@ img.institution-icon{
 	</div>
 </body>
 
+<script>
+//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
+$('#modalInfo').modal('hide'); // Ocultar modal
+$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
+$('.modal-backdrop').remove(); // Elimina del DOM
+</script>

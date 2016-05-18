@@ -268,8 +268,8 @@ body{
 }
 
 .adminUser{
-	background: rgba(0,0,0,.4);
-	color: #f0fff0;
+	background: rgba(13,13,13,0.9);
+	color: #CCC;
 }
 
 .text-rigth{
@@ -345,8 +345,8 @@ body{
    	padding: 1em 2em;
 	display: inline-block;
   	border-radius: 7px;
-  	background-color: rgba(0,0,0,.8);
-   	color: #f0fff0;
+  	background-color: rgba(13,13,13,0.9);
+   	color: #CCC;
    	font-size: 1em;
 	font-family: 'Open Sans', sans-serif;
 }
@@ -507,6 +507,14 @@ h3 a:focus{
   margin: 0px;
 }
 
+/*Fondo oscuro. Se utiliza en los formularios para agregar y editar*/
 .black-bg{
-	background: rgba(0,0,0,.4);
+	background: rgba(13,13,13,0.7);
+	padding-bottom: 1em;
+}
+
+/*Texto con sombra. Ideal para títulos resaltados*/
+.title-page{
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+  font-family: 'Open Sans', sans-serif;
 }

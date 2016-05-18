@@ -308,33 +308,6 @@ lais.service('DecadaService', function($http){
 	};
 });
 
-//Controlador que muestra los datos en el html, con la conexion a la base de datos
-// Actualmente fue reemplazado por decadasCtrl
-lais.controller('conexionCtrl', function($scope, $http, $location){
-	$http.get('php/manejoBD.php?action=ver').
-    success(function(data) {
-        $scope.registros = data;
-    });
-
-    $scope.editar = function(id){
-    	$location.url('/archivos/editarArchivo/' + id);
-    }
-
-    $scope.eliminar = function(id){
-    	$http.post('php/manejoBD.php?action=borrar',
-		{
-			'codigo_de_referencia': id
-		}).
-		success(function(data, status, headers, config) {
-			alert("Registro eliminado");
-			location.reload();
-		}).
-		error(function(data, status, headers, config) {
-			alert("Error al borrar usuario");
-		});
-    }
-});
-
 //Controlador que muestra todas las decadas existentes
 lais.controller('decadasCtrl',function($scope, $location, $http, $cookieStore, DecadaService){
 	$scope.allDecades = DecadaService.allDecades;
@@ -342,10 +315,10 @@ lais.controller('decadasCtrl',function($scope, $location, $http, $cookieStore, D
 	//Eliminar el cookie del codigo de decadas
 	$cookieStore.remove('decada');
 	
-	//Utiizó para que el modal se quitara cuando un usuario le da un botón de regresar a la página
+	//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
 	$('#modalInfo').modal('hide'); // Ocultar modal
-	$('body').removeClass('modal-open'); // Eliminar del DOM
-	$('.modal-backdrop').remove();
+	$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
+	$('.modal-backdrop').remove(); // Elimina del DOM
 
 	$http.get('php/manejoBD.php?action=mostrarDecadas').
 	success(function(data){
@@ -376,6 +349,11 @@ lais.controller('decadasCtrl',function($scope, $location, $http, $cookieStore, D
 
 //Controlador que mostrara los archivos audiovisuales con su portada por decadas
 lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $http, $timeout, $cookieStore, ParamService, DecadaService, agregarNuevoAll){
+	//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
+	$('#modalInfo').modal('hide'); // Ocultar modal
+	$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
+	$('.modal-backdrop').remove(); // Elimina del DOM
+	
 	// ########## PROPIEDADES DEL CONTROLADOR ##########
 	$scope.codigo = $routeParams.codigo; // Código de la década
 	$scope.query = $routeParams.query; // Query de búsqueda en la barra de navegación
@@ -1563,20 +1541,6 @@ lais.controller('busquedaFormCtrl',function($scope, $location){
 		if(texto.length > 0)
     		$location.url('/archivos/busqueda/' + texto);
     }
-});
-
-// Permite mostrar los resultados de una búsqueda
-// (Actualmente ya no se ocupa)
-lais.controller('busquedaCtrl',function($scope, $http, $routeParams, $location){
-	$scope.query = $routeParams.query; // Obtener query desde la barra de dirección
-	$http.get('php/manejoBD.php?action=buscar&query=' + $routeParams.query)
-	    .success(function(data) {
-	        $scope.datos = data; // Resultados de la búsqueda
-	    })
-	    .error(function(data, status, headers, config) {
-			// called asynchronously if an error occurs or server returns response with an error status.
-			alert("No hay conexión con la base de datos.\nPor favor vuelve a intentar o revisa la conexión a internet.");
-		});
 });
 
 // Pequeño controlador especificamente creado para el formulario de contacto.

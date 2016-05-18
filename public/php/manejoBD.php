@@ -14,10 +14,10 @@ switch ($_GET['action']) {
     case 'buscar':
         buscar($_GET['query']);
         break;
-    case 'busqueda': // Versión actuliazada del caso 'buscar'
+    case 'busqueda': // Versión actualizada del caso 'buscar'
         busqueda($_GET['query'],$_GET['howMany'],$_GET['offset']);
         break;
-    case 'busqueda2': // Versión actuliazada del caso 'busqueda'
+    case 'busqueda2': // Versión actualizada del caso 'busqueda'
         busqueda2($_GET['query'], $_GET['permiso']);
         break;
     case 'obtener':
