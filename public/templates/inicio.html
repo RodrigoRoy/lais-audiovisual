@@ -2,7 +2,6 @@
 <link rel="stylesheet" type="text/css" href="css/slide.css" />
 <link rel="stylesheet" type="text/css" href="css/animacionesSlide.css" />
 <script type="text/javascript" src="js/modernizr.custom.86080.js"></script>
-
 <style>
 /*slide.css y animacionesSlide.css permiten la transición de imagenes de fondo pero sobreescriben algunos estilos.
 Lo siguiente sirve únicamente para que el texto en la página inicial sea vistoso y descriptivo*/
@@ -15,9 +14,10 @@ Lo siguiente sirve únicamente para que el texto en la página inicial sea visto
     max-width: 90%;
     padding-right: 30px;
     padding-left: 30px;
-    border-radius: 6px;
     padding-top: 48px;
     padding-bottom: 48px;
+    margin-bottom: 30px;
+    border-radius: 6px;
     color: #CCC;
     background-color: rgba(13,13,13,0.0);
 }
@@ -38,7 +38,7 @@ Lo siguiente sirve únicamente para que el texto en la página inicial sea visto
 /*Breve texto explicativo*/
 .my-description{
     font-family: 'Montserrat', sans-serif;
-    font-size: 1em;
+    font-size: 1.8em;
     text-shadow: 2px 2px 1px rgba(0,0,0,0.8);
 }
 /*Color y fuente del botón para ver la colección*/
@@ -54,16 +54,14 @@ a.btn-primary:hover{
 
 <body id="page">
     <ul ng-cloak class="cb-slideshow">
-        <!-- En la versión original, dentro de cada <h3> contiene las palabras "Laboratorio Audiovisual de Investigación Social" -->
-        <li><span></span><div><h3 class="titulos"></h3>Laboratorio</div></li>
-        <li><span></span><div><h3 class="titulos"></h3>Audiovisual</div></li>
-        <li><span></span><div><h3 class="titulos"></h3>de</div></li>
-        <li><span></span><div><h3 class="titulos"></h3>Investigación</div></li>
-        <li><span></span><div><h3 class="titulos"></h3>Social</div></li>
+        <li><span></span><div><h3 class="titulos">Laboratorio</h3></div></li>
+        <li><span></span><div><h3 class="titulos">Audiovisual</h3></div></li>
+        <li><span></span><div><h3 class="titulos">de</h3></div></li>
+        <li><span></span><div><h3 class="titulos">Investigación</h3></div></li>
+        <li><span></span><div><h3 class="titulos">Social</h3></div></li>
     </ul>
 
-    
-    <div class="jumbotron my-jumbotron">
+    <div class="my-jumbotron">
         <h1 class="my-title">metaDOC</h1>
         <h2 class="my-subtitle">Documental e investigación</h2>
         <p class="my-description">Sitio web que pone a disposición la documentación de la colección de documentales del Laboratorio Audiovisual de Investigación Social del Instituto Mora, con la intención de impulsar el análisis e investigación sobre este tipo de documentos.</p>
