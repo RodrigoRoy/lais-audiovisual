@@ -150,8 +150,14 @@ a.navSpacing{
   /*margin-top: -10px;*/
   /*background-color: rgba(24,32,53,0.9);*/
   /*background-color: rgba(22,27,41,0.9);*/
-  background-color: rgba(0,0,0,0.75);
-  border-color: rgb(4,10,24);
+  background-color: rgba(0,0,0,0.85);
+  /*border-color: rgb(4,10,24);*/
+}
+/*Rotación de imagen al estar sobre el recuadro del documental*/
+.simple-container:hover .img-container{
+  -ms-transform: rotate(-6deg);
+  -webkit-transform: rotate(-6deg);
+  transform: rotate(-6deg);
 }
 .simple-container a{
   color: #f0fff0;
@@ -159,13 +165,6 @@ a.navSpacing{
 /*Contenedor anidado en "simple-container" para imagen(es)*/
 .img-container{
   height: 280px;
-  /*background-color: rgba(0,0,0,0.1);
-  border: 1px solid rgba(0,0,0,0.3);*/
-
-  /*Tip para evitar imagenes "blurry" al alinear verticalmente*/
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  transform-style: preserve-3d;
 }
 /*Permite alinear un objeto si está contenido en otro (img-container por ejemplo)*/
 .img-center{

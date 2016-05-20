@@ -873,7 +873,7 @@ function busqueda2($query, $permiso){
             $uniqueNames = array_merge($uniqueNames, $rubro);
             $uniqueNames = array_unique($uniqueNames); // Evitar repetidos
         }
-    usort($uniqueNames, cmpCampos); // Ordena por prioridad de los rubros (campos)
+    usort($uniqueNames, 'cmpCampos'); // Ordena por prioridad de los rubros (campos)
 
     if (!empty($registros)) { // Solamente mostrar resultados cuando la búsqueda no es vacia
         usort($registros, "cmpFecha"); // Ordenar por fecha
