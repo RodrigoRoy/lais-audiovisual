@@ -148,9 +148,7 @@ a.navSpacing{
 }
 .simple-container:hover{
   /*margin-top: -10px;*/
-  /*background-color: rgba(24,32,53,0.9);*/
-  /*background-color: rgba(22,27,41,0.9);*/
-  background-color: rgba(0,0,0,0.85);
+  /*background-color: rgba(0,0,0,0.8);*/
   /*border-color: rgb(4,10,24);*/
 }
 /*Rotación de imagen al estar sobre el recuadro del documental*/
@@ -165,6 +163,10 @@ a.navSpacing{
 /*Contenedor anidado en "simple-container" para imagen(es)*/
 .img-container{
   height: 280px;
+  /*Tip para evitar imagenes "blurry" al alinear verticalmente. Y también para mantener la alineación (centrada)*/
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
 }
 /*Permite alinear un objeto si está contenido en otro (img-container por ejemplo)*/
 .img-center{
