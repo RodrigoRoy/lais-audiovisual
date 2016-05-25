@@ -12,13 +12,19 @@ switch ($_GET['req']) {
     case 'search':
         search($_GET['query']);
         break;
-    case 'asearch':
-        areaSearch($_GET['query']);
+    case 'csearch':
+        columnSearch($_GET['query'], $_GET['campo']);
         break;
     default:
-        echo 'Default';
+        echo '<h1>API de acceso a la informaci&oacute;n&nbsp;de metaDOC</h1>
+        <p>Para el uso correcto del API consulta "<strong>Desarrolladores</strong>" dentro de la p&aacute;gina "<a href="http://lais.mora.edu.mx/metadoc/#/acercade">Acerca del sitio</a>".</p>
+        <h5><em>Laboratorio Audiovisual de Investigaci&oacute;n Social (LAIS) - Instituto Mora</em></h5>';
 }
 
+// Obtener toda la información de un documental de la base de datos.
+// El formato es un JSON a partir de un arreglo asociativo que contiene todas las áreas y, a su vez, todos los campos dentro de ésta (incluyendo cadenas vacias)
+// Recibe como parámetro una cadena de texto que representa el identificador único, es decir, el código de referencia del documental
+// Si el $id no exite devuelve un arreglo vacio, en otro caso devuelve un objeto JSON con toda la información del documental.
 function getAllInfo($id){
     $areas = array(); // Arreglo contenedor de todos los datos
 
@@ -90,6 +96,10 @@ function getAllInfo($id){
     $GLOBALS['conn'] = null; // Cerrar conexion
 }
 
+// Devuelve un subconjunto de información del documental solicitado.
+// La información básica que se envia es: código de referencia, título propio, fecha, duración, realizador/director y sinópsis.
+// Recibe como parámetro una cadena de texto que representa el identificador único, es decir, el código de referencia del documental
+// Si el $id no exite devuelve un arreglo vacio, en otro caso devuelve un objeto JSON con la información básica del documental.
 function simpleGet($id){
     $select = "SELECT codigo_de_referencia, titulo_propio, fecha, duracion, realizacion, sinopsis FROM area_de_identificacion NATURAL JOIN area_de_contenido_y_estructura WHERE codigo_de_referencia = '${id}'";
     $stmt = $GLOBALS['conn']->prepare($select); // Preparar instrucción
@@ -103,7 +113,7 @@ function simpleGet($id){
     $GLOBALS['conn'] = null; // Cerrar conexion
 }
 
-// Devulve todos los nombres de columnas de (el nombre de) una tabla pasada como parámetro. Auxiliar para búsquedas sobre toda la base de datos.
+// Función auxiliar que devulve todos los nombres de columnas de (el nombre de) una tabla pasada como parámetro. Auxiliar para búsquedas sobre toda la base de datos.
 function getColumnNames($table){
     $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'Audiovisuales' AND TABLE_NAME = :table";
     try{
@@ -123,7 +133,7 @@ function getColumnNames($table){
     }
 }
 
-// Regresa todos los nombres de columnas (sin repetición) de todas las tablas pasadas como parámetro (arreglo de cadenas de texto).
+// Función auxiliar que regresa todos los nombres de columnas (sin repetición) de todas las tablas pasadas como parámetro (arreglo de cadenas de texto).
 // Devuelve un arreglo de cadenas de texto que representan cada nombre de columna
 function getAllColumnNames($tables){
     $output = array();
@@ -218,7 +228,19 @@ function cmpFecha($item1, $item2){
     return $item2['fecha'] - $item1['fecha'];
 }
 
+// Realiza un búsqueda exhaustiva en toda la base de datos en búsca de coincidencias con el query dado.
+// El query es procesado para eliminar artículos y preposiciones. La búsqueda requiere que TODAS las palabras tengan aparición en un campo de la base de datos.
+// Recibe una cadena de texto que representa el query de búsqueda.
+// Si el parámetro o query es vacio devuelve un arreglo vacio, en caso contrario devuelve un objeto JSON que es una lista de objetos con las siguientes propiedades:
+// - codigo_de_referencia
+// - titulo_propio
+// - fecha
+// - imagen
+// - campos (Lista de los campos donde hubo coincidencia de búsqueda)
 function search($query){
+    if(empty($query))
+        return print_r("ERROR: Query de búsqueda vacío. Se requiere especificar un texto de búsqueda en el parámetro 'query'.");
+
     // lista de palabras a ignorar:
     $exclude_words = array("el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "a el", "al", "de el", "del", "a", "ante", "bajo", "con", "contra", "de", "desde", "durante", "en", "entre", "hacia", "hasta", "mediante", "para", "por", "según", "sin", "sobre", "tras", "este", "ese", "aquel", "esta", "esa", "aquella", "estos", "esos", "aquellos", "estas", "esas", "aquellas", "esto", "eso", "aquello", "mi", "mis", "tu", "tus", "su", "sus");
     $arrayQuery = explode(' ', $query); // Descomponer el texto de búsqueda en palabras individuales
@@ -232,47 +254,96 @@ function search($query){
     $columnas = getAllColumnNames($tablas); // Todos los nombres (strings) de columnas
 
     // Se obtendrán los códigos y los rubros donde hay coincidencias en la búsqueda:
-    foreach ($arrayQuery as $query) // Para cada palabra individual del query original
-        foreach ($columnas as $columna) { // Buscar en cada columna de toda la base
-            $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion WHERE " . $columna . " LIKE '%" . $cleanQuery . "%' ORDER BY fecha ASC";
-            $stmt = $GLOBALS['conn']->prepare($select);
-            $stmt->execute();
-            $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
-            while($row = $stmt->fetch()){ // Para cada resultado de la consulta (cada codigo_de_referencia)
-                $codigo_de_referencia = $row['codigo_de_referencia'];
-                if(array_key_exists($codigo_de_referencia, $totalResults)) // Si ya había coincidencia con este registro
-                    array_push($totalResults[$codigo_de_referencia], $columna); // Entonces se agrega el campo o rubor donde hay coincidencia
-                else
-                    $totalResults[$codigo_de_referencia] = array($columna); // En otro caso, es la primera coincidencia y se guarda la palabra y el rubro
-            }
+    foreach ($columnas as $columna) { // Buscar en cada columna de toda la base
+        $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion WHERE " . $columna . " LIKE '%" . $cleanQuery . "%' ORDER BY fecha ASC";
+        $stmt = $GLOBALS['conn']->prepare($select);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
+        while($row = $stmt->fetch()){ // Para cada resultado de la consulta (cada codigo_de_referencia)
+            $codigo_de_referencia = $row['codigo_de_referencia'];
+            if(array_key_exists($codigo_de_referencia, $totalResults)) // Si ya había coincidencia con este registro
+                array_push($totalResults[$codigo_de_referencia], $columna); // Entonces se agrega el campo o rubor donde hay coincidencia
+            else
+                $totalResults[$codigo_de_referencia] = array($columna); // En otro caso, es la primera coincidencia y se guarda la palabra y el rubro
         }
+    }
 
     // Falta completar los resultados obtenidos con la información necesaria para la vista (titulo, pais, fehca, duración, imagen)
     $registros = array(); // Registros de la base de datos con coincidencias de palabras buscadas
     foreach($totalResults as $codigo => $querys) {
-        $select = "SELECT codigo_de_referencia, titulo_propio, titulo_paralelo, fecha, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia='" . $codigo . "'"; // $clave || $totalResults[$i]
+        $select = "SELECT codigo_de_referencia, titulo_propio, fecha, imagen FROM area_de_identificacion NATURAL JOIN informacion_adicional WHERE codigo_de_referencia='" . $codigo . "'"; // $clave || $totalResults[$i]
         $stmt = $GLOBALS['conn']->prepare($select);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
         if($stmt->rowCount() != 0){ // Evitar agregar valores inexistentes (false) al arreglo final de resultados
             $results = $stmt->fetch();
-            $results['campos'] = $totalResults[$codigo]; // Agregamos los rubros con coincidencias encontrados previamente
+            $results['imagen'] = $results['imagen'] == "" ? "" : "http://lais.mora.edu.mx/metadoc/imgs/Portadas/${results['imagen']}"; // Completar URL de la imagen
+            $results['campos'] = array_unique($totalResults[$codigo]); // Agregamos los rubros con coincidencias encontrados previamente
             array_push($registros, $results); // Agregamos al arreglo final
         }
     }
-    
-    // Incluir la propiedad "uniqueNames" a los registros encontrados
-    $uniqueNames = array(); // Permite agregar únicamente los nombres de los campos/rubros con coincidencias (ayuda al multiselect de la vista para hacer filtros)
-    foreach ($totalResults as $registro)
-        foreach ($registro as $rubro) {
-            $uniqueNames = array_merge($uniqueNames, $rubro);
-            $uniqueNames = array_unique($uniqueNames); // Evitar repetidos
-        }
-    usort($uniqueNames, "cmpCampos"); // Ordena por prioridad de los rubros (campos)
 
     if (!empty($registros)) // Solamente mostrar resultados cuando la búsqueda no es vacia
         usort($registros, "cmpFecha"); // Ordenar por fecha
     
     print_r(json_encode($registros));
+}
+
+// Auxiliar que recibe como parámetro un cadena de texto que representa un campo. 
+// Devuelve como cadena de texto el área en que se encuentra contenido dicho campo. En caso de que el campo no exista se devuelve una cadena vacia.
+function getArea($campo){
+    // Arreglos que representan las áreas de la base de datos con sus respectivos campos como elementos del arreglo
+    $identificacion = array('codigo_de_referencia', 'titulo_propio', 'titulo_paralelo', 'titulo_atribuido', 'titulo_de_serie', 'numero_de_programa', 'pais', 'fecha', 'duracion', 'investigacion', 'realizacion', 'direccion', 'guion', 'adaptacion', 'idea_original', 'fotografia', 'fotografia_fija', 'edicion', 'sonido_grabacion', 'sonido_edicion', 'musica_original', 'musicalizacion', 'voces', 'actores', 'animacion', 'otros_colaboradores');
+    $contexto = array('entidad_productora', 'productor', 'distribuidora', 'historia_institucional', 'resena_biografica', 'forma_de_ingreso', 'fecha_de_ingreso');
+    $contenido_y_estructura = array('sinopsis', 'descriptor_onomastico', 'descriptor_toponimico', 'descriptor_cronologico', 'tipo_de_produccion', 'genero', 'fuentes', 'recursos', 'versiones', 'formato_original', 'material_extra');
+    $condiciones_de_acceso = array('condiciones_de_acceso', 'existencia_y_localizacion_de_originales', 'idioma_original', 'doblajes_disponibles', 'subtitulajes', 'soporte', 'numero_copias', 'descripcion_fisica', 'color', 'audio', 'sistema_de_grabacion', 'region_dvd', 'requisitos_tecnicos');
+    $documentacion_asociada = array('existencia_y_localizacion_de_copias', 'unidades_de_descripcion_relacionadas', 'documentos_asociados');
+    $notas = array('area_de_notas');
+    $descripcion = array('notas_del_archivero', 'datos_del_archivero', 'reglas_o_normas', 'fecha_de_descripcion');
+    $adicional = array('imagen', 'url');
+    // Arreglo bidimensional que contiene los arreglos anteriores
+    $areas = array('area_de_identificacion' => $identificacion, 'area_de_contexto' => $contexto, 'area_de_contenido_y_estructura' => $contenido_y_estructura, 'area_de_condiciones_de_acceso' => $condiciones_de_acceso, 'area_de_documentacion_asociada' => $documentacion_asociada, 'area_de_notas' => $notas, 'area_de_descripcion' => $descripcion, 'informacion_adicional' => $adicional);
+    foreach ($areas as $areaKey => $areaArray)
+        if (in_array($campo, $areaArray))
+            return $areaKey;
+    return "";
+}
+
+// Realiza una búsqueda acotada en un solo campo.
+// El primer parámetro representa el query de búsqueda, el segundo parámetro representa el campo donde se desea buscar.
+// Devuelve una lista (arreglo) que contiene arreglos asociativos con las siguientes keys: codigo_de_referencia y $campo
+// (excepto si éste es "codigo_de_referencia", en cuyo caso solamente incluye key: codigo_de_referencia)
+function columnSearch($query, $campo){
+    $areaToSearch = getArea($campo);
+    if(empty($areaToSearch)) // Si no exite el campo, devolver mensaje de error
+        return print_r("ERROR: El campo no existe. Verifica que esté correctamente escrito");
+    $selectCampo = ''; // se usará para la construcción de la sentencia SQL
+    if ($campo != 'codigo_de_referencia')
+        $selectCampo = ", ${campo}"; // incluir el campo para SELECT de la sentencia SQL
+    
+    $naturalJoin = ''; // se usará para la construcción de la sentencia SQL
+    if ($areaToSearch != 'area_de_identificacion') {
+        $naturalJoin = "NATURAL JOIN ${areaToSearch}"; // incluir el area (tabla) para NATURAL JOIN de la sentencia SQL
+    }
+
+    // lista de palabras a ignorar dentro del query:
+    $exclude_words = array("el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "a el", "al", "de el", "del", "a", "ante", "bajo", "con", "contra", "de", "desde", "durante", "en", "entre", "hacia", "hasta", "mediante", "para", "por", "según", "sin", "sobre", "tras", "este", "ese", "aquel", "esta", "esa", "aquella", "estos", "esos", "aquellos", "estas", "esas", "aquellas", "esto", "eso", "aquello", "mi", "mis", "tu", "tus", "su", "sus");
+    $arrayQuery = explode(' ', $query); // Descomponer el texto de búsqueda en palabras individuales
+    foreach ($exclude_words as $word) // si la consulta ($query) tiene palabras a ignorar, se eliminan
+        if (in_array($word, $arrayQuery))
+            unset($arrayQuery[array_search($word, $arrayQuery)]);
+    $cleanQuery = implode("%", $arrayQuery); // nuevo query de búsqueda que incluye todas las palabras en orden separadas por "%" (para consulta con LIKE en SQL)
+
+    // Construir sentencia SQL y obtener los resultados
+    $select = "SELECT codigo_de_referencia ${selectCampo} FROM area_de_identificacion ${naturalJoin} WHERE ${campo} LIKE '%${cleanQuery}%'";
+    $stmt = $GLOBALS['conn']->prepare($select); // Preparar instrucción
+    $stmt->execute(); // Ejecutar instrucción
+    $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo)
+    if ($stmt->rowCount() > 0){
+        $resultSet = $stmt->fetchAll(); // Obtener el conjunto de resultados
+    }
+    
+    print_r(json_encode($resultSet)); // Devolver resultado en formato JSON
+    $GLOBALS['conn'] = null; // Cerrar conexion
 }
 ?>

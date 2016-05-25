@@ -1,5 +1,5 @@
 // La dependencia ngFileUpload sirve para subir imagenes (https://github.com/danialfarid/ng-file-upload)
-var lais = angular.module('lais',['ngRoute','ngCookies', 'ngMessages', 'ngAnimate', 'ngSanitize', 'ngFileUpload','infinite-scroll', 'isteven-multi-select', 'ui.bootstrap']);
+var lais = angular.module('lais',['ngRoute','ngCookies', 'ngMessages', 'ngAnimate', 'ngSanitize', 'ngFileUpload', 'infinite-scroll', 'isteven-multi-select', 'ui.bootstrap']);
 
 lais.config(function ($routeProvider, $locationProvider){
 	$routeProvider
@@ -10,7 +10,8 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/inicio.html"
 		})
 		.when("/acercade",{
-			templateUrl: "templates/acerca_del_sitio.html"	
+			templateUrl: "templates/acerca_del_sitio.html",
+			controller: "aboutCtrl"
 		})
 		.when("/publicaciones",{
 			templateUrl: "templates/publicaciones_y_vinculos.html"
@@ -306,6 +307,206 @@ lais.service('DecadaService', function($http){
 		'imagen': 'Imagen',
 		'url': 'URL'
 	};
+});
+
+// Controlador con información auxiliar para mostrar en la vista
+lais.controller('aboutCtrl', function($scope){
+	//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
+	$('#modalInfo').modal('hide'); // Ocultar modal
+	$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
+	$('.modal-backdrop').remove(); // Elimina del DOM
+
+	// Ejemplos para mostrar en la parte de "Desarrolladores":
+	$scope.jsonGet = {
+		"identificacion": {
+			"codigo_de_referencia": "MXIM-AV-1-12-26",
+			"titulo_propio": "De la tele a la boca… una reflexión sobre desarrollo infantil y salud",
+			"titulo_paralelo": "",
+			"titulo_atribuido": "",
+			"titulo_de_serie": "",
+			"numero_de_programa": "",
+			"pais": "México",
+			"fecha": "2008",
+			"duracion": "00:53:00",
+			"investigacion": "Fernando Aguayo, Carlos Hernández, Felipe Morales Leal, Paris García, Guadalupe López, Daniel Inclán y Lourdes Roca",
+			"realizacion": "Carlos Hernández, Felipe Morales Leal y Lourdes Roca",
+			"direccion": "",
+			"guion": "Carlos Hernández, Felipe Morales Leal y Lourdes Roca",
+			"adaptacion": "",
+			"idea_original": "",
+			"fotografia": "Carlos Hernández, Paris García, Felipe Morales Leal y Lourdes Roca",
+			"fotografia_fija": "",
+			"edicion": "Carlos Hernández, Felipe Morales Leal y Lourdes Roca",
+			"sonido_grabacion": "",
+			"sonido_edicion": "",
+			"musica_original": "",
+			"musicalizacion": "",
+			"voces": "",
+			"actores": "",
+			"animacion": "",
+			"otros_colaboradores": ""
+		},
+		"contexto": {
+			"entidad_productora": "Instituto Mora",
+			"productor": "",
+			"distribuidora": "",
+			"historia_institucional": "El Instituto Mora es una institución pública, centro CONACyT, dedicada a la investigación y docencia en historia y ciencias sociales. Se fundó en 1981, cuenta con una planta permanente de investigadores en diversas disciplinas y líneas de investigación e imparte diversos posgrados. En 1993, en el área de Historia Oral, comienza la producción audiovisual, con el documental Un pueblo en la memoria. Desde entonces el Instituto ha seguido produciendo documental a partir de los resultados de diversas investigaciones.",
+			"resena_biografica": "Carlos Hernández, Felipe Morales y Lourdes Roca son integrantes del Laboratorio Audiovisual de Investigación Social del Instituto Mora y han participado en la mayoría de documentales producidos por este Instituto. Sus formaciones en comunicación, historia y antropología han permitido construir un proceso de trabajo interdisciplinario que busca transitar de la adaptación de resultados de investigación a documentales hacia la realización de un tipo de documental de investigación que incorpora el análisis de las imágenes y la incorporación de herramientas audiovisuales desde la etapa de investigación.",
+			"forma_de_ingreso": "Producción propia",
+			"fecha_de_ingreso": "2008"
+		},
+		"condiciones_de_acceso": {
+			"condiciones_de_acceso": "Usos reservados para consulta in situ",
+			"existencia_y_localizacion_de_originales": "",
+			"idioma_original": "Español",
+			"doblajes_disponibles": "",
+			"subtitulajes": "",
+			"soporte": "VHS",
+			"numero_copias": "",
+			"descripcion_fisica": "",
+			"color": "Color, blanco y negro",
+			"audio": "",
+			"sistema_de_grabacion": "NTSC",
+			"region_dvd": "Región 4",
+			"requisitos_tecnicos": "Reproductor VHS y monitor"
+		},
+		"contenido_y_estructura": {
+			"sinopsis": "Niños, padres y maestras de un preescolar en Ciudad Nezahualcoyotl, Estado de México, investigan, reflexionan y construyen alternativas para transformar prácticas y hábitos cotidianos que están mermando de forma acelerada la calidad de vida de la población infantil. Diversos padecimientos se han presentado e incrementado últimamente entre este sector de la población y los motivos están relacionados con factores como la familia y la educación, pero también con la sobreexposición a la televisión comercial que impera en el país.",
+			"descriptor_onomastico": "Martha Piña, Martha Yolanda García, Coca Cola, Patita de perro, Chavo del ocho, Rosalinda Serrano, Dula Portilla,",
+			"descriptor_toponimico": "Ciudad Nezahualcóyotl, Colonia Las Águilas, Jardín de niños Gabriela Mistral, Estado de México",
+			"descriptor_cronologico": "2003-2007",
+			"tipo_de_produccion": "Documental",
+			"genero": "",
+			"fuentes": "Grabación de campo, Documentales, Publicidad, Videoclips",
+			"recursos": "Interactividad",
+			"versiones": "",
+			"formato_original": "",
+			"material_extra": ""
+		},
+		"documentacion_asociada": {
+			"existencia_y_localizacion_de_copias": "",
+			"unidades_de_descripcion_relacionadas": "",
+			"documentos_asociados": ""
+		},
+		"notas": {
+			"area_de_notas": ""
+		},
+		"descripcion": {
+			"notas_del_archivero": "",
+			"datos_del_archivero": "",
+			"reglas_o_normas": "Adaptación de la norma ISAD (G)",
+			"fecha_de_descripcion": "0000-00-00"
+		},
+		"adicional": {
+			"imagen": "http://lais.mora.edu.mx/metadoc/imgs/Portadas/de la tele.jpg",
+			"url": "https://vimeo.com/150138021"
+		}
+	};
+
+	$scope.jsonSget = {
+		"codigo_de_referencia": "MXIM-AV-1-12-26",
+		"titulo_propio": "De la tele a la boca… una reflexión sobre desarrollo infantil y salud",
+		"fecha": "2008",
+		"duracion": "00:53:00",
+		"realizacion": "Carlos Hernández, Felipe Morales Leal y Lourdes Roca",
+		"sinopsis": "Niños, padres y maestras de un preescolar en Ciudad Nezahualcoyotl, Estado de México, investigan, reflexionan y construyen alternativas para transformar prácticas y hábitos cotidianos que están mermando de forma acelerada la calidad de vida de la población infantil. Diversos padecimientos se han presentado e incrementado últimamente entre este sector de la población y los motivos están relacionados con factores como la familia y la educación, pero también con la sobreexposición a la televisión comercial que impera en el país."
+	};
+
+	$scope.jsonSearch = [
+		{
+			"codigo_de_referencia": "MXIM-AV-1-13-18",
+			"titulo_propio": "Palabra de fotógrafo, Testimonios sobre el 68",
+			"fecha": "2011",
+			"imagen": "http://lais.mora.edu.mx/metadoc/imgs/Portadas/MXIM-AV-1-13-18.jpg",
+			"campos": [
+				"resena_biografica",
+				"sinopsis",
+				"unidades_de_descripcion_relacionadas"
+    		]
+  		},
+		{
+			"codigo_de_referencia": "MXIM-AV-1-12-183",
+			"titulo_propio": "1968, La conexión americana",
+			"fecha": "2008",
+			"imagen": "http://lais.mora.edu.mx/metadoc/imgs/Portadas/12-183.jpg",
+			"campos": [
+				"sinopsis"
+			]
+		},
+		{
+			"codigo_de_referencia": "MXIM-AV-1-12-105",
+			"titulo_propio": "Tragicomedia mexicana 1",
+			"fecha": "2008",
+			"imagen": "http://lais.mora.edu.mx/metadoc/imgs/Portadas/Tragicomedia1.jpg",
+			"campos": [
+				"sinopsis"
+			]
+		},
+		{
+			"codigo_de_referencia": "MXIM-AV-1-12-180",
+			"titulo_propio": "Tlatelolco. Las claves de la masacre",
+			"fecha": "2002",
+			"imagen": "http://lais.mora.edu.mx/metadoc/imgs/Portadas/CLAVES.jpg",
+			"campos": [
+				"unidades_de_descripcion_relacionadas"
+			]
+		},
+		{
+			"codigo_de_referencia": "MXIM-AV-1-11-106",
+			"titulo_propio": "México 68",
+			"fecha": "1992",
+			"imagen": "http://lais.mora.edu.mx/metadoc/imgs/Portadas/Mexico 68.png",
+			"campos": [
+				"sinopsis"
+			]
+		},
+		{
+			"codigo_de_referencia": "MXIM-AV-1-9-13",
+			"titulo_propio": "Le fond de l´air est rouge",
+			"fecha": "1977",
+			"imagen": "http://lais.mora.edu.mx/metadoc/imgs/Portadas/MXIM-AV-1-9-13.jpg",
+			"campos": [
+				"sinopsis",
+				"descriptor_cronologico"
+			]
+		},
+		{
+			"codigo_de_referencia": "MXIM-AV-1-9-7",
+			"titulo_propio": "Historia de un documento",
+			"fecha": "1971",
+			"imagen": "http://lais.mora.edu.mx/metadoc/imgs/Portadas/MXIM-1-9-7.jpg",
+			"campos": [
+				"sinopsis"
+			]
+		}
+	];
+
+	$scope.jsonCsearch = [
+		{
+			"codigo_de_referencia": "MXIM-AV-1-12-245",
+			"titulo_propio": "La Merced a través de la mirada de sus mujeres"
+		},
+		{
+			"codigo_de_referencia": "MXIM-AV-1-12-351",
+			"titulo_propio": "Mujeres de Pozuelos y El Pinar: existencias tzotziles al borde de una decisión cultural"
+		},
+		{
+			"codigo_de_referencia": "MXIM-AV-1-12-82",
+			"titulo_propio": "Justicia, protesta por los asesinatos de mujeres en Ciudad Juárez"
+		},
+		{
+			"codigo_de_referencia": "MXIM-AV-1-12-86",
+			"titulo_propio": "La condición humana de las mujeres"
+		},
+		{
+			"codigo_de_referencia": "MXIM-AV-1-13-49",
+			"titulo_propio": "Las Mujeres Sistemales"
+		},
+		{
+			"codigo_de_referencia": "MXIM-AV-1-13-7",
+			"titulo_propio": "Nosotros… los otros. Mujeres"
+		}
+	];
 });
 
 //Controlador que muestra todas las decadas existentes

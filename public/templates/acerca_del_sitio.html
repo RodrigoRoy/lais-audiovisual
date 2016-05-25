@@ -1,5 +1,41 @@
 <link rel="stylesheet" type="text/css" href="css/background.css"/>
 <style>
+/*Color general del texto para la página actual (que debe estar dentro de algún elemento container para ser responsivo)*/
+.container {
+  color: #CCCCCC;
+}
+
+/*Color de texto para las pestañas "Grupos documentales" y "Ficha de Colección"*/
+.nav>li>a {
+  color: #f0fff0;
+}
+.nav>li>a:hover {
+  color: #555;
+}
+
+/*Estilo para cada sección (cada tab)*/
+div.info-text{
+    background-color: rgba(13,13,13,0.9);
+    font-family: 'Open Sans', sans-serif;
+    color: #CCC;
+    font-size: 1em;
+	padding: 1em 2em;
+    border-radius: 7px;
+}
+/*Color del texto para URL de petición*/
+code{
+	color: #004A8E;
+}
+/*Limitar el tamaño del json de ejemplo en cada request*/
+pre.json-example{
+	max-height: 20em;
+	overflow: scroll;
+}
+/*Estilo de texto "small capitals": todo en mayúsculas y la primera letra es más grande que las demás*/
+.small-capitals{
+	font-variant: small-caps;
+}
+
 /* Iconos de instituciones en la parte inferior */
 img.institution-icon{
 	/*Separación lateral*/
@@ -14,40 +50,232 @@ img.institution-icon{
 	<br>
 	<br>
 	<br>
-	<div id="secAcercaDe">
-		<h1>Acerca del Sitio</h1>
-		<p> 
-			<strong>metaDOC</strong> es un sitio web que pone a disposición la documentación que se ha venido realizando de una pequeña colección de documentales recabados desde 1995 con fines de profundizar sobre las interacciones entre documental e investigación.
-		</p>
-		<p>
-			El usuario encontrará una propuesta de documentación más amplia de lo usual, con la intención de impulsar el análisis e investigación sobre este tipo de documentos, pocas veces incorporados a la práctica investigativa. 	
-		</p>
 
-		<h2>La colección de documentales y el acervo audiovisual del LAIS</h2>
+	<div class="container">
+		<h1 class="title-page">Acerca del Sitio</h1>
+		<uib-tabset>
+			<uib-tab index="0" heading="La colección">
+				<div class="info-text">
+					<h1>Acerca del Sitio</h1>
+					<p> 
+						<strong>metaDOC</strong> es un sitio web que pone a disposición la documentación que se ha venido realizando de una colección de documentales recabados desde 1995 con fines de profundizar sobre las interacciones entre documental e investigación.
+					</p>
+					<p>
+						El usuario encontrará una <!--<a href="">-->propuesta de documentación<!--</a>--> más amplia de lo usual, con la intención de impulsar el análisis e investigación sobre este tipo de documentos, pocas veces incorporados a la práctica investigativa.
+					</p>
+					<p>
+						El sitio se ha producido en el marco del <!--<a href="">-->Proyecto <em>Metodologías de Investigación con Imágenes. Patrimonio Fotográfico y Audiovisual</em><!--</a>--> (LAIS-Instituto Mora). Y también contiene información accesible para <!--<a href="">-->desarrolladores<!--</a>-->.
+					</p>
 
-		<p>
-			Esta colección del acervo audiovisual del Laboratorio Audiovisual de Investigación Social del Instituto Mora está conformada por los documentales que se han recopilado desde 1995 a la fecha, a partir de: cuatro video foros sobre documental e investigación (1995-1997); ocho cursos sobre Lenguaje Audiovisual e Investigación Social (1999-2015); un Congreso Internacional sobre Imágenes e Investigación Social (2002); dos cursos sobre la historia del documental y el reciclaje de imágenes (2004 y 2007); trece Talleres anuales sobre Manejo de Equipo Audiovisual para la Investigación Social (2002-2015), dos Foros sobre Documental e Investigación (2008-2009), tres cursos de especialización en Investigación Social con Imágenes (2012-2014), y tres mesas redondas sobre Documental e Investigación (2016). Otro pequeño porcentaje ha llegado al Acervo por donación externa o adquisición, según los intereses de cada investigación realizada en estas dos décadas.
-		</p>
+					<h2>La colección de documentales y el acervo audiovisual del LAIS</h2>
 
-		<p>
-			La colección de Documentales en Video consta hoy día de 840 títulos producidos en 42 países (15 de ellos latinoamericanos) a lo largo de casi un siglo (1922 a la fecha). En principio tenían en común que trataban todos sobre México; con el tiempo se incluyeron también documentales de los inicios de este género y otros títulos considerados clave para entender los diversos quehaceres al interior de la realización de documental, sobre todo por las necesidades de numerosos cursos organizados por el LAIS a lo largo de este periodo. De esta manera, los documentales que conforman la colección cubren una gran diversidad de temáticas de corte social, pero siguen predominando los que tratan sobre México y América Latina, sin importar el lugar donde fueron realizados.
-		</p>
+					<p>
+						Esta <!--<a href="">-->colección<!--</a>--> del acervo audiovisual del <!--<a href="">-->Laboratorio Audiovisual de Investigación Social<!--</a>--> del Instituto Mora está conformada por los documentales que se han recopilado desde 1995 a la fecha, a partir de: cuatro video foros sobre documental e investigación (1995-1997); ocho cursos sobre Lenguaje Audiovisual e Investigación Social (1999-2015); un Congreso Internacional sobre Imágenes e Investigación Social (2002); dos cursos sobre la historia del documental y el reciclaje de imágenes (2004 y 2007); trece Talleres anuales sobre Manejo de Equipo Audiovisual para la Investigación Social (2002-2015), dos Foros sobre Documental e Investigación (2008-2009), tres cursos de especialización en Investigación Social con Imágenes (2012-2014), y tres mesas redondas sobre Documental e Investigación (2015). Otro pequeño porcentaje ha llegado al <!--<a href="">-->Acervo<!--</a>--> por donación externa o adquisición, según los intereses de cada investigación realizada en estas dos décadas.
+					</p>
 
-		<p>
-			Los usuarios encontrarán descripciones puntuales acerca de los documentales, que les permitirán ir más allá de un visionado o una consulta temática, al hacerse de información más profusa sobre la confección y entretejido de estas realizaciones, lo que permite profundizar en aspectos visuales, sonoros y audiovisuales de su producción. Se ha convertido en una colección privilegiada para fomentar la investigación sobre el documental, sus procesos de investigación y de producción, temas cuyo interés se ha incrementado en las últimas dos décadas en México y América Latina en general.
-		</p>
-			
-		<center>
-			<img class="institution-icon" src="imgs/mora_logo_2.png">
-			<img class="institution-icon" src="imgs/lais_logo_2.png">
-			<img class="institution-icon" src="imgs/conacyt_logo.png">
-		</center>
+					<p>
+						La <!--<a href="">-->colección de Documentales en Video<!--</a>--> consta hoy día de 840 títulos producidos en 42 países (15 de ellos latinoamericanos) a lo largo de casi un siglo (1922 a la fecha). En principio tenían en común que trataban todos sobre México; con el tiempo se incluyeron también documentales de los inicios de este género y otros títulos considerados clave para entender los diversos quehaceres al interior de la realización de documental, sobre todo por las necesidades de numerosos cursos organizados por el LAIS a lo largo de este periodo. De esta manera, los documentales que conforman la colección cubren una gran diversidad de temáticas de corte social, pero siguen predominando los que tratan sobre México y América Latina, sin importar el lugar donde fueron realizados.
+					</p>
+
+					<p>
+						Los <!--<a href="">-->usuarios<!--</a>--> encontrarán descripciones puntuales en cada <!--<a href="">-->ficha<!--</a>--> acerca de los documentales, que les permitirán ir más allá de un visionado o una consulta temática, al hacerse de información más profusa sobre la confección y entretejido de estas realizaciones, lo que permite profundizar en aspectos visuales, sonoros y audiovisuales de su producción. Se ha convertido en una colección privilegiada para fomentar la investigación sobre el documental, sus procesos de investigación y de producción, temas cuyo interés se ha incrementado en las últimas dos décadas en México y América Latina en general.
+					</p>
+						
+					<center>
+						<img class="institution-icon" src="imgs/mora_logo_2.png">
+						<img class="institution-icon" src="imgs/lais_logo_2.png">
+						<img class="institution-icon" src="imgs/conacyt_logo.png">
+					</center>
+				</div>
+			</uib-tab>
+
+			<!-- <uib-tab index="1" heading="Manual de documentación">
+				<div class="info-text">
+					[Manual de Catalogación del Acervo de Documental en Video para la Serie de DOcumentales en VIdeo del Laboratotio Audiovisual de Investigación Social del Instituto Mora]
+				</div>
+			</uib-tab> -->
+
+			<uib-tab index="1" heading="Equipo de trabajo">
+				<div class="info-text text-center">
+					<h1>MetaDOC</h1>
+					<p class="lead">
+						Colección de Documentales en Video
+						<br>
+						Acervo Audiovisual del LAIS
+					</p>
+
+					<p>Coordinadores: Lourdes Roca, Felipe Morales, Carlos Hernández</p>
+
+					<p>
+						<span class="small-capitals">Proyecto Metodologías de Investigación Social con Imágenes.
+						<br>
+						Patrimonio Fotográfico y Audiovisual</span>
+						<br>
+						Coordinación: Lourdes Roca
+					</p>
+
+					<h3>Producción del sitio y diseño gráfico</h3>
+					<ul class="list-unstyled">
+						<li>Lourdes Roca</li>
+						<li>Felipe Morales Leal</li>
+						<li>Carlos Hernández Marines</li>
+						<li>Rodrigo Colín Rivera</li>
+						<li>Sergio Amaro Rosas</li>
+					</ul>
+					
+					<h3>Desarrollo web</h3>
+					<ul class="list-unstyled">
+						<li>Rodrigo Colín Rivera</li>
+						<li>Sergio Amaro Rosas</li>
+					</ul>
+
+					<h3>Diseño de fichas catalográficas con base en la ISAD-(G)</h3>
+					<ul class="list-unstyled">
+						<li>Laboratorio Audiovisual de Investigación Social (LAIS)</li>
+						<li>Instituto Mora/CONACYT</li>
+					</ul>
+					
+					<h3>Corrección de estilo</h3>
+					<ul class="list-unstyled">
+						<li>Citlali Salazar Torres</li>
+					</ul>
+					
+					<h3>Documentación</h3>
+					<ul class="list-unstyled">
+						<li>Cecilia Alcántara Ceja</li>
+						<li>Rafael Briseño</li>
+						<li>Yunuén Carrillo </li>
+						<li>Terpsícore Cruz</li>
+						<li>Elisa Dolores Espinoza</li>
+						<li>Itzia Fernández Escareño</li>
+						<li>Adriana Fonseca</li>
+						<li>Paris García Becerril</li>
+						<li>Lilia García Torres</li>
+						<li>Daniel Guzmán</li>
+						<li>Carlos Hernández Marines </li>
+						<li>Jocelyn Leal Ruiz</li>
+						<li>Alejandra López</li>
+						<li>Guadalupe López Sandoval</li>
+						<li>Úrsula Mares Figueras</li>
+						<li>Jesús Mejía Mendoza</li>
+						<li>Felipe Morales Leal</li>
+						<li>Sergio Ortiz</li>
+						<li>Esmeralda Prado</li>
+						<li>Lourdes Roca</li>
+						<li>Israel Rodríguez Rodríguez</li>
+						<li>Isis Saavedra Luna</li>
+						<li>Citlalli Salazar Torres</li>
+						<li>Angie J. Sandoval </li>
+						<li>Tzutzumatzin Soto Cortés</li>
+						<li>Esteban Terán</li>
+						<li>Penélope Ubaldo</li>
+						<li>María Eréndira Vázquez Arriaga</li>
+					</ul>
+				</div>
+			</uib-tab>
+
+			<!-- <uib-tab index="3" heading="Uso de la página">
+				<div class="info-text">
+					[Tutorial de uso]
+				</div>
+			</uib-tab> -->
+
+			<uib-tab index="2" heading="Desarrolladores">
+				<div class="info-text">
+					<h3>API de acceso a la información para desarrolladores</h3>
+					<p>
+						Con el objetivo de brindar acceso y apoyo en el desarrollo de investigación y aplicación para las áreas relacionadas a las tecnologías de la información y comunicación, se brinda un API de acceso a la información para obtener los mismos resultados mostrados mediante el sitio pero en un formato adecuado para programación.
+					</p>
+					<h3>Información general</h3>
+					<p>
+						Las peticiones (request) a la base de datos se realizan mediante el protocolo HTTP usando el método GET y que son administradas mediante PHP para enviar información (response) en formato JSON. El formato general es el siguiente:
+						<br>
+						<code>http://lais.mora.edu.mx/metadoc/api.php<strong>?req=REQUEST[&amp;PARAM=VALUE]...</strong></code>
+						<br>
+						Donde <samp>REQUEST</samp> es el nombre del tipo de petición seguido de una lista de parámetro y valor. Los valores de los parámetros se recomienda aplicarles URL-encoding para evitar errores de codificación.
+					</p>
+					<h3>Tipo de peticiones</h3>
+					<pre>GET</pre>
+					<dl class="dl-horizontal">
+						<dt>REQUEST</dt>
+						<dd>get</dd>
+
+						<dt>PARAM</dt>
+						<dd>id - Identificador único del documental</dd>
+
+						<dt>Descripción</dt>
+						<dd>Devuelve toda la información del documental separado por áreas (tal como lo especifica el Manual de Catalogación), incluyendo un área auxiliar llamada "adicional" que contiene los campos "imagen" y "url"; el primero representa la imagen utilizada para ilustrar el documental, y el segundo es una dirección URL para ver una muestra del documental.</dd>
+
+						<dt>Ejemplo</dt>
+						<dd>
+							<code>http://lais.mora.edu.mx/metadoc/api.php?req=<strong>get</strong>&<strong>id</strong>=MXIM-AV-1-12-26</code>
+							<br>
+							<pre class="json-example">{{ jsonGet | json }}</pre>
+						</dd>
+					</dl>
+
+					<pre>SIMPLE GET</pre>
+					<dl class="dl-horizontal">
+						<dt>REQUEST</dt>
+						<dd>sget</dd>
+
+						<dt>PARAM</dt>
+						<dd>id - Identificador único del documental</dd>
+
+						<dt>Descripción</dt>
+						<dd>Devuelve el subconjunto representativo de información del documental. Contiene únicamente los siguientes campos: código de referencia, título propio, fecha, duración, realización y sinópsis. Si se requiere obtener más datos se recomienda usar la petición get.</dd>
+
+						<dt>Ejemplo</dt>
+						<dd>
+							<code>http://lais.mora.edu.mx/metadoc/api.php?req=<strong>sget</strong>&<strong>id</strong>=MXIM-AV-1-12-26</code>
+							<pre class="json-example">{{ jsonSget | json }}</pre>
+						</dd>
+					</dl>
+
+					<pre>SEARCH</pre>
+					<dl class="dl-horizontal">
+						<dt>REQUEST</dt>
+						<dd>search</dd>
+
+						<dt>PARAM</dt>
+						<dd>query - Texto a búscar en la base de datos.</dd>
+
+						<dt>Descripción</dt>
+						<dd>Realiza búsqueda exhaustiva en toda la base de datos y filtra los registros que contengan todas las palabras del parámetro <em>query</em> (se ignoran preposiciónes y artículos). Devuelve una lista de objetos con la siguiente información: codigo de referencia, título propio, fecha, imagen y campos. Este último es una lista de string que representan las áreas donde hubo aparición del query de búsqueda.</dd>
+
+						<dt>Ejemplo</dt>
+						<dd>
+							<code>http://lais.mora.edu.mx/metadoc/api.php?req=<strong>search</strong>&<strong>query</strong>=<span uib-popover="Sin URL-encoding: 'el movimiento del 68'" popover-trigger="mouseenter" popover-placement="bottom">el%20movimiento%20del%2068</span></code>
+							<pre class="json-example">{{ jsonSearch | json }}</pre>
+						</dd>
+					</dl>
+
+					<pre>COLUMN SEARCH</pre>
+					<dl class="dl-horizontal">
+						<dt>REQUEST</dt>
+						<dd>csearch</dd>
+
+						<dt>PARAM</dt>
+						<dd>
+							query - Texto a búscar en la base de datos.
+							<br>
+							campo - Campo (columna de la base de datos) en donde se realizará la búsqueda.
+						</dd>
+
+						<dt>Descripción</dt>
+						<dd>Realiza búsqueda acotada a una columna la base de datos (que representa un campo de la ficha de catalogación) y filtra los registros que contengan todas las palabras del parámetro <em>query</em> (se ignoran preposiciónes y artículos). Devuelve una lista de objetos con la siguiente información: codigo de referencia y campo dado como parámetro.</dd>
+
+						<dt>Ejemplo</dt>
+						<dd>
+							<code>http://lais.mora.edu.mx/metadoc/api.php?req=<strong>csearch</strong>&<strong>query</strong>=<span uib-popover="Sin URL-encoding: 'las mujeres'" popover-trigger="mouseenter" popover-placement="bottom">las%20mujeres</span>&<strong>campo</strong>=titulo_propio</code>
+							<pre class="json-example">{{ jsonCsearch | json }}</pre>
+						</dd>
+					</dl>
+				</div>
+			</uib-tab>
+		</uib-tabset>
 	</div>
-</body>
+	
 
-<script>
-//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
-$('#modalInfo').modal('hide'); // Ocultar modal
-$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
-$('.modal-backdrop').remove(); // Elimina del DOM
-</script>
+
+</body>
