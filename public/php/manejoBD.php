@@ -230,7 +230,7 @@ function agregar(){
     $GLOBALS['conn'] = null;
 }
 
-/*Funcion que actualiza un nuevo archivo audiovisual*/
+/*Funcion que actualiza la información de un registro (campos de un documental)*/
 function actualizar(){
     $datos = json_decode(file_get_contents("php://input"));
 
@@ -333,7 +333,8 @@ function actualizar(){
 
     $info_adicional = "UPDATE informacion_adicional SET "
         . "codigo_de_referencia='" . $datos->codigo_de_referencia . "', "
-        . "url='" . $datos->url
+        . "url='" . $datos->url . "', "
+        . "fecha_de_modificacion='" . $datos->fecha_de_modificacion
         . "' WHERE codigo_de_referencia='" . $datos->codigo_de_referencia . "'";
 
     $registro_actividades = "INSERT INTO registro_actividades VALUES('$datos->codigo_de_referencia', '$datos->titulo_propio', now(), '$datos->user', '$datos->accion');";

@@ -553,6 +553,12 @@
 								<input type="url" class="form-control" id="url" name="url" ng-model="url" ng-maxlength="255">
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.url.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.url.$dirty && audiovisualForm.url.$invalid"></div>
 							</div>
+							<!-- FECHA_DE_MODIFICACION -->
+							<div class="form-group" ng-class="{'has-error': audiovisualForm.fecha_de_modificacion.$invalid}">
+								<label class="control-label" for="fecha_de_modificacion">Fecha de modificación</label>
+								<input class="form-control" id="fecha_de_modificacion" name="fecha_de_modificacion" ng-model="fecha_de_modificacion" type="date" readonly>
+								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.fecha_de_modificacion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.fecha_de_modificacion.$invalid"></div>
+							</div>
 						</div>
 					</div>
 					<button class="btn btn-primary btn-lg btn-block" ng-disabled="audiovisualForm.$invalid" ng-click="envia(imagen)">Agregar información a la base de datos</button>

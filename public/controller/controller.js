@@ -182,7 +182,8 @@ lais.service('ParamService', function(){
 			'reglas_o_normas': (scope.reglas_o_normas !== undefined) ? scope.reglas_o_normas.trim().replace(/\s\s+/g, ' ') : "",
 			//'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? scope.fecha_de_descripcion.trim().replace(/  +/g, ' ') : "", // TODO: setFechaDescripcion()?
 			'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? (scope.fecha_de_descripcion) : "0000-00-00",
-			'url': (scope.url !== undefined) ? scope.url.trim() : ""
+			'url': (scope.url !== undefined) ? scope.url.trim() : "",
+			'fecha_de_modificacion': (scope.fecha_de_modificacion !== undefined) ? (scope.fecha_de_modificacion) : "0000-00-00"
 		}
 	}
 
@@ -305,7 +306,8 @@ lais.service('DecadaService', function($http){
 		'reglas_o_normas': 'Reglas o normas',
 		'fecha_de_descripcion': 'Fecha de descripción',
 		'imagen': 'Imagen',
-		'url': 'URL'
+		'url': 'URL',
+		'fecha_de_modificacion': 'Fecha de modificación'
 	};
 });
 
@@ -579,7 +581,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
     	'documentacion': ['existencia_y_localizacion_de_copias', 'unidades_de_descripcion_relacionadas', 'documentos_asociados'],
     	'notas': ['area_de_notas'],
     	'descripcion': ['notas_del_archivero', 'datos_del_archivero', 'reglas_o_normas', 'fecha_de_descripcion'],
-    	'adicional': ['imagen', 'url']
+    	'adicional': ['imagen', 'url', 'fecha_de_modificacion']
     }
     $scope.visibles = $scope.archivos.length; // Cantidad de documentales visibles (útil al filtrarlos en búsquedas)
     $scope.predicate = "fecha"; // Ordenamiento por "fecha" (año)
@@ -1276,6 +1278,7 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, $cookieSto
 	}
 
 	$scope.fecha_de_descripcion = new Date(); // La fecha de descripción por default se genera al momento
+	$scope.fecha_de_modificacion = new Date(); // La fecha de modificación también es generada al momento
 
 	$scope.inputFuentes = [
 		{name: "Entrevistas", ticked: false},
@@ -1558,8 +1561,9 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		$scope.notas_del_archivero = data.notas_del_archivero;
 		$scope.datos_del_archivero = data.datos_del_archivero;
 		$scope.reglas_o_normas = data.reglas_o_normas;
-		$scope.fecha_de_descripcion = new Date(); // Se actualiza la fecha de descripción al momento
+		$scope.fecha_de_descripcion = new Date(data.fecha_de_descripcion);
 		$scope.url = data.url;
+		$scope.fecha_de_modificacion = new Date(); // Se auto-actualiza la fecha de descripción al día de hoy
 		$scope.imagen_previa = data.imagen;
     });
     
@@ -2045,6 +2049,7 @@ lais.controller('controlDatosCtrl', function($scope, $http, $location, DecadaSer
 		// Cambios puntuales (específicos) y permanentes
 		$scope.allInfo.identificacion.duracion = getDuracion($scope.allInfo.identificacion.duracion); // Parse desde filters.js
 		$scope.allInfo.descripcion.fecha_de_descripcion = getFechaDescripcion($scope.allInfo.descripcion.fecha_de_descripcion); // Parse desde filters.js
+		$scope.allInfo.adicional.fecha_de_modificacion = getFechaDescripcion($scope.allInfo.adicional.fecha_de_modificacion); // Parse desde filters.js
 		// Agregar nuevos campos "titulo_adecuado" y "titulo_visible":
 		$scope.allInfo.secret = [];
 		$scope.allInfo.secret['titulo_adecuado'] = $scope.tituloAdecuado($scope.allInfo.identificacion);

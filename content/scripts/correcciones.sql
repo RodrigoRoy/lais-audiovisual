@@ -101,3 +101,6 @@ update area_de_identificacion set titulo_paralelo = 'El tren en marcha = The tra
 update area_de_identificacion set titulo_paralelo = 'Los tambores de antaño = Tourou et Bitti' where titulo_paralelo = 'Los tambores de antaño, Tourou et Bitti';
 update area_de_identificacion set titulo_paralelo = 'Toros en Forcalhos = Tourada em Forcalhos' where titulo_paralelo = 'Toros en Forcalhos, Tourada em Forcalhos';
 update area_de_identificacion set titulo_paralelo = 'Las estaciones = Les saisons' where titulo_paralelo = 'Las estaciones, Les saisons';
+
+alter table informacion_adicional
+	add column fecha_de_modificacion TIMESTAMP;

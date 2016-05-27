@@ -158,7 +158,8 @@ ALTER TABLE area_de_descripcion ADD CONSTRAINT codigoDescripcionFK
 CREATE TABLE IF NOT EXISTS informacion_adicional(
 	codigo_de_referencia VARCHAR(20) NOT NULL,
 	imagen VARCHAR(255) DEFAULT '',
-	url VARCHAR(255) DEFAULT ''
+	url VARCHAR(255) DEFAULT '',
+	fecha_de_modificacion TIMESTAMP
 );
 # Agregar llave foranea (FK) para el codigo_de_referencia que ya existe en la tabla area_de_identificacion
 ALTER TABLE informacion_adicional ADD CONSTRAINT codigoInfoAdicionalFK
