@@ -535,7 +535,7 @@
 							<!-- FECHA_DE_DESCRIPCION -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.fecha_de_descripcion.$invalid}">
 								<label class="control-label" for="fecha_de_descripcion">Fecha de descripción</label>
-								<input class="form-control" id="fecha_de_descripcion" name="fecha_de_descripcion" ng-model="fecha_de_descripcion" type="date">
+								<input class="form-control" id="fecha_de_descripcion" name="fecha_de_descripcion" ng-model="fecha_de_descripcion" type="date" readonly> <!-- La fecha de descripción se genera automáticamente en controlador (representa el día de hoy) -->
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.fecha_de_descripcion.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.fecha_de_descripcion.$invalid"></div>
 							</div>
 						</div>

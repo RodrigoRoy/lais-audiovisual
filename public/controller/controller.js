@@ -958,7 +958,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 				if(area !== 'adicional'){ // Porque la imagen y la url deben conservar el nombre original tal cual
 					$scope.allInfo[area][campo] = $scope.allInfo[area][campo].trim().replace(/  */g, ' '); // Limpiar espacios vacios
 					$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].slice(-1) === '.') ? ($scope.allInfo[area][campo].slice(0, -1)) : ($scope.allInfo[area][campo]); // Eliminar punto al final
-					$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].length > 0) ? ($scope.allInfo[area][campo].charAt(0).toUpperCase() + $scope.allInfo[area][campo].slice(1)) : ($scope.allInfo[area][campo]); // Mayúscula la primera letra	
+					$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].length > 0) ? ($scope.allInfo[area][campo].charAt(0).toUpperCase() + $scope.allInfo[area][campo].slice(1)) : ($scope.allInfo[area][campo]); // Mayúscula la primera letra
 				}
 				$scope.allInfoCopy[area][campo] = $scope.allInfo[area][campo];
 				// Cambia URL por un ícono con hipervínculo
@@ -1275,6 +1275,8 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, $cookieSto
 		$location.url('/decadas/');
 	}
 
+	$scope.fecha_de_descripcion = new Date(); // La fecha de descripción por default se genera al momento
+
 	$scope.inputFuentes = [
 		{name: "Entrevistas", ticked: false},
 		{name: "Grabación de campo", ticked: false},
@@ -1556,7 +1558,7 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 		$scope.notas_del_archivero = data.notas_del_archivero;
 		$scope.datos_del_archivero = data.datos_del_archivero;
 		$scope.reglas_o_normas = data.reglas_o_normas;
-		$scope.fecha_de_descripcion = new Date(data.fecha_de_descripcion);
+		$scope.fecha_de_descripcion = new Date(); // Se actualiza la fecha de descripción al momento
 		$scope.url = data.url;
 		$scope.imagen_previa = data.imagen;
     });
