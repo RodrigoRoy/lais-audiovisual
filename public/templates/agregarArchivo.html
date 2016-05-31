@@ -412,7 +412,7 @@
 							<!-- IDIOMA_ORIGINAL -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.idioma_original.$dirty && audiovisualForm.idioma_original.$invalid}">
 								<label class="control-label" for="idioma_original">Idioma original</label>
-								<input class="form-control" id="idioma_original" name="idioma_original" ng-model="idioma_original" ng-maxlength="40">
+								<input class="form-control" id="idioma_original" name="idioma_original" ng-model="idioma_original" ng-maxlength="80">
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.idioma_original.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.idioma_original.$dirty && audiovisualForm.idioma_original.$invalid"></div>
 							</div>
 							<!-- DOBLAJES_DISPONIBLES -->
@@ -424,7 +424,7 @@
 							<!-- SUBTITULAJES -->
 							<div class="form-group" ng-class="{'has-error': audiovisualForm.subtitulajes.$dirty && audiovisualForm.subtitulajes.$invalid}">
 								<label class="control-label" for="subtitulajes">Subtitulajes disponibles</label>
-								<input class="form-control" id="subtitulajes" name="subtitulajes" ng-model="subtitulajes" maxlength="40">
+								<input class="form-control" id="subtitulajes" name="subtitulajes" ng-model="subtitulajes" maxlength="80">
 								<div class="alert alert-danger" role="alert" ng-messages="audiovisualForm.subtitulajes.$error" ng-messages-include="error-messages" ng-show="audiovisualForm.subtitulajes.$dirty && audiovisualForm.subtitulajes.$invalid"></div>
 							</div>
 							<!-- SOPORTE -->
