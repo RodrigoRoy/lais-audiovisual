@@ -13,8 +13,8 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/acerca_del_sitio.html",
 			controller: "aboutCtrl"
 		})
-		.when("/publicaciones",{
-			templateUrl: "templates/publicaciones_y_vinculos.html"
+		.when("/vinculos",{
+			templateUrl: "templates/vinculos.html"
 		})
 		.when("/decadas",{
 			templateUrl: "templates/archivos_audiovisuales.html",
