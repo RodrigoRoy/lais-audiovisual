@@ -102,5 +102,46 @@ update area_de_identificacion set titulo_paralelo = 'Los tambores de antaño = T
 update area_de_identificacion set titulo_paralelo = 'Toros en Forcalhos = Tourada em Forcalhos' where titulo_paralelo = 'Toros en Forcalhos, Tourada em Forcalhos';
 update area_de_identificacion set titulo_paralelo = 'Las estaciones = Les saisons' where titulo_paralelo = 'Las estaciones, Les saisons';
 
+# Agregar el campo "fecha_de_modificacion" en tabla "información_adicional"
 alter table informacion_adicional
 	add column fecha_de_modificacion TIMESTAMP;
+
+# Eliminar formatos originales inconsistentes:
+update area_de_contenido_y_estructura set formato_original = '' where codigo_de_referencia like 'MXIM-AV-1-4%' and formato_original like '%VHS%';
+update area_de_contenido_y_estructura set formato_original = '' where codigo_de_referencia like 'MXIM-AV-1-5%' and formato_original like '%VHS%';
+update area_de_contenido_y_estructura set formato_original = '' where codigo_de_referencia like 'MXIM-AV-1-6%' and formato_original like '%VHS%';
+update area_de_contenido_y_estructura set formato_original = '' where codigo_de_referencia like 'MXIM-AV-1-7%' and formato_original like '%VHS%';
+update area_de_contenido_y_estructura set formato_original = '' where codigo_de_referencia like 'MXIM-AV-1-8%' and formato_original like '%VHS%';
+update area_de_contenido_y_estructura set formato_original = '' where codigo_de_referencia like 'MXIM-AV-1-4%' and formato_original like '%DVD%';
+update area_de_contenido_y_estructura set formato_original = '' where codigo_de_referencia like 'MXIM-AV-1-5%' and formato_original like '%DVD%';
+update area_de_contenido_y_estructura set formato_original = '' where codigo_de_referencia like 'MXIM-AV-1-6%' and formato_original like '%DVD%';
+update area_de_contenido_y_estructura set formato_original = '' where codigo_de_referencia like 'MXIM-AV-1-7%' and formato_original like '%DVD%';
+update area_de_contenido_y_estructura set formato_original = '' where codigo_de_referencia like 'MXIM-AV-1-8%' and formato_original like '%DVD%';
+update area_de_contenido_y_estructura set formato_original = '16 mm, Beta SP' where codigo_de_referencia = 'MXIM-AV-1-9-14';
+update area_de_contenido_y_estructura set formato_original = '' where codigo_de_referencia like 'MXIM-AV-1-10%' and formato_original like '%DVD%';
+
+# Cambiar idioma_original de "Muda" a "Silente"
+update area_de_condiciones_de_acceso set idioma_original = 'Silente' where idioma_original like 'Muda';
+
+# Reasignar codigo_de_referencia para una mejor catalogación
+update area_de_identificacion set codigo_de_referencia='MXIM-AV-1-9-31' where codigo_de_referencia='MXIM-AV-1-5-13';
+
+# Asignar una fecha no vacia para los campos donde no se asigno fecha_de_descripcion
+update area_de_descripcion set fecha_de_descripcion = '2015-06-01' where fecha_de_descripcion = '0000-00-00';
+
+# Corrección de nombre de catalogador/archivero
+update area_de_descripcion set datos_del_archivero = 'Elisa Dolores Espinosa Cruz' where datos_del_archivero = 'Elisa D. Espinosa';
+
+# Eliminar género "Footage"
+update area_de_contenido_y_estructura set genero = '' where genero like '%footage%';
+
+# Corregir la reseña_biografica del LAIS, que antes tenía solamente un URL inválido
+update area_de_contexto set resena_biografica = 'El Instituto Mora es un centro público CONACyT, dedicado a la investigación y docencia en historia y ciencias sociales. Se fundó en 1981, cuenta con una planta permanente de investigadores en diversas disciplinas y líneas de investigación e imparte diversos posgrados. En 1993, en el área de Historia Oral, comienza la producción audiovisual, con el documental Un pueblo en la memoria. Desde entonces, el Instituto ha seguido produciendo documental a partir de los resultados de diversas investigaciones. En el 2000 se conforma el Laboratorio Audiovisual de Investigación Social, donde se ha seguido realizando documental, en el marco de su objetivo central: desarrollar investigación social con y sobre imágenes de los siglos XIX a XXI. A la fecha el LAIS ha producido: Un pueblo en la memoria (1994), Tradición o modernidad: reto de una generación (1996), El buen restaurador ama lo antiguo (1997), Cuando la rumba nos conoció (1998), Mi Multi es mi Multi (1999), Km. C-62 Un nómada del riel (2000), El arte de hacer ciudad (2000), De dolor y esperanza (2002), Revelando el rollo. Los usos de lo visual en la investigación social (2002), El triángulo de Tacubaya (2005), Ciudad Olimpia. El año en que fuimos modernos (2007), De la tele a la boca. Una reflexión sobre desarrollo infantil y televisión (2008) e Historias para no pensar (2012)' where resena_biografica = 'http://www.mora.edu.mx/Investigacion/Principal/laboratorio.html';
+
+# Poner mayúsculas en numero_copias
+update area_de_condiciones_de_acceso set numero_copias = '1 DVD' where numero_copias = '1 dvd';
+update area_de_condiciones_de_acceso set numero_copias = '1 VHS' where numero_copias = '1 vhs';
+update area_de_condiciones_de_acceso set numero_copias = '1 VHS, 1 DVD' where numero_copias = '1 vhs / 1 dvd';
+
+# Usar una imagen de otro documental
+update informacion_adicional set imagen = 'falamosdeantoniocampos.jpg' where codigo_de_referencia = 'MXIM-AV-1-12-341';
