@@ -67,7 +67,7 @@ SELECT *
 	LINES TERMINATED BY '\n';
 
 # Exporta todos los registros en la base de datos de la tabla informacion_adicional
-SELECT 'codigo_de_referencia', 'imagen', 'url'
+SELECT 'codigo_de_referencia', 'imagen', 'url', 'fecha_de_modificacion'
 	UNION
 SELECT * 
 	FROM informacion_adicional INTO OUTFILE '/var/www/html/lais-audiovisual/content/backup/informacion_adicional.csv'
