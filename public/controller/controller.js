@@ -16,6 +16,12 @@ lais.config(function ($routeProvider, $locationProvider){
 		.when("/vinculos",{
 			templateUrl: "templates/vinculos.html"
 		})
+		.when("/ficha",{
+			templateUrl: "templates/ficha_coleccion.html"
+		})
+		.when("/developers",{
+			templateUrl: "templates/developers.html"
+		})
 		.when("/decadas",{
 			templateUrl: "templates/archivos_audiovisuales.html",
 			//controller: "conexionCtrl"

@@ -24,20 +24,39 @@
 *{
   font-family: 'Open Sans', sans-serif;
 }
+/* unvisited link */
+a:link {
+    color: #A1A1A1;
+}
+
+/* visited link */
+a:visited {
+    color: #737272;
+}
+
+/* mouse over link */
+a:hover {
+    color: #737272;
+}
+
+/* selected link */
+a:active {
+    color: #737272;
+}
 </style>
 
 <br><br><br>
 <body>
-	<div class="container container-large">
-		<div class="row">
-			<div class="col-xs-12">
-        <h1 class="title-page">Colección de documentales en video</h1>
+  <div class="container container-large">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1><span class="title-page">Colección de documentales en video</span> <a href="#ficha"><span uib-popover="Ficha de colección" popover-trigger="mouseenter" popover-placement="right"><i class="fa fa-file-text-o" aria-hidden="true"></i></span></a></h1>
         <h3>Acervo Audiovisual del Laboratorio Audiovisual de Investigación Social (LAIS)</h3>
-				<uib-tabset>
-					<uib-tab index="0" heading="Grupos documentales">
-						<div class="row">
+        <!-- <uib-tabset> -->
+          <!-- <uib-tab index="0" heading="Grupos documentales"> -->
+            <div class="row">
               <div class="col-xs-12">
-                <h3>Por década</h3>
+                <h3>Grupos documentales por década</h3>
               </div>
             </div>
             <div class="row">
@@ -54,11 +73,11 @@
 
               </div>
             </div>
-					</uib-tab>
+          <!-- </uib-tab> -->
 
-					<uib-tab index="1" heading="Ficha de la colección">
+<!--           <uib-tab index="1" heading="Ficha de la colección">
             <div class="table-read">
-  						<h4>Área de identificación</h4>
+              <h4>Área de identificación</h4>
               <table class="table table-condensed">
                 <tbody>
                   <tr>
@@ -188,11 +207,11 @@
                 </tbody>
               </table>
             </div>
-          </uib-tab>
-				</uib-tabset>
-			</div>
-		</div>
-	</div>
+          </uib-tab> -->
+        <!-- </uib-tabset> -->
+      </div>
+    </div>
+  </div>
   
   <!-- <div class="container-fluid">
     <div class="col-xs-12 col-sm-12 col-md-12" class="row">

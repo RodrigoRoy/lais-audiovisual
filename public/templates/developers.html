@@ -1,0 +1,123 @@
+<link rel="stylesheet" type="text/css" href="css/background.css"/>
+<style>
+div.info-text{
+    background-color: rgba(13,13,13,0.9);
+    font-family: 'Open Sans', sans-serif;
+    color: #CCC;
+    font-size: 1em;
+	padding: 1em 2em;
+    border-radius: 7px;
+}
+/*Color del texto para URL de petición*/
+code{
+	color: #004A8E;
+}
+/*Limitar el tamaño del json de ejemplo en cada request*/
+pre.json-example{
+	max-height: 20em;
+	overflow: scroll;
+}
+</style>
+<body>
+	<br>
+	<br>
+	<br>
+
+	<div class="container">
+
+		<div class="info-text">
+			<h2>API de acceso a la información para desarrolladores</h2>
+			<p>
+				Con el objetivo de brindar acceso y apoyo en el desarrollo de investigación y aplicación para las áreas relacionadas a las tecnologías de la información y comunicación, se brinda un API de acceso a la información para obtener los mismos resultados mostrados mediante el sitio pero en un formato adecuado para programación.
+			</p>
+			<h3>Información general</h3>
+			<p>
+				Las peticiones (request) a la base de datos se realizan mediante el protocolo HTTP usando el método GET y que son administradas mediante PHP para enviar información (response) en formato JSON. El formato general es el siguiente:
+				<br>
+				<code>http://lais.mora.edu.mx/metadoc/api.php<strong>?req=REQUEST[&amp;PARAM=VALUE]...</strong></code>
+				<br>
+				Donde <samp>REQUEST</samp> es el nombre del tipo de petición seguido de una lista de parámetro y valor. Los valores de los parámetros se recomienda aplicarles URL-encoding para evitar errores de codificación.
+			</p>
+			<h2>Tipo de peticiones</h2>
+			<pre>GET</pre>
+			<dl class="dl-horizontal">
+				<dt>REQUEST</dt>
+				<dd>get</dd>
+
+				<dt>PARAM</dt>
+				<dd>id - Identificador único del documental</dd>
+
+				<dt>Descripción</dt>
+				<dd>Devuelve toda la información del documental separado por áreas (tal como lo especifica el Manual de Catalogación), incluyendo un área auxiliar llamada "adicional" que contiene los campos "imagen" y "url"; el primero representa la imagen utilizada para ilustrar el documental, y el segundo es una dirección URL para ver una muestra del documental.</dd>
+
+				<dt>Ejemplo</dt>
+				<dd>
+					<code>http://lais.mora.edu.mx/metadoc/api.php?req=<strong>get</strong>&<strong>id</strong>=MXIM-AV-1-12-26</code>
+					<br>
+					<pre class="json-example">{{ jsonGet | json }}</pre>
+				</dd>
+			</dl>
+
+			<pre>SIMPLE GET</pre>
+			<dl class="dl-horizontal">
+				<dt>REQUEST</dt>
+				<dd>sget</dd>
+
+				<dt>PARAM</dt>
+				<dd>id - Identificador único del documental</dd>
+
+				<dt>Descripción</dt>
+				<dd>Devuelve el subconjunto representativo de información del documental. Contiene únicamente los siguientes campos: código de referencia, título propio, fecha, duración, realización y sinópsis. Si se requiere obtener más datos se recomienda usar la petición get.</dd>
+
+				<dt>Ejemplo</dt>
+				<dd>
+					<code>http://lais.mora.edu.mx/metadoc/api.php?req=<strong>sget</strong>&<strong>id</strong>=MXIM-AV-1-12-26</code>
+					<pre class="json-example">{{ jsonSget | json }}</pre>
+				</dd>
+			</dl>
+
+			<pre>SEARCH</pre>
+			<dl class="dl-horizontal">
+				<dt>REQUEST</dt>
+				<dd>search</dd>
+
+				<dt>PARAM</dt>
+				<dd>query - Texto a búscar en la base de datos.</dd>
+
+				<dt>Descripción</dt>
+				<dd>Realiza búsqueda exhaustiva en toda la base de datos y filtra los registros que contengan todas las palabras del parámetro <em>query</em> (se ignoran preposiciónes y artículos). Devuelve una lista de objetos con la siguiente información: codigo de referencia, título propio, fecha, imagen y campos. Este último es una lista de string que representan las áreas donde hubo aparición del query de búsqueda.</dd>
+
+				<dt>Ejemplo</dt>
+				<dd>
+					<code>http://lais.mora.edu.mx/metadoc/api.php?req=<strong>search</strong>&<strong>query</strong>=<span uib-popover="Sin URL-encoding: 'el movimiento del 68'" popover-trigger="mouseenter" popover-placement="bottom">el%20movimiento%20del%2068</span></code>
+					<pre class="json-example">{{ jsonSearch | json }}</pre>
+				</dd>
+			</dl>
+
+			<pre>COLUMN SEARCH</pre>
+			<dl class="dl-horizontal">
+				<dt>REQUEST</dt>
+				<dd>csearch</dd>
+
+				<dt>PARAM</dt>
+				<dd>
+					query - Texto a búscar en la base de datos.
+					<br>
+					campo - Campo (columna de la base de datos) en donde se realizará la búsqueda.
+				</dd>
+
+				<dt>Descripción</dt>
+				<dd>Realiza búsqueda acotada a una columna la base de datos (que representa un campo de la ficha de catalogación) y filtra los registros que contengan todas las palabras del parámetro <em>query</em> (se ignoran preposiciónes y artículos). Devuelve una lista de objetos con la siguiente información: codigo de referencia y campo dado como parámetro.</dd>
+
+				<dt>Ejemplo</dt>
+				<dd>
+					<code>http://lais.mora.edu.mx/metadoc/api.php?req=<strong>csearch</strong>&<strong>query</strong>=<span uib-popover="Sin URL-encoding: 'las mujeres'" popover-trigger="mouseenter" popover-placement="bottom">las%20mujeres</span>&<strong>campo</strong>=titulo_propio</code>
+					<pre class="json-example">{{ jsonCsearch | json }}</pre>
+				</dd>
+			</dl>
+		</div>
+	</div>
+	
+
+
+</body>
