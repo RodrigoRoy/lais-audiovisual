@@ -145,3 +145,29 @@ update area_de_condiciones_de_acceso set numero_copias = '1 VHS, 1 DVD' where nu
 
 # Usar una imagen de otro documental
 update informacion_adicional set imagen = 'falamosdeantoniocampos.jpg' where codigo_de_referencia = 'MXIM-AV-1-12-341';
+
+-- Documentales sin portada (y con imagen incorrecta):
+-- MXIM-AV-1-13-46
+-- MXIM-AV-1-12-366
+-- MXIM-AV-1-12-365
+-- MXIM-AV-1-12-338
+-- MXIM-AV-1-12-290
+-- MXIM-AV-1-12-289
+-- MXIM-AV-1-12-288
+-- MXIM-AV-1-12-287
+-- MXIM-AV-1-12-237
+-- MXIM-AV-1-12-236
+-- MXIM-AV-1-12-235
+-- MXIM-AV-1-12-234
+-- MXIM-AV-1-12-233
+-- MXIM-AV-1-12-232
+-- MXIM-AV-1-12-181
+-- MXIM-AV-1-11-224
+-- MXIM-AV-1-11-134
+-- (portada.jpg)
+-- (empty)
+select codigo_de_referencia, imagen from informacion_adicional where codigo_de_referencia = 'MXIM-AV-1-13-46' or codigo_de_referencia = 'MXIM-AV-1-12-366' or codigo_de_referencia = 'MXIM-AV-1-12-365' or codigo_de_referencia = 'MXIM-AV-1-12-338' or codigo_de_referencia = 'MXIM-AV-1-12-290' or codigo_de_referencia = 'MXIM-AV-1-12-289' or codigo_de_referencia = 'MXIM-AV-1-12-288' or codigo_de_referencia = 'MXIM-AV-1-12-287' or codigo_de_referencia = 'MXIM-AV-1-12-237' or codigo_de_referencia = 'MXIM-AV-1-12-236' or codigo_de_referencia = 'MXIM-AV-1-12-235' or codigo_de_referencia = 'MXIM-AV-1-12-234' or codigo_de_referencia = 'MXIM-AV-1-12-233' or codigo_de_referencia = 'MXIM-AV-1-12-232' or codigo_de_referencia = 'MXIM-AV-1-12-181' or codigo_de_referencia = 'MXIM-AV-1-11-224' or codigo_de_referencia = 'MXIM-AV-1-11-134' or imagen = 'portada.jpg' or imagen = '';
+update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-AV-1-13-46' or codigo_de_referencia = 'MXIM-AV-1-12-366' or codigo_de_referencia = 'MXIM-AV-1-12-365' or codigo_de_referencia = 'MXIM-AV-1-12-338' or codigo_de_referencia = 'MXIM-AV-1-12-290' or codigo_de_referencia = 'MXIM-AV-1-12-289' or codigo_de_referencia = 'MXIM-AV-1-12-288' or codigo_de_referencia = 'MXIM-AV-1-12-287' or codigo_de_referencia = 'MXIM-AV-1-12-237' or codigo_de_referencia = 'MXIM-AV-1-12-236' or codigo_de_referencia = 'MXIM-AV-1-12-235' or codigo_de_referencia = 'MXIM-AV-1-12-234' or codigo_de_referencia = 'MXIM-AV-1-12-233' or codigo_de_referencia = 'MXIM-AV-1-12-232' or codigo_de_referencia = 'MXIM-AV-1-12-181' or codigo_de_referencia = 'MXIM-AV-1-11-224' or codigo_de_referencia = 'MXIM-AV-1-11-134' or imagen = 'portada.jpg' or imagen = '';
+
+# Corregir VHS
+select codigo_de_referencia, soporte, numero_copias, descripcion_fisica from area_de_condiciones_de_acceso where soporte like '%vhs%' and soporte not like '%dvd%';

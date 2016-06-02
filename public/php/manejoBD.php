@@ -65,6 +65,9 @@ switch ($_GET['action']) {
     case 'mail':
         mailMe();
         break;
+    case 'count':
+        countAll();
+        break;
     case 'verUsuarios':
         obtener_datosUsuarios();
         break;
@@ -1013,6 +1016,17 @@ function mailMe(){
     if ($mail->send()) //send the message
         $response['success'] = true;
     echo json_encode($response); // Responder al controlador si la operación fué correcta
+}
+
+// Devuelve la cantidad de registros (documentales) que hay en la base de datos
+function countAll(){
+    $select = "SELECT COUNT(*) AS total FROM area_de_identificacion";
+    $stmt = $GLOBALS['conn']->prepare($select);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $data = $stmt->fetch();
+    print_r(json_encode($data));
+    $GLOBALS['conn'] = null;
 }
 
 //Obtiene todo los usuarios

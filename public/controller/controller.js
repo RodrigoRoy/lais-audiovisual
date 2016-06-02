@@ -20,7 +20,8 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/ficha_coleccion.html"
 		})
 		.when("/developers",{
-			templateUrl: "templates/developers.html"
+			templateUrl: "templates/developers.html",
+			controller: "developCtrl"
 		})
 		.when("/decadas",{
 			templateUrl: "templates/archivos_audiovisuales.html",
@@ -318,7 +319,22 @@ lais.service('DecadaService', function($http){
 });
 
 // Controlador con información auxiliar para mostrar en la vista
-lais.controller('aboutCtrl', function($scope){
+lais.controller('aboutCtrl', function($scope, $http){
+	//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
+	$('#modalInfo').modal('hide'); // Ocultar modal
+	$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
+	$('.modal-backdrop').remove(); // Elimina del DOM
+
+	$scope.cantidadDocumentales = 840;
+
+	$http.get('php/manejoBD.php?action=count')
+		.success(function(data, status, headers, config) {
+			if(data)
+				$scope.cantidadDocumentales = data.total;
+		});
+});
+
+lais.controller('developCtrl', function($scope){
 	//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
 	$('#modalInfo').modal('hide'); // Ocultar modal
 	$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
