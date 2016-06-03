@@ -17,7 +17,8 @@ lais.config(function ($routeProvider, $locationProvider){
 			templateUrl: "templates/vinculos.html"
 		})
 		.when("/ficha",{
-			templateUrl: "templates/ficha_coleccion.html"
+			templateUrl: "templates/ficha_coleccion.html",
+			controller: "aboutCtrl"
 		})
 		.when("/developers",{
 			templateUrl: "templates/developers.html",
@@ -332,6 +333,17 @@ lais.controller('aboutCtrl', function($scope, $http){
 			if(data)
 				$scope.cantidadDocumentales = data.total;
 		});
+
+	// Arreglo con los nombres de campos demasiado largos para ser mostrados inicialmente en la vista
+	$scope.showCampos = {
+		"historia-institucional": false,
+		"historia-archivistica": false,
+		"alcance-y-contenido": false
+	};
+	// Cambia a true el valor de un campo largo ($scope.showCampos). Recibe una cadena de texto con el nombre del campo
+    $scope.makeVisible = function(campo){
+    	$scope.showCampos[campo] = true;
+    };
 });
 
 lais.controller('developCtrl', function($scope){
