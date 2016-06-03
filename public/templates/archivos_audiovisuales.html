@@ -61,9 +61,10 @@ a:active {
             </div>
             <div class="row">
               <div ng-repeat="decada in decadas">
-                <div ng-if="$index % 5 == 0" class="clearfix"></div>
+                <div ng-if="$index % 2 == 0" class="clearfix visible-xs-block hidden-sm hidden-md hidden-lg"></div>
+                <div ng-if="$index % 5 == 0" class="clearfix hidden-xs visible-sm-block visible-md-block visible-lg-block"></div>
                 
-                <div class="col-xs-12 col-sm-5ths">
+                <div class="col-xs-6 col-sm-5ths">
                   <div class="thumbnail nodecoration-container">
                     <a href="#/decadas/{{decada}}">
                       <img class="img-rounded" ng-src="imgs/Decadas/{{decada}}.png">
