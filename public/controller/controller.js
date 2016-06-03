@@ -328,6 +328,7 @@ lais.controller('aboutCtrl', function($scope, $http){
 
 	$scope.cantidadDocumentales = 840;
 
+	// Obtener la cantidad total de documentales
 	$http.get('php/manejoBD.php?action=count')
 		.success(function(data, status, headers, config) {
 			if(data)

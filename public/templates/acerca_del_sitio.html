@@ -44,6 +44,18 @@ img.institution-icon{
 	max-height: 65px; 
 	width: auto;
 }
+
+/*Tamaño de logo de metaDOC (mobile first)*/
+.metaLogo{
+    width: 100%;
+    height: auto;
+}
+@media (min-width: 768px) {
+    .metaLogo {
+        width: auto;
+        height: 75px;
+    }
+}
 </style>
 <body>
 	<br>
@@ -97,7 +109,8 @@ img.institution-icon{
 
 			<uib-tab index="1" heading="Equipo de trabajo">
 				<div class="info-text text-center">
-					<h1>metaDOC</h1>
+					<!-- <h1>metaDOC</h1> -->
+					<img src="imgs/metadoc_logo_3.png" class="metaLogo">
 					<p class="lead">
 						Colección de Documentales en Video
 						<br>
@@ -129,17 +142,6 @@ img.institution-icon{
 						<li>Sergio Amaro Rosas</li>
 					</ul>
 
-					<h3>Diseño de fichas catalográficas con base en la ISAD-(G)</h3>
-					<ul class="list-unstyled">
-						<li>Laboratorio Audiovisual de Investigación Social (LAIS)</li>
-						<li>Instituto Mora/CONACYT</li>
-					</ul>
-					
-					<h3>Corrección de estilo</h3>
-					<ul class="list-unstyled">
-						<li>Citlali Salazar Torres</li>
-					</ul>
-					
 					<h3>Documentación</h3>
 					<ul class="list-unstyled">
 						<li>Cecilia Alcántara Ceja</li>
@@ -171,6 +173,18 @@ img.institution-icon{
 						<li>Penélope Ubaldo</li>
 						<li>María Eréndira Vázquez Arriaga</li>
 					</ul>
+
+					<h3>Diseño de fichas catalográficas con base en la ISAD-(G)</h3>
+					<ul class="list-unstyled">
+						<li>Laboratorio Audiovisual de Investigación Social (LAIS)</li>
+						<li>Instituto Mora/CONACYT</li>
+					</ul>
+					
+					<h3>Corrección de estilo</h3>
+					<ul class="list-unstyled">
+						<li>Citlali Salazar Torres</li>
+					</ul>
+					
 				</div>
 			</uib-tab>
 
