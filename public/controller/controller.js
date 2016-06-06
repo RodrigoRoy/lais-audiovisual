@@ -1715,7 +1715,6 @@ lais.controller('edicionCtrl', function($scope, $http, $routeParams, $location, 
 //Controlador que verifica el login y logout 
 lais.controller('datosAutentificacion', function($scope, $http, $cookieStore, $location, $window){
 	//$scope.permiso = 0; //Variable que guarda el permiso de cada usuario
-	$scope.errores = false; //Variable para mostrar erros de iniciar sesión con los usuarios
 	$scope.sesion = $cookieStore.get('sesion'); //Cookie para recodar la sesión del usuario
 	$scope.user = $cookieStore.get('nombre'); //Cookie para recordar el nombre del usuario
 	$scope.permiso = $cookieStore.get('permiso'); //Cookie para recordar el permiso del usuario

@@ -129,6 +129,13 @@
 		
 		<div id="content" ><div ng-view onload="noBack()" onpageshow="if (event.persisted) noBack()" ></div></div>
 
+        <!-- Script para manejo de errores -->
+        <script type="text/ng-template" id="error-messages-forms">
+		  <span ng-message="required" class="help-block">Esta información es necesaria.</span>
+		  <span ng-message="maxlength" class="help-block">La información excede el límite de longitud permitido.</span>
+		  <span ng-message="email" class="help-block">El formato del correo electrónico es incorrecto.</span>
+		</script>
+
 		<!--Modal para Iniciar sesion-->
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -138,36 +145,26 @@
                 <h4 class="modal-title" id="exampleModalLabel">Autentificación LAIS</h4>
               </div>
               <div class="modal-body">
-                <form>
-                      <div class="form-group">
-                        <label for="recipient-name" class="control-label">Usuario</label>
-                        <input type="text" class="form-control" id="recipient-name" ng-model="usuario">
+                <form name="loginForm" id="loginForm" role="form" novalidate>
+                      <div class="form-group" ng-class="{'has-error': loginForm.usuario.$dirty && loginForm.usuario.$invalid}">
+                        <label for="usuario" class="control-label">Usuario</label>
+                        <input type="text" class="form-control" id="usuario" name="usuario" ng-model="usuario" ng-maxlength="50" required>
+                        <div ng-messages="loginForm.usuario.$error" ng-messages-include="error-messages-forms" ng-show="loginForm.usuario.$dirty && loginForm.usuario.$invalid"></div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" ng-class="{'has-error': loginForm.pass.$dirty && loginForm.pass.$invalid}">
                         <label for="message-text" class="control-label">Contraseña</label>
-                        <input type="password" class="form-control" id="recipient-name" ng-model="pass">
+                        <input type="password" class="form-control" id="pass" name="pass" ng-model="pass" ng-maxlength="50" required>
+                        <div ng-messages="loginForm.pass.$error" ng-messages-include="error-messages-forms" ng-show="loginForm.pass.$dirty && loginForm.pass.$invalid"></div>
                       </div>
-                    <!--Errores de Validaciones que se muestran verificando las validaciones de cada input-->
-                    <div class="alert alert-danger" role="alert" ng-model="errores" ng-show="errores">
-                        <small class="error" ng-show="errores">
-                            <strong>ERROR:</strong> Usuario o Contraseña invalida!
-                        </small>
-                    </div>
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="login()">Iniciar Sesion</button>
+                <button type="button" class="btn btn-primary" ng-disabled="loginForm.$invalid" ng-click="login()">Iniciar sesión</button>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Script para manejo de errores -->
-        <script type="text/ng-template" id="error-messages-contact-mail">
-		  <span ng-message="required" class="help-block">Esta información es necesaria.</span>
-		  <span ng-message="maxlength" class="help-block">La información excede el límite de longitud permitido.</span>
-		  <span ng-message="email" class="help-block">El formato del correo electrónico es incorrecto.</span>
-		</script>
         <!-- Botón de contacto -->
         <!-- <div id="contactMail" class="visibleDiv">
         	<button type="button" class="btn btn-primary btn-lg blue-button" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-envelope icon-button" aria-hidden="true"></span></button>
@@ -189,17 +186,17 @@
 							<div class="form-group" ng-class="{'has-error': contactForm.message.$dirty && contactForm.message.$invalid}">
 								<label for="message" class="control-label">Comentario(s)</label>
 								<textarea class="form-control" rows="4" id="message" name="message" placeholder="Escribe tu opinión" ng-model="message" ng-maxlength="300" required ng-trim></textarea>
-								<div ng-messages="contactForm.message.$error" ng-messages-include="error-messages-contact-mail" ng-show="contactForm.message.$dirty && contactForm.message.$invalid"></div>
+								<div ng-messages="contactForm.message.$error" ng-messages-include="error-messages-forms" ng-show="contactForm.message.$dirty && contactForm.message.$invalid"></div>
 							</div>
 							<div class="form-group" ng-class="{'has-error': contactForm.name.$dirty && contactForm.name.$invalid}">
 								<label for="name" class="control-label">Nombre (opcional)</label>
 								<input class="form-control" type="text" id="name" name="name" placeholder="Tu nombre" ng-model="name" ng-maxlength="50" ng-trim>
-								<div ng-messages="contactForm.name.$error" ng-messages-include="error-messages-contact-mail" ng-show="contactForm.name.$dirty && contactForm.name.$invalid"></div>
+								<div ng-messages="contactForm.name.$error" ng-messages-include="error-messages-forms" ng-show="contactForm.name.$dirty && contactForm.name.$invalid"></div>
 							</div>
 							<div class="form-group" ng-class="{'has-error': contactForm.email.$dirty && contactForm.email.$invalid}">
 								<label for="email" class="control-label">Correo (opcional)</label>
 								<input class="form-control" type="email" id="email" name="email" placeholder="rodrigo@mail.com" ng-model="email">
-								<div ng-messages="contactForm.email.$error" ng-messages-include="error-messages-contact-mail" ng-show="contactForm.email.$dirty && contactForm.email.$invalid"></div>
+								<div ng-messages="contactForm.email.$error" ng-messages-include="error-messages-forms" ng-show="contactForm.email.$dirty && contactForm.email.$invalid"></div>
 							</div>
 							<button type="button" class="btn btn-primary btn-lg btn-block" ng-disabled="contactForm.$invalid" ng-click="enviar()">Enviar <span class="glyphicon glyphicon-send" aria-hidden="true"></span></button>
 						</form>
