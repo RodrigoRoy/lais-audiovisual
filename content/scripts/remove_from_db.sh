@@ -11,14 +11,17 @@ fi
 codigo="$1" # codigo_de_referencia from documental
 
 # $laispath contains the path from saving the removed data documentary depending if directory /var/www/html exists (localhost) or not (server)
-[[ -d /var/www/html ]] && laispath=/var/www/html/lais-audiovisual || laispath=/var/www/lais-audiovisual
+#[[ -d /var/www/html ]] && laispath=/var/www/html/lais-audiovisual || laispath=/var/www/lais-audiovisual
 
+# Obtain directory name (remember that the project can be in diferent locations by Apache server)
 cd ..
 # If directory ../removed/ not exists then create it
 if [[ ! -d removed ]] ; then
 	mkdir removed && echo 'Directory ../removed/ created' || exit 1
 	chmod a+w removed && echo 'Grant write permission to directory ../removed' || exit 1
 fi
+# Concat current directory with the location /removed and assign to var to use in mysql statements
+laispath="$(pwd)/removed"
 
 cd removed
 # If files csv from the same codigo_de_referencia exists ask for overwrite them
@@ -42,56 +45,56 @@ set names utf8;
 select * 
 	from area_de_identificacion
 	where codigo_de_referencia = "$codigo"
-	into outfile "${laispath}/content/removed/${codigo}_area_de_identificacion.csv"
+	into outfile "${laispath}/${codigo}_area_de_identificacion.csv"
 		character set utf8
 		fields terminated by ',' optionally enclosed by '"'
 		lines terminated by '\n';
 select * 
 	from area_de_contexto
 	where codigo_de_referencia = "$codigo" 
-	into outfile "${laispath}/content/removed/${codigo}_area_de_contexto.csv"
+	into outfile "${laispath}/${codigo}_area_de_contexto.csv"
 		character set utf8
 		fields terminated by ',' optionally enclosed by '"'
 		lines terminated by '\n';
 select * 
 	from area_de_contenido_y_estructura
 	where codigo_de_referencia = "$codigo"
-	into outfile "${laispath}/content/removed/${codigo}_area_de_contenido_y_estructura.csv"
+	into outfile "${laispath}/${codigo}_area_de_contenido_y_estructura.csv"
 		character set utf8
 		fields terminated by ',' optionally enclosed by '"'
 		lines terminated by '\n';
 select * 
 	from area_de_condiciones_de_acceso
 	where codigo_de_referencia = "$codigo"
-	into outfile "${laispath}/content/removed/${codigo}_area_de_condiciones_de_acceso.csv"
+	into outfile "${laispath}/${codigo}_area_de_condiciones_de_acceso.csv"
 		character set utf8
 		fields terminated by ',' optionally enclosed by '"'
 		lines terminated by '\n';
 select * 
 	from area_de_documentacion_asociada
 	where codigo_de_referencia = "$codigo"
-	into outfile "${laispath}/content/removed/${codigo}_area_de_documentacion_asociada.csv"
+	into outfile "${laispath}/${codigo}_area_de_documentacion_asociada.csv"
 		character set utf8
 		fields terminated by ',' optionally enclosed by '"'
 		lines terminated by '\n';
 select * 
 	from area_de_notas
 	where codigo_de_referencia = "$codigo"
-	into outfile "${laispath}/content/removed/${codigo}_area_de_notas.csv"
+	into outfile "${laispath}/${codigo}_area_de_notas.csv"
 		character set utf8
 		fields terminated by ',' optionally enclosed by '"'
 		lines terminated by '\n';
 select * 
 	from area_de_descripcion
 	where codigo_de_referencia = "$codigo"
-	into outfile "${laispath}/content/removed/${codigo}_area_de_descripcion.csv"
+	into outfile "${laispath}/${codigo}_area_de_descripcion.csv"
 		character set utf8
 		fields terminated by ',' optionally enclosed by '"'
 		lines terminated by '\n';
 select * 
 	from informacion_adicional
 	where codigo_de_referencia = "$codigo"
-	into outfile "${laispath}/content/removed/${codigo}_informacion_adicional.csv"
+	into outfile "${laispath}/${codigo}_informacion_adicional.csv"
 		character set utf8
 		fields terminated by ',' optionally enclosed by '"'
 		lines terminated by '\n';
