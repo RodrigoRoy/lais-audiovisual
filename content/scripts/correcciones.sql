@@ -171,3 +171,8 @@ update informacion_adicional set imagen = '' where codigo_de_referencia = 'MXIM-
 
 # Corregir VHS
 select codigo_de_referencia, soporte, numero_copias, descripcion_fisica from area_de_condiciones_de_acceso where soporte like '%vhs%' and soporte not like '%dvd%';
+
+# Correccion de fechas para "El secreto del alcohol", "La calle de los niños", "Historias de gente grande"
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-11-229' where codigo_de_referencia = 'MXIM-AV-1-13-46-1';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-12-372' where codigo_de_referencia = 'MXIM-AV-1-13-46-2';
+update area_de_identificacion set codigo_de_referencia = 'MXIM-AV-1-12-373' where codigo_de_referencia = 'MXIM-AV-1-13-46-6';
