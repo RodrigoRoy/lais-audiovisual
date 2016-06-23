@@ -26,47 +26,47 @@ echo '(MySQL) root password is required to export database'
 # Finally execute MySQL export to CSV
 mysql -u root -p Audiovisuales --verbose << EOF
 set names utf8;
-load data infile '${laispath}/area_de_identificacion.csv'
+load data local infile '${laispath}/area_de_identificacion.csv'
 	into table area_de_identificacion
 	character set utf8
 	fields terminated by ',' optionally enclosed by '"'
 	lines terminated by '\n';
-load data infile '${laispath}/area_de_contexto.csv'
+load data local infile '${laispath}/area_de_contexto.csv'
 	into table area_de_contexto
 	character set utf8
 	fields terminated by ',' optionally enclosed by '"'
 	lines terminated by '\n';
-load data infile '${laispath}/area_de_contenido_y_estructura.csv'
+load data local infile '${laispath}/area_de_contenido_y_estructura.csv'
 	into table area_de_contenido_y_estructura
 	character set utf8
 	fields terminated by ',' optionally enclosed by '"'
 	lines terminated by '\n';
-load data infile '${laispath}/area_de_condiciones_de_acceso.csv'
+load data local infile '${laispath}/area_de_condiciones_de_acceso.csv'
 	into table area_de_condiciones_de_acceso
 	character set utf8
 	fields terminated by ',' optionally enclosed by '"'
 	lines terminated by '\n';
-load data infile '${laispath}/area_de_documentacion_asociada.csv'
+load data local infile '${laispath}/area_de_documentacion_asociada.csv'
 	into table area_de_documentacion_asociada
 	character set utf8
 	fields terminated by ',' optionally enclosed by '"'
 	lines terminated by '\n';
-load data infile '${laispath}/area_de_notas.csv'
+load data local infile '${laispath}/area_de_notas.csv'
 	into table area_de_notas
 	character set utf8
 	fields terminated by ',' optionally enclosed by '"'
 	lines terminated by '\n';
-load data infile '${laispath}/area_de_descripcion.csv'
+load data local infile '${laispath}/area_de_descripcion.csv'
 	into table area_de_descripcion
 	character set utf8
 	fields terminated by ',' optionally enclosed by '"'
 	lines terminated by '\n';
-load data infile '${laispath}/informacion_adicional.csv'
+load data local infile '${laispath}/informacion_adicional.csv'
 	into table informacion_adicional
 	character set utf8
 	fields terminated by ',' optionally enclosed by '"'
 	lines terminated by '\n';
-load data infile '${laispath}/registro_actividades.csv'
+load data local infile '${laispath}/registro_actividades.csv'
 	into table registro_actividades
 	character set utf8
 	fields terminated by ',' optionally enclosed by '"'
