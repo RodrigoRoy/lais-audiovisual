@@ -4,17 +4,20 @@ var lais = angular.module('lais',['ngRoute','ngCookies', 'ngMessages', 'ngAnimat
 lais.config(function ($routeProvider, $locationProvider){
 	$routeProvider
 		.when("/",{
-			templateUrl: "templates/inicio.html"
+			templateUrl: "templates/inicio.html",
+			controller: "defaultCtrl"
 		})
 		.when("/inicio",{
-			templateUrl: "templates/inicio.html"
+			templateUrl: "templates/inicio.html",
+			controller: "defaultCtrl"
 		})
 		.when("/acercade",{
 			templateUrl: "templates/acerca_del_sitio.html",
 			controller: "aboutCtrl"
 		})
 		.when("/vinculos",{
-			templateUrl: "templates/vinculos.html"
+			templateUrl: "templates/vinculos.html",
+			controller: "defaultCtrl"
 		})
 		.when("/ficha",{
 			templateUrl: "templates/ficha_coleccion.html",
@@ -26,7 +29,6 @@ lais.config(function ($routeProvider, $locationProvider){
 		})
 		.when("/decadas",{
 			templateUrl: "templates/archivos_audiovisuales.html",
-			//controller: "conexionCtrl"
 			controller: "decadasCtrl"
 		})
 		.when("/decadas/:codigo",{
@@ -43,8 +45,6 @@ lais.config(function ($routeProvider, $locationProvider){
 		})
 		.when("/archivos/busqueda/:query",{
 			templateUrl: "templates/buscarRegistros.html",
-			//templateUrl: "templates/busqueda.html",
-			//controller: "busquedaCtrl"
 			controller: "muestraDecadaCtrl"
 		})
 		.when("/administracion_usuarios",{
@@ -319,8 +319,24 @@ lais.service('DecadaService', function($http){
 	};
 });
 
+// Controlador por default. Incluido para ejecutar código de Google Analytics
+lais.controller('defaultCtrl', function($scope, $http){
+	// Google Analytics tracking virtual pageviews (Single Page Application - SPA)
+	ga('set', 'page', '/new-page.html');
+	ga('send', 'pageview');
+
+	//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
+	$('#modalInfo').modal('hide'); // Ocultar modal
+	$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
+	$('.modal-backdrop').remove(); // Elimina del DOM
+});
+
 // Controlador con información auxiliar para mostrar en la vista
 lais.controller('aboutCtrl', function($scope, $http){
+	// Google Analytics tracking virtual pageviews (Single Page Application - SPA)
+	ga('set', 'page', '/new-page.html');
+	ga('send', 'pageview');
+
 	//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
 	$('#modalInfo').modal('hide'); // Ocultar modal
 	$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
@@ -348,6 +364,10 @@ lais.controller('aboutCtrl', function($scope, $http){
 });
 
 lais.controller('developCtrl', function($scope){
+	// Google Analytics tracking virtual pageviews (Single Page Application - SPA)
+	ga('set', 'page', '/new-page.html');
+	ga('send', 'pageview');
+
 	//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
 	$('#modalInfo').modal('hide'); // Ocultar modal
 	$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
@@ -548,15 +568,19 @@ lais.controller('developCtrl', function($scope){
 
 //Controlador que muestra todas las decadas existentes
 lais.controller('decadasCtrl',function($scope, $location, $http, $cookieStore, DecadaService){
-	$scope.allDecades = DecadaService.allDecades;
-
-	//Eliminar el cookie del codigo de decadas
-	$cookieStore.remove('decada');
+	// Google Analytics tracking virtual pageviews (Single Page Application - SPA)
+	ga('set', 'page', '/new-page.html');
+	ga('send', 'pageview');
 	
 	//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
 	$('#modalInfo').modal('hide'); // Ocultar modal
 	$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
 	$('.modal-backdrop').remove(); // Elimina del DOM
+
+	//Eliminar el cookie del codigo de decadas
+	$cookieStore.remove('decada');
+	
+	$scope.allDecades = DecadaService.allDecades;
 
 	$http.get('php/manejoBD.php?action=mostrarDecadas').
 	success(function(data){
@@ -587,6 +611,10 @@ lais.controller('decadasCtrl',function($scope, $location, $http, $cookieStore, D
 
 //Controlador que mostrara los archivos audiovisuales con su portada por decadas
 lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $http, $timeout, $cookieStore, ParamService, DecadaService, agregarNuevoAll){
+	// Google Analytics tracking virtual pageviews (Single Page Application - SPA)
+	ga('set', 'page', '/new-page.html');
+	ga('send', 'pageview');
+
 	//Útil para que el modal se quitara cuando un usuario le da un botón de regresar a la página
 	$('#modalInfo').modal('hide'); // Ocultar modal
 	$('body').removeClass('modal-open'); // Remover CSS (que congela movimiento)
