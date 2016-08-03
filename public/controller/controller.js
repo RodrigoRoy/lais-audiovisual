@@ -1129,7 +1129,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 				{text: 'Ficha de catalogación', style: 'header'},
 				{
 					text: [
-						'Documentación de la colección de materiales audiovisuales del Laboratorio Audiovisual de Investigación Social del Instituo Mora para el documental "',
+						'Catalogación de la colección de materiales audiovisuales del Laboratorio Audiovisual de Investigación Social del Instituo Mora para el documental "',
 						{text: $scope.allInfoCopy.secret.titulo_adecuado, italics: true, bold: true},
 						'".'
 					]
@@ -1147,7 +1147,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 				$scope.title2pdfmake($scope.allInfoCopy.notas, 'Área de notas'),
 				$scope.array2pdfmake($scope.allInfoCopy.notas),
 				(function(){
-					return ($scope.allInfoCopy.adicional.imagen === '') ? "" : {text: 'Portada', style: 'subheader'}
+					return ($scope.allInfoCopy.adicional.imagen === '') ? "" : {text: 'Imagen', style: 'subheader'}
 				})(),
 				(function(){
 					return ($scope.allInfoCopy.adicional.imagen === '') ? "" : {image: getBase64Image(document.getElementById("img-portada")), width: 150 }
