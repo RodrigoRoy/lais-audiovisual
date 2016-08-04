@@ -1129,7 +1129,7 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 				{text: 'Ficha de catalogación', style: 'header'},
 				{
 					text: [
-						'Catalogación de la colección de materiales audiovisuales del Laboratorio Audiovisual de Investigación Social del Instituo Mora para el documental "',
+						'Catalogación de la colección de materiales audiovisuales del Laboratorio Audiovisual de Investigación Social del Instituto Mora para el documental "',
 						{text: $scope.allInfoCopy.secret.titulo_adecuado, italics: true, bold: true},
 						'".'
 					]
