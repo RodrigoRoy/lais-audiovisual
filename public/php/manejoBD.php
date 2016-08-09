@@ -837,9 +837,9 @@ function busqueda2($query, $permiso){
     // Se obtendrán los códigos y los rubros donde hay coincidencias en la búsqueda:
     foreach ($arrayQuery as $query) { // Para cada palabra individual del query original
         foreach ($columnas as $columna) { // Buscar en cada columna de toda la base
-            $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion WHERE " . $columna . " LIKE '%" . $cleanQuery . "%' ORDER BY fecha ASC";
+            $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion WHERE " . $columna . " RLIKE '[[:<:]]" . $cleanQuery . "[[:>:]]' ORDER BY fecha ASC";
             if ($permiso == 0) // Si la consulta no tiene permisos suficientes, no buscar dentro del area_de_descripcion
-                $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas WHERE " . $columna . " LIKE '%" . $cleanQuery . "%' ORDER BY fecha ASC";
+                $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas WHERE " . $columna . " RLIKE '[[:<:]]" . $cleanQuery . "[[:>:]]' ORDER BY fecha ASC";
             $stmt = $GLOBALS['conn']->prepare($select);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
