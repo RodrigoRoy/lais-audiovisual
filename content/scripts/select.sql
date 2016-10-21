@@ -24,6 +24,7 @@ DELETE FROM area_de_documentacion_asociada;
 DELETE FROM area_de_notas;
 DELETE FROM area_de_descripcion;
 DELETE FROM informacion_adicional;
+DELETE FROM registro_actividades;
 DELETE FROM usuarios;
 # Borrar todas las tablas (y sus contenidos) de la base Audiovisuales
 DROP TABLE area_de_contexto;
@@ -280,3 +281,5 @@ FROM
 ALTER TABLE area_de_condiciones_de_acceso
 	ALTER audio SET DEFAULT ''
 	MODIFY audio VARCHAR(50);
+
+select codigo_de_referencia, productor, distribuidora from area_de_contexto where productor <> '' or distribuidora <> '';
