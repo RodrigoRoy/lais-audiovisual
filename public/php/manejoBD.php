@@ -815,7 +815,7 @@ function cmpCampos($str1, $str2){
 // El parámetro $permiso se utiliza para restringir la búsqueda dentro del area_de_decripcion
 function busqueda2($query, $permiso){
     // lista de palabras a ignorar:
-    $exclude_words = array("el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "a el", "al", "de el", "del", "a", "ante", "bajo", "con", "contra", "de", "desde", "durante", "en", "entre", "hacia", "hasta", "mediante", "para", "por", "según", "sin", "sobre", "tras", "este", "ese", "aquel", "esta", "esa", "aquella", "estos", "esos", "aquellos", "estas", "esas", "aquellas", "esto", "eso", "aquello", "mi", "mis", "tu", "tus", "su", "sus");
+    $exclude_words = array("el", "la", "los", "las", "un", "una", "unos", "unas", "lo", "a el", "al", "de el", "del", "a", "ante", "bajo", "con", "contra", "de", "desde", "durante", "en", "entre", "hacia", "hasta", "mediante", "para", "por", "según", "sin", "sobre", "tras", "este", "ese", "aquel", "esta", "esa", "aquella", "estos", "esos", "aquellos", "estas", "esas", "aquellas", "esto", "eso", "aquello", "mi", "mis", "tu", "tus", "su", "sus", "y", "e", "ni", "que", "o", "u");
     //$arrayQuery = array();
     //array_push($arrayQuery, $query);
     ##### desscomentar/comentar 2 lineas anteriores y descomentar/comentar 3 lineas posteriores para cambiar las keywords a buscar
@@ -827,7 +827,7 @@ function busqueda2($query, $permiso){
             unset($arrayQuery[array_search($word, $arrayQuery)]);
         }
     }
-    $cleanQuery = implode("%", $arrayQuery); // nuevo query de búsqueda que incluye todas las palabras en orden (no necesariamente juntas)
+    $cleanQuery = implode(".*", $arrayQuery); // nuevo query de búsqueda que incluye todas las palabras en orden (no necesariamente juntas). Se usa "%" para consultas LIKE y ".*" para REGEXP/RLIKE
     $totalResults = array(); // Arreglo para almacenar los códigos de los registros con ocurrencias de las palabras
     $tablas = array('area_de_identificacion', 'area_de_contexto', 'area_de_contenido_y_estructura', 'area_de_condiciones_de_acceso', 'area_de_documentacion_asociada', 'area_de_notas', 'area_de_descripcion');
     if ($permiso == 0) // Si la consulta no tiene permisos suficientes, no buscar dentro del area_de_descripcion
@@ -837,9 +837,9 @@ function busqueda2($query, $permiso){
     // Se obtendrán los códigos y los rubros donde hay coincidencias en la búsqueda:
     foreach ($arrayQuery as $query) { // Para cada palabra individual del query original
         foreach ($columnas as $columna) { // Buscar en cada columna de toda la base
-            $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion WHERE " . $columna . " RLIKE '[[:<:]]" . $cleanQuery . "[[:>:]]' ORDER BY fecha ASC";
+            $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas NATURAL JOIN area_de_descripcion WHERE " . $columna . " REGEXP '[[:<:]]" . $cleanQuery . "[[:>:]]' ORDER BY fecha ASC";
             if ($permiso == 0) // Si la consulta no tiene permisos suficientes, no buscar dentro del area_de_descripcion
-                $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas WHERE " . $columna . " RLIKE '[[:<:]]" . $cleanQuery . "[[:>:]]' ORDER BY fecha ASC";
+                $select = "SELECT codigo_de_referencia FROM area_de_identificacion NATURAL JOIN area_de_contexto NATURAL JOIN area_de_contenido_y_estructura NATURAL JOIN area_de_condiciones_de_acceso NATURAL JOIN area_de_documentacion_asociada NATURAL JOIN area_de_notas WHERE " . $columna . " REGEXP '[[:<:]]" . $cleanQuery . "[[:>:]]' ORDER BY fecha ASC";
             $stmt = $GLOBALS['conn']->prepare($select);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC); // Establecer fetch mode (arreglo asociativo con nombres de columnas de la base)
