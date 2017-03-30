@@ -1026,8 +1026,9 @@ lais.controller('muestraDecadaCtrl',function($scope, $location, $routeParams, $h
 					$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].length > 0) ? ($scope.allInfo[area][campo].charAt(0).toUpperCase() + $scope.allInfo[area][campo].slice(1)) : ($scope.allInfo[area][campo]); // Mayúscula la primera letra
 				}
 				$scope.allInfoCopy[area][campo] = $scope.allInfo[area][campo];
-				// Cambia URL por un ícono con hipervínculo
-				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g,
+				// Cambia URL por un ícono con hipervínculo (excepto en títulos)
+				if(!/^titulo.*/g.test(campo))
+					$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g,
 					'<a href="$&" target="_blank" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>');
 				// Cambiar "in situ" a itálicas
 				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/in situ/gi, '<em>$&</em>');
@@ -2128,8 +2129,9 @@ lais.controller('controlDatosCtrl', function($scope, $http, $location, DecadaSer
 					$scope.allInfo[area][campo] = ($scope.allInfo[area][campo].length > 0) ? ($scope.allInfo[area][campo].charAt(0).toUpperCase() + $scope.allInfo[area][campo].slice(1)) : ($scope.allInfo[area][campo]); // Mayúscula la primera letra	
 				}
 				$scope.allInfoCopy[area][campo] = $scope.allInfo[area][campo];
-				// Cambia URL por un ícono con hipervínculo
-				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_\(\)]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g,
+				// Cambia URL por un ícono con hipervínculo (excepto en títulos)
+				if(!/^titulo.*/g.test(campo))
+					$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_\(\)]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/g,
 					'<a href="$&" target="_blank" title="$&"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>');
 				// Cambiar "in situ" a itálicas
 				$scope.allInfo[area][campo] = $scope.allInfo[area][campo].replace(/in situ/gi, '<em>$&</em>');
