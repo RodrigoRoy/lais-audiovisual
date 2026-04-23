@@ -1,0 +1,58 @@
+name: metadoc
+
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker Compose reference guide at
+# https://docs.docker.com/go/compose-spec-reference/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+services:
+  server:
+    build:
+      context: .
+    ports:
+      - 9000:80
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      - DB_PASS=${DB_PASS}
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+    develop:
+      watch:
+        - action: sync
+          path: ./public
+          target: /var/www/html
+    volumes:
+      - ./public/imgs/Portadas:/var/www/html/public/imgs/Portadas
+
+  db:
+    container_name: metadoc-db
+    image: mysql
+    restart: always
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    expose:
+      - 3306
+  
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8085:8080
+    depends_on:
+      - db
+
+volumes:
+  mysql:
+
