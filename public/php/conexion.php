@@ -1,10 +1,10 @@
 <?php
 
     // set up the connection variables
-    $database  = 'Audiovisuales';
-    $hostname = '127.0.0.1';
-    $password = 'audiovisual';
-    $username = 'lais';
+    $database  = getenv('DB_NAME');
+    $hostname = getenv('DB_HOST');
+    $password = getenv('DB_PASS');
+    $username = getenv('DB_USER');
 
     try {
         $conn = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);

@@ -5,45 +5,30 @@ El resguardo y documentación de materiales audiovisuales constituye una tarea p
 
 ## Objetivo
 
-Este proyecto desea crear una base de datos para el manejo actual y futuro de las **fichas de documentación** de los materiales audiovisuales del LAIS junto con una interfaz de usuario que permita manipular fácilmente la base de datos.
+Crear una base de datos para el manejo de las **fichas de documentación** de los materiales audiovisuales del LAIS y ofrecer una interfaz de usuario que permita administrarlas.
 
-## Arquitectura del sistema
+## Características principales:
 
-El sistema consiste en una **aplicación web** que emplea las siguientes tecnologías:
+- Ficha de catalogación basada en la norma ISAD(G)
+- Búsqueda textual de contenido, con opciones de filtrado
+- Administración mediante sistema de usuarios
+- Organización de documentales por décadas
+- Incluye portadas o capturas de los documentales
+- Diseño responsivo para computadoras y dispositivos móviles
 
-- Servidor
-  - Linux (Debian)
-  - Apache
-  - MySQL
-  - PHP
-  - Python
-- Cliente
-  - HTML
-  - Javascript
-  - CSS
-  - AngularJS
-  - Twitter Bootstrap
+## Acerca del código
 
-![](https://raw.githubusercontent.com/RodrigoRoy/lais-audiovisual/master/content/doc/Diagramas/EsquemaGeneral.png)
+Herramientas empleadas:
+- PHP 8.2
+- MySQL 9.6
+- AngularJS 1.11.2
+- jQuery 1.3.17
+- Bootstrap 3.3.4
 
-## Version inicial
+### Docker Compose
 
-Principales características del sistema:
-- Presentación por décadas de la ficha de catalogación de los documentales de la colección del LAIS.
-- Mostrar la ficha de catalogación a nivel de unidad simple de cada documental en una ventana temporal emergente para rápida navegación.
-- Búsqueda contextual de contenido con opción de filtrar los resultados por área de catalogación y opción de ordenamiento por año o título.
-- Sistema de usuarios y niveles de permiso para controlar la creación, edición y borrado de las fichas de catalogación de documentales.
-- Énfasis en mostrar portadas de los documentales.
-- Diseño responsivo (diseño adaptable para computadoras de escritorio y dispositivos móviles).
-
-![](https://raw.githubusercontent.com/RodrigoRoy/lais-audiovisual/master/content/doc/Diagramas/Sistema01_small.jpg)
-
-## Futuro desarrollo
-
-- Aumentar la base de datos con la información de más fichas de catalogación de la colección del LAIS.
-- Formulario de contacto para sugerencias de usuarios.
-- Incorporar estadísticas de uso e información sobre el contenido de la base de datos.
+Se recomienda usar Docker para recrear el ambiente de desarrollo y/o generar versión de producción. Más detalles en `README.Docker.md`.
 
 ## Licencia
 
-[MIT](./LICENSE.md)
+Este proyecto es software libre, puede ser redistribuido y/o modificado bajo los términos de GNU General Public License v3.0 siempre y cuando se mantenga la misma licencia.

@@ -1,0 +1,23 @@
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Imagenes
+public/imgs/Portadas
+public/imgs/Portadas2
+
+# Directorios adicionales
+content
+
+# Backups
+*.sql

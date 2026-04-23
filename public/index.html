@@ -108,10 +108,10 @@
 					
 						<ul class="nav navbar-nav navbar-right">
 							<li>
-								<a href="" class="colorLetrasNav" data-toggle="modal" data-target="#contactModal"><i class="fa fa-envelope" aria-hidden="true"></i> <span class="hidden-md hidden-lg">Opinión</span><span class="barraDecorativa"></span></a>
+								<a class="colorLetrasNav" href="https://www.facebook.com/LAIS.InstitutoMora" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i> <span class="hidden-md hidden-lg">Facebook</span><span class="barraDecorativa"></span></a>
 							</li>
 							<li>
-								<a class="colorLetrasNav" href="https://www.facebook.com/LAIS.InstitutoMora" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i> <span class="hidden-md hidden-lg">Facebook</span><span class="barraDecorativa"></span></a>
+								<a class="colorLetrasNav" href="https://www.instagram.com/lais.im" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i> <span class="hidden-md hidden-lg">Instagram</span><span class="barraDecorativa"></span></a>
 							</li>
 							<li ng-cloak>
 								<a href="" class="colorLetrasNav" ng-show="!sesion" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="fa fa-sign-in" aria-hidden="true"></i> <span class="hidden-md hidden-lg">Iniciar sesión</span><span class="barraDecorativa"></span></a>
@@ -127,6 +127,7 @@
 						        </ul>
 						    </li>
 						</ul>
+						
 						<form class="navbar-form navbar-right" role="search" ng-controller="busquedaFormCtrl">
 							<div class="form-group input-group">
 					  			<input type="text" class="form-control" placeholder="Búsqueda" ng-model="query">
@@ -134,8 +135,8 @@
 					  				<button type="submit" class="btn btn-default" ng-click="busqueda(query)"><i class="fa fa-search" aria-hidden="true"></i></button>
 					  			</span>
 							</div>
-					<!--<button type="submit" class="btn btn-default" ng-click="busqueda(query)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>-->
 						</form>
+						
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="colorLetrasNav" href="#decadas"><i class="fa fa-th" aria-hidden="true"></i> Colección<span class="barraDecorativa"></span></a></li>
 						</ul>
@@ -186,51 +187,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Botón de contacto -->
-        <!-- <div id="contactMail" class="visibleDiv">
-        	<button type="button" class="btn btn-primary btn-lg blue-button" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-envelope icon-button" aria-hidden="true"></span></button>
-        </div> -->
-        <!-- Modal con formulario de contacto -->
-		<div id="contactModal" class="modal fade" tabindex="-1" role="dialog" ng-controller="contactCtrl" aria-labelledby="contactModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h3 class="modal-title" id="contactModalLabel">Contacto</h3>
-					</div>
-					<div class="modal-body">
-						<p>
-							En el LAIS nos interesa saber la opinión de todos los interesados en el sitio metaDOC, por favor escribe tu(s) comentario(s) en el siguiente formulario.
-						</p>
-						<form name="contactForm" id="contactForm" role="form" novalidate>
-							<div class="form-group" ng-class="{'has-error': contactForm.message.$dirty && contactForm.message.$invalid}">
-								<label for="message" class="control-label">Comentario(s)</label>
-								<textarea class="form-control" rows="4" id="message" name="message" placeholder="Escribe tu opinión" ng-model="message" ng-maxlength="300" required ng-trim></textarea>
-								<div ng-messages="contactForm.message.$error" ng-messages-include="error-messages-forms" ng-show="contactForm.message.$dirty && contactForm.message.$invalid"></div>
-							</div>
-							<div class="form-group" ng-class="{'has-error': contactForm.name.$dirty && contactForm.name.$invalid}">
-								<label for="name" class="control-label">Nombre (opcional)</label>
-								<input class="form-control" type="text" id="name" name="name" placeholder="Tu nombre" ng-model="name" ng-maxlength="50" ng-trim>
-								<div ng-messages="contactForm.name.$error" ng-messages-include="error-messages-forms" ng-show="contactForm.name.$dirty && contactForm.name.$invalid"></div>
-							</div>
-							<div class="form-group" ng-class="{'has-error': contactForm.email.$dirty && contactForm.email.$invalid}">
-								<label for="email" class="control-label">Correo (opcional)</label>
-								<input class="form-control" type="email" id="email" name="email" placeholder="rodrigo@mail.com" ng-model="email">
-								<div ng-messages="contactForm.email.$error" ng-messages-include="error-messages-forms" ng-show="contactForm.email.$dirty && contactForm.email.$invalid"></div>
-							</div>
-							<button type="button" class="btn btn-primary btn-lg btn-block" ng-disabled="contactForm.$invalid" ng-click="enviar()">Enviar <span class="glyphicon glyphicon-send" aria-hidden="true"></span></button>
-						</form>
-					</div>
-					<!-- <div class="modal-footer">
-						<button type="button" class="btn btn-primary">Enviar <span class="glyphicon glyphicon-send" aria-hidden="true" ng-click="enviar()"></span></button>
-						<br>{{message}}
-					</div> -->
-				</div>
-			</div>
-		</div>
-
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>	

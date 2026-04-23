@@ -1814,36 +1814,6 @@ lais.controller('busquedaFormCtrl',function($scope, $location){
     }
 });
 
-// Pequeño controlador especificamente creado para el formulario de contacto.
-lais.controller('contactCtrl', function($scope, $http){
-	// El formulario tiene las siguientes variables definidas en la vista (index.html):
-	// $scope.name, $scope.message, $scope.email;
-
-	// Envia la información del formulario para que el correo se envié por "manejoBD.php"
-	$scope.enviar = function(){
-		$('#contactModal').modal('hide'); // cerrar modal (porque el envio bloqueará un par de segundos la página)
-		// enviar correo mediate PHPmailer:
-		$http.post('php/manejoBD.php?action=mail',
-		{
-			'Name': $scope.name,
-			'Message': $scope.message,
-			'Email': $scope.email
-		}).
-		success(function(data, status, headers, config) {
-			// if comentado porque el envio es síncrono y no funciona correctamente la comprobación
-			//if(data.success){ // Si el mensaje se envió correctamente desde "manejoBD.php"
-				$scope.name = "";
-				$scope.message = "";
-				$scope.email = "";
-				alert("Mensaje enviado.\nGracias por tu opinión.");
-			//}
-		}).
-		error(function(data, status, headers, config) {
-			alert("Error de conexión. Es probable que la señal de internet sea baja, revisa la conexión e intenta nuevamente.");
-		});
-	};
-});
-
 //Administración de usuarios
 lais.controller('adminUserCtrl',function($scope,$http, $location){
 	// Impide acceso no autorizado en la página
