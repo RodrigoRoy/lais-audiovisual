@@ -188,10 +188,9 @@ lais.service('ParamService', function(){
 			'notas_del_archivero': (scope.notas_del_archivero !== undefined) ? scope.notas_del_archivero.trim().replace(/  +/g, ' ') : "",
 			'datos_del_archivero': (scope.datos_del_archivero !== undefined) ? scope.datos_del_archivero.trim().replace(/\s\s+/g, ' ') : "",
 			'reglas_o_normas': (scope.reglas_o_normas !== undefined) ? scope.reglas_o_normas.trim().replace(/\s\s+/g, ' ') : "",
-			//'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? scope.fecha_de_descripcion.trim().replace(/  +/g, ' ') : "", // TODO: setFechaDescripcion()?
-			'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? (scope.fecha_de_descripcion) : "0000-00-00",
+			'fecha_de_descripcion': (scope.fecha_de_descripcion !== undefined) ? new Date(scope.fecha_de_descripcion).toISOString().slice(0,10) : new Date().toISOString().slice(0,10), // Formato MySQL: "YYYY-MM-DD"
 			'url': (scope.url !== undefined) ? scope.url.trim() : "",
-			'fecha_de_modificacion': (scope.fecha_de_modificacion !== undefined) ? (scope.fecha_de_modificacion) : "0000-00-00"
+			'fecha_de_modificacion': (scope.fecha_de_modificacion !== undefined) ? new Date(scope.fecha_de_modificacion).toISOString().slice(0,10) : new Date().toISOString().slice(0,10) // Formato MySQL: "YYYY-MM-DD"
 		}
 	}
 
@@ -452,7 +451,7 @@ lais.controller('developCtrl', function($scope){
 			"notas_del_archivero": "",
 			"datos_del_archivero": "",
 			"reglas_o_normas": "Adaptación de la norma ISAD (G)",
-			"fecha_de_descripcion": "0000-00-00"
+			"fecha_de_descripcion": "2008-06-07"
 		},
 		"adicional": {
 			"imagen": "http://lais.mora.edu.mx/metadoc/imgs/Portadas/de la tele.jpg",
@@ -1447,11 +1446,9 @@ lais.controller('agregarDatosCtrl',function($scope, $http, $location, $cookieSto
 
 		$http.post('php/manejoBD.php?action=agregar', data) // Encapsular todos los datos para el servidor
 		.success(function(data, status, headers, congif){
-			//console.log("información de documental enviada");
 			if(data.Status !== 'Ok'){ // Si hay algún error en la base de datos
-				//alert("El archivo Audiovisual está duplicado");
 				$scope.errorDuplicado = true;
-				console.log("Duplicado!");
+				console.error("Registro duplicado. Verifica la información y el código de referencia.");
 				alert("Hubo un error con la base de datos.\nPor favor intente más tarde.")
 				return;
 			}
