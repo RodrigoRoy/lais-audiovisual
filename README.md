@@ -18,9 +18,9 @@ Crear una base de datos para el manejo de las **fichas de documentación** de lo
 
 ## Acerca del código
 
-Herramientas empleadas:
-- PHP 8.2
-- MySQL 9.6
+Software principal:
+- PHP 8.4
+- MySQL 9.7
 - AngularJS 1.11.2
 - jQuery 1.3.17
 - Bootstrap 3.3.4
